@@ -1,11 +1,9 @@
 package com.zhuri.material.materialmanagement.service;
 
 import java.util.Map;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,22 +50,26 @@ public class MaterialInfoService {
             }
             // 再获取对应的spuCode
             List<String> spuCodeFromCategory = null;
-            if (materialCatIdList.size() > 1) {
-                // 有重复记录报错
-                return null;
-            } else {
-                // 否则正常处理
-                String[] catBaseKeyList = {"materialCatId"};
-                String[] catBaseTargetList = {"materialCatId"};
-                Map<String, Object> categoryBaseMap = MaterialInfoServiceSupplier.splitBaseInfoParams(params, catBaseKeyList, catBaseTargetList);
-                if (categoryBaseMap.size() > 0) {
-                    List<MaterialBaseBean> cateInfoResult = materialInfoMapper.getBaseInfoWithBaseInfoParams(categoryBaseMap);
-                    spuCodeFromCategory = cateInfoResult.stream()
-                                            .map(base -> base.getSpuCode())
-                                            .distinct()
-                                            .collect(Collectors.toList());
+            if (materialCatIdList != null) {
+                // 必须保证非空
+                if (materialCatIdList.size() > 1) {
+                    // 有重复记录报错
+                    return null;
+                } else {
+                    // 否则正常处理
+                    String[] catBaseKeyList = {"materialCatId"};
+                    String[] catBaseTargetList = {"materialCatId"};
+                    Map<String, Object> categoryBaseMap = MaterialInfoServiceSupplier.splitBaseInfoParams(params, catBaseKeyList, catBaseTargetList);
+                    if (categoryBaseMap.size() > 0) {
+                        List<MaterialBaseBean> cateInfoResult = materialInfoMapper.getBaseInfoWithBaseInfoParams(categoryBaseMap);
+                        spuCodeFromCategory = cateInfoResult.stream()
+                                .map(base -> base.getSpuCode())
+                                .distinct()
+                                .collect(Collectors.toList());
+                    }
                 }
             }
+
             // 对于物料编码，先去material表中查询
             String[] materialKeyList = {"materialCode"};
             String[] materialTargetList = {"materialCode"};

@@ -2,11 +2,24 @@ package com.zhuri.material.materialmanagement.service.supplier;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.ArrayList;
 
 // 作为Service的补充类，以防止Service类过于复杂掩盖逻辑
 // 根据提供的参数生成对应的参数Map
 public class MaterialInfoServiceSupplier {
+
+    private static Map<String, Object> chooseParams (Map<String, Object> params, String[] keyList, String[] targetList) {
+        Map<String, Object> result = new HashMap<>(16);
+        result.clear();
+        for (int i = 0; i < keyList.length; ++i) {
+            String baseKey = keyList[i];
+            String targetKey = targetList[i];
+            if (params.containsKey(baseKey)) {
+                result.put(targetKey, params.get(baseKey));
+            }
+        }
+        return result;
+    }
+
     // 对materialBase表
     public static Map<String, Object> splitBaseInfoParams (
                     Map<String, Object> params, 
@@ -14,15 +27,7 @@ public class MaterialInfoServiceSupplier {
                     String[] targetList) 
     {
         // 根据所给定的参数进行筛选
-        Map<String, Object> baseInfoMap = new HashMap<String, Object>(16);
-        baseInfoMap.clear();
-        for (int i = 0; i < keyList.length; ++i) {
-            String baseKey = keyList[i];
-            String targetKey = targetList[i];
-            if (params.containsKey(baseKey)) {
-                baseInfoMap.put(targetKey, params.get(baseKey));
-            }
-        }
+        Map<String, Object> baseInfoMap = chooseParams(params, keyList, targetList);
         return baseInfoMap;
     }
 
@@ -32,15 +37,7 @@ public class MaterialInfoServiceSupplier {
                     String[] keyList,
                     String[] targetList) 
     {
-        Map<String, Object> categoryMap = new HashMap<String, Object>(16);
-        categoryMap.clear();
-        for (int i = 0; i < keyList.length; ++i) {
-            String baseKey = keyList[i];
-            String targetKey = targetList[i];
-            if (params.containsKey(baseKey)) {
-                categoryMap.put(targetKey, params.get(baseKey));
-            }
-        }
+        Map<String, Object> categoryMap = chooseParams(params, keyList, targetList);
         return categoryMap;
     }
 
@@ -50,15 +47,7 @@ public class MaterialInfoServiceSupplier {
                     String[] keyList,
                     String[] targetList) 
     {
-        Map<String, Object> materialMap = new HashMap<String, Object>(16);
-        materialMap.clear();
-        for (int i = 0; i < keyList.length; ++i) {
-            String baseKey = keyList[i];
-            String targetKey = targetList[i];
-            if (params.containsKey(baseKey)) {
-                materialMap.put(targetKey, params.get(baseKey));
-            }
-        }
+        Map<String, Object> materialMap = chooseParams(params, keyList, targetList);
         return materialMap;
     }    
 
