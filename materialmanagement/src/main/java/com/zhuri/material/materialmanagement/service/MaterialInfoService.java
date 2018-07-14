@@ -1,15 +1,12 @@
 package com.zhuri.material.materialmanagement.service;
 
-import java.util.Map;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import com.zhuri.material.materialmanagement.bean.tablebean.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.zhuri.material.materialmanagement.bean.*;
 import com.zhuri.material.materialmanagement.mapper.MaterialInfoMapper;
 import com.zhuri.material.materialmanagement.service.supplier.MaterialInfoServiceSupplier;
 
@@ -58,8 +55,7 @@ public class MaterialInfoService {
                 } else {
                     // 否则正常处理
                     String[] catBaseKeyList = {"materialCatId"};
-                    String[] catBaseTargetList = {"materialCatId"};
-                    Map<String, Object> categoryBaseMap = MaterialInfoServiceSupplier.splitBaseInfoParams(params, catBaseKeyList, catBaseTargetList);
+                    Map<String, Object> categoryBaseMap = MaterialInfoServiceSupplier.splitBaseInfoParams(params, catBaseKeyList, catBaseKeyList);
                     if (categoryBaseMap.size() > 0) {
                         List<MaterialBaseBean> cateInfoResult = materialInfoMapper.getBaseInfoWithBaseInfoParams(categoryBaseMap);
                         spuCodeFromCategory = cateInfoResult.stream()
@@ -72,8 +68,7 @@ public class MaterialInfoService {
 
             // 对于物料编码，先去material表中查询
             String[] materialKeyList = {"materialCode"};
-            String[] materialTargetList = {"materialCode"};
-            Map<String, Object> materialMap = MaterialInfoServiceSupplier.splitMaterialParams(params, materialKeyList, materialTargetList);
+            Map<String, Object> materialMap = MaterialInfoServiceSupplier.splitMaterialParams(params, materialKeyList, materialKeyList);
             List<String> spuCodeFromMaterial = null;
             if (materialMap.size() > 0) {
                 List<MaterialBean> materialResult = materialInfoMapper.getMaterialWithMaterialParams(materialMap);
@@ -82,7 +77,8 @@ public class MaterialInfoService {
                                         .distinct()
                                         .collect(Collectors.toList());
             }
-            // 对spuCode去重
+
+            // 最后对spuCode去重
             HashSet<String> spuCodes = new HashSet<>();
             List<List<String>> spuCodesLists = new ArrayList<>();
             spuCodes.clear(); spuCodesLists.clear();
@@ -100,11 +96,86 @@ public class MaterialInfoService {
                 for (String spuCode : spuCodes) {
                     result.addAll(materialInfoMapper.getBaseInfoWithSpuCode(spuCode));
                 }
-                result.sort((o1, o2) -> {
-                    return o1.getId() - o2.getId();
-                });
+                result.sort(Comparator.comparingInt(MaterialBaseBean::getId));
             }
             return result;
         }
+    }
+
+    /* 
+        物料基本信息：1
+        物料定义：2
+        SKU定义：3
+        附件管理：4 （依赖于物料基本信息Id）
+        采购和库存属性：5
+        计划类属性：6
+        销售类属性：7
+        质量类属性：8
+        财务类属性：9 
+    */
+    public List<Object> getMaterialInfo (String spuCode, String spuName, List<Integer> types) {
+        int[] flag = new int[10];
+        Arrays.fill(flag, 0);
+        for (int type : types) {
+            flag[type] = 1;
+        }
+        List<Object> result = new ArrayList<>();
+        Map<String, Object> paramsMap;
+        // 缓存物料基本信息id
+        int materialBaseId = -1;
+        for (int i = 1; i < 10; ++i) {
+            switch (i) {
+                case 1:
+                    List<MaterialBaseBean> baseInfos = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
+                    // 预设SPU编码必须唯一！
+                    if (baseInfos != null && baseInfos.size() > 0) {
+                        materialBaseId = baseInfos.get(0).getMaterialCatId();
+                        result.add(baseInfos);
+                    }
+                    break;
+                case 2:
+                    // 物料定义针对物料信息表
+                    // TODO: 对于物料定义中的物料规格暂时没得到答复，暂时忽略规格信息，全部以空信息返回
+                    paramsMap = new HashMap<>(16);
+                    paramsMap.put("spuCode", 1);
+                    List<MaterialBean> materialInfos = materialInfoMapper.getMaterialWithMaterialParams(paramsMap);
+                    if (materialInfos != null && materialInfos.size() > 0) {
+                        result.add(materialInfos);
+                    }
+                    break;
+                case 3:
+                    paramsMap = new HashMap<>(16);
+                    paramsMap.put("spuCode", 1);
+                    List<MaterialSkuBean> skuInfos = materialInfoMapper.getMaterialSkuWithMaterialSkuParams(paramsMap);
+                    if (skuInfos != null && skuInfos.size() > 0) {
+                        result.add(skuInfos);
+                    }
+                    break;
+                case 4:
+                    if (materialBaseId == -1) {
+                        // 没有查到过物料信息ID
+                        List<MaterialBaseBean> baseInfoForFiles = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
+                        if (baseInfoForFiles != null && baseInfoForFiles.size() > 0) {
+                            // 有对应的记录
+                            materialBaseId = baseInfoForFiles.get(0).getMaterialCatId();
+                            // 根据物料基本信息id进行查找
+                            paramsMap = new HashMap<>(16);
+                            paramsMap.put("materialBaseId", 1);
+                            List<MaterialFilesBean> fileInfos = materialInfoMapper.getFilesWithFilesParams(paramsMap);
+                            if (fileInfos != null && fileInfos.size() > 0) {
+                                result.add(fileInfos);
+                            }
+                        } else {
+                            // 若没有返回空数组
+                            result.add(new ArrayList<>());
+                        }
+                    }
+                    break;
+                case 5:
+                    
+                    break;
+            }
+        }
+        return result;
     }
 }

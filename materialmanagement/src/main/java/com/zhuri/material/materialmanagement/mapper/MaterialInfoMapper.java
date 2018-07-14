@@ -1,9 +1,13 @@
 package com.zhuri.material.materialmanagement.mapper;
 
+import com.zhuri.material.materialmanagement.bean.tablebean.MaterialBaseBean;
+import com.zhuri.material.materialmanagement.bean.tablebean.MaterialBean;
+import com.zhuri.material.materialmanagement.bean.tablebean.MaterialCategoryBean;
+import com.zhuri.material.materialmanagement.bean.tablebean.MaterialSkuBean;
+import com.zhuri.material.materialmanagement.bean.tablebean.MaterialFilesBean;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Select;
-import com.zhuri.material.materialmanagement.bean.*;
 
 import java.util.List;
 import java.util.Map;
@@ -12,17 +16,25 @@ import java.util.Map;
 public interface MaterialInfoMapper {
     @SelectProvider(type = com.zhuri.material.materialmanagement.mapper.provider.MaterialInfoProvider.class,
                     method = "getBaseInfoWithBaseInfoParams")
-    public List<MaterialBaseBean> getBaseInfoWithBaseInfoParams (Map<String, Object> params);
+    List<MaterialBaseBean> getBaseInfoWithBaseInfoParams (Map<String, Object> params);
 
     @Select("SELECT * FROM materialBase WHERE spuCode=#{spuCode};")
-    public List<MaterialBaseBean> getBaseInfoWithSpuCode (String spuCode);
+    List<MaterialBaseBean> getBaseInfoWithSpuCode (String spuCode);
     
     @SelectProvider(type = com.zhuri.material.materialmanagement.mapper.provider.MaterialInfoProvider.class,
                     method = "getMaterialCategoryWithMaterialCategoryParams")
-    public List<MaterialCategoryBean> getMaterialCategoryWithMaterialCategoryParams (Map<String, Object> params);
+    List<MaterialCategoryBean> getMaterialCategoryWithMaterialCategoryParams (Map<String, Object> params);
 
     @SelectProvider(type = com.zhuri.material.materialmanagement.mapper.provider.MaterialInfoProvider.class,
                     method = "getMaterialWithMaterialParams")
-    public List<MaterialBean> getMaterialWithMaterialParams (Map<String, Object> params);
+    List<MaterialBean> getMaterialWithMaterialParams (Map<String, Object> params);
+
+    @SelectProvider(type = com.zhuri.material.materialmanagement.mapper.provider.MaterialInfoProvider.class,
+                    method = "getMaterialSkuWithMaterialSkuParams")
+    List<MaterialSkuBean> getMaterialSkuWithMaterialSkuParams (Map<String, Object> params);
+
+    @SelectProvider(type = com.zhuri.material.materialmanagement.mapper.provider.MaterialInfoProvider.class,
+                    method = "getFilesWithFilesParams")
+    List<MaterialFilesBean> getFilesWithFilesParams (Map<String, Object> params);
 
 }

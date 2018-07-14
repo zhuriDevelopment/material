@@ -1,4 +1,4 @@
-package com.zhuri.material.materialmanagement.bean;
+package com.zhuri.material.materialmanagement.bean.tablebean;
 
 public class MaterialCategoryBean {
     private int id;
