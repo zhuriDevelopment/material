@@ -20,4 +20,9 @@ public class MaterialInfoController {
     public List<MaterialBaseBean> getBaseInfo (@RequestBody Map<String, Object> params) {
         return materialInfoService.getBaseInfoByParams(params);
     }
+
+    @RequestMapping(value = "/MaterialManagement/getMaterialInfo", method = RequestMethod.POST)
+    public List<Object> getMaterialInfo (@RequestBody Map<Object, Object> params) {
+        return null;
+    }
 }

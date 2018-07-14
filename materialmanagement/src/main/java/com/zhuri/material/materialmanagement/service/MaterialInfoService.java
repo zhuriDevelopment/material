@@ -84,18 +84,26 @@ public class MaterialInfoService {
             }
             // 对spuCode去重
             HashSet<String> spuCodes = new HashSet<>();
-            spuCodes.clear();
-            if (spuCodeFromBase != null) { spuCodes.addAll(spuCodeFromBase); }
-            if (spuCodeFromCategory != null) { spuCodes.addAll(spuCodeFromCategory); }
-            if (spuCodeFromMaterial != null) { spuCodes.addAll(spuCodeFromMaterial); }
+            List<List<String>> spuCodesLists = new ArrayList<>();
+            spuCodes.clear(); spuCodesLists.clear();
+            if (spuCodeFromBase != null) { spuCodesLists.add(spuCodeFromBase); }
+            if (spuCodeFromCategory != null) { spuCodesLists.add(spuCodeFromCategory); }
+            if (spuCodeFromMaterial != null) { spuCodesLists.add(spuCodeFromMaterial); }
             List<MaterialBaseBean> result = new ArrayList<>();
             result.clear();
-            for (String spuCode : spuCodes) {
-                result.addAll(materialInfoMapper.getBaseInfoWithSpuCode(spuCode));
+            // 一般不可能出现三个均为空的情况，但是保险起见，若为空则返回空列表
+            if (spuCodesLists.size() > 0) {
+                spuCodes.addAll(spuCodesLists.get(0));
+                for (int i = 1; i < spuCodesLists.size(); ++i) {
+                    spuCodes.retainAll(spuCodesLists.get(i));
+                }
+                for (String spuCode : spuCodes) {
+                    result.addAll(materialInfoMapper.getBaseInfoWithSpuCode(spuCode));
+                }
+                result.sort((o1, o2) -> {
+                    return o1.getId() - o2.getId();
+                });
             }
-            result.sort((o1, o2) -> {
-                return o1.getId() - o2.getId();
-            });
             return result;
         }
     }

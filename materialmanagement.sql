@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `materialBase` (
 	`mnemonic` VARCHAR(20),
 	`spuName` VARCHAR(50) NOT NULL,
 	`description` VARCHAR(100),
-	`type` TINYINT(4) NOT NULL,
+	`type` TINYINT NOT NULL,
 	`designCode` VARCHAR(10),
 	`designVersion` VARCHAR(10),
 	`defaultUnitId` INT UNSIGNED NOT NULL,
@@ -121,3 +121,7 @@ CREATE TABLE IF NOT EXISTS `materialCtrlPropValVer` (
 	`startDate` DATETIME NOT NULL,
 	`endDate` DATETIME NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO materialBase VALUES (null, '10000', '12345', '毛料', '丝绸毛料', 64, '10010000', 'v1.0', 1, '工厂', '纺织', 1);
+INSERT INTO materialBase VALUES (null, '10001', '12346', '布料', '尼龙布料', 32, '10020000', 'v1.0', 2, '工厂', '纺织', 2);
+INSERT INTO materialBase VALUES (null, '10002', '12347', '棉布', '棉质布料', 16, '10030000', 'v2.0', 3, '工厂', '纺织', 3);
