@@ -39,19 +39,22 @@ public class MaterialInfoController {
             String spuCode = (String) params.get("spuCode");
             String spuName = (String) params.get("spuName");
             List<Integer> typeArr = (List<Integer>) params.get("typeArr");
-            // return materialInfoService.getMaterialInfo(spuCode, spuName, typeArr);
-            List<Map<String, Object>> kv = purchaseAndStoreList.getPurchasePropertiesListMap();
-            System.out.println(kv.get(0).get("key"));
-            System.out.println(kv.get(0).get("type"));
-            System.out.println(kv.get(0).get("key").getClass());
-            System.out.println(kv.get(0).get("type").getClass());
-            System.out.println(kv.get(0).get("allowedList").getClass());
+            // 先不考虑组织编码
+            int orgnizationId = 1;
+            // 需要查询物料ID和物料分类ID
+            return materialInfoService.getMaterialInfo(spuCode, spuName, typeArr, orgnizationId);
+            // List<Map<String, Object>> kv = purchaseAndStoreList.getPurchasePropertiesListMap();
+            // System.out.println(kv.get(0).get("key"));
+            // System.out.println(kv.get(0).get("type"));
+            // System.out.println(kv.get(0).get("key").getClass());
+            // System.out.println(kv.get(0).get("type").getClass());
+            // System.out.println(kv.get(0).get("allowedList").getClass());
             // LinkedHashMap<String, String> hshMap = (LinkedHashMap<String, String>) kv.get(0).get("allowedList");
             // for (Map.Entry<String, String> entry : hshMap.entrySet()) {
             //     System.out.println(entry.getKey());
             //     System.out.println(entry.getValue());
             // }
-            return null;
+            // return null;
         } catch (ClassCastException e) {
             e.printStackTrace();
             List<Object> result = new ArrayList<>();

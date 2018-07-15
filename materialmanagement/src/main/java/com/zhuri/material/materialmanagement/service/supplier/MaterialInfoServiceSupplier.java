@@ -2,10 +2,17 @@ package com.zhuri.material.materialmanagement.service.supplier;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
+
+import com.zhuri.material.materialmanagement.bean.propertybean.ControlPropertyBean;
+import com.zhuri.material.materialmanagement.bean.propertybean.purchaseandstore.PurchaseAndStoreList;
+import org.springframework.beans.factory.annotation.Autowired;
 
 // 作为Service的补充类，以防止Service类过于复杂掩盖逻辑
 
 public class MaterialInfoServiceSupplier {
+    @Autowired
+    private static PurchaseAndStoreList purchaseAndStoreList;
 
     // 根据提供的参数生成对应的参数Map的方法
     // 通用子方法
@@ -48,6 +55,37 @@ public class MaterialInfoServiceSupplier {
                     String[] targetList) 
     {
         return chooseParams(params, keyList, targetList);
+    }
+
+    public static List<ControlPropertyBean> getPurchaseAndStorePropertyByIndex (int index, int orgnizationId) {
+        return null;
+    }
+
+    public static List<ControlPropertyBean> getPurchaseAndStoreProperties (int index, int orgnizationId) {
+        if (index < -1) {
+            return null;
+        }
+        if (index == -1) {
+            List<ControlPropertyBean> result = null;
+            int len = purchaseAndStoreList.getPurchasePropertiesList().length;
+            for (int i = 0; i < len; ++i) {
+                List<ControlPropertyBean> tmpResult = getPurchaseAndStorePropertyByIndex(i, orgnizationId);
+                if (!tmpResult.isEmpty()) {
+                    result.addAll(tmpResult);
+                }
+            }
+            return result;
+        } else {
+            return getPurchaseAndStorePropertyByIndex(index, orgnizationId);
+        }
+    }
+
+    // 获取控制属性
+    public static List<ControlPropertyBean> getAllControlPropertyByType (int type, int orgnizationId) {
+        if (type == 5) {
+            return getPurchaseAndStoreProperties(-1, orgnizationId);
+        }
+        return null;
     }
 
 }

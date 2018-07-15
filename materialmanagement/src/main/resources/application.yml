@@ -111,15 +111,31 @@ zhuri-ctrproperties:
     - 默认计划单位
   planPropertiesListMap:
     - key: 是否独立需求
+      type: boolean
     - key: 订货提前期（天）
+      type: string
     - key: 补货政策
+      type: enum
+      allowedList:
+        - 补货政策1
+        - 补货政策2
     - key: 补货周期（天）
+      type: string
     - key: 最大库存量
+      type: string
     - key: 安全库存量
+      type: string
     - key: 订货批量
+      type: string
     - key: 批量政策
+      type: enum
+      allowedList:
+        - 批量政策1
+        - 批量政策2
     - key: 批量周期（天）
+      type: string
     - key: 默认计划单位
+      type: database
   salesList:
     - 销售计划价格
     - 计价货币

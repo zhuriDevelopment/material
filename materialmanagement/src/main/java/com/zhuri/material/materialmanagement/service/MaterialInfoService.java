@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.zhuri.material.materialmanagement.mapper.MaterialInfoMapper;
 import com.zhuri.material.materialmanagement.service.supplier.MaterialInfoServiceSupplier;
+import com.zhuri.material.materialmanagement.bean.propertybean.ControlPropertyBean;
 
 @Service
 public class MaterialInfoService {
@@ -113,7 +114,7 @@ public class MaterialInfoService {
         质量类属性：8
         财务类属性：9 
     */
-    public List<Object> getMaterialInfo (String spuCode, String spuName, List<Integer> types) {
+    public List<Object> getMaterialInfo (String spuCode, String spuName, List<Integer> types, int orgnizationId) {
         int[] flag = new int[10];
         Arrays.fill(flag, 0);
         for (int type : types) {
@@ -124,6 +125,7 @@ public class MaterialInfoService {
         // 缓存物料基本信息id
         int materialBaseId = -1;
         for (int i = 1; i < 10; ++i) {
+            if (flag[i] == 0) continue;
             switch (i) {
                 case 1:
                     List<MaterialBaseBean> baseInfos = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
@@ -171,10 +173,11 @@ public class MaterialInfoService {
                         }
                     }
                     break;
-                case 5:
-                    
-                    break;
                 default:
+                    List<ControlPropertyBean> controlProps = MaterialInfoServiceSupplier.getAllControlPropertyByType(i, orgnizationId);
+                    if (controlProps.size() > 0) {
+                        result.addAll(controlProps);
+                    }
                     break;
             }
         }
