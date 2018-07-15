@@ -18,3 +18,133 @@ server:
 logging:
   level:
     com.zhuri.material.materialmanagement.DAO: trace
+
+#-------------------------------- 以上为系统配置 --------------------------------
+#-------------------------------- 以下为业务配置 --------------------------------
+
+# 属性配置：
+#   enum: 枚举
+#     allowedList: 枚举类型允许的变量
+#     编号均从0开始
+#   boolean: 布尔
+#   string: 字符串
+#   outsystem: 从外界获取
+#     from: url（一般配置成url形式）
+#     parameter:
+#       key1: oa
+#       key2: 100293
+#     对应的路径为url?key1=oa&key2=100293
+#   database: 数据库，对应逻辑在代码中处理
+
+zhuri-ctrproperties:
+  purchasePropertiesList:
+    - 物料制购类型
+    - ABC分类
+    - 循环盘点编码
+    - 是否批次管理
+    - 是否单件管理
+    - 是否进价控制
+    - 默认供应商
+    - 默认采购部门
+    - 默认仓库
+    - 默认采购单位
+    - 默认库存单位
+    - 默认库位
+  purchasePropertiesListMap:
+    - key: 物料制购类型
+      type: enum
+      allowedList:
+        - "制购类型1"
+        - "制购类型2"
+    - key: ABC分类
+      type: enum
+      allowedList:
+        - "ABC分类1"
+        - "ABC分类2"
+    - key: 循环盘点编码
+      type: enum
+      allowedList:
+        - "盘点编码1"
+        - "盘点编码2"
+    - key: 是否批次管理
+      type: boolean
+    - key: 是否单件管理
+      type: boolean
+    - key: 是否进价控制
+      type: boolean
+    - key: 默认供应商
+      type: outsystem
+      from: oasystem
+      parameter: 
+        key1: oa
+        key2: 100293
+    - key: 默认采购部门
+      type: outsystem
+      from: oasystem
+      parameter:
+        key1: oa
+        key2: 100292
+    - key: 默认仓库
+      type: outsystem
+      from: store
+      parameter:
+        key1: store
+    - key: 默认采购单位
+      type: database
+    - key: 默认库存单位
+      type: database
+    - key: 默认库位
+      type: outsystem
+      from: store
+      parameter:
+        - key1: store
+  planPropertiesList:
+    - 是否独立需求
+    - 订货提前期（天）
+    - 补货政策
+    - 补货周期（天）
+    - 最大库存量
+    - 安全库存量
+    - 订货批量
+    - 批量政策
+    - 批量周期（天）
+    - 默认计划单位
+  planPropertiesListMap:
+    - key: 是否独立需求
+    - key: 订货提前期（天）
+    - key: 补货政策
+    - key: 补货周期（天）
+    - key: 最大库存量
+    - key: 安全库存量
+    - key: 订货批量
+    - key: 批量政策
+    - key: 批量周期（天）
+    - key: 默认计划单位
+  salesList:
+    - 销售计划价格
+    - 计价货币
+    - 是否售价控制
+    - 销售价格策略
+    - 销价下限率（%）
+    - 销售成本科目
+    - 默认客户
+    - 销售地
+    - 默认业务员
+    - 默认销售单位
+  qualityList:
+    - 检验方式
+    - 检验水准
+    - 检验程度
+    - 默认检验部门
+    - 检验工时（时）
+    - 存储期限（天）
+    - 默认检验员
+    - 检验标准文件
+  financeList:
+    - 财务类别
+    - 记账本位币
+    - 会计科目
+    - 增值税代码
+    - 存货计价方法
+    - 成本计算方法
+    - 开票类型

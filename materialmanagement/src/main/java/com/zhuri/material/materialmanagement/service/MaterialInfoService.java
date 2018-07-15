@@ -174,6 +174,8 @@ public class MaterialInfoService {
                 case 5:
                     
                     break;
+                default:
+                    break;
             }
         }
         return result;
