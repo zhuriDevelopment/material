@@ -14,6 +14,7 @@ public class MaterialInfoServiceSupplier {
     @Autowired
     private static PurchaseAndStoreList purchaseAndStoreList;
 
+    // ---------------------------------------- 生成参数Map部分 ----------------------------------------
     // 根据提供的参数生成对应的参数Map的方法
     // 通用子方法
     private static Map<String, Object> chooseParams (Map<String, Object> params, String[] keyList, String[] targetList) {
@@ -56,6 +57,8 @@ public class MaterialInfoServiceSupplier {
     {
         return chooseParams(params, keyList, targetList);
     }
+
+    // ---------------------------------------- 获取控制信息部分 ----------------------------------------
 
     public static List<ControlPropertyBean> getPurchaseAndStorePropertyByIndex (int index, int orgnizationId) {
         return null;
