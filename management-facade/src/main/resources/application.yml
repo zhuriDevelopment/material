@@ -1,24 +1,3 @@
-spring:
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    username: root
-    password: 12345678
-    url: jdbc:mysql://127.0.0.1:3306/zhuriMaterial?useSSL=false
-  application:
-    name: MaterialManagement
-  servlet:
-    multipart:
-      # 针对post请求数据量可能过大的情况
-      maxFileSize: 100Mb
-      maxRequestSize: 100Mb
-  
-server:
-  port: 8080
-
-logging:
-  level:
-    com.zhuri.material.materialmanagement.DAO: trace
-
 #-------------------------------- 以上为系统配置 --------------------------------
 #-------------------------------- 以下为业务配置 --------------------------------
 

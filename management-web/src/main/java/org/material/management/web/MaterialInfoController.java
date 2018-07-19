@@ -1,12 +1,12 @@
 package org.material.management.web;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.http.MediaType;
 import org.material.management.service.MaterialInfoService;
 import org.material.management.model.propertymodel.purchaseandstore.PurchaseAndStoreList;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 // import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,6 +16,8 @@ import java.util.Map;
 import org.material.management.model.tablemodel.MaterialBaseModel;
 
 @RestController
+@RequestMapping("/MaterialManagement")
+@Api(value = "物料信息接口", description = "物料信息接口")
 public class MaterialInfoController {
     @Autowired
     MaterialInfoService materialInfoService;
@@ -23,16 +25,18 @@ public class MaterialInfoController {
     @Autowired
     PurchaseAndStoreList purchaseAndStoreList;
 
-    @RequestMapping(value = "/MaterialManagement/getBaseInfo", method = RequestMethod.POST)
+    @PostMapping(value = "/getBaseInfo")
+    @ApiOperation(value = "根据给定参数查询基础信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<MaterialBaseModel> getBaseInfo (@RequestBody Map<String, Object> params) {
         // 参数必须非空！
         assert(params.size() > 0);
         return materialInfoService.getBaseInfoByParams(params);
     }
 
-    @RequestMapping(value = "/MaterialManagement/getMaterialInfo", method = RequestMethod.POST)
-    // 如果list和hashmap的转换会出问题，则会抛出异常
+    @PostMapping(value = "/getMaterialInfo")
+    @ApiOperation(value = "根据给定参数查询基础信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @SuppressWarnings("unchecked")
+    // 如果list和hashmap的转换会出问题，则会抛出异常
     public List<Object> getMaterialInfo (@RequestBody Map<Object, Object> params) {
         try {
             String spuCode = (String) params.get("spuCode");

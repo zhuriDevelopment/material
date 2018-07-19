@@ -5,7 +5,7 @@ spring:
     password: 12345678
     url: jdbc:mysql://127.0.0.1:3306/zhuriMaterial?useSSL=false
   application:
-    name: MaterialManagement
+    name: MaterialManagement-Web
   servlet:
     multipart:
       # 针对post请求数据量可能过大的情况
@@ -17,6 +17,6 @@ server:
 
 logging:
   level:
-    com.zhuri.material.materialmanagement.DAO: trace
+    org.material.management.mapper.MaterialInfoMapper: trace
 
 #-------------------------------- 以上为系统配置 --------------------------------
