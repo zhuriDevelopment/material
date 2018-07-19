@@ -1,5 +1,8 @@
 package org.material.management.model.tablemodel;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel("物料分类表")
 public class MaterialCategoryModel {
     private int id;
     private String code;

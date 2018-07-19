@@ -1,5 +1,8 @@
 package org.material.management.model.tablemodel;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel("物料控制属性表")
 public class MaterialCtrlPropModel {
     private int id;
     private int type;

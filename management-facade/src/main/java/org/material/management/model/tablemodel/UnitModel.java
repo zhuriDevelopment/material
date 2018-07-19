@@ -1,5 +1,8 @@
 package org.material.management.model.tablemodel;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel("计量单位表")
 public class UnitModel {
     private int id;
     private String label;

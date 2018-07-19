@@ -1,5 +1,8 @@
 package org.material.management.model.tablemodel;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel("物料描述文件表")
 public class MaterialFilesModel {
     private int id;
     private int materialBaseId;

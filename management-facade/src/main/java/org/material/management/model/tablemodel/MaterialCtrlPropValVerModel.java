@@ -1,7 +1,10 @@
 package org.material.management.model.tablemodel;
 
+import io.swagger.annotations.ApiModel;
+
 import java.sql.Timestamp;
 
+@ApiModel("物料控制属性值版本表")
 public class MaterialCtrlPropValVerModel {
     private int id;
     private String version;

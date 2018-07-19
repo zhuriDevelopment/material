@@ -34,7 +34,7 @@ public class MaterialInfoController {
     }
 
     @PostMapping(value = "/getMaterialInfo")
-    @ApiOperation(value = "根据给定参数查询基础信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "根据给定参数查询物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @SuppressWarnings("unchecked")
     // 如果list和hashmap的转换会出问题，则会抛出异常
     public List<Object> getMaterialInfo (@RequestBody Map<Object, Object> params) {

@@ -1,20 +1,20 @@
-#spring:
-#  datasource:
-#    driver-class-name: com.mysql.jdbc.Driver
-#    username: root
-#    password: 12345678
-#    url: jdbc:mysql://127.0.0.1:3306/zhuriMaterial?useSSL=false
-#  application:
-#    name: MaterialManagement-Service
-#  servlet:
-#    multipart:
-#      # 针对post请求数据量可能过大的情况
-#      maxFileSize: 100Mb
-#      maxRequestSize: 100Mb
-#
-#server:
-#  port: 8081
-#
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 12345678
+    url: jdbc:mysql://127.0.0.1:3306/zhuriMaterial?useSSL=false
+  application:
+    name: MaterialManagement-Service
+  servlet:
+    multipart:
+      # 针对post请求数据量可能过大的情况
+      maxFileSize: 100Mb
+      maxRequestSize: 100Mb
+
+server:
+  port: 8081
+
 #logging:
 #  level:
 #    org.material.management.mapper.MaterialInfoMapper: trace

@@ -1,5 +1,8 @@
 package org.material.management.model.tablemodel;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel("物料信息表")
 public class MaterialModel {
     private int id;
     private String spuCode;
