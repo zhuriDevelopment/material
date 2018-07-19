@@ -139,7 +139,7 @@ public class MaterialInfoService {
                     // 物料定义针对物料信息表
                     // TODO: 对于物料定义中的物料规格暂时没得到答复，暂时忽略规格信息，全部以空信息返回
                     paramsMap = new HashMap<>(16);
-                    paramsMap.put("spuCode", 1);
+                    paramsMap.put("spuCode", spuCode);
                     List<MaterialBean> materialInfos = materialInfoMapper.getMaterialWithMaterialParams(paramsMap);
                     if (materialInfos != null && materialInfos.size() > 0) {
                         result.add(materialInfos);
@@ -147,7 +147,7 @@ public class MaterialInfoService {
                     break;
                 case 3:
                     paramsMap = new HashMap<>(16);
-                    paramsMap.put("spuCode", 1);
+                    paramsMap.put("spuCode", spuCode);
                     List<MaterialSkuBean> skuInfos = materialInfoMapper.getMaterialSkuWithMaterialSkuParams(paramsMap);
                     if (skuInfos != null && skuInfos.size() > 0) {
                         result.add(skuInfos);
@@ -160,21 +160,24 @@ public class MaterialInfoService {
                         if (baseInfoForFiles != null && baseInfoForFiles.size() > 0) {
                             // 有对应的记录
                             materialBaseId = baseInfoForFiles.get(0).getMaterialCatId();
-                            // 根据物料基本信息id进行查找
-                            paramsMap = new HashMap<>(16);
-                            paramsMap.put("materialBaseId", 1);
-                            List<MaterialFilesBean> fileInfos = materialInfoMapper.getFilesWithFilesParams(paramsMap);
-                            if (fileInfos != null && fileInfos.size() > 0) {
-                                result.add(fileInfos);
-                            }
                         } else {
                             // 若没有返回空数组
                             result.add(new ArrayList<>());
+                            break;
                         }
+                    }
+                    // 根据物料基本信息id进行查找
+                    paramsMap = new HashMap<>(16);
+                    paramsMap.put("materialBaseId", materialBaseId);
+                    List<MaterialFilesBean> fileInfos = materialInfoMapper.getFilesWithFilesParams(paramsMap);
+                    if (fileInfos != null && fileInfos.size() > 0) {
+                        result.add(fileInfos);
+                    } else {
+                        result.add(new ArrayList<>());
                     }
                     break;
                 default:
-                    List<ControlPropertyBean> controlProps = MaterialInfoServiceSupplier.getAllControlPropertyByType(i, orgnizationId);
+                    List<ControlPropertyBean> controlProps = MaterialInfoServiceSupplier.getAllControlPropertyByType(i, orgnizationId, spuCode);
                     if (controlProps.size() > 0) {
                         result.addAll(controlProps);
                     }

@@ -4,6 +4,11 @@ public class ControlPropertyBean {
     private String propertyName;
     private Object propertyValue;
 
+    ControlPropertyBean (String propertyName, Object propertyValue) {
+        this.propertyName = propertyName;
+        this.propertyValue = propertyValue;
+    }
+
     public String getPropertyName() {
         return propertyName;
     }

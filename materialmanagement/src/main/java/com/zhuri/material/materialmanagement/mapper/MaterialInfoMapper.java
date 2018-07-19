@@ -22,12 +22,15 @@ public interface MaterialInfoMapper {
     List<MaterialBaseBean> getBaseInfoWithSpuCode (String spuCode);
     
     @SelectProvider(type = com.zhuri.material.materialmanagement.mapper.provider.MaterialInfoProvider.class,
-                    method = "getMaterialCategoryWithMaterialCategoryParams")
-    List<MaterialCategoryBean> getMaterialCategoryWithMaterialCategoryParams (Map<String, Object> params);
-
-    @SelectProvider(type = com.zhuri.material.materialmanagement.mapper.provider.MaterialInfoProvider.class,
                     method = "getMaterialWithMaterialParams")
     List<MaterialBean> getMaterialWithMaterialParams (Map<String, Object> params);
+
+    @Select("SELECT * FROM material WHERE spuCode=#{spuCode};")
+    List<MaterialBean> getMaterialWithSpuCode (String spuCode);
+
+    @SelectProvider(type = com.zhuri.material.materialmanagement.mapper.provider.MaterialInfoProvider.class,
+                    method = "getMaterialCategoryWithMaterialCategoryParams")
+    List<MaterialCategoryBean> getMaterialCategoryWithMaterialCategoryParams (Map<String, Object> params);
 
     @SelectProvider(type = com.zhuri.material.materialmanagement.mapper.provider.MaterialInfoProvider.class,
                     method = "getMaterialSkuWithMaterialSkuParams")
@@ -36,5 +39,16 @@ public interface MaterialInfoMapper {
     @SelectProvider(type = com.zhuri.material.materialmanagement.mapper.provider.MaterialInfoProvider.class,
                     method = "getFilesWithFilesParams")
     List<MaterialFilesBean> getFilesWithFilesParams (Map<String, Object> params);
+
+    @Select("SELECT * FROM materialCtrlProp WHERE id=#{id};")
+    List<MaterialCtrlPropBean> getCtrlPropWithCtrlPropId (int id);
+
+    @SelectProvider(type = com.zhuri.material.materialmanagement.mapper.provider.MaterialInfoProvider.class,
+                    method = "getCtrlPropValWithCtrlPropValParams")
+    List<MaterialCtrlPropValBean> getCtrlPropValWithCtrlPropValParams (Map<String, Object> params);
+
+    @SelectProvider(type = com.zhuri.material.materialmanagement.mapper.provider.MaterialInfoProvider.class,
+                    method = "getCtrlPropValVerWithCtrlPropValVerParams")
+    List<MaterialCtrlPropValVerBean> getCtrlPropValVerWithCtrlPropValVerParams (Map<String, Object> params);
 
 }
