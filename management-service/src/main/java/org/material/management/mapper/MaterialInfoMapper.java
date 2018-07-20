@@ -1,8 +1,6 @@
 package org.material.management.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.material.management.mapper.provider.MaterialInfoProvider;
 import org.material.management.model.tablemodel.*;
 
@@ -47,5 +45,15 @@ public interface MaterialInfoMapper {
     @SelectProvider(type = MaterialInfoProvider.class,
                     method = "getCtrlPropValVerWithCtrlPropValVerParams")
     List<MaterialCtrlPropValVerModel> getCtrlPropValVerWithCtrlPropValVerParams (Map<String, Object> params);
+
+    @Insert("INSERT INTO materialCategory(code,name,parentId) VALUES(#{code},#{name},#{parentId})")
+    @Options(useGeneratedKeys = true,keyProperty = "id", keyColumn = "id")
+    int addMaterialCategory(@Param("code") String code, @Param("name") String name, @Param("parentId") int parentId);
+
+    @Update("UPDATE materialCategory SET name=#{name} WHERE code=#{code} AND parentId=#{parentId}")
+    int updateMaterialCategory(@Param("code")String code,@Param("name")String name,@Param("parentId") int parentId);
+
+    @Delete("DELETE FROM materialCategory WHERE code=#{code}")
+    int deleteMaterialCategoryByCode(String code);
 
 }
