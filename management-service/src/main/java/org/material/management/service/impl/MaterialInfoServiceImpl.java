@@ -186,4 +186,16 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         }
         return result;
     }
+
+    public int addMaterialCategory (String code,String name,int parentId) {
+        return materialInfoMapper.addMaterialCategory(code,name,parentId);
+    }
+
+    public int updateMaterialCategory (String code, String name, int parentId) {
+        return materialInfoMapper.updateMaterialCategory(code,name,parentId);
+    }
+
+    public int deleteMaterialCategory (String code) {
+        return materialInfoMapper.deleteMaterialCategoryByCode(code);
+    }
 }

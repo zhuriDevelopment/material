@@ -65,4 +65,23 @@ public class MaterialInfoController {
             return result;
         }
     }
+
+    @RequestMapping(value = "/MaterialManagement/addMaterialCategory", method = RequestMethod.POST)
+    @ApiOperation(value = "增加物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int addMaterialCategory(String code, String name, int parentId) {
+        return materialInfoService.addMaterialCategory(code, name, parentId);
+    }
+
+    @RequestMapping(value = "/MaterialManagement/updateMaterialCategory", method = RequestMethod.POST)
+    @ApiOperation(value = "根据物料分类编码及父类id更新分类名称", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int updateMaterialCategory(String code, String name, int parentId) {
+        return materialInfoService.updateMaterialCategory(code, name, parentId);
+    }
+
+    @RequestMapping(value = "/MaterialManagement/deleteMaterialCategory",method = RequestMethod.POST)
+    @ApiOperation(value = "根据物料分类编码删除信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    //删除时所有属性值均已知，选取编码进行删除
+    public int deleteMaterialCategory(String code) {
+        return materialInfoService.deleteMaterialCategory(code);
+    }
 }
