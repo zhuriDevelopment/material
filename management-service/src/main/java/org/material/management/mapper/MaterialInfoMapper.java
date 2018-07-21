@@ -39,6 +39,10 @@ public interface MaterialInfoMapper {
     List<MaterialCtrlPropModel> getCtrlPropWithCtrlPropId (int id);
 
     @SelectProvider(type = MaterialInfoProvider.class,
+                    method = "getCtrlPropWithCtrlPropParams")
+    List<MaterialCtrlPropModel> getCtrlPropWithCtrlPropParams (Map<String, Object> params);
+
+    @SelectProvider(type = MaterialInfoProvider.class,
                     method = "getCtrlPropValWithCtrlPropValParams")
     List<MaterialCtrlPropValModel> getCtrlPropValWithCtrlPropValParams (Map<String, Object> params);
 

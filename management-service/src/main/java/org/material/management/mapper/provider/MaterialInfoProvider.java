@@ -84,6 +84,21 @@ public class MaterialInfoProvider {
         }.toString();
     }
 
+    public String getCtrlPropWithCtrlPropParams (Map<String, Object> params) {
+        String[] keyList = {"id", "type", "name", "label"};
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("materialCtrlPropVal");
+                for (String key : keyList) {
+                    if (params.get(key) != null) {
+                        WHERE(key + "=#{" + key + "}");
+                    }
+                }
+            }
+        }.toString();
+    }
+
     public String getCtrlPropValWithCtrlPropValParams (Map<String, Object> params) {
         String[] keyList = {"id", "versionId", "materialCtrlPropId", "value"};
         return new SQL() {

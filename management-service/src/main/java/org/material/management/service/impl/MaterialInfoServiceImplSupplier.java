@@ -65,16 +65,15 @@ public class MaterialInfoServiceImplSupplier {
 
     // ---------------------------------------- 获取控制信息部分 ----------------------------------------
 
-    public static List<ControlPropertyBean> getPurchaseAndStorePropertyByIndex (int index, int orgnizationId, String spuCode) {
-        // 获取物料分类id
+    public static List<ControlPropertyBean> getAllControlPropByArray (String[] propNames, int orgnizationId, String spuCode) {
+        // 获取物料分类id，不存在就返回空
         List<MaterialBaseModel> baseResult = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
-        // 不存在就返回空
-        if (baseResult == null || baseResult.size() == 0) return null;
+        if (baseResult == null || baseResult.size() == 0) { return null; }
         // 此时应该只有一个分类id
         int materialCatId = baseResult.get(0).getMaterialCatId();
         // 获取物料id
         List<MaterialModel> materialResult = materialInfoMapper.getMaterialWithSpuCode(spuCode);
-        if (materialResult == null || materialResult.size() == 0) return null;
+        if (materialResult == null || materialResult.size() == 0) { return null; }
         int materialId = materialResult.get(0).getId();
         // 确认版本号
         Map<String, Object> params = new HashMap<>();
@@ -85,20 +84,47 @@ public class MaterialInfoServiceImplSupplier {
         List<MaterialCtrlPropValVerModel> ctrlVerResult = materialInfoMapper.getCtrlPropValVerWithCtrlPropValVerParams(params);
         // 需要确保结果只有一个，若有多个，取第一个
         int versionId = ctrlVerResult.get(0).getId();
-        params.clear();
-        params.put("versionId", versionId);
-        List<MaterialCtrlPropValModel> ctrlValResult = materialInfoMapper.getCtrlPropValWithCtrlPropValParams(params);
-        if (ctrlValResult == null) return null;
         List<ControlPropertyBean> result = new ArrayList<>();
         result.clear();
-        for (MaterialCtrlPropValModel element : ctrlValResult) {
-            int ctrlPropId = element.getMaterialCtrlPropId();
-            List<MaterialCtrlPropModel> ctrlPropResult = materialInfoMapper.getCtrlPropWithCtrlPropId(ctrlPropId);
-            // 按id进行处理只可能有一个
-            String name = ctrlPropResult.get(0).getName();
-            String value = element.getValue();
-            result.add(new ControlPropertyBean(name, value));
+        for (String propName : propNames) {
+            
         }
+    }
+
+    public static List<ControlPropertyBean> getControlPropByName (String propName, int orgnizationId, String spuCode) {
+        // 获取物料分类id，不存在就返回空
+        List<MaterialBaseModel> baseResult = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
+        if (baseResult == null || baseResult.size() == 0) { return null; }
+        // 此时应该只有一个分类id
+        int materialCatId = baseResult.get(0).getMaterialCatId();
+        // 获取物料id
+        List<MaterialModel> materialResult = materialInfoMapper.getMaterialWithSpuCode(spuCode);
+        if (materialResult == null || materialResult.size() == 0) { return null; }
+        int materialId = materialResult.get(0).getId();
+        // 确认版本号
+        Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("materialCatId", materialCatId);
+        params.put("materialId", materialId);
+        params.put("origanizationCode", orgnizationId);
+        List<MaterialCtrlPropValVerModel> ctrlVerResult = materialInfoMapper.getCtrlPropValVerWithCtrlPropValVerParams(params);
+        // 需要确保结果只有一个，若有多个，取第一个
+        int versionId = ctrlVerResult.get(0).getId();
+        // 查找控制属性名对应的id
+        params.clear();
+        params.put("name", propName);
+        List<MaterialCtrlPropModel> ctrlPropResult = materialInfoMapper.getCtrlPropWithCtrlPropParams(params);
+        int ctrlPropId = ctrlPropResult.get(0).getId();
+        // 查找对应的属性值，根据版本号和属性名id
+        params.clear();
+        params.put("versionId", versionId);
+        params.put("materialCtrlPropId", ctrlPropId);
+        List<MaterialCtrlPropValModel> ctrlValResult = materialInfoMapper.getCtrlPropValWithCtrlPropValParams(params);
+        if (ctrlValResult == null) { return null; }
+        List<ControlPropertyBean> result = new ArrayList<>();
+        result.clear();
+        String value = ctrlValResult.get(0).getValue();
+        result.add(new ControlPropertyBean(name, value));
         return result;
     }
 
@@ -108,16 +134,17 @@ public class MaterialInfoServiceImplSupplier {
         }
         if (index == -1) {
             List<ControlPropertyBean> result = null;
-            int len = purchaseAndStoreList.getPurchasePropertiesList().length;
+            String[] purchasePropertiesList = purchaseAndStoreList.getPurchasePropertiesList();
+            int len = purchasePropertiesList.length;
             for (int i = 0; i < len; ++i) {
-                List<ControlPropertyBean> tmpResult = getPurchaseAndStorePropertyByIndex(i, orgnizationId, spuCode);
+                List<ControlPropertyBean> tmpResult = getControlPropByName(purchasePropertiesList[i], orgnizationId, spuCode);
                 if (tmpResult != null && !tmpResult.isEmpty()) {
                     result.addAll(tmpResult);
                 }
             }
             return result;
         } else {
-            return getPurchaseAndStorePropertyByIndex(index, orgnizationId, spuCode);
+            return getControlPropByName(purchaseAndStoreList.getPurchasePropertiesList()[index], orgnizationId, spuCode);
         }
     }
 
