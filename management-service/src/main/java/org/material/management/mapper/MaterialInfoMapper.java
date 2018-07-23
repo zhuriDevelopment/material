@@ -1,5 +1,6 @@
 package org.material.management.mapper;
 
+
 import org.apache.ibatis.annotations.*;
 import org.material.management.mapper.provider.MaterialInfoProvider;
 import org.material.management.model.tablemodel.*;
