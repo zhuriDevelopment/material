@@ -100,6 +100,7 @@ public class MaterialInfoServiceImplSupplier {
             String value = ctrlValResult.get(0).getValue();
             result.add(new ControlPropertyBean(propName, value));
         }
+        return result;
     }
 
     public static List<ControlPropertyBean> getControlPropByName (String propName, int orgnizationId, String spuCode) {

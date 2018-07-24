@@ -188,11 +188,29 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
     }
 
     public int addMaterialCategory (String code,String name,int parentId) {
-        return materialInfoMapper.addMaterialCategory(code,name,parentId);
+        //确保原数据库中无添加的code,name
+        //由于provider中动态SQL为AND，故此处分两次获取全部重复记录
+        int count=0;
+        Map<String,Object> categoryMap = new HashMap<>();
+        categoryMap.clear();
+        categoryMap.put("code",code);
+        count += materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap).size();
+        categoryMap.clear();
+        categoryMap.put("name",name);
+        count += materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap).size();
+        if(count!=0) return 0;
+        else return materialInfoMapper.addMaterialCategory(code,name,parentId);
     }
 
     public int updateMaterialCategory (String code, String name, int parentId) {
-        return materialInfoMapper.updateMaterialCategory(code,name,parentId);
+        //update时code只要在数据库中必然唯一，只确保更改的name值不重复即可
+        int count=0;
+        Map<String,Object> categoryMap = new HashMap<>();
+        categoryMap.clear();
+        categoryMap.put("name",name);
+        count += materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap).size();
+        if(count!=0) return 0;
+        else return materialInfoMapper.updateMaterialCategory(code,name,parentId);
     }
 
     public int deleteMaterialCategory (String code) {
