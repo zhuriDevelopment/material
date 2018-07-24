@@ -51,14 +51,14 @@ public interface MaterialInfoMapper {
                     method = "getCtrlPropValVerWithCtrlPropValVerParams")
     List<MaterialCtrlPropValVerModel> getCtrlPropValVerWithCtrlPropValVerParams (Map<String, Object> params);
 
-    @Insert("INSERT INTO materialCategory(code,name,parentId) VALUES(#{code},#{name},#{parentId})")
+    @Insert("INSERT INTO materialCategory(code,name,parentId) VALUES(#{code},#{name},#{parentId});")
     @Options(useGeneratedKeys = true,keyProperty = "id", keyColumn = "id")
     int addMaterialCategory(@Param("code") String code, @Param("name") String name, @Param("parentId") int parentId);
 
-    @Update("UPDATE materialCategory SET name=#{name} WHERE code=#{code} AND parentId=#{parentId}")
+    @Update("UPDATE materialCategory SET name=#{name} WHERE code=#{code} AND parentId=#{parentId};")
     int updateMaterialCategory(@Param("code")String code,@Param("name")String name,@Param("parentId") int parentId);
 
-    @Delete("DELETE FROM materialCategory WHERE code=#{code}")
-    int deleteMaterialCategoryByCode(String code);
+    @Delete("DELETE FROM materialCategory WHERE code=#{code};")
+    int deleteMaterialCategoryByCode(@Param("code") String code);
 
 }
