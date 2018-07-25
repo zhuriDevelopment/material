@@ -2,6 +2,7 @@ package org.material.management.web;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.material.management.model.tablemodel.MaterialCategoryModel;
 import org.springframework.http.MediaType;
 import org.material.management.service.MaterialInfoService;
 import org.material.management.model.propertymodel.purchaseandstore.PurchaseAndStoreList;
@@ -66,6 +67,13 @@ public class MaterialInfoController {
         }
     }
 
+
+    @PostMapping(value = "/getMaterialCategory")
+    @ApiOperation(value = "获取当前物料分类信息",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public MaterialInfoService.MaterialCategoryTree getMaterialCategory(){
+        return materialInfoService.getMaterialCategory();
+    }
+
     @PostMapping(value = "/addMaterialCategory")
     @ApiOperation(value = "增加物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     //返回1为成功添加数据，返回0为失败
@@ -80,25 +88,25 @@ public class MaterialInfoController {
     }
 
     @PostMapping(value = "/updateMaterialCategory")
-    @ApiOperation(value = "根据物料分类编码及父类id更新分类名称", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "根据物料oldName及parentId更新newName", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     //返回1为成功更新数据，返回0为失败
     public int updateMaterialCategory(@RequestBody Map<String,Object> params) {
         //确保三个属性值全部获取
-        if(params.containsKey("code")&&params.containsKey("name")&&params.containsKey("parentId")){
-            String code=(String)params.get("code");
-            String name=(String)params.get("name");
+        if(params.containsKey("newName")&&params.containsKey("oldName")&&params.containsKey("parentId")){
+            String newName=(String)params.get("newName");
+            String oldName=(String)params.get("oldName");
             int parentId = (int)params.get("parentId");
-            return materialInfoService.updateMaterialCategory(code,name,parentId);
+            return materialInfoService.updateMaterialCategory(newName,oldName,parentId);
         } else return 0;
     }
 
     @PostMapping(value = "/deleteMaterialCategory")
     @ApiOperation(value = "删除物料分类编码信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    //根据编码删除
     public int deleteMaterialCategory(@RequestBody Map<String,Object> params) {
-        String code = (String)params.get("code");
-        if(code!=null)
-            return materialInfoService.deleteMaterialCategory(code);
-        else return 0;
+        if(params.containsKey("name")&&params.containsKey("parentId")){
+            String name = (String)params.get("name");
+            int parentId = (int)params.get("parentId");
+            return materialInfoService.deleteMaterialCategory(name,parentId);
+        } else return 0;
     }
 }

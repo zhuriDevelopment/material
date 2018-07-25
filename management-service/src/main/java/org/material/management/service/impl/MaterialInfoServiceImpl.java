@@ -187,12 +187,43 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         return result;
     }
 
+    public MaterialCategoryTree getMaterialCategory() {
+        //构造一个HashMap用于通过id获取对象
+        Map<Integer,MaterialCategoryTree> idCategoryMap=new HashMap<>();
+        idCategoryMap.clear();
+        MaterialCategoryTree root=new MaterialCategoryTree(0,"root",-1,0);
+        idCategoryMap.put(root.getId(),root);
+        List<MaterialCategoryModel> categorys = materialInfoMapper.getMaterialCategory();
+        for(MaterialCategoryModel category : categorys){
+            int id = category.getId();
+            String name = category.getName();
+            int parentId = category.getParentId();
+            MaterialCategoryTree parent = idCategoryMap.get(parentId);
+            int level = parent.getLevel()+1;
+            MaterialCategoryTree node = new MaterialCategoryTree(id,name,parentId,level);
+            idCategoryMap.put(id,node);
+            parent.addChild(node);
+        }
+        return root;
+    }
+
     public int addMaterialCategory (String code,String name,int parentId) {
-        //确保原数据库中无添加的code,name
+
+        //确保原数据库中无当前添加的code,name
         //由于provider中动态SQL为AND，故此处分两次获取全部重复记录
         int count=0;
         Map<String,Object> categoryMap = new HashMap<>();
         categoryMap.clear();
+        //parentId必须为0或数据库中已有id
+        if(parentId!=0){
+            categoryMap.put("id",parentId);
+            count += materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap).size();
+            if(count<=0)return 0;
+            else{
+                categoryMap.clear();
+                count=0;
+            }
+        }
         categoryMap.put("code",code);
         count += materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap).size();
         categoryMap.clear();
@@ -202,18 +233,18 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         else return materialInfoMapper.addMaterialCategory(code,name,parentId);
     }
 
-    public int updateMaterialCategory (String code, String name, int parentId) {
-        //update时code只要在数据库中必然唯一，只确保更改的name值不重复即可
-        int count=0;
-        Map<String,Object> categoryMap = new HashMap<>();
+    public int updateMaterialCategory (String newName, String oldName, int parentId) {
+        //查找到原物料名称及父id，将其更新
+        Map<String,Object> categoryMap = new HashMap<String,Object>();
         categoryMap.clear();
-        categoryMap.put("name",name);
-        count += materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap).size();
-        if(count!=0) return 0;
-        else return materialInfoMapper.updateMaterialCategory(code,name,parentId);
+        categoryMap.put("name",oldName);
+        categoryMap.put("parentId",parentId);
+        int count = materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap).size();
+        if(count!=1) return 0;
+        else return materialInfoMapper.updateMaterialCategory(newName,oldName,parentId);
     }
 
-    public int deleteMaterialCategory (String code) {
-        return materialInfoMapper.deleteMaterialCategoryByCode(code);
+    public int deleteMaterialCategory (String name, int parentId) {
+        return materialInfoMapper.deleteMaterialCategoryByCode(name, parentId);
     }
 }
