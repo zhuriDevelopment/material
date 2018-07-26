@@ -2,14 +2,11 @@ package org.material.management.web;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.material.management.model.tablemodel.MaterialCategoryModel;
 import org.springframework.http.MediaType;
 import org.material.management.service.MaterialInfoService;
-import org.material.management.model.propertymodel.purchaseandstore.PurchaseAndStoreList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-// import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -22,9 +19,6 @@ import org.material.management.model.tablemodel.MaterialBaseModel;
 public class MaterialInfoController {
     @Autowired
     MaterialInfoService materialInfoService;
-
-    @Autowired
-    PurchaseAndStoreList purchaseAndStoreList;
 
     @PostMapping(value = "/getBaseInfo")
     @ApiOperation(value = "根据给定参数查询基础信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -44,9 +38,9 @@ public class MaterialInfoController {
             String spuName = (String) params.get("spuName");
             List<Integer> typeArr = (List<Integer>) params.get("typeArr");
             // 先不考虑组织编码
-            int orgnizationId = 1;
+            int organizationId = 1;
             // 需要查询物料ID和物料分类ID
-            return materialInfoService.getMaterialInfo(spuCode, spuName, typeArr, orgnizationId);
+            return materialInfoService.getMaterialInfo(spuCode, spuName, typeArr, organizationId);
         } catch (ClassCastException e) {
             e.printStackTrace();
             List<Object> result = new ArrayList<>();
@@ -65,36 +59,36 @@ public class MaterialInfoController {
     @PostMapping(value = "/addMaterialCategory")
     @ApiOperation(value = "增加物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     //返回1为成功添加数据，返回0为失败
-    public int addMaterialCategory(@RequestBody Map<String, Object> params) {
+    public int addMaterialCategory (@RequestBody Map<String, Object> params) {
         //要求code,name,parentId信息全部获取
-        if(params.containsKey("code")&&params.containsKey("name")&&params.containsKey("parentId")){
-            String code=(String)params.get("code");
-            String name=(String)params.get("name");
-            int parentId = (int)params.get("parentId");
-            return materialInfoService.addMaterialCategory(code,name,parentId);
+        if(params.containsKey("code") && params.containsKey("name") && params.containsKey("parentId")){
+            String code = (String) params.get("code");
+            String name = (String) params.get("name");
+            int parentId = (int) params.get("parentId");
+            return materialInfoService.addMaterialCategory(code, name, parentId);
         } else return 0;
     }
 
     @PostMapping(value = "/updateMaterialCategory")
     @ApiOperation(value = "根据物料oldName及parentId更新newName", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     //返回1为成功更新数据，返回0为失败
-    public int updateMaterialCategory(@RequestBody Map<String,Object> params) {
+    public int updateMaterialCategory (@RequestBody Map<String, Object> params) {
         //确保三个属性值全部获取
-        if(params.containsKey("newName")&&params.containsKey("oldName")&&params.containsKey("parentId")){
-            String newName=(String)params.get("newName");
-            String oldName=(String)params.get("oldName");
-            int parentId = (int)params.get("parentId");
-            return materialInfoService.updateMaterialCategory(newName,oldName,parentId);
+        if(params.containsKey("newName") && params.containsKey("oldName") && params.containsKey("parentId")){
+            String newName = (String) params.get("newName");
+            String oldName = (String) params.get("oldName");
+            int parentId = (int) params.get("parentId");
+            return materialInfoService.updateMaterialCategory(newName, oldName, parentId);
         } else return 0;
     }
 
     @PostMapping(value = "/deleteMaterialCategory")
     @ApiOperation(value = "删除物料分类编码信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public int deleteMaterialCategory(@RequestBody Map<String,Object> params) {
-        if(params.containsKey("name")&&params.containsKey("parentId")){
-            String name = (String)params.get("name");
-            int parentId = (int)params.get("parentId");
-            return materialInfoService.deleteMaterialCategory(name,parentId);
+    public int deleteMaterialCategory (@RequestBody Map<String, Object> params) {
+        if(params.containsKey("name") && params.containsKey("parentId")){
+            String name = (String) params.get("name");
+            int parentId = (int) params.get("parentId");
+            return materialInfoService.deleteMaterialCategory(name, parentId);
         } else return 0;
     }
 }
