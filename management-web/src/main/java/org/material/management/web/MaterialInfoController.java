@@ -49,9 +49,14 @@ public class MaterialInfoController {
         }
     }
 
+    @PostMapping(value = "/updateMaterialInfo")
+    @ApiOperation(value = "根据给定参数更新物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int updateMaterialInfo (@RequestBody Map<Object, Object> params) {
+        return 0;
+    }
 
     @PostMapping(value = "/getMaterialCategory")
-    @ApiOperation(value = "获取当前物料分类信息",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "获取当前物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public MaterialInfoService.MaterialCategoryTree getMaterialCategory(){
         return materialInfoService.getMaterialCategory();
     }

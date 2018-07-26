@@ -125,3 +125,15 @@ CREATE TABLE IF NOT EXISTS `materialCtrlPropValVer` (
 INSERT INTO materialBase VALUES (null, '10000', '12345', '毛料', '丝绸毛料', 64, '10010000', 'v1.0', 1, '工厂', '纺织', 1);
 INSERT INTO materialBase VALUES (null, '10001', '12346', '布料', '尼龙布料', 32, '10020000', 'v1.0', 2, '工厂', '纺织', 2);
 INSERT INTO materialBase VALUES (null, '10002', '12347', '棉布', '棉质布料', 16, '10030000', 'v2.0', 3, '工厂', '纺织', 3);
+INSERT INTO materialCategory VALUES (null, '1', '服装布料', 0);
+INSERT INTO materialCategory VALUES (null, '2', '日常工具', 0);
+INSERT INTO materialCategory VALUES (null, '3', '色织棉布', 1);
+INSERT INTO materialCategory VALUES (null, '4', '色织涤棉布', 1);
+INSERT INTO materialCategory VALUES (null, '5', '色织中长仿毛花呢', 1);
+INSERT INTO materialCategory VALUES (null, '6', '全毛花呢', 1);
+INSERT INTO materialCategory VALUES (null, '7', '毛涤花呢', 1);
+INSERT INTO materialCategory VALUES (null, '8', '毛涤粘三合一花呢', 1);
+INSERT INTO materialCategory VALUES (null, '9', '竹节纱布', 1);
+INSERT INTO materialCategory VALUES (null, '10', '疙瘩纱布', 1);
+INSERT INTO materialCategory VALUES (null, '11', '螺丝', 2);
+INSERT INTO materialCategory VALUES (null, '12', '剪刀', 2);
