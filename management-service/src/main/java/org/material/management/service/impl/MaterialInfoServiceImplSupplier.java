@@ -7,6 +7,10 @@ import java.util.List;
 
 import org.material.management.model.propertymodel.ControlPropertyBean;
 import org.material.management.model.propertymodel.purchaseandstore.PurchaseAndStoreList;
+import org.material.management.model.propertymodel.sales.SalesList;
+import org.material.management.model.propertymodel.plan.PlanList;
+import org.material.management.model.propertymodel.quality.QualityList;
+import org.material.management.model.propertymodel.finance.FinanceList;
 import org.material.management.mapper.MaterialInfoMapper;
 import org.material.management.model.tablemodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MaterialInfoServiceImplSupplier {
     @Autowired
     private static PurchaseAndStoreList purchaseAndStoreList;
+    @Autowired
+    private static PlanList planList;
+    @Autowired
+    private static SalesList salesList;
+    @Autowired
+    private static QualityList qualityList;
+    @Autowired
+    private static FinanceList financeList;
     @Autowired
     private static MaterialInfoMapper materialInfoMapper;
 
@@ -160,12 +172,108 @@ public class MaterialInfoServiceImplSupplier {
         }
     }
 
-    // 获取控制属性
-    public static List<ControlPropertyBean> getAllControlPropertyByType (int type, int orgnizationId, String spuCode) {
-        if (type == 5) {
-            return getPurchaseAndStoreProperties(-1, orgnizationId, spuCode);
+    public static List<ControlPropertyBean> getPlanProperties(int index, int orgnizationId, String spuCode){
+        if (index < -1) {
+            return null;
         }
-        return null;
+        if (index == -1) {
+            List<ControlPropertyBean> result = null;
+            String[] planPropertiesList = planList.getPlanPropertiesList();
+            int len = planPropertiesList.length;
+            for (int i = 0; i < len; ++i) {
+                List<ControlPropertyBean> tmpResult = getControlPropByName(planPropertiesList[i], orgnizationId, spuCode);
+                if (tmpResult != null && !tmpResult.isEmpty()) {
+                    result.addAll(tmpResult);
+                }
+            }
+            return result;
+        } else {
+            return getControlPropByName(planList.getPlanPropertiesList()[index], orgnizationId, spuCode);
+        }
+    }
+    public static List<ControlPropertyBean> getSalesProperties (int index, int orgnizationId, String spuCode) {
+        if (index < -1) {
+            return null;
+        }
+        if (index == -1) {
+            List<ControlPropertyBean> result = null;
+            String[] salesPropertiesList = salesList.getSalesList();
+            int len = salesPropertiesList.length;
+            for (int i = 0; i < len; ++i) {
+                List<ControlPropertyBean> tmpResult = getControlPropByName(salesPropertiesList[i], orgnizationId, spuCode);
+                if (tmpResult != null && !tmpResult.isEmpty()) {
+                    result.addAll(tmpResult);
+                }
+            }
+            return result;
+        } else {
+            return getControlPropByName(salesList.getSalesList()[index], orgnizationId, spuCode);
+        }
+    }
+
+    public static List<ControlPropertyBean> getQualityProperties (int index, int orgnizationId, String spuCode) {
+        if (index < -1) {
+            return null;
+        }
+        if (index == -1) {
+            List<ControlPropertyBean> result = null;
+            String[] qualityPropertiesList = qualityList.getQualityList();
+            int len = qualityPropertiesList.length;
+            for (int i = 0; i < len; ++i) {
+                List<ControlPropertyBean> tmpResult = getControlPropByName(qualityPropertiesList[i], orgnizationId, spuCode);
+                if (tmpResult != null && !tmpResult.isEmpty()) {
+                    result.addAll(tmpResult);
+                }
+            }
+            return result;
+        } else {
+            return getControlPropByName(qualityList.getQualityList()[index], orgnizationId, spuCode);
+        }
+    }
+    public static List<ControlPropertyBean> getFinanceProperties (int index, int orgnizationId, String spuCode) {
+        if (index < -1) {
+            return null;
+        }
+        if (index == -1) {
+            List<ControlPropertyBean> result = null;
+            String[] financePropertiesList = financeList.getFinanceList();
+            int len = financePropertiesList.length;
+            for (int i = 0; i < len; ++i) {
+                List<ControlPropertyBean> tmpResult = getControlPropByName(financePropertiesList[i], orgnizationId, spuCode);
+                if (tmpResult != null && !tmpResult.isEmpty()) {
+                    result.addAll(tmpResult);
+                }
+            }
+            return result;
+        } else {
+            return getControlPropByName(financeList.getFinanceList()[index], orgnizationId, spuCode);
+        }
+    }
+
+    // 获取控制属性
+     /*
+        采购和库存属性：5
+        计划类属性：6
+        销售类属性：7
+        质量类属性：8
+        财务类属性：9
+    */
+    public static List<ControlPropertyBean> getAllControlPropertyByType (int type, int orgnizationId, String spuCode) {
+        switch(type){
+            case 5:// 采购和库存属性：5
+                return getPurchaseAndStoreProperties(-1, orgnizationId, spuCode);
+            case 6://计划类属性：6
+                return getPlanProperties(-1,orgnizationId,spuCode );
+            case 7://销售类属性：7
+                return getSalesProperties(-1,orgnizationId,spuCode);
+            case 8://质量类属性：8
+                return getQualityProperties(-1,orgnizationId,spuCode);
+            case 9://财务类属性：9
+                return getFinanceProperties(-1,orgnizationId,spuCode);
+            default:
+                return null;
+        }
+
     }
 
 }
