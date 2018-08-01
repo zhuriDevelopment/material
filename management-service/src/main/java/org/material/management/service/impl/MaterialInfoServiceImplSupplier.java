@@ -168,4 +168,7 @@ public class MaterialInfoServiceImplSupplier {
         return null;
     }
 
+    // ---------------------------------------- 更新物料基本信息部分 ----------------------------------------
+
+    
 }

@@ -3,10 +3,11 @@ package org.material.management.mapper.provider;
 import java.util.Map;
 import org.apache.ibatis.jdbc.SQL;
 
+// 本类所有的方法均要求做到对全部参数可用
+// 根据所提供的Map动态生成对应的sql语言
+// params里面包含key-value对，value将直接用于sql语句的构造
 public class MaterialInfoProvider {
-    // 本类所有的方法均要求做到对全部参数可用
-    // 根据所提供的Map动态生成对应的sql语言
-    // params里面包含key-value对，value将直接用于sql语句的构造
+    // ---------------------------------------- 获取物料信息部分 ----------------------------------------
     public String getBaseInfoWithBaseInfoParams (Map<String, Object> params) {
         String[] keyList = {"id", "spuCode", "mnemonic", "spuName", "description", "type", "designCode", "designVersion", "defaultUnitId", "source",
                             "usage", "materialCatId"};
@@ -14,21 +15,6 @@ public class MaterialInfoProvider {
             {
                 SELECT("*");
                 FROM("materialBase");
-                for (String key : keyList) {
-                    if (params.get(key) != null) {
-                        WHERE(key + "=#{" + key + "}");
-                    }
-                }
-            }
-        }.toString();
-    }
-
-    public String getMaterialCategoryWithMaterialCategoryParams (Map<String, Object> params) {
-        String[] keyList = {"id", "code", "name", "parentId"};
-        return new SQL () {
-            {
-                SELECT("*");
-                FROM("materialCategory");
                 for (String key : keyList) {
                     if (params.get(key) != null) {
                         WHERE(key + "=#{" + key + "}");
@@ -69,6 +55,21 @@ public class MaterialInfoProvider {
         }.toString();
     }
 
+    public String getMaterialCategoryWithMaterialCategoryParams (Map<String, Object> params) {
+        String[] keyList = {"id", "code", "name", "parentId"};
+        return new SQL () {
+            {
+                SELECT("*");
+                FROM("materialCategory");
+                for (String key : keyList) {
+                    if (params.get(key) != null) {
+                        WHERE(key + "=#{" + key + "}");
+                    }
+                }
+            }
+        }.toString();
+    }
+
     public String getFilesWithFilesParams (Map<String, Object> params) {
         String[] keyList = {"id", "materialBaseId", "fileId"};
         return new SQL() {
@@ -89,7 +90,7 @@ public class MaterialInfoProvider {
         return new SQL() {
             {
                 SELECT("*");
-                FROM("materialCtrlPropVal");
+                FROM("materialCtrlProp");
                 for (String key : keyList) {
                     if (params.get(key) != null) {
                         WHERE(key + "=#{" + key + "}");
@@ -125,6 +126,126 @@ public class MaterialInfoProvider {
                         WHERE(key + "=#{" + key + "}");
                     }
                 }
+            }
+        }.toString();
+    }
+
+    // ---------------------------------------- 更新物料基本信息部分 ----------------------------------------
+    public String updateBaseInfoWithBaseInfoParams (String spuCode, String name, String value) {
+        return new SQL() {
+            {
+                UPDATE("materialBase");
+                SET(name + "=" + value);
+                WHERE("spuCode = " + spuCode);
+            }
+        }.toString();
+    }
+
+    public String updateupdateBaseInfoWithBaseInfoParamsArray (String spuCode, String[] names, String[] values) {
+        // 必须保证names长度和values长度一致！
+        return new SQL() {
+            {
+                UPDATE("materialBase");
+                int len = names.length;
+                for (int i = 0; i < len; ++i) {
+                    SET(names[i] + "=" + values[i]);
+                }
+                WHERE("spuCode = " + spuCode);
+            }
+        }.toString();
+    }
+
+    public String updateMaterialWithMaterialParams (String spuCode, String name, String value) {
+        return new SQL() {
+            {
+                UPDATE("material");
+                SET(name + "=" + value);
+                WHERE("spuCode = " + spuCode);
+            }
+        }.toString();
+    }
+
+    public String updateMaterialWithMaterialParamsArray (String spuCode, String[] names, String[] values) {
+        // 必须保证names长度和values长度一致！
+        return new SQL() {
+            {
+                UPDATE("material");
+                int len = names.length;
+                for (int i = 0; i < len; ++i) {
+                    SET(names[i] + "=" + values[i]);
+                }
+                WHERE("spuCode = " + spuCode);
+            }
+        }.toString();
+    }
+
+    public String updateMaterialSkuWithMaterialSkuParams (String spuCode, String name, String value) {
+        return new SQL() {
+            {
+                UPDATE("materialSku");
+                SET(name + "=" + value);
+                WHERE("spuCode = " + spuCode);
+            }
+        }.toString();
+    }
+
+    public String updateMaterialSkuWithMaterialSkuParamsArray (String spuCode, String[] names, String[] values) {
+        // 必须保证names长度和values长度一致！
+        return new SQL() {
+            {
+                UPDATE("materialSku");
+                int len = names.length;
+                for (int i = 0; i < len; ++i) {
+                    SET(names[i] + "=" + values[i]);
+                }
+                WHERE("spuCode = " + spuCode);
+            }
+        }.toString();
+    }
+
+    public String updateMaterialUnitWithMaterialUnitParams (String spuCode, String name, String value) {
+        return new SQL() {
+            {
+                UPDATE("materialUnit");
+                SET(name + "=" + value);
+                WHERE("spuCode = " + spuCode);
+            }
+        }.toString();
+    }
+
+    public String updateMaterialUnitWithMaterialUnitParamsArray (String spuCode, String[] names, String[] values) {
+        // 必须保证names长度和values长度一致！
+        return new SQL() {
+            {
+                UPDATE("materialUnit");
+                int len = names.length;
+                for (int i = 0; i < len; ++i) {
+                    SET(names[i] + "=" + values[i]);
+                }
+                WHERE("spuCode = " + spuCode);
+            }
+        }.toString();
+    }
+
+    public String updateMaterialFilesWithMaterialFilesParams (int materialBaseId, String name, String value) {
+        return new SQL() {
+            {
+                UPDATE("materialFiles");
+                SET(name + "=" + value);
+                WHERE("materialBaseId = " + materialBaseId);
+            }
+        }.toString();
+    }
+
+    public String updateMaterialFilesWithMaterialFilesParamsArray (int materialBaseId, String[] names, String[] values) {
+        return new SQL() {
+            {
+                UPDATE("materialFiles");
+                int len = names.length;
+                for (int i = 0; i < len; ++i) {
+                    SET(names[i] + "=" + values[i]);
+                }
+                WHERE("materialBaseId = " + materialBaseId);
             }
         }.toString();
     }

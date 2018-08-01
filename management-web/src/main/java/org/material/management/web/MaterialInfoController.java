@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.material.management.model.tablemodel.MaterialBaseModel;
+import org.material.management.model.processmodel.MaterialCategoryTree;
 
 @RestController
 @RequestMapping("/MaterialManagement")
@@ -52,12 +53,19 @@ public class MaterialInfoController {
     @PostMapping(value = "/updateMaterialInfo")
     @ApiOperation(value = "根据给定参数更新物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int updateMaterialInfo (@RequestBody Map<Object, Object> params) {
-        return 0;
+        try {
+            String spuCode = (String) params.get("spuCode");
+            String spuName = (String) params.get("spuName");
+            List<Object> data = (List<Object>) params.get("data");
+            return materialInfoService.updateMaterialInfo(spuCode, spuName, data);
+        } catch (ClassCastException e) {
+            return -1;
+        }
     }
 
     @PostMapping(value = "/getMaterialCategory")
     @ApiOperation(value = "获取当前物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public MaterialInfoService.MaterialCategoryTree getMaterialCategory(){
+    public MaterialCategoryTree getMaterialCategory(){
         return materialInfoService.getMaterialCategory();
     }
 
@@ -71,7 +79,9 @@ public class MaterialInfoController {
             String name = (String) params.get("name");
             int parentId = (int) params.get("parentId");
             return materialInfoService.addMaterialCategory(code, name, parentId);
-        } else return 0;
+        } else {
+            return 0;
+        }
     }
 
     @PostMapping(value = "/updateMaterialCategory")
@@ -84,7 +94,9 @@ public class MaterialInfoController {
             String oldName = (String) params.get("oldName");
             int parentId = (int) params.get("parentId");
             return materialInfoService.updateMaterialCategory(newName, oldName, parentId);
-        } else return 0;
+        } else {
+            return 0;
+        }
     }
 
     @PostMapping(value = "/deleteMaterialCategory")
@@ -94,6 +106,8 @@ public class MaterialInfoController {
             String name = (String) params.get("name");
             int parentId = (int) params.get("parentId");
             return materialInfoService.deleteMaterialCategory(name, parentId);
-        } else return 0;
+        } else {
+            return 0;
+        }
     }
 }
