@@ -15,23 +15,23 @@ import org.material.management.model.tablemodel.MaterialBaseModel;
 import org.material.management.model.processmodel.MaterialCategoryTree;
 
 @RestController
-@RequestMapping ("/MaterialManagement")
-@Api (value = "物料信息接口", description = "物料信息接口")
+@RequestMapping("/MaterialManagement")
+@Api(value = "物料信息接口", description = "物料信息接口")
 public class MaterialInfoController {
     @Autowired
     MaterialInfoService materialInfoService;
 
-    @PostMapping (value = "/getBaseInfo")
-    @ApiOperation (value = "根据给定参数查询基础信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/getBaseInfo")
+    @ApiOperation(value = "根据给定参数查询基础信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<MaterialBaseModel> getBaseInfo (@RequestBody Map<String, Object> params) {
         // 参数必须非空！
         assert (params.size() > 0);
         return materialInfoService.getBaseInfoByParams(params);
     }
 
-    @PostMapping (value = "/getMaterialInfo")
-    @ApiOperation (value = "根据给定参数查询物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @SuppressWarnings ("unchecked")
+    @PostMapping(value = "/getMaterialInfo")
+    @ApiOperation(value = "根据给定参数查询物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @SuppressWarnings("unchecked")
     // 如果list和hashmap的转换会出问题，则会抛出异常
     public List<Object> getMaterialInfo (@RequestBody Map<Object, Object> params) {
         try {
@@ -50,8 +50,8 @@ public class MaterialInfoController {
         }
     }
 
-    @PostMapping (value = "/updateMaterialInfo")
-    @ApiOperation (value = "根据给定参数更新物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/updateMaterialInfo")
+    @ApiOperation(value = "根据给定参数更新物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int updateMaterialInfo (@RequestBody Map<Object, Object> params) {
         try {
             String spuCode = (String) params.get("spuCode");
@@ -63,14 +63,14 @@ public class MaterialInfoController {
         }
     }
 
-    @PostMapping (value = "/getMaterialCategory")
-    @ApiOperation (value = "获取当前物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/getMaterialCategory")
+    @ApiOperation(value = "获取当前物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public MaterialCategoryTree getMaterialCategory () {
         return materialInfoService.getMaterialCategory();
     }
 
-    @PostMapping (value = "/addMaterialCategory")
-    @ApiOperation (value = "增加物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/addMaterialCategory")
+    @ApiOperation(value = "增加物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     //返回1为成功添加数据，返回0为失败
     public int addMaterialCategory (@RequestBody Map<String, Object> params) {
         //要求code,name,parentId信息全部获取
@@ -84,8 +84,8 @@ public class MaterialInfoController {
         }
     }
 
-    @PostMapping (value = "/updateMaterialCategory")
-    @ApiOperation (value = "根据物料oldName及parentId更新newName", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/updateMaterialCategory")
+    @ApiOperation(value = "根据物料oldName及parentId更新newName", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     //返回1为成功更新数据，返回0为失败
     public int updateMaterialCategory (@RequestBody Map<String, Object> params) {
         //确保三个属性值全部获取
@@ -99,8 +99,8 @@ public class MaterialInfoController {
         }
     }
 
-    @PostMapping (value = "/deleteMaterialCategory")
-    @ApiOperation (value = "删除物料分类编码信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value = "/deleteMaterialCategory")
+    @ApiOperation(value = "删除物料分类编码信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     //返回0为失败，正整数为成功，其值表示删除记录数
     public int deleteMaterialCategory (@RequestBody Map<String, Object> params) {
         //必须获取全部属性值
