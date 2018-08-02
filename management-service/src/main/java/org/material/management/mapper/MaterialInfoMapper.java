@@ -112,6 +112,6 @@ public interface MaterialInfoMapper {
 
     // ---------------------------------------- 删除物料分类信息部分 ----------------------------------------
     @Delete("DELETE FROM materialCategory WHERE name=#{name} AND parentId=#{parentId};")
-    int deleteMaterialCategoryByCode (@Param("name") String name, @Param("parentId") int parentId);
+    int deleteMaterialCategoryByNameAndParentId (@Param("name") String name, @Param("parentId") int parentId);
 
 }

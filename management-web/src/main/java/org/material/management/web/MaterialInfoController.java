@@ -65,7 +65,7 @@ public class MaterialInfoController {
 
     @PostMapping(value = "/getMaterialCategory")
     @ApiOperation(value = "获取当前物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public MaterialCategoryTree getMaterialCategory(){
+    public MaterialCategoryTree getMaterialCategory () {
         return materialInfoService.getMaterialCategory();
     }
 
@@ -74,7 +74,7 @@ public class MaterialInfoController {
     //返回1为成功添加数据，返回0为失败
     public int addMaterialCategory (@RequestBody Map<String, Object> params) {
         //要求code,name,parentId信息全部获取
-        if(params.containsKey("code") && params.containsKey("name") && params.containsKey("parentId")){
+        if (params.containsKey("code") && params.containsKey("name") && params.containsKey("parentId")){
             String code = (String) params.get("code");
             String name = (String) params.get("name");
             int parentId = (int) params.get("parentId");
@@ -89,7 +89,7 @@ public class MaterialInfoController {
     //返回1为成功更新数据，返回0为失败
     public int updateMaterialCategory (@RequestBody Map<String, Object> params) {
         //确保三个属性值全部获取
-        if(params.containsKey("newName") && params.containsKey("oldName") && params.containsKey("parentId")){
+        if (params.containsKey("newName") && params.containsKey("oldName") && params.containsKey("parentId")){
             String newName = (String) params.get("newName");
             String oldName = (String) params.get("oldName");
             int parentId = (int) params.get("parentId");
@@ -101,11 +101,15 @@ public class MaterialInfoController {
 
     @PostMapping(value = "/deleteMaterialCategory")
     @ApiOperation(value = "删除物料分类编码信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    //返回0为失败，正整数为成功，其值表示删除记录数
     public int deleteMaterialCategory (@RequestBody Map<String, Object> params) {
-        if(params.containsKey("name") && params.containsKey("parentId")){
+        //必须获取全部属性值
+        if (params.containsKey("id") && params.containsKey("code") && params.containsKey("name") && params.containsKey("parentId")) {
+            int id = (int) params.get("id");
+            String code = (String) params.get("code");
             String name = (String) params.get("name");
             int parentId = (int) params.get("parentId");
-            return materialInfoService.deleteMaterialCategory(name, parentId);
+            return materialInfoService.deleteMaterialCategory(id, code, name, parentId);
         } else {
             return 0;
         }

@@ -22,5 +22,5 @@ public interface MaterialInfoService {
 
     int updateMaterialCategory (String newName, String oldName, int parentId);
 
-    int deleteMaterialCategory (String name, int parentId);
+    int deleteMaterialCategory (int id, String code, String name, int parentId);
 }
