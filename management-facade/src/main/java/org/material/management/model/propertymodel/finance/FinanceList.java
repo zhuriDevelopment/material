@@ -13,24 +13,24 @@ import java.util.Map;
 */
 
 @Component
-@ConfigurationProperties(prefix = "zhuri-ctrproperties")
+@ConfigurationProperties (prefix = "zhuri-ctrproperties")
 public class FinanceList {
     private String[] financeList;
     private List<Map<String, Object>> financeListMap;
 
-    public String[] getFinanceList() {
+    public String[] getFinanceList () {
         return financeList;
     }
 
-    public void setFinanceList(String[] financeList) {
+    public void setFinanceList (String[] financeList) {
         this.financeList = financeList;
     }
 
-    public List<Map<String, Object>> getFinanceListMap() {
+    public List<Map<String, Object>> getFinanceListMap () {
         return financeListMap;
     }
 
-    public void setFinanceListMap(List<Map<String, Object>> financeListMap) {
+    public void setFinanceListMap (List<Map<String, Object>> financeListMap) {
         this.financeListMap = financeListMap;
     }
 }

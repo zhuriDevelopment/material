@@ -13,24 +13,24 @@ import java.util.Map;
 */
 
 @Component
-@ConfigurationProperties(prefix = "zhuri-ctrproperties")
+@ConfigurationProperties (prefix = "zhuri-ctrproperties")
 public class PurchaseAndStoreList {
     private String[] purchasePropertiesList;
     private List<Map<String, Object>> purchasePropertiesListMap;
 
-    public String[] getPurchasePropertiesList() {
+    public String[] getPurchasePropertiesList () {
         return purchasePropertiesList;
     }
 
-    public void setPurchasePropertiesList(String[] purchasePropertiesList) {
+    public void setPurchasePropertiesList (String[] purchasePropertiesList) {
         this.purchasePropertiesList = purchasePropertiesList;
     }
 
-    public List<Map<String, Object>> getPurchasePropertiesListMap() {
+    public List<Map<String, Object>> getPurchasePropertiesListMap () {
         return purchasePropertiesListMap;
     }
 
-    public void setPurchasePropertiesListMap(List<Map<String, Object>> purchasePropertiesListMap) {
+    public void setPurchasePropertiesListMap (List<Map<String, Object>> purchasePropertiesListMap) {
         this.purchasePropertiesListMap = purchasePropertiesListMap;
     }
 }

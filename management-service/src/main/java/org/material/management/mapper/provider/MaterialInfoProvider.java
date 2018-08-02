@@ -250,4 +250,15 @@ public class MaterialInfoProvider {
         }.toString();
     }
 
+    public String updateCtrlPropWithCtrlPropParams (int versionId, int ctrlPropId, String value) {
+        return new SQL() {
+            {
+                UPDATE("materialCtrlPropVal");
+                SET("value" + "=" + value);
+                WHERE("versionId" + "=" + versionId);
+                WHERE("materialCtrlPropId" + "=" + ctrlPropId);
+            }
+        }.toString();
+    }
+
 }

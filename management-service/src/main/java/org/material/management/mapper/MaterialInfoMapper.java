@@ -94,6 +94,10 @@ public interface MaterialInfoMapper {
                     method = "updateMaterialFilesWithMaterialFilesParamsArray")
     int updateMaterialFilesWithMaterialFilesParamsArray (int materialBaseId, String[] names, String[] values);
 
+    @UpdateProvider(type = MaterialInfoProvider.class,
+                    method = "updateCtrlPropWithCtrlPropParams")
+    int updateCtrlPropWithCtrlPropParams (int versionId, int ctrlPropId, String value);
+
     // ---------------------------------------- 获取物料分类信息部分 ----------------------------------------
     @Select("SELECT * FROM materialCategory;")
     List<MaterialCategoryModel> getMaterialCategory ();

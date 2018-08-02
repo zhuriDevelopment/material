@@ -286,5 +286,106 @@ public class MaterialInfoServiceImplSupplier {
 
     // ---------------------------------------- 更新物料基本信息部分 ----------------------------------------
 
+    private static int checkList (String[] keyList, String key) {
+        for (int i = 0; i < keyList.length; ++i) {
+            if (keyList[i].equals(key)) {
+                return 1;
+            }
+        }
+        return 0;
+    }
 
+    public static int updatePurchaseAndStoreProperties (int versionId, int ctrlPropId, String name, String value) {
+        String[] keyList = purchaseAndStoreList.getPurchasePropertiesList();
+        int flag = checkList(keyList, name);
+        if (flag == 0) {
+            return -1;
+        }
+        return materialInfoMapper.updateCtrlPropWithCtrlPropParams(versionId, ctrlPropId, value);
+    }
+
+    public static int updatePlanProperties (int versionId, int ctrlPropId, String name, String value) {
+        String[] keyList = planList.getPlanPropertiesList();
+        int flag = checkList(keyList, name);
+        if (flag == 0) {
+            return -1;
+        }
+        return materialInfoMapper.updateCtrlPropWithCtrlPropParams(versionId, ctrlPropId, value);
+    }
+    
+    public static int updateSalesProperties (int versionId, int ctrlPropId, String name, String value) {
+        String[] keyList = salesList.getSalesList();
+        int flag = checkList(keyList, name);
+        if (flag == 0) {
+            return -1;
+        }
+        return materialInfoMapper.updateCtrlPropWithCtrlPropParams(versionId, ctrlPropId, value);
+    }
+
+    public static int updateQualityProperties (int versionId, int ctrlPropId, String name, String value) {
+        String[] keyList = qualityList.getQualityList();
+        int flag = checkList(keyList, name);
+        if (flag == 0) {
+            return -1;
+        }
+        return materialInfoMapper.updateCtrlPropWithCtrlPropParams(versionId, ctrlPropId, value);
+    }
+
+    public static int updateFinanceProperties (int versionId, int ctrlPropId, String name, String value) {
+        String[] keyList = financeList.getFinanceList();
+        int flag = checkList(keyList, name);
+        if (flag == 0) {
+            return -1;
+        }
+        return materialInfoMapper.updateCtrlPropWithCtrlPropParams(versionId, ctrlPropId, value);
+    }
+
+    public static int updateControlPropertyByTypeAndValue (int type, int organizationCode, String spuCode, String name, String value) {
+        // 获取物料分类id，不存在就返回空
+        List<MaterialBaseModel> baseResult = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
+        if (baseResult == null || baseResult.size() == 0) {
+            return 0;
+        }
+        // 此时应该只有一个分类id
+        int materialCatId = baseResult.get(0).getMaterialCatId();
+        // 获取物料id
+        List<MaterialModel> materialResult = materialInfoMapper.getMaterialWithSpuCode(spuCode);
+        if (materialResult == null || materialResult.size() == 0) {
+            return -1;
+        }
+        int materialId = materialResult.get(0).getId();
+        // 确认版本号
+        Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("materialCatId", materialCatId);
+        params.put("materialId", materialId);
+        params.put("organizationCode", organizationCode);
+        List<MaterialCtrlPropValVerModel> ctrlVerResult = materialInfoMapper.getCtrlPropValVerWithCtrlPropValVerParams(params);
+        // 需要确保结果只有一个，若有多个，取第一个
+        int versionId = ctrlVerResult.get(0).getId();
+        // 查找控制属性名对应的id
+        params.clear();
+        params.put("name", name);
+        List<MaterialCtrlPropModel> ctrlPropResult = materialInfoMapper.getCtrlPropWithCtrlPropParams(params);
+        int ctrlPropId = ctrlPropResult.get(0).getId();
+        switch (type) {
+            case 5:
+                // 采购和库存属性：5
+                return updatePurchaseAndStoreProperties(versionId, ctrlPropId, name, value);
+            case 6:
+                // 计划类属性：6
+                return updatePlanProperties(versionId, ctrlPropId, name, value);
+            case 7:
+                // 销售类属性：7
+                return updateSalesProperties(versionId, ctrlPropId, name, value);
+            case 8:
+                // 质量类属性：8
+                return updateQualityProperties(versionId, ctrlPropId, name, value);
+            case 9:
+                // 财务类属性：9
+                return updateFinanceProperties(versionId, ctrlPropId, name, value);
+            default:
+                return 0;
+        }
+    }
 }

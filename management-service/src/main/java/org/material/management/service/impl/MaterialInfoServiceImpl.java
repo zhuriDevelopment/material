@@ -237,9 +237,15 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                         int baseId = baseModels.get(0).getId();
                         tmpresult = materialInfoMapper.updateMaterialFilesWithMaterialFilesParams(baseId, name, value);
                         break;
-                    case 5:
-                        // 控制信息
                     default:
+                        // 5 - 9 控制信息
+                        // 先获取materialBaseId
+                        if (needUpdate.containsKey("organizationCode")) {
+                            int organizationCode = Integer.parseInt((String) needUpdate.get("organizationCode"));
+                            tmpresult = MaterialInfoServiceImplSupplier.updateControlPropertyByTypeAndValue(propertyType, organizationCode, spuCode, name, value);
+                        } else {
+                            tmpresult = 0;
+                        }
                         break;
                 }
                 logger.debug("此次操作更新了" + tmpresult + "行。");
