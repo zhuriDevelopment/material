@@ -16,9 +16,9 @@ public interface MaterialInfoService {
 
     int updateMaterialInfo (String spuCode, String spuName, List<Object> data);
 
-    MaterialCategoryTree getMaterialCategory();
+    MaterialCategoryTree getMaterialCategory ();
 
-    int addMaterialCategory (String code,String name,int parentId);
+    int addMaterialCategory (String code, String name, int parentId);
 
     int updateMaterialCategory (String newName, String oldName, int parentId);
 
