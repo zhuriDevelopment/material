@@ -72,6 +72,87 @@ public class MaterialInfoServiceImplSupplier {
         return chooseParams(params, keyList, targetList);
     }
 
+    // ---------------------------------------- 获取物料单位部分 ----------------------------------------
+
+    public static List<UnitModel> getAllUnitsBySpuCode (String spuCode) {
+        // 先获取所有的物料单位记录
+        Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("spuCode", spuCode);
+        List<MaterialUnitModel> materialUnits = materialInfoMapper.getMaterialUnitWithMaterialUnitParams(params);
+        List<UnitModel> result = new ArrayList<>();
+        result.clear();
+        // 对于每个物料单位记录逐个查询，以覆盖转换系数
+        for (MaterialUnitModel element : materialUnits) {
+            params.clear();
+            params.put("id", element.getUnitId());
+            List<UnitModel> tmp = materialInfoMapper.getUnitWithUnitParams(params);
+            if (tmp != null && tmp.size() > 0) {
+                // 这里应该只有第一个为有效
+                double conversionFactor = element.getConversionFactor();
+                if (conversionFactor >= 0) {
+                    tmp.get(0).setConversionFactor(conversionFactor);
+                }
+                int sort = element.getSort();
+                if (sort > 0) {
+                    tmp.get(0).setSort(sort);
+                }
+                result.addAll(tmp);
+            }
+        }
+        return result;
+    }
+
+    // ---------------------------------------- 物料基本属性部分 ----------------------------------------
+    /*
+        1:关键属性
+        2:非关键属性
+        3:批号属性
+        4:规格属性
+    */
+
+    // ---------------------------------------- 获取物料基本属性部分 ----------------------------------------
+
+    public static List<Object> getMaterialBasePropBySpuCodeAndType (String spuCode, int propertyType) {
+        List<Object> result = new ArrayList<>();
+        result.clear();
+        // 包含两个list，第一个list存放了对应的属性值，第二个list存放了对应的基本属性内容
+        Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("spuCode", spuCode);
+        params.put("type", propertyType);
+        List<MaterialBasePropValModel> valResult = materialInfoMapper.getMaterialBasePropValWithMaterialBasePropValParams(params);
+        result.add(valResult);
+        List<MaterialBasePropModel> propResult = new ArrayList<>();
+        propResult.clear();
+        for (MaterialBasePropValModel element : valResult) {
+            params.clear();
+            int id = element.getMaterialBasePropId();
+            params.put("id", id);
+            List<MaterialBasePropModel> tmp = materialInfoMapper.getMaterialBasePropWithMaterialBasePropParams(params);
+            if (tmp != null && tmp.size() > 0) {
+                propResult.addAll(tmp);
+            } else {
+                // id为-1的对应记录说明出错了，但为了保持对应长度相等故存放无效对象进去
+                MaterialBasePropModel emptyModel = new MaterialBasePropModel();
+                emptyModel.setId(-1);
+                propResult.add(emptyModel);
+            }
+        }
+        result.add(propResult);
+        return result;
+    }
+
+    // ---------------------------------------- 更新物料基本属性部分 ----------------------------------------
+
+    public static int updateMaterialBasePropBySpuCode (String spuCode, int propertyType, String name, String value) {
+        // 先获取所有的记录
+        List<Object> materialBasePropCurResult = getMaterialBasePropBySpuCodeAndType(spuCode, propertyType);
+        // 返回正值代表成功，其他值代表失败
+        int resultCode = 1;
+        return resultCode;
+    }
+
     // ---------------------------------------- 获取控制信息部分 ----------------------------------------
 
     public static List<ControlPropertyBean> getAllControlPropByArray (String[] propNames, int organizationId, String spuCode) {
@@ -284,7 +365,7 @@ public class MaterialInfoServiceImplSupplier {
         }
     }
 
-    // ---------------------------------------- 更新物料基本信息部分 ----------------------------------------
+    // ---------------------------------------- 更新控制信息部分 ----------------------------------------
 
     private static int checkList (String[] keyList, String key) {
         for (int i = 0; i < keyList.length; ++i) {

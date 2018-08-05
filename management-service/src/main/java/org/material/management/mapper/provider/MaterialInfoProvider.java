@@ -55,12 +55,72 @@ public class MaterialInfoProvider {
         }.toString();
     }
 
+    public String getUnitWithUnitParams (Map<String, Object> params) {
+        String[] keyList = {"id", "label", "name", "englishName", "relatedId", "conversionFactor", "sort"};
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("unit");
+                for (String key : keyList) {
+                    if (params.get(key) != null) {
+                        WHERE(key + "=#{" + key + "}");
+                    }
+                }
+            }
+        }.toString();
+    }
+
+    public String getMaterialUnitWithMaterialUnitParams (Map<String, Object> params) {
+        String[] keyList = {"id", "spuCode", "unitId", "relatedId", "conversionFactor", "sort"};
+        return new SQL() {
+            {
+                SELECT("*");
+                FROM("materialUnit");
+                for (String key : keyList) {
+                    if (params.get(key) != null) {
+                        WHERE(key + "=#{" + key + "}");
+                    }
+                }
+            }
+        }.toString();
+    }
+
     public String getMaterialCategoryWithMaterialCategoryParams (Map<String, Object> params) {
         String[] keyList = {"id", "code", "name", "parentId"};
         return new SQL () {
             {
                 SELECT("*");
                 FROM("materialCategory");
+                for (String key : keyList) {
+                    if (params.get(key) != null) {
+                        WHERE(key + "=#{" + key + "}");
+                    }
+                }
+            }
+        }.toString();
+    }
+
+    public String getMaterialBasePropWithMaterialBasePropParams (Map<String, Object> params) {
+        String[] keyList = {"id", "materialCatId", "type", "label", "name", "range", "sort"};
+        return new SQL () {
+            {
+                SELECT("*");
+                FROM("materialBaseProp");
+                for (String key : keyList) {
+                    if (params.get(key) != null) {
+                        WHERE(key + "=#{" + key + "}");
+                    }
+                }
+            }
+        }.toString();
+    }
+
+    public String getMaterialBasePropValWithMaterialBasePropValParams (Map<String, Object> params) {
+        String[] keyList = {"id", "spuCode", "materialCode", "materialBasePropId", "value"};
+        return new SQL () {
+            {
+                SELECT("*");
+                FROM("materialBasePropVal");
                 for (String key : keyList) {
                     if (params.get(key) != null) {
                         WHERE(key + "=#{" + key + "}");

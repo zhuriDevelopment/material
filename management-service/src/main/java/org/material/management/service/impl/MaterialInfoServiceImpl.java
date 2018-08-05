@@ -125,10 +125,13 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         销售类属性：7
         质量类属性：8
         财务类属性：9
+        计量单位：10
+        规格信息：11
     */
     @Override
     public List<Object> getMaterialInfo (String spuCode, String spuName, List<Integer> types, int orgnizationId) {
-        int[] flag = new int[10];
+        int maxTypeNum = 11;
+        int[] flag = new int[maxTypeNum + 1];
         Arrays.fill(flag, 0);
         for (int type : types) {
             flag[type] = 1;
@@ -137,7 +140,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         Map<String, Object> paramsMap;
         // 缓存物料基本信息id
         int materialBaseId = -1;
-        for (int i = 1; i < 10; ++i) {
+        for (int i = 1; i < maxTypeNum; ++i) {
             if (flag[i] == 0) {
                 continue;
             }
@@ -191,10 +194,29 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                         result.add(new ArrayList<>());
                     }
                     break;
+                case 10:
+                    // 计量单位
+                    // * 先不考虑默认计量单位，默认计量单位返回以第一个检查到的记录为准
+                    List<UnitModel> fileUnits = MaterialInfoServiceImplSupplier.getAllUnitsBySpuCode(spuCode);
+                    if (fileUnits != null && fileUnits.size() > 0) {
+                        result.add(fileUnits);
+                    } else {
+                        result.add(new ArrayList<>());
+                    }
+                    break;
+                case 11:
+                    // 规格信息
+                    List<Object> standardProperty = MaterialInfoServiceImplSupplier.getMaterialBasePropBySpuCodeAndType(spuCode, 4);
+                    if (standardProperty != null && standardProperty.size() > 0) {
+                        result.add(standardProperty);
+                    } else {
+                        result.add(new ArrayList<>());
+                    }
+                    break;
                 default:
                     List<ControlPropertyBean> controlProps = MaterialInfoServiceImplSupplier.getAllControlPropertyByType(i, orgnizationId, spuCode);
                     if (controlProps.size() > 0) {
-                        result.addAll(controlProps);
+                        result.add(controlProps);
                     }
                     break;
             }
@@ -212,6 +234,8 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         销售类属性：7
         质量类属性：8
         财务类属性：9
+        计量单位：10
+        规格信息：11
     */
     @Override
     public int updateMaterialInfo (String spuCode, String spuName, List<Object> data) {
@@ -245,6 +269,12 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                         List<MaterialBaseModel> baseModels = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
                         int baseId = baseModels.get(0).getId();
                         tmpresult = materialInfoMapper.updateMaterialFilesWithMaterialFilesParams(baseId, name, value);
+                        break;
+                    case 10:
+                        // 计量单位
+                        break;
+                    case 11:
+                        // 规格信息
                         break;
                     default:
                         // 5 - 9 控制信息

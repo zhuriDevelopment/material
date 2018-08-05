@@ -27,12 +27,28 @@ public interface MaterialInfoMapper {
     List<MaterialModel> getMaterialWithSpuCode (String spuCode);
 
     @SelectProvider(type = MaterialInfoProvider.class,
+                    method = "getMaterialSkuWithMaterialSkuParams")
+    List<MaterialSkuModel> getMaterialSkuWithMaterialSkuParams (Map<String, Object> params);
+
+    @SelectProvider(type = MaterialInfoProvider.class,
+                    method = "getUnitWithUnitParams")
+    List<UnitModel> getUnitWithUnitParams (Map<String, Object> params);
+
+    @SelectProvider(type = MaterialInfoProvider.class,
+                    method = "getMaterialUnitWithMaterialUnitParams")
+    List<MaterialUnitModel> getMaterialUnitWithMaterialUnitParams (Map<String, Object> params);
+
+    @SelectProvider(type = MaterialInfoProvider.class,
                     method = "getMaterialCategoryWithMaterialCategoryParams")
     List<MaterialCategoryModel> getMaterialCategoryWithMaterialCategoryParams (Map<String, Object> params);
 
     @SelectProvider(type = MaterialInfoProvider.class,
-                    method = "getMaterialSkuWithMaterialSkuParams")
-    List<MaterialSkuModel> getMaterialSkuWithMaterialSkuParams (Map<String, Object> params);
+                    method = "getMaterialBasePropWithMaterialBasePropParams")
+    List<MaterialBasePropModel> getMaterialBasePropWithMaterialBasePropParams (Map<String, Object> params);
+
+    @SelectProvider(type = MaterialInfoProvider.class,
+                    method = "getMaterialBasePropValWithMaterialBasePropValParams")
+    List<MaterialBasePropValModel> getMaterialBasePropValWithMaterialBasePropValParams (Map<String, Object> params);
 
     @SelectProvider(type = MaterialInfoProvider.class,
                     method = "getFilesWithFilesParams")
