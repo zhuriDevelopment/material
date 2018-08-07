@@ -10,13 +10,15 @@ import java.util.List;
 
 @Mapper
 public interface MaterialInfoMapper {
+
+    // ---------------------------------------- 获取物料信息部分 ----------------------------------------
     @SelectProvider(type = MaterialInfoProvider.class,
                     method = "getBaseInfoWithBaseInfoParams")
     List<MaterialBaseModel> getBaseInfoWithBaseInfoParams (Map<String, Object> params);
 
     @Select("SELECT * FROM materialBase WHERE spuCode=#{spuCode};")
     List<MaterialBaseModel> getBaseInfoWithSpuCode (String spuCode);
-    
+
     @SelectProvider(type = MaterialInfoProvider.class,
                     method = "getMaterialWithMaterialParams")
     List<MaterialModel> getMaterialWithMaterialParams (Map<String, Object> params);
@@ -25,12 +27,28 @@ public interface MaterialInfoMapper {
     List<MaterialModel> getMaterialWithSpuCode (String spuCode);
 
     @SelectProvider(type = MaterialInfoProvider.class,
+                    method = "getMaterialSkuWithMaterialSkuParams")
+    List<MaterialSkuModel> getMaterialSkuWithMaterialSkuParams (Map<String, Object> params);
+
+    @SelectProvider(type = MaterialInfoProvider.class,
+                    method = "getUnitWithUnitParams")
+    List<UnitModel> getUnitWithUnitParams (Map<String, Object> params);
+
+    @SelectProvider(type = MaterialInfoProvider.class,
+                    method = "getMaterialUnitWithMaterialUnitParams")
+    List<MaterialUnitModel> getMaterialUnitWithMaterialUnitParams (Map<String, Object> params);
+
+    @SelectProvider(type = MaterialInfoProvider.class,
                     method = "getMaterialCategoryWithMaterialCategoryParams")
     List<MaterialCategoryModel> getMaterialCategoryWithMaterialCategoryParams (Map<String, Object> params);
 
     @SelectProvider(type = MaterialInfoProvider.class,
-                    method = "getMaterialSkuWithMaterialSkuParams")
-    List<MaterialSkuModel> getMaterialSkuWithMaterialSkuParams (Map<String, Object> params);
+                    method = "getMaterialBasePropWithMaterialBasePropParams")
+    List<MaterialBasePropModel> getMaterialBasePropWithMaterialBasePropParams (Map<String, Object> params);
+
+    @SelectProvider(type = MaterialInfoProvider.class,
+                    method = "getMaterialBasePropValWithMaterialBasePropValParams")
+    List<MaterialBasePropValModel> getMaterialBasePropValWithMaterialBasePropValParams (Map<String, Object> params);
 
     @SelectProvider(type = MaterialInfoProvider.class,
                     method = "getFilesWithFilesParams")
@@ -51,17 +69,65 @@ public interface MaterialInfoMapper {
                     method = "getCtrlPropValVerWithCtrlPropValVerParams")
     List<MaterialCtrlPropValVerModel> getCtrlPropValVerWithCtrlPropValVerParams (Map<String, Object> params);
 
-    @Select("SELECT * FROM materialCategory;")
-    List<MaterialCategoryModel> getMaterialCategory();
+    // ---------------------------------------- 更新物料基本信息部分 ----------------------------------------
+    @UpdateProvider(type = MaterialInfoProvider.class,
+                    method = "updateBaseInfoWithBaseInfoParams")
+    int updateBaseInfoWithBaseInfoParams (String spuCode, String name, String value);
 
+    @UpdateProvider(type = MaterialInfoProvider.class,
+                    method = "updateupdateBaseInfoWithBaseInfoParamsArray")
+    int updateupdateBaseInfoWithBaseInfoParamsArray (String spuCode, String[] names, String[] values);
+
+    @UpdateProvider(type = MaterialInfoProvider.class,
+                    method = "updateMaterialWithMaterialParams")
+    int updateMaterialWithMaterialParams (String spuCode, String name, String value);
+
+    @UpdateProvider(type = MaterialInfoProvider.class,
+                    method = "updateMaterialWithMaterialParamsArray")
+    int updateMaterialWithMaterialParamsArray (String spuCode, String[] names, String[] values);
+
+    @UpdateProvider(type = MaterialInfoProvider.class,
+                    method = "updateMaterialSkuWithMaterialSkuParams")
+    int updateMaterialSkuWithMaterialSkuParams (String spuCode, String name, String value);
+
+    @UpdateProvider(type = MaterialInfoProvider.class,
+                    method = "updateMaterialSkuWithMaterialSkuParamsArray")
+    int updateMaterialSkuWithMaterialSkuParamsArray (String spuCode, String[] names, String[] values);
+
+    @UpdateProvider(type = MaterialInfoProvider.class,
+                    method = "updateMaterialUnitWithMaterialUnitParams")
+    int updateMaterialUnitWithMaterialUnitParams (String spuCode, String name, String value);
+
+    @UpdateProvider(type = MaterialInfoProvider.class,
+                    method = "updateMaterialUnitWithMaterialUnitParamsArray")
+    int updateMaterialUnitWithMaterialUnitParamsArray (String spuCode, String[] names, String[] values);
+
+    @UpdateProvider(type = MaterialInfoProvider.class,
+                    method = "updateMaterialFilesWithMaterialFilesParams")
+    int updateMaterialFilesWithMaterialFilesParams (int materialBaseId, String name, String value);
+
+    @UpdateProvider(type = MaterialInfoProvider.class,
+                    method = "updateMaterialFilesWithMaterialFilesParamsArray")
+    int updateMaterialFilesWithMaterialFilesParamsArray (int materialBaseId, String[] names, String[] values);
+
+    @UpdateProvider(type = MaterialInfoProvider.class,
+                    method = "updateCtrlPropWithCtrlPropParams")
+    int updateCtrlPropWithCtrlPropParams (int versionId, int ctrlPropId, String value);
+
+    // ---------------------------------------- 获取物料分类信息部分 ----------------------------------------
+    @Select("SELECT * FROM materialCategory;")
+    List<MaterialCategoryModel> getMaterialCategory ();
+
+    // ---------------------------------------- 修改物料分类信息部分 ----------------------------------------
     @Insert("INSERT INTO materialCategory(code,name,parentId) VALUES(#{code},#{name},#{parentId});")
-    @Options(useGeneratedKeys = true,keyProperty = "id", keyColumn = "id")
-    int addMaterialCategory(@Param("code") String code, @Param("name") String name, @Param("parentId") int parentId);
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    int addMaterialCategory (@Param("code") String code, @Param("name") String name, @Param("parentId") int parentId);
 
     @Update("UPDATE materialCategory SET name=#{newName} WHERE name=#{oldName} AND parentId=#{parentId};")
-    int updateMaterialCategory(@Param("newName")String newName,@Param("oldName")String oldName,@Param("parentId") int parentId);
+    int updateMaterialCategory (@Param("newName") String newName, @Param("oldName") String oldName, @Param("parentId") int parentId);
 
+    // ---------------------------------------- 删除物料分类信息部分 ----------------------------------------
     @Delete("DELETE FROM materialCategory WHERE name=#{name} AND parentId=#{parentId};")
-    int deleteMaterialCategoryByCode(@Param("name") String name, @Param("parentId") int parentId);
+    int deleteMaterialCategoryByNameAndParentId (@Param("name") String name, @Param("parentId") int parentId);
 
 }

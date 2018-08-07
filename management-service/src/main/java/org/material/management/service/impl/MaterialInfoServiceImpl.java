@@ -6,7 +6,9 @@ import org.material.management.model.tablemodel.*;
 import org.material.management.service.MaterialInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import org.material.management.model.processmodel.MaterialCategoryTree;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -16,6 +18,9 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
     @Autowired
     MaterialInfoMapper materialInfoMapper;
 
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
+
+    @Override
     public List<MaterialBaseModel> getBaseInfoByParams (Map<String, Object> params) {
         String checkKey = "spuCode";
         if (params.containsKey(checkKey)) {
@@ -82,10 +87,17 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
             // 最后对spuCode去重
             HashSet<String> spuCodes = new HashSet<>();
             List<List<String>> spuCodesLists = new ArrayList<>();
-            spuCodes.clear(); spuCodesLists.clear();
-            if (spuCodeFromBase != null) { spuCodesLists.add(spuCodeFromBase); }
-            if (spuCodeFromCategory != null) { spuCodesLists.add(spuCodeFromCategory); }
-            if (spuCodeFromMaterial != null) { spuCodesLists.add(spuCodeFromMaterial); }
+            spuCodes.clear();
+            spuCodesLists.clear();
+            if (spuCodeFromBase != null) {
+                spuCodesLists.add(spuCodeFromBase);
+            }
+            if (spuCodeFromCategory != null) {
+                spuCodesLists.add(spuCodeFromCategory);
+            }
+            if (spuCodeFromMaterial != null) {
+                spuCodesLists.add(spuCodeFromMaterial);
+            }
             List<MaterialBaseModel> result = new ArrayList<>();
             result.clear();
             // 一般不可能出现三个均为空的情况，但是保险起见，若为空则返回空列表
@@ -113,9 +125,13 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         销售类属性：7
         质量类属性：8
         财务类属性：9
+        计量单位：10
+        规格信息：11
     */
+    @Override
     public List<Object> getMaterialInfo (String spuCode, String spuName, List<Integer> types, int orgnizationId) {
-        int[] flag = new int[10];
+        int maxTypeNum = 11;
+        int[] flag = new int[maxTypeNum + 1];
         Arrays.fill(flag, 0);
         for (int type : types) {
             flag[type] = 1;
@@ -124,8 +140,10 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         Map<String, Object> paramsMap;
         // 缓存物料基本信息id
         int materialBaseId = -1;
-        for (int i = 1; i < 10; ++i) {
-            if (flag[i] == 0) continue;
+        for (int i = 1; i < maxTypeNum; ++i) {
+            if (flag[i] == 0) {
+                continue;
+            }
             switch (i) {
                 case 1:
                     List<MaterialBaseModel> baseInfos = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
@@ -176,10 +194,29 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                         result.add(new ArrayList<>());
                     }
                     break;
+                case 10:
+                    // 计量单位
+                    // * 先不考虑默认计量单位，默认计量单位返回以第一个检查到的记录为准
+                    List<UnitModel> fileUnits = MaterialInfoServiceImplSupplier.getAllUnitsBySpuCode(spuCode);
+                    if (fileUnits != null && fileUnits.size() > 0) {
+                        result.add(fileUnits);
+                    } else {
+                        result.add(new ArrayList<>());
+                    }
+                    break;
+                case 11:
+                    // 规格信息
+                    List<Object> standardProperty = MaterialInfoServiceImplSupplier.getMaterialBasePropBySpuCodeAndType(spuCode, 4);
+                    if (standardProperty != null && standardProperty.size() > 0) {
+                        result.add(standardProperty);
+                    } else {
+                        result.add(new ArrayList<>());
+                    }
+                    break;
                 default:
                     List<ControlPropertyBean> controlProps = MaterialInfoServiceImplSupplier.getAllControlPropertyByType(i, orgnizationId, spuCode);
                     if (controlProps.size() > 0) {
-                        result.addAll(controlProps);
+                        result.add(controlProps);
                     }
                     break;
             }
@@ -187,64 +224,181 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         return result;
     }
 
-    public MaterialCategoryTree getMaterialCategory() {
-        //构造一个HashMap用于通过id获取对象
-        Map<Integer,MaterialCategoryTree> idCategoryMap=new HashMap<>();
+    /*
+        物料基本信息：1
+        物料定义：2
+        SKU定义：3
+        附件管理：4 （依赖于物料基本信息Id）
+        采购和库存属性：5
+        计划类属性：6
+        销售类属性：7
+        质量类属性：8
+        财务类属性：9
+        计量单位：10
+        规格信息：11
+    */
+    @Override
+    public int updateMaterialInfo (String spuCode, String spuName, List<Object> data) {
+        int result = 1;
+        int tmpresult = 0;
+        for (Object element : data) {
+            Map<String, Object> needUpdate = (Map<String, Object>) element;
+            int propertyType = Integer.parseInt((String) needUpdate.get("propertyType"));
+            List<Map<String, String>> updateValue = (List<Map<String, String>>) needUpdate.get("updateValue");
+            logger.debug("propertyType = " + propertyType);
+            for (Map<String, String> kvPairs : updateValue) {
+                String name = kvPairs.get("name");
+                String value = kvPairs.get("value");
+                logger.debug("name = " + name);
+                logger.debug("value = " + value);
+                switch (propertyType) {
+                    case 1:
+                        // 物料基本信息
+                        tmpresult = materialInfoMapper.updateBaseInfoWithBaseInfoParams(spuCode, name, value);
+                        break;
+                    case 2:
+                        // 物料定义
+                        tmpresult = materialInfoMapper.updateMaterialWithMaterialParams(spuCode, name, value);
+                        break;
+                    case 3:
+                        // SKU定义
+                        tmpresult = materialInfoMapper.updateMaterialSkuWithMaterialSkuParams(spuCode, name, value);
+                        break;
+                    case 4:
+                        // 附件信息
+                        List<MaterialBaseModel> baseModels = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
+                        int baseId = baseModels.get(0).getId();
+                        tmpresult = materialInfoMapper.updateMaterialFilesWithMaterialFilesParams(baseId, name, value);
+                        break;
+                    case 10:
+                        // 计量单位
+                        break;
+                    case 11:
+                        // 规格信息
+                        break;
+                    default:
+                        // 5 - 9 控制信息
+                        // 先获取materialBaseId
+                        if (needUpdate.containsKey("organizationCode")) {
+                            int organizationCode = Integer.parseInt((String) needUpdate.get("organizationCode"));
+                            tmpresult = MaterialInfoServiceImplSupplier.updateControlPropertyByTypeAndValue(propertyType, organizationCode, spuCode, name, value);
+                        } else {
+                            tmpresult = 0;
+                        }
+                        break;
+                }
+                logger.debug("此次操作更新了" + tmpresult + "行。");
+                result = Math.min(result, result * tmpresult);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public MaterialCategoryTree getMaterialCategory () {
+        // 构造一个HashMap用于通过id获取对象
+        Map<Integer, MaterialCategoryTree> idCategoryMap = new HashMap<>();
         idCategoryMap.clear();
-        MaterialCategoryTree root=new MaterialCategoryTree(0,"root",-1,0);
-        idCategoryMap.put(root.getId(),root);
-        List<MaterialCategoryModel> categorys = materialInfoMapper.getMaterialCategory();
-        for(MaterialCategoryModel category : categorys){
-            int id = category.getId();
-            String name = category.getName();
-            int parentId = category.getParentId();
+        MaterialCategoryTree root = new MaterialCategoryTree(0, "root", -1, 0);
+        idCategoryMap.put(root.getId(), root);
+        Map<String, Object> categoryMap = new HashMap<String, Object>();
+        categoryMap.clear();
+        List<MaterialCategoryModel> materialCategoryList = materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap);
+        for (MaterialCategoryModel materialCategory : materialCategoryList) {
+            int id = materialCategory.getId();
+            String name = materialCategory.getName();
+            int parentId = materialCategory.getParentId();
             MaterialCategoryTree parent = idCategoryMap.get(parentId);
-            int level = parent.getLevel()+1;
-            MaterialCategoryTree node = new MaterialCategoryTree(id,name,parentId,level);
-            idCategoryMap.put(id,node);
+            int level = parent.getLevel() + 1;
+            MaterialCategoryTree node = new MaterialCategoryTree(id, name, parentId, level);
+            idCategoryMap.put(id, node);
             parent.addChild(node);
         }
         return root;
     }
 
-    public int addMaterialCategory (String code,String name,int parentId) {
-
-        //确保原数据库中无当前添加的code,name
-        //由于provider中动态SQL为AND，故此处分两次获取全部重复记录
-        int count=0;
-        Map<String,Object> categoryMap = new HashMap<>();
+    @Override
+    public int addMaterialCategory (String code, String name, int parentId) {
+        //确保原数据表中无当前添加的code
+        int count = 0;
+        Map<String, Object> categoryMap = new HashMap<>();
         categoryMap.clear();
+        categoryMap.put("code", code);
+        count = materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap).size();
+        if (count != 0) {
+            return 0;
+        } else {
+            categoryMap.clear();
+        }
         //parentId必须为0或数据库中已有id
-        if(parentId!=0){
-            categoryMap.put("id",parentId);
-            count += materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap).size();
-            if(count<=0)return 0;
-            else{
+        if (parentId != 0) {
+            categoryMap.put("id", parentId);
+            count = materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap).size();
+            if (count <= 0) {
+                return 0;
+            } else {
                 categoryMap.clear();
-                count=0;
             }
         }
-        categoryMap.put("code",code);
-        count += materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap).size();
-        categoryMap.clear();
-        categoryMap.put("name",name);
-        count += materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap).size();
-        if(count!=0) return 0;
-        else return materialInfoMapper.addMaterialCategory(code,name,parentId);
+        //name不可与父类目录下其他记录name值相同
+        categoryMap.put("name", name);
+        categoryMap.put("parentId", parentId);
+        count = materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap).size();
+        if (count != 0) {
+            return 0;
+        } else {
+            return materialInfoMapper.addMaterialCategory(code, name, parentId);
+        }
     }
 
+    @Override
     public int updateMaterialCategory (String newName, String oldName, int parentId) {
-        //查找到原物料名称及父id，将其更新
-        Map<String,Object> categoryMap = new HashMap<String,Object>();
+        //根据原物料名称及父id，确认唯一一条记录
+        Map<String, Object> categoryMap = new HashMap<String, Object>();
         categoryMap.clear();
-        categoryMap.put("name",oldName);
-        categoryMap.put("parentId",parentId);
+        categoryMap.put("name", oldName);
+        categoryMap.put("parentId", parentId);
         int count = materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap).size();
-        if(count!=1) return 0;
-        else return materialInfoMapper.updateMaterialCategory(newName,oldName,parentId);
+        if (count != 1) {
+            return 0;
+        } else {
+            categoryMap.clear();
+        }
+        //根据新物料分类名称和父id，确认无重复记录
+        categoryMap.put("name", newName);
+        categoryMap.put("parentId", parentId);
+        count = materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap).size();
+        if (count != 0) {
+            return 0;
+        } else {
+            return materialInfoMapper.updateMaterialCategory(newName, oldName, parentId);
+        }
     }
 
-    public int deleteMaterialCategory (String name, int parentId) {
-        return materialInfoMapper.deleteMaterialCategoryByCode(name, parentId);
+    @Override
+    public int deleteMaterialCategory (int id, String code, String name, int parentId) {
+        //传入值必须唯一确定一条记录
+        //根据id与parentId关系将对应记录及其子类记录全部删除
+        int index = 0;
+        Map<String, Object> categoryMap = new HashMap<String, Object>();
+        categoryMap.clear();
+        categoryMap.put("id", id);
+        categoryMap.put("code", code);
+        categoryMap.put("name", name);
+        categoryMap.put("parentId", parentId);
+        List<MaterialCategoryModel> materialCategoryList = materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap);
+        if (materialCategoryList.size() == 1) {
+            categoryMap.remove("id");
+            categoryMap.remove("code");
+            categoryMap.remove("name");
+            while (index < materialCategoryList.size()) {
+                MaterialCategoryModel tmp = materialCategoryList.get(index);
+                categoryMap.replace("parentId", tmp.getId());
+                materialCategoryList.addAll(materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap));
+                materialInfoMapper.deleteMaterialCategoryByNameAndParentId(tmp.getName(), tmp.getParentId());
+                index++;
+            }
+        }
+        return index;
     }
 }

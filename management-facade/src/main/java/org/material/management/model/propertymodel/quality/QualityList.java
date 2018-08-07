@@ -13,24 +13,24 @@ import java.util.Map;
 */
 
 @Component
-@ConfigurationProperties(prefix = "zhuri-ctrproperties")
+@ConfigurationProperties (prefix = "zhuri-ctrproperties")
 public class QualityList {
     private String[] qualityList;
     private List<Map<String, Object>> qualityListMap;
 
-    public String[] getQualityList() {
+    public String[] getQualityList () {
         return qualityList;
     }
 
-    public void setQualityList(String[] qualityList) {
+    public void setQualityList (String[] qualityList) {
         this.qualityList = qualityList;
     }
 
-    public List<Map<String, Object>> getQualityListMap() {
+    public List<Map<String, Object>> getQualityListMap () {
         return qualityListMap;
     }
 
-    public void setQualityListMap(List<Map<String, Object>> qualityListMap) {
+    public void setQualityListMap (List<Map<String, Object>> qualityListMap) {
         this.qualityListMap = qualityListMap;
     }
 }
