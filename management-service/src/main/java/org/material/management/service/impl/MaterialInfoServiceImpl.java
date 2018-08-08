@@ -21,11 +21,47 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
     @Override
-    public List<MaterialBaseModel> getBaseInfoByParams (Map<String, Object> params) {
+    public List<Object> getAllBaseInfo () {
+        List<MaterialBaseModel> baseResult = materialInfoMapper.getAllBaseInfo();
+        List<Object> result = new ArrayList<>();
+        result.add(baseResult);
+        List<MaterialCategoryModel> catResult = new ArrayList<>();
+        Map<String, Object> params = new HashMap<>();
+        catResult.clear();
+        List<UnitModel> unitResult = new ArrayList<>();
+        unitResult.clear();
+        for (MaterialBaseModel element : baseResult) {
+            List<MaterialCategoryModel> tmp;
+            List<UnitModel> tmpUnit;
+            params.clear();
+            params.put("id", element.getMaterialCatId());
+            tmp = materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(params);
+            if (tmp.size() > 0) {
+                catResult.addAll(tmp);
+            } else {
+                catResult.add(new MaterialCategoryModel());
+            }
+            params.clear();
+            params.put("id", element.getDefaultUnitId());
+            tmpUnit = materialInfoMapper.getUnitWithUnitParams(params);
+            if (tmpUnit.size() > 0) {
+                unitResult.addAll(tmpUnit);
+            } else {
+                unitResult.add(new UnitModel());
+            }
+        }
+        result.add(catResult);
+        result.add(unitResult);
+        return result;
+    }
+
+    @Override
+    public List<Object> getBaseInfoByParams (Map<String, Object> params) {
         String checkKey = "spuCode";
+        List<MaterialBaseModel> baseResult;
         if (params.containsKey(checkKey)) {
             String spuCode = params.get("spuCode").toString();
-            return materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
+            baseResult = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
         } else {
             // 物料类型，助记码，SPU名称，物料描述，得到一个SPU Code List
             String[] baseInfoKeyList = {"materialType", "mnemonic", "spuName", "description"};
@@ -98,8 +134,8 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
             if (spuCodeFromMaterial != null) {
                 spuCodesLists.add(spuCodeFromMaterial);
             }
-            List<MaterialBaseModel> result = new ArrayList<>();
-            result.clear();
+            baseResult = new ArrayList<>();
+            baseResult.clear();
             // 一般不可能出现三个均为空的情况，但是保险起见，若为空则返回空列表
             if (spuCodesLists.size() > 0) {
                 spuCodes.addAll(spuCodesLists.get(0));
@@ -107,12 +143,28 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                     spuCodes.retainAll(spuCodesLists.get(i));
                 }
                 for (String spuCode : spuCodes) {
-                    result.addAll(materialInfoMapper.getBaseInfoWithSpuCode(spuCode));
+                    baseResult.addAll(materialInfoMapper.getBaseInfoWithSpuCode(spuCode));
                 }
-                result.sort(Comparator.comparingInt(MaterialBaseModel::getId));
+                baseResult.sort(Comparator.comparingInt(MaterialBaseModel::getId));
             }
-            return result;
         }
+        List<Object> result = new ArrayList<>();
+        result.add(baseResult);
+        List<MaterialCategoryModel> catResult = new ArrayList<>();
+        catResult.clear();
+        for (MaterialBaseModel element : baseResult) {
+            List<MaterialCategoryModel> tmp;
+            params.clear();
+            params.put("id", element.getMaterialCatId());
+            tmp = materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(params);
+            if (tmp.size() > 0) {
+                catResult.addAll(tmp);
+            } else {
+                catResult.add(new MaterialCategoryModel());
+            }
+        }
+        result.add(catResult);
+        return result;
     }
 
     /*
@@ -272,9 +324,11 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                         break;
                     case 10:
                         // 计量单位
+                        tmpresult = MaterialInfoServiceImplSupplier.updateUnitsBySpuCode(spuCode, name, value);
                         break;
                     case 11:
                         // 规格信息
+                        tmpresult = MaterialInfoServiceImplSupplier.updateMaterialBasePropBySpuCode(spuCode, 4, name, value);
                         break;
                     default:
                         // 5 - 9 控制信息

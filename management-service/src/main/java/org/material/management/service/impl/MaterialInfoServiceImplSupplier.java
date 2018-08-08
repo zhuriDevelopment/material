@@ -103,6 +103,12 @@ public class MaterialInfoServiceImplSupplier {
         return result;
     }
 
+    // ---------------------------------------- 更新物料单位部分 ----------------------------------------
+
+    public static int updateUnitsBySpuCode (String spuCode, String name, String value) {
+        return 0;
+    }
+
     // ---------------------------------------- 物料基本属性部分 ----------------------------------------
     /*
         1:关键属性
@@ -110,7 +116,6 @@ public class MaterialInfoServiceImplSupplier {
         3:批号属性
         4:规格属性
     */
-
     // ---------------------------------------- 获取物料基本属性部分 ----------------------------------------
 
     public static List<Object> getMaterialBasePropBySpuCodeAndType (String spuCode, int propertyType) {

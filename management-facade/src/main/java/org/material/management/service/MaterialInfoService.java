@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MaterialInfoService {
 
-    List<MaterialBaseModel> getBaseInfoByParams (Map<String, Object> params);
+    List<Object> getAllBaseInfo ();
+
+    List<Object> getBaseInfoByParams (Map<String, Object> params);
 
     List<Object> getMaterialInfo (String spuCode, String spuName, List<Integer> types, int orgnizationId);
 

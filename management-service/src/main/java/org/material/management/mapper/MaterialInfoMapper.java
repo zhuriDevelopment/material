@@ -12,6 +12,9 @@ import java.util.List;
 public interface MaterialInfoMapper {
 
     // ---------------------------------------- 获取物料信息部分 ----------------------------------------
+    @Select("SELECT * FROM materialBase")
+    List<MaterialBaseModel> getAllBaseInfo ();
+    
     @SelectProvider(type = MaterialInfoProvider.class,
                     method = "getBaseInfoWithBaseInfoParams")
     List<MaterialBaseModel> getBaseInfoWithBaseInfoParams (Map<String, Object> params);

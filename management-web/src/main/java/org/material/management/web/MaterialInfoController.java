@@ -21,14 +21,35 @@ public class MaterialInfoController {
     @Autowired
     MaterialInfoService materialInfoService;
 
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+                 methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE,
+                         RequestMethod.OPTIONS, RequestMethod.HEAD, RequestMethod.PUT,
+                         RequestMethod.PATCH},
+                 origins = "*")
+    @PostMapping(value = "/getAllBaseInfo")
+    @ApiOperation(value = "获取所有的物料基本信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<Object> getAllBaseInfo () {
+        return materialInfoService.getAllBaseInfo();
+    }
+
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+                 methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE,
+                         RequestMethod.OPTIONS, RequestMethod.HEAD, RequestMethod.PUT,
+                         RequestMethod.PATCH},
+                 origins = "*")
     @PostMapping(value = "/getBaseInfo")
     @ApiOperation(value = "根据给定参数查询基础信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<MaterialBaseModel> getBaseInfo (@RequestBody Map<String, Object> params) {
+    public List<Object> getBaseInfo (@RequestBody Map<String, Object> params) {
         // 参数必须非空！
         assert (params.size() > 0);
         return materialInfoService.getBaseInfoByParams(params);
     }
 
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+                 methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE,
+                         RequestMethod.OPTIONS, RequestMethod.HEAD, RequestMethod.PUT,
+                         RequestMethod.PATCH},
+                 origins = "*")
     @PostMapping(value = "/getMaterialInfo")
     @ApiOperation(value = "根据给定参数查询物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @SuppressWarnings("unchecked")
@@ -50,6 +71,11 @@ public class MaterialInfoController {
         }
     }
 
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+                 methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE,
+                         RequestMethod.OPTIONS, RequestMethod.HEAD, RequestMethod.PUT,
+                         RequestMethod.PATCH},
+                 origins = "*")
     @PostMapping(value = "/updateMaterialInfo")
     @ApiOperation(value = "根据给定参数更新物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int updateMaterialInfo (@RequestBody Map<Object, Object> params) {
@@ -63,12 +89,22 @@ public class MaterialInfoController {
         }
     }
 
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+                 methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE,
+                         RequestMethod.OPTIONS, RequestMethod.HEAD, RequestMethod.PUT,
+                         RequestMethod.PATCH},
+                 origins = "*")
     @PostMapping(value = "/getMaterialCategory")
     @ApiOperation(value = "获取当前物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public MaterialCategoryTree getMaterialCategory () {
         return materialInfoService.getMaterialCategory();
     }
 
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+                 methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE,
+                         RequestMethod.OPTIONS, RequestMethod.HEAD, RequestMethod.PUT,
+                         RequestMethod.PATCH},
+                 origins = "*")
     @PostMapping(value = "/addMaterialCategory")
     @ApiOperation(value = "增加物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     //返回1为成功添加数据，返回0为失败
@@ -84,6 +120,11 @@ public class MaterialInfoController {
         }
     }
 
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+                 methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE,
+                         RequestMethod.OPTIONS, RequestMethod.HEAD, RequestMethod.PUT,
+                         RequestMethod.PATCH},
+                 origins = "*")
     @PostMapping(value = "/updateMaterialCategory")
     @ApiOperation(value = "根据物料oldName及parentId更新newName", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     //返回1为成功更新数据，返回0为失败
@@ -99,6 +140,11 @@ public class MaterialInfoController {
         }
     }
 
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+                 methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE,
+                         RequestMethod.OPTIONS, RequestMethod.HEAD, RequestMethod.PUT,
+                         RequestMethod.PATCH},
+                 origins = "*")
     @PostMapping(value = "/deleteMaterialCategory")
     @ApiOperation(value = "删除物料分类编码信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     //返回0为失败，正整数为成功，其值表示删除记录数

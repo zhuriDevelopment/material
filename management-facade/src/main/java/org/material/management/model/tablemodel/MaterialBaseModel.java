@@ -15,6 +15,7 @@ public class MaterialBaseModel {
     private int defaultUnitId;
     private String source;
     private String usage;
+    private String note;
     private int materialCatId;
 
     public int getId() {
@@ -103,6 +104,14 @@ public class MaterialBaseModel {
 
     public void setUsage(String usage) {
         this.usage = usage;
+    }
+
+    public String getNote () {
+        return note;
+    }
+
+    public void setNote (String note) {
+        this.note = note;
     }
 
     public int getMaterialCatId() {
