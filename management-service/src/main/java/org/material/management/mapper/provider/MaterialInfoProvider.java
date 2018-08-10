@@ -297,6 +297,26 @@ public class MaterialInfoProvider {
         }.toString();
     }
 
+    public String updateMaterialBaseProp (int id, String name, String value) {
+        return new SQL() {
+            {
+                UPDATE("materialBaseProp");
+                SET(name + "=" + value);
+                WHERE("id = " + id);
+            }
+        }.toString();
+    }
+
+    public String updateMaterialBasePropVal (String spuCode, int materialBaseId, String name, String value) {
+        return new SQL() {
+            {
+                UPDATE("materialBasePropVal");
+                SET(name + "=" + value);
+                WHERE("spuCode =" + spuCode + "AND materialBaseId =" + materialBaseId);
+            }
+        }.toString();
+    }
+
     public String updateMaterialFilesWithMaterialFilesParamsArray (int materialBaseId, String[] names, String[] values) {
         return new SQL() {
             {

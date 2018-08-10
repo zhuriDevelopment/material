@@ -4,6 +4,7 @@ package org.material.management.mapper;
 import org.apache.ibatis.annotations.*;
 import org.material.management.mapper.provider.MaterialInfoProvider;
 import org.material.management.model.tablemodel.*;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Map;
 import java.util.List;
@@ -114,8 +115,26 @@ public interface MaterialInfoMapper {
     int updateMaterialFilesWithMaterialFilesParamsArray (int materialBaseId, String[] names, String[] values);
 
     @UpdateProvider(type = MaterialInfoProvider.class,
+                    method = "updateMaterialBaseProp")
+    int updateMaterialBasePropWithMaterialBaseProp (int id, String name, String value);
+
+    @UpdateProvider(type = MaterialInfoProvider.class,
+                    method = "updateMaterialBasePropVal")
+    int updateMaterialBasePropValWithMaterialBasePropValParams (String spuCode, int materialBasePropId, String name, String value);
+
+    @UpdateProvider(type = MaterialInfoProvider.class,
                     method = "updateCtrlPropWithCtrlPropParams")
     int updateCtrlPropWithCtrlPropParams (int versionId, int ctrlPropId, String value);
+
+    // ---------------------------------------- 增加物料基本信息部分 ---------------------------------------
+    @Insert("INSERT INTO materialUnit(spuCode, unitId, relatedId, conversionFactor, sort) VALUES(#{spuCode},#{unitId},#{relatedId},#{conversionFactor},#{sort});")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    int addMaterialUnit(@Param("spuCode") String spuCode, @Param("unitId") int unitId, @Param("relatedId") int relatedId, @Param("conversionFactor") double conversionFactor, @Param("sort") int sort);
+
+    @Insert("INSERT INTO unit(label, name, englishName, relatedId, conversionFactor, sort) VALUES(#{label},#{name},#{englishName},#{relatedId},#{conversionFactor},#{sort});")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    int addUnit (@Param("label") String label, @Param("name") String name, @Param("englishName") String englishName,
+                 @Param("relatedId") int id, @Param("conversionFactor") double conversionFactor, @Param("sort") int sort);
 
     // ---------------------------------------- 获取物料分类信息部分 ----------------------------------------
     @Select("SELECT * FROM materialCategory;")
