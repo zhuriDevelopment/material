@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `materialCtrlPropVal` (
 	`id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	`versionId` INT UNSIGNED NOT NULL,
 	`materialCtrlPropId` INT UNSIGNED NOT NULL,
-	`value` VARCHAR(10) NOT NULL
+	`value` VARCHAR(20) NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `materialCtrlPropValVer` (
@@ -234,10 +234,10 @@ INSERT INTO `materialCtrlProp` VALUES (1,5,'物料制购类型',1), \
 										(5,5,'是否单件管理',0), \
 										(6,5,'是否进价控制',0), \
 										(7,5,'默认供应商',0), \
-										(8,5,'默认采购部门',0) \
-										(9,5,'默认仓库',0) \
-										(10,5,'默认采购单位',0) \
-										(11,5,'默认库存单位',0) \
+										(8,5,'默认采购部门',0), \
+										(9,5,'默认仓库',0), \
+										(10,5,'默认采购单位',0), \
+										(11,5,'默认库存单位',0), \
 										(12,5,'默认库位',0);
 UNLOCK TABLES;
 
@@ -249,11 +249,11 @@ INSERT INTO `materialCtrlPropVal` VALUES (1,1,1,'制购类型1'), \
 										(5,1,5,'true'), \
 										(6,1,6,'true'), \
 										(7,1,7,'默认供应商'), \
-										(8,1,8,'默认采购部门') \
+										(8,1,8,'默认采购部门'), \
 										(9,1,9,'默认仓库'), \
 										(10,1,10,'默认采购单位'), \
 										(11,1,11,'默认库存单位'), \
-										(12,1,12,'默认库位'), \;
+										(12,1,12,'默认库位');
 UNLOCK TABLES;
 
 LOCK TABLES `materialCtrlPropValVer` WRITE;

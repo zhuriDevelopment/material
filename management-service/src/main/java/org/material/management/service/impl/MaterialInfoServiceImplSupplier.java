@@ -297,6 +297,9 @@ public class MaterialInfoServiceImplSupplier {
         params.clear();
         params.put("name", propName);
         List<MaterialCtrlPropModel> ctrlPropResult = materialInfoMapper.getCtrlPropWithCtrlPropParams(params);
+        if (ctrlPropResult == null || ctrlPropResult.size() == 0) {
+            return null;
+        }
         int ctrlPropId = ctrlPropResult.get(0).getId();
         // 查找对应的属性值，根据版本号和属性名id
         params.clear();
@@ -318,13 +321,17 @@ public class MaterialInfoServiceImplSupplier {
             return null;
         }
         if (index == -1) {
-            List<ControlPropertyBean> result = null;
+            List<ControlPropertyBean> result = new ArrayList<>();
             String[] purchasePropertiesList = purchaseAndStoreList.getPurchasePropertiesList();
             int len = purchasePropertiesList.length;
             for (int i = 0; i < len; ++i) {
                 List<ControlPropertyBean> tmpResult = getControlPropByName(purchasePropertiesList[i], organizationId, spuCode);
                 if (tmpResult != null && !tmpResult.isEmpty()) {
                     result.addAll(tmpResult);
+                } else {
+                    List<ControlPropertyBean> emptyResult = new ArrayList<>();
+                    emptyResult.add(new ControlPropertyBean(purchasePropertiesList[i], ""));
+                    result.addAll(emptyResult);
                 }
             }
             return result;
