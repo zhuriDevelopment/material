@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 @Component
 public class MaterialInfoServiceImpl implements MaterialInfoService {
     @Autowired
-    MaterialInfoMapper materialInfoMapper;
+    private MaterialInfoMapper materialInfoMapper;
     @Autowired
-    MaterialInfoServiceImplSupplier materialInfoServiceImplSupplier;
+    private MaterialInfoServiceImplSupplier materialInfoServiceImplSupplier;
 
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
