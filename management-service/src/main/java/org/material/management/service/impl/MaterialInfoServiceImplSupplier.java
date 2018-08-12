@@ -118,7 +118,7 @@ public class MaterialInfoServiceImplSupplier {
         Map<String, Object> params = new HashMap<>();
         params.clear();
         params.put("spuCode", spuCode);
-        List<MaterialUnitModel> materialUnits = materialInfoMapper.getMaterialUnitWithMaterialUnitParams(params);
+        List<MaterialUnitModel> materialUnits = materialInfoMapper.getMaterialUnitWithMaterialUnitParams(params);//?????????/
         List<UnitModel> result = new ArrayList<>();
         result.clear();
         // 对于每个物料单位记录逐个查询，以覆盖转换系数
@@ -145,6 +145,10 @@ public class MaterialInfoServiceImplSupplier {
     // ---------------------------------------- 更新物料单位部分 ----------------------------------------
 
     public int updateUnitsBySpuCode (String spuCode, String name, String value) {
+        /*Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("spuCode", spuCode);
+        List<MaterialUnitModel> materialUnits = materialInfoMapper.getMaterialUnitWithMaterialUnitParams(params);*/
         return 0;
     }
 
@@ -164,15 +168,16 @@ public class MaterialInfoServiceImplSupplier {
         Map<String, Object> params = new HashMap<>();
         params.clear();
         params.put("spuCode", spuCode);
-        params.put("type", propertyType);
+        //params.put("type", propertyType);
         List<MaterialBasePropValModel> valResult = materialInfoMapper.getMaterialBasePropValWithMaterialBasePropValParams(params);
-        result.add(valResult);
+        result.addAll(valResult);
         List<MaterialBasePropModel> propResult = new ArrayList<>();
         propResult.clear();
         for (MaterialBasePropValModel element : valResult) {
             params.clear();
             int id = element.getMaterialBasePropId();
             params.put("id", id);
+            params.put("type", propertyType);
             List<MaterialBasePropModel> tmp = materialInfoMapper.getMaterialBasePropWithMaterialBasePropParams(params);
             if (tmp != null && tmp.size() > 0) {
                 propResult.addAll(tmp);
@@ -190,10 +195,45 @@ public class MaterialInfoServiceImplSupplier {
     // ---------------------------------------- 更新物料基本属性部分 ----------------------------------------
 
     public int updateMaterialBasePropBySpuCode (String spuCode, int propertyType, String name, String value) {
-        // 先获取所有的记录
-        List<Object> materialBasePropCurResult = getMaterialBasePropBySpuCodeAndType(spuCode, propertyType);
+        /* 先获取所有的记录List<Object> materialBasePropCurResult = getMaterialBasePropBySpuCodeAndType(spuCode, propertyType);*/
+
+        //根据spuCode和propertyType在Prop和PropVal两张表中将满足关系的记录找出
+        Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("spuCode", spuCode);
+        List<MaterialBasePropValModel> valResult = materialInfoMapper.getMaterialBasePropValWithMaterialBasePropValParams(params);
+        List<MaterialBasePropModel> propResult = new ArrayList<>();
+        propResult.clear();
+        for(MaterialBasePropValModel element : valResult) {
+            int id = element.getMaterialBasePropId();
+            params.clear();
+            params.put("id", id);
+            params.put("type",propertyType);
+            propResult.addAll(materialInfoMapper.getMaterialBasePropWithMaterialBasePropParams(params));
+        }
+        //如果更新内容在PropVal表，则根据spuCode和materialBasePropId更新数据
+        //如果更新内容在Prop表，则根据id更新
+        String[] materialBasePropVal = {"spuCode", "materialCode", "materialBasePropId", "value"};
+        boolean flag = false;
+        int resultCode = 0;
+        for(String s : materialBasePropVal) {
+            if(s.equals(name)) {
+                flag = true;
+                break;
+            }
+        }
+        if(flag) {
+            for(MaterialBasePropModel property : propResult) {
+                int materialBasePropId = property.getId();
+                resultCode += materialInfoMapper.updateMaterialBasePropValWithMaterialBasePropValParams(spuCode, materialBasePropId, name, value);
+            }
+        } else {
+            for(MaterialBasePropModel property : propResult) {
+                int id = property.getId();
+                resultCode += materialInfoMapper.updateMaterialBasePropWithMaterialBaseProp(id, name, value);
+            }
+        }
         // 返回正值代表成功，其他值代表失败
-        int resultCode = 1;
         return resultCode;
     }
 
