@@ -46,7 +46,8 @@ CREATE TABLE IF NOT EXISTS `materialSku` (
 	`materialId` INT UNSIGNED NOT NULL,
 	`unitId` INT UNSIGNED NOT NULL,
 	`purchasePrice` INT UNSIGNED,
-	`sellingPrice` INT UNSIGNED
+	`sellingPrice` INT UNSIGNED,
+	`description` VARCHAR(50)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `unit` (
@@ -118,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `materialCtrlPropValVer` (
 	`version` VARCHAR(10) NOT NULL,
 	`origanizationCode` VARCHAR(20) NOT NULL,
 	`materialCatId` INT UNSIGNED NOT NULL,
-	`materialId` INT UNSIGNED NOT NULL,
+	`spuCode` VARCHAR(20) NOT NULL,
 	`startDate` DATETIME NOT NULL,
 	`endDate` DATETIME NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -159,14 +160,14 @@ INSERT INTO `material` VALUES (1,'110101','11101','自动机器A','','11010101',
 UNLOCK TABLES;
 
 LOCK TABLES `materialSku` WRITE;
-INSERT INTO `materialSku` VALUES (1,'110101','111',1,1,500000,0), \
-								(2,'110101','112',2,1,200000,0), \
-								(3,'110102','121',3,1,100000,0), \
-								(4,'210101','211',4,2,10000,0), \
-								(5,'210101','212',5,2,10000,0), \
-								(6,'210102','221',6,2,10000,0), \
-								(7,'310101','311',7,3,8000,0), \
-								(8,'310101','312',8,3,6000,0);
+INSERT INTO `materialSku` VALUES (1,'110101','111',1,1,500000,0,'备注111'), \
+								(2,'110101','112',2,1,200000,0,'备注112'), \
+								(3,'110102','121',3,1,100000,0,'备注121'), \
+								(4,'210101','211',4,2,10000,0,'备注211'), \
+								(5,'210101','212',5,2,10000,0,'备注212'), \
+								(6,'210102','221',6,2,10000,0,'备注221'), \
+								(7,'310101','311',7,3,8000,0,'备注311'), \
+								(8,'310101','312',8,3,6000,0,'备注312');
 UNLOCK TABLES;
 
 LOCK TABLES `unit` WRITE;
@@ -226,34 +227,39 @@ INSERT INTO `materialFiles` VALUES (1,1,111), \
 UNLOCK TABLES;
 
 LOCK TABLES `materialCtrlProp` WRITE;
-INSERT INTO `materialCtrlProp` VALUES (1,1,'物',1), \
-										(2,1,'料',1), \
-										(3,2,'的',1), \
-										(4,3,'控',1), \
-										(5,3,'制',0), \
-										(6,4,'的',0), \
-										(7,5,'属',0), \
-										(8,5,'性',0);
+INSERT INTO `materialCtrlProp` VALUES (1,5,'物料制购类型',1), \
+										(2,5,'ABC分类',1), \
+										(3,5,'循环盘点编码',1), \
+										(4,5,'是否批次管理',1), \
+										(5,5,'是否单件管理',0), \
+										(6,5,'是否进价控制',0), \
+										(7,5,'默认供应商',0), \
+										(8,5,'默认采购部门',0) \
+										(9,5,'默认仓库',0) \
+										(10,5,'默认采购单位',0) \
+										(11,5,'默认库存单位',0) \
+										(12,5,'默认库位',0);
 UNLOCK TABLES;
 
 LOCK TABLES `materialCtrlPropVal` WRITE;
-INSERT INTO `materialCtrlPropVal` VALUES (1,5,1,'属'), \
-										(2,5,2,'性'), \
-										(3,5,3,'值'), \
-										(4,2,4,'到'), \
-										(5,2,5,'底'), \
-										(6,2,6,'是'), \
-										(7,5,7,'个'), \
-										(8,5,8,'啥');
+INSERT INTO `materialCtrlPropVal` VALUES (1,1,1,'制购类型1'), \
+										(2,1,2,'ABC分类1'), \
+										(3,1,3,'盘点编码1'), \
+										(4,1,4,'true'), \
+										(5,1,5,'true'), \
+										(6,1,6,'true'), \
+										(7,1,7,'默认供应商'), \
+										(8,1,8,'默认采购部门') \
+										(9,1,9,'默认仓库'), \
+										(10,1,10,'默认采购单位'), \
+										(11,1,11,'默认库存单位'), \
+										(12,1,12,'默认库位'), \;
 UNLOCK TABLES;
 
 LOCK TABLES `materialCtrlPropValVer` WRITE;
-INSERT INTO `materialCtrlPropValVer` VALUES (1,'1101','123001',7,1,'2018-01-01 00:00:00','2025-12-31 00:00:00'), \
-											(2,'1102','123002',7,2,'2018-01-01 00:00:00','2025-12-31 00:00:00'), \
-											(3,'1201','124001',7,3,'2018-01-01 00:00:00','2025-12-31 00:00:00'), \
-											(4,'2101','001001',8,4,'2018-08-30 00:00:00','2019-05-30 00:00:00'), \
-											(5,'2102','001002',8,5,'2018-08-30 00:00:00','2019-05-30 00:00:00'), \
-											(6,'2201','002001',8,6,'2018-08-30 00:00:00','2019-05-30 00:00:00'), \
-											(7,'3101','055001',9,7,'2018-03-01 00:00:00','2021-06-30 00:00:00'), \
-											(8,'3102','055002',9,8,'2018-03-01 00:00:00','2021-06-30 00:00:00');
+INSERT INTO `materialCtrlPropValVer` VALUES (1,'BB11010101',1,7,'110101','2018-01-01 00:00:00','2025-12-31 00:00:00'), \
+											(2,'BB11010201',1,7,'110102','2018-01-01 00:00:00','2025-12-31 00:00:00'), \
+											(3,'BB21010101',1,8,'210101','2018-01-01 00:00:00','2025-12-31 00:00:00'), \
+											(4,'BB21010201',1,8,'210102','2018-01-01 00:00:00','2025-12-31 00:00:00'), \
+											(5,'BB31010101',1,9,'310101','2018-01-01 00:00:00','2025-12-31 00:00:00');
 UNLOCK TABLES;

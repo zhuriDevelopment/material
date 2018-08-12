@@ -14,27 +14,29 @@ import org.material.management.model.propertymodel.finance.FinanceList;
 import org.material.management.mapper.MaterialInfoMapper;
 import org.material.management.model.tablemodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 // 作为ServiceImpl的补充类，以防止ServiceImpl类过于复杂掩盖逻辑
 
+@Service
 public class MaterialInfoServiceImplSupplier {
     @Autowired
-    private static PurchaseAndStoreList purchaseAndStoreList;
+    private PurchaseAndStoreList purchaseAndStoreList;
     @Autowired
-    private static PlanList planList;
+    private PlanList planList;
     @Autowired
-    private static SalesList salesList;
+    private SalesList salesList;
     @Autowired
-    private static QualityList qualityList;
+    private QualityList qualityList;
     @Autowired
-    private static FinanceList financeList;
+    private FinanceList financeList;
     @Autowired
-    private static MaterialInfoMapper materialInfoMapper;
+    private MaterialInfoMapper materialInfoMapper;
 
     // ---------------------------------------- 生成参数Map部分 ----------------------------------------
     // 根据提供的参数生成对应的参数Map的方法
     // 通用子方法
-    private static Map<String, Object> chooseParams (Map<String, Object> params, String[] keyList, String[] targetList) {
+    private Map<String, Object> chooseParams (Map<String, Object> params, String[] keyList, String[] targetList) {
         Map<String, Object> result = new HashMap<>(16);
         result.clear();
         for (int i = 0; i < keyList.length; ++i) {
@@ -48,7 +50,7 @@ public class MaterialInfoServiceImplSupplier {
     }
 
     // 对materialBase表
-    public static Map<String, Object> splitBaseInfoParams (
+    public Map<String, Object> splitBaseInfoParams (
             Map<String, Object> params,
             String[] keyList,
             String[] targetList) {
@@ -57,7 +59,7 @@ public class MaterialInfoServiceImplSupplier {
     }
 
     // 对materialCategory表
-    public static Map<String, Object> splitCategoryParams (
+    public Map<String, Object> splitCategoryParams (
             Map<String, Object> params,
             String[] keyList,
             String[] targetList) {
@@ -65,16 +67,53 @@ public class MaterialInfoServiceImplSupplier {
     }
 
     // 对material表
-    public static Map<String, Object> splitMaterialParams (
+    public Map<String, Object> splitMaterialParams (
             Map<String, Object> params,
             String[] keyList,
             String[] targetList) {
         return chooseParams(params, keyList, targetList);
     }
 
+    // ---------------------------------------- 物料sku信息部分 ----------------------------------------
+
+    public List<Object> getMaterialSkuWithMaterialSkuParams (Map<String, Object> params) {
+        List<MaterialSkuModel> skuModels = materialInfoMapper.getMaterialSkuWithMaterialSkuParams(params);
+        List<Object> result = new ArrayList<>();
+        if (skuModels != null && skuModels.size() > 0) {
+            result.add(skuModels);
+            Map<String, Object> param = new HashMap<>(16);
+            List<MaterialModel> materialModels = new ArrayList<>();
+            List<UnitModel> unitModels = new ArrayList<>();
+            for (MaterialSkuModel element : skuModels) {
+                param.clear();
+                param.put("id", element.getMaterialId());
+                List<MaterialModel> tmpModels = materialInfoMapper.getMaterialWithMaterialParams(params);
+                if (tmpModels != null && tmpModels.size() > 0) {
+                    // 取第一个
+                    materialModels.add(tmpModels.get(0));
+                } else {
+                    materialModels.add(new MaterialModel());
+                }
+                param.clear(); param.put("id", element.getUnitId());
+                List<UnitModel> tmpUnit = materialInfoMapper.getUnitWithUnitParams(params);
+                if (tmpUnit != null && tmpUnit.size() > 0) {
+                    // 同取第一个
+                    unitModels.add(tmpUnit.get(0));
+                } else {
+                    unitModels.add(new UnitModel());
+                }
+            }
+            result.add(materialModels);
+            result.add(unitModels);
+        } else {
+            result.add(new ArrayList<>());
+        }
+        return result;
+    }
+
     // ---------------------------------------- 获取物料单位部分 ----------------------------------------
 
-    public static List<UnitModel> getAllUnitsBySpuCode (String spuCode) {
+    public List<UnitModel> getAllUnitsBySpuCode (String spuCode) {
         // 先获取所有的物料单位记录
         Map<String, Object> params = new HashMap<>();
         params.clear();
@@ -105,7 +144,7 @@ public class MaterialInfoServiceImplSupplier {
 
     // ---------------------------------------- 更新物料单位部分 ----------------------------------------
 
-    public static int updateUnitsBySpuCode (String spuCode, String name, String value) {
+    public int updateUnitsBySpuCode (String spuCode, String name, String value) {
         return 0;
     }
 
@@ -118,7 +157,7 @@ public class MaterialInfoServiceImplSupplier {
     */
     // ---------------------------------------- 获取物料基本属性部分 ----------------------------------------
 
-    public static List<Object> getMaterialBasePropBySpuCodeAndType (String spuCode, int propertyType) {
+    public List<Object> getMaterialBasePropBySpuCodeAndType (String spuCode, int propertyType) {
         List<Object> result = new ArrayList<>();
         result.clear();
         // 包含两个list，第一个list存放了对应的属性值，第二个list存放了对应的基本属性内容
@@ -150,7 +189,7 @@ public class MaterialInfoServiceImplSupplier {
 
     // ---------------------------------------- 更新物料基本属性部分 ----------------------------------------
 
-    public static int updateMaterialBasePropBySpuCode (String spuCode, int propertyType, String name, String value) {
+    public int updateMaterialBasePropBySpuCode (String spuCode, int propertyType, String name, String value) {
         // 先获取所有的记录
         List<Object> materialBasePropCurResult = getMaterialBasePropBySpuCodeAndType(spuCode, propertyType);
         // 返回正值代表成功，其他值代表失败
@@ -160,7 +199,7 @@ public class MaterialInfoServiceImplSupplier {
 
     // ---------------------------------------- 获取控制信息部分 ----------------------------------------
 
-    public static List<ControlPropertyBean> getAllControlPropByArray (String[] propNames, int organizationId, String spuCode) {
+    public List<ControlPropertyBean> getAllControlPropByArray (String[] propNames, int organizationId, String spuCode) {
         // 获取物料分类id，不存在就返回空
         List<MaterialBaseModel> baseResult = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
         if (baseResult == null || baseResult.size() == 0) {
@@ -168,17 +207,11 @@ public class MaterialInfoServiceImplSupplier {
         }
         // 此时应该只有一个分类id
         int materialCatId = baseResult.get(0).getMaterialCatId();
-        // 获取物料id
-        List<MaterialModel> materialResult = materialInfoMapper.getMaterialWithSpuCode(spuCode);
-        if (materialResult == null || materialResult.size() == 0) {
-            return null;
-        }
-        int materialId = materialResult.get(0).getId();
         // 确认版本号
         Map<String, Object> params = new HashMap<>();
         params.clear();
         params.put("materialCatId", materialCatId);
-        params.put("materialId", materialId);
+        params.put("spuCode", spuCode);
         params.put("organizationCode", organizationId);
         List<MaterialCtrlPropValVerModel> ctrlVerResult = materialInfoMapper.getCtrlPropValVerWithCtrlPropValVerParams(params);
         // 需要确保结果只有一个，若有多个，取第一个
@@ -204,7 +237,7 @@ public class MaterialInfoServiceImplSupplier {
         return result;
     }
 
-    public static List<ControlPropertyBean> getControlPropByName (String propName, int organizationId, String spuCode) {
+    public List<ControlPropertyBean> getControlPropByName (String propName, int organizationId, String spuCode) {
         // 获取物料分类id，不存在就返回空
         List<MaterialBaseModel> baseResult = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
         if (baseResult == null || baseResult.size() == 0) {
@@ -212,17 +245,10 @@ public class MaterialInfoServiceImplSupplier {
         }
         // 此时应该只有一个分类id
         int materialCatId = baseResult.get(0).getMaterialCatId();
-        // 获取物料id
-        List<MaterialModel> materialResult = materialInfoMapper.getMaterialWithSpuCode(spuCode);
-        if (materialResult == null || materialResult.size() == 0) {
-            return null;
-        }
-        int materialId = materialResult.get(0).getId();
-        // 确认版本号
         Map<String, Object> params = new HashMap<>();
         params.clear();
         params.put("materialCatId", materialCatId);
-        params.put("materialId", materialId);
+        params.put("spuCode", spuCode);
         params.put("organizationCode", organizationId);
         List<MaterialCtrlPropValVerModel> ctrlVerResult = materialInfoMapper.getCtrlPropValVerWithCtrlPropValVerParams(params);
         // 需要确保结果只有一个，若有多个，取第一个
@@ -247,7 +273,7 @@ public class MaterialInfoServiceImplSupplier {
         return result;
     }
 
-    public static List<ControlPropertyBean> getPurchaseAndStoreProperties (int index, int organizationId, String spuCode) {
+    public List<ControlPropertyBean> getPurchaseAndStoreProperties (int index, int organizationId, String spuCode) {
         if (index < -1) {
             return null;
         }
@@ -267,7 +293,7 @@ public class MaterialInfoServiceImplSupplier {
         }
     }
 
-    public static List<ControlPropertyBean> getPlanProperties (int index, int organizationId, String spuCode) {
+    public List<ControlPropertyBean> getPlanProperties (int index, int organizationId, String spuCode) {
         if (index < -1) {
             return null;
         }
@@ -287,7 +313,7 @@ public class MaterialInfoServiceImplSupplier {
         }
     }
 
-    public static List<ControlPropertyBean> getSalesProperties (int index, int organizationId, String spuCode) {
+    public List<ControlPropertyBean> getSalesProperties (int index, int organizationId, String spuCode) {
         if (index < -1) {
             return null;
         }
@@ -307,7 +333,7 @@ public class MaterialInfoServiceImplSupplier {
         }
     }
 
-    public static List<ControlPropertyBean> getQualityProperties (int index, int organizationId, String spuCode) {
+    public List<ControlPropertyBean> getQualityProperties (int index, int organizationId, String spuCode) {
         if (index < -1) {
             return null;
         }
@@ -327,7 +353,7 @@ public class MaterialInfoServiceImplSupplier {
         }
     }
 
-    public static List<ControlPropertyBean> getFinanceProperties (int index, int organizationId, String spuCode) {
+    public List<ControlPropertyBean> getFinanceProperties (int index, int organizationId, String spuCode) {
         if (index < -1) {
             return null;
         }
@@ -348,7 +374,7 @@ public class MaterialInfoServiceImplSupplier {
     }
 
     // 获取控制属性
-    public static List<ControlPropertyBean> getAllControlPropertyByType (int type, int organizationId, String spuCode) {
+    public List<ControlPropertyBean> getAllControlPropertyByType (int type, int organizationId, String spuCode) {
         switch (type) {
             case 5:
                 // 采购和库存属性：5
@@ -372,7 +398,7 @@ public class MaterialInfoServiceImplSupplier {
 
     // ---------------------------------------- 更新控制信息部分 ----------------------------------------
 
-    private static int checkList (String[] keyList, String key) {
+    private int checkList (String[] keyList, String key) {
         for (int i = 0; i < keyList.length; ++i) {
             if (keyList[i].equals(key)) {
                 return 1;
@@ -381,7 +407,7 @@ public class MaterialInfoServiceImplSupplier {
         return 0;
     }
 
-    public static int updatePurchaseAndStoreProperties (int versionId, int ctrlPropId, String name, String value) {
+    public int updatePurchaseAndStoreProperties (int versionId, int ctrlPropId, String name, String value) {
         String[] keyList = purchaseAndStoreList.getPurchasePropertiesList();
         int flag = checkList(keyList, name);
         if (flag == 0) {
@@ -390,7 +416,7 @@ public class MaterialInfoServiceImplSupplier {
         return materialInfoMapper.updateCtrlPropWithCtrlPropParams(versionId, ctrlPropId, value);
     }
 
-    public static int updatePlanProperties (int versionId, int ctrlPropId, String name, String value) {
+    public int updatePlanProperties (int versionId, int ctrlPropId, String name, String value) {
         String[] keyList = planList.getPlanPropertiesList();
         int flag = checkList(keyList, name);
         if (flag == 0) {
@@ -399,7 +425,7 @@ public class MaterialInfoServiceImplSupplier {
         return materialInfoMapper.updateCtrlPropWithCtrlPropParams(versionId, ctrlPropId, value);
     }
     
-    public static int updateSalesProperties (int versionId, int ctrlPropId, String name, String value) {
+    public int updateSalesProperties (int versionId, int ctrlPropId, String name, String value) {
         String[] keyList = salesList.getSalesList();
         int flag = checkList(keyList, name);
         if (flag == 0) {
@@ -408,7 +434,7 @@ public class MaterialInfoServiceImplSupplier {
         return materialInfoMapper.updateCtrlPropWithCtrlPropParams(versionId, ctrlPropId, value);
     }
 
-    public static int updateQualityProperties (int versionId, int ctrlPropId, String name, String value) {
+    public int updateQualityProperties (int versionId, int ctrlPropId, String name, String value) {
         String[] keyList = qualityList.getQualityList();
         int flag = checkList(keyList, name);
         if (flag == 0) {
@@ -417,7 +443,7 @@ public class MaterialInfoServiceImplSupplier {
         return materialInfoMapper.updateCtrlPropWithCtrlPropParams(versionId, ctrlPropId, value);
     }
 
-    public static int updateFinanceProperties (int versionId, int ctrlPropId, String name, String value) {
+    public int updateFinanceProperties (int versionId, int ctrlPropId, String name, String value) {
         String[] keyList = financeList.getFinanceList();
         int flag = checkList(keyList, name);
         if (flag == 0) {
@@ -426,7 +452,7 @@ public class MaterialInfoServiceImplSupplier {
         return materialInfoMapper.updateCtrlPropWithCtrlPropParams(versionId, ctrlPropId, value);
     }
 
-    public static int updateControlPropertyByTypeAndValue (int type, int organizationCode, String spuCode, String name, String value) {
+    public int updateControlPropertyByTypeAndValue (int type, int organizationCode, String spuCode, String name, String value) {
         // 获取物料分类id，不存在就返回空
         List<MaterialBaseModel> baseResult = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
         if (baseResult == null || baseResult.size() == 0) {

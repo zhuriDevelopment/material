@@ -68,6 +68,11 @@ public class MaterialInfoController {
             List<Object> result = new ArrayList<>();
             result.add("请检查输入格式是否正确！");
             return result;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            List<Object> result = new ArrayList<>();
+            result.add("请检查输入格式是否正确！");
+            return result;
         }
     }
 

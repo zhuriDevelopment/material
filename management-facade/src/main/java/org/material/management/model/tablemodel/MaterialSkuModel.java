@@ -11,6 +11,7 @@ public class MaterialSkuModel {
     private int unitId;
     private int purchasePrice;
     private int sellingPrice;
+    private String description;
 
     public int getId() {
         return id;
@@ -66,5 +67,13 @@ public class MaterialSkuModel {
 
     public void setSellingPrice(int sellingPrice) {
         this.sellingPrice = sellingPrice;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
