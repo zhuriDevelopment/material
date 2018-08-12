@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 public class MaterialInfoServiceImpl implements MaterialInfoService {
     @Autowired
     MaterialInfoMapper materialInfoMapper;
+    @Autowired
+    MaterialInfoServiceImplSupplier materialInfoServiceImplSupplier;
 
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
@@ -66,7 +68,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
             // 物料类型，助记码，SPU名称，物料描述，得到一个SPU Code List
             String[] baseInfoKeyList = {"materialType", "mnemonic", "spuName", "description"};
             String[] baseInfoTargetList = {"type", "mnemonic", "spuName", "description"};
-            Map<String, Object> baseInfoMap = MaterialInfoServiceImplSupplier.splitBaseInfoParams(params, baseInfoKeyList, baseInfoTargetList);
+            Map<String, Object> baseInfoMap = materialInfoServiceImplSupplier.splitBaseInfoParams(params, baseInfoKeyList, baseInfoTargetList);
             List<String> spuCodeFromBase = null;
             if (baseInfoMap.size() > 0) {
                 List<MaterialBaseModel> baseInfoResult = materialInfoMapper.getBaseInfoWithBaseInfoParams(baseInfoMap);
@@ -78,7 +80,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
             // 对于可能的物料分类名称，先查出对应的物料分类ID
             String[] categoryKeyList = {"materialCategory"};
             String[] categoryTargetList = {"name"};
-            Map<String, Object> categoryMap = MaterialInfoServiceImplSupplier.splitCategoryParams(params, categoryKeyList, categoryTargetList);
+            Map<String, Object> categoryMap = materialInfoServiceImplSupplier.splitCategoryParams(params, categoryKeyList, categoryTargetList);
             List<Integer> materialCatIdList = null;
             if (categoryMap.size() > 0) {
                 List<MaterialCategoryModel> categoryResult = materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(categoryMap);
@@ -97,7 +99,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                 } else {
                     // 否则正常处理
                     String[] catBaseKeyList = {"materialCatId"};
-                    Map<String, Object> categoryBaseMap = MaterialInfoServiceImplSupplier.splitBaseInfoParams(params, catBaseKeyList, catBaseKeyList);
+                    Map<String, Object> categoryBaseMap = materialInfoServiceImplSupplier.splitBaseInfoParams(params, catBaseKeyList, catBaseKeyList);
                     if (categoryBaseMap.size() > 0) {
                         List<MaterialBaseModel> cateInfoResult = materialInfoMapper.getBaseInfoWithBaseInfoParams(categoryBaseMap);
                         spuCodeFromCategory = cateInfoResult.stream()
@@ -110,7 +112,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
 
             // 对于物料编码，先去material表中查询
             String[] materialKeyList = {"materialCode"};
-            Map<String, Object> materialMap = MaterialInfoServiceImplSupplier.splitMaterialParams(params, materialKeyList, materialKeyList);
+            Map<String, Object> materialMap = materialInfoServiceImplSupplier.splitMaterialParams(params, materialKeyList, materialKeyList);
             List<String> spuCodeFromMaterial = null;
             if (materialMap.size() > 0) {
                 List<MaterialModel> materialResult = materialInfoMapper.getMaterialWithMaterialParams(materialMap);
@@ -201,7 +203,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                     List<MaterialBaseModel> baseInfos = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
                     // 预设SPU编码必须唯一！
                     if (baseInfos != null && baseInfos.size() > 0) {
-                        materialBaseId = baseInfos.get(0).getMaterialCatId();
+                        materialBaseId = baseInfos.get(0).getId();
                         result.add(baseInfos);
                     }
                     break;
@@ -218,7 +220,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                 case 3:
                     paramsMap = new HashMap<>(16);
                     paramsMap.put("spuCode", spuCode);
-                    List<MaterialSkuModel> skuInfos = materialInfoMapper.getMaterialSkuWithMaterialSkuParams(paramsMap);
+                    List<Object> skuInfos = materialInfoServiceImplSupplier.getMaterialSkuWithMaterialSkuParams(paramsMap);
                     if (skuInfos != null && skuInfos.size() > 0) {
                         result.add(skuInfos);
                     }
@@ -229,7 +231,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                         List<MaterialBaseModel> baseInfoForFiles = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
                         if (baseInfoForFiles != null && baseInfoForFiles.size() > 0) {
                             // 有对应的记录
-                            materialBaseId = baseInfoForFiles.get(0).getMaterialCatId();
+                            materialBaseId = baseInfoForFiles.get(0).getId();
                         } else {
                             // 若没有返回空数组
                             result.add(new ArrayList<>());
@@ -249,7 +251,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                 case 10:
                     // 计量单位
                     // * 先不考虑默认计量单位，默认计量单位返回以第一个检查到的记录为准
-                    List<UnitModel> fileUnits = MaterialInfoServiceImplSupplier.getAllUnitsBySpuCode(spuCode);
+                    List<UnitModel> fileUnits = materialInfoServiceImplSupplier.getAllUnitsBySpuCode(spuCode);
                     if (fileUnits != null && fileUnits.size() > 0) {
                         result.add(fileUnits);
                     } else {
@@ -258,7 +260,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                     break;
                 case 11:
                     // 规格信息
-                    List<Object> standardProperty = MaterialInfoServiceImplSupplier.getMaterialBasePropBySpuCodeAndType(spuCode, 4);
+                    List<Object> standardProperty = materialInfoServiceImplSupplier.getMaterialBasePropBySpuCodeAndType(spuCode, 4);
                     if (standardProperty != null && standardProperty.size() > 0) {
                         result.add(standardProperty);
                     } else {
@@ -266,7 +268,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                     }
                     break;
                 default:
-                    List<ControlPropertyBean> controlProps = MaterialInfoServiceImplSupplier.getAllControlPropertyByType(i, orgnizationId, spuCode);
+                    List<ControlPropertyBean> controlProps = materialInfoServiceImplSupplier.getAllControlPropertyByType(i, orgnizationId, spuCode);
                     if (controlProps.size() > 0) {
                         result.add(controlProps);
                     }
@@ -357,14 +359,14 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                         break;
                     case 11:
                         // 规格信息
-                        tmpresult = MaterialInfoServiceImplSupplier.updateMaterialBasePropBySpuCode(spuCode, 4, name, value);
+                        tmpresult = materialInfoServiceImplSupplier.updateMaterialBasePropBySpuCode(spuCode, 4, name, value);
                         break;
                     default:
                         // 5 - 9 控制信息
                         // 先获取materialBaseId
                         if (needUpdate.containsKey("organizationCode")) {
                             int organizationCode = Integer.parseInt((String) needUpdate.get("organizationCode"));
-                            tmpresult = MaterialInfoServiceImplSupplier.updateControlPropertyByTypeAndValue(propertyType, organizationCode, spuCode, name, value);
+                            tmpresult = materialInfoServiceImplSupplier.updateControlPropertyByTypeAndValue(propertyType, organizationCode, spuCode, name, value);
                         } else {
                             tmpresult = 0;
                         }

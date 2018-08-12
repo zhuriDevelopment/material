@@ -10,7 +10,7 @@ public class MaterialCtrlPropValVerModel {
     private String version;
     private String organizationCode;
     private int materialCatId;
-    private int materialId;
+    private String spuCode;
     private Timestamp startDate;
     private Timestamp endDate;
 
@@ -46,12 +46,12 @@ public class MaterialCtrlPropValVerModel {
         this.materialCatId = materialCatId;
     }
 
-    public int getMaterialId() {
-        return materialId;
+    public String getSpuCode () {
+        return spuCode;
     }
 
-    public void setMaterialId(int materialId) {
-        this.materialId = materialId;
+    public void setSpuCode (String spuCode) {
+        this.spuCode = spuCode;
     }
 
     public Timestamp getStartDate() {
