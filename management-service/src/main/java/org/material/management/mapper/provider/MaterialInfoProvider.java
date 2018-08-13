@@ -10,7 +10,7 @@ public class MaterialInfoProvider {
     // ---------------------------------------- 获取物料信息部分 ----------------------------------------
     public String getBaseInfoWithBaseInfoParams (Map<String, Object> params) {
         String[] keyList = {"id", "spuCode", "mnemonic", "spuName", "description", "type", "designCode", "designVersion", "defaultUnitId", "source",
-                            "usage", "materialCatId"};
+                            "usage", "note", "materialCatId"};
         return new SQL () {
             {
                 SELECT("*");
@@ -41,7 +41,7 @@ public class MaterialInfoProvider {
     }
 
     public String getMaterialSkuWithMaterialSkuParams (Map<String, Object> params) {
-        String[] keyList = {"id", "spuCode", "skuCode", "materialId", "unitId", "purchasePrice", "sellingPrice"};
+        String[] keyList = {"id", "spuCode", "skuCode", "materialId", "unitId", "purchasePrice", "sellingPrice", "description"};
         return new SQL() {
             {
                 SELECT("*");
@@ -176,7 +176,7 @@ public class MaterialInfoProvider {
     }
 
     public String getCtrlPropValVerWithCtrlPropValVerParams (Map<String, Object> params) {
-        String[] keyList = {"id", "version", "origanizationCode", "materialCatId", "materialId", "startDate", "endDate"};
+        String[] keyList = {"id", "version", "origanizationCode", "materialCatId", "spuCode", "startDate", "endDate"};
         return new SQL() {
             {
                 SELECT("*");
