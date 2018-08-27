@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS `materialCategory` (
 	`id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	`code` VARCHAR(20) NOT NULL,
 	`name` VARCHAR(50) NOT NULL,
+	`type` INT UNSIGNED NOT NULL,
 	`parentId` INT UNSIGNED NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -185,15 +186,15 @@ INSERT INTO `materialUnit` VALUES (1,'110101',1,1,1,1), \
 UNLOCK TABLES;
 
 LOCK TABLES `materialCategory` WRITE;
-INSERT INTO `materialCategory` VALUES (1,'1000','A类',0), \
-										(2,'2000','B类',0), \
-										(3,'3000','C类',0), \
-										(4,'1100','工厂用品',1), \
-										(5,'2100','仓库存货',2), \
-										(6,'3100','办公用品',3), \
-										(7,'1101','大型机器',4), \
-										(8,'2101','布料',5), \
-										(9,'3101','文具类',6);
+INSERT INTO `materialCategory` VALUES (1,'1000','A类',0,0), \
+										(2,'2000','B类',0,0), \
+										(3,'3000','C类',0,0), \
+										(4,'1100','工厂用品',0,1), \
+										(5,'2100','仓库存货',0,2), \
+										(6,'3100','办公用品',0,3), \
+										(7,'1101','大型机器',4,4), \
+										(8,'2101','布料',1,5), \
+										(9,'3101','文具类',4,6);
 UNLOCK TABLES;
 
 LOCK TABLES `materialBaseProp` WRITE;
@@ -253,7 +254,7 @@ INSERT INTO `materialCtrlProp` VALUES (1,5,'物料制购类型',1),
 									(24,7,'计价货币',1),
 									(25,7,'是否售价控制',2),
 									(26,7,'销售价格策略',1),
-									(27,7,'销价下降率（%）',3),
+									(27,7,'销价下限率（%）',3),
 									(28,7,'销售成本科目',4),
 									(29,7,'默认客户',4),
 									(30,7,'销售地',1),
@@ -269,7 +270,7 @@ INSERT INTO `materialCtrlProp` VALUES (1,5,'物料制购类型',1),
 									(40,8,'检验标准文件',3),
 									(41,9,'财务类别',1),
 									(42,9,'记账本位币',1),
-									(43,9,'会记科目',4),
+									(43,9,'会计科目',4),
 									(44,9,'增值税代码',4),
 									(45,9,'存货计价方法',1),
 									(46,9,'成本计算方法',1),

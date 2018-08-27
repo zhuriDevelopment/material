@@ -17,6 +17,6 @@ server:
 
 #logging:
 #  level:
-#    org.material.management.mapper.MaterialInfoMapper: trace
+#    MaterialInfoMapper: trace
 
 #-------------------------------- 以上为系统配置 --------------------------------
