@@ -215,6 +215,8 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                     List<MaterialModel> materialInfos = materialInfoMapper.getMaterialWithMaterialParams(paramsMap);
                     if (materialInfos != null && materialInfos.size() > 0) {
                         result.add(materialInfos);
+                    } else {
+                        result.add(new ArrayList<>());
                     }
                     break;
                 case 3:
@@ -223,6 +225,8 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                     List<Object> skuInfos = materialInfoServiceImplSupplier.getMaterialSkuWithMaterialSkuParams(paramsMap);
                     if (skuInfos != null && skuInfos.size() > 0) {
                         result.add(skuInfos);
+                    } else {
+                        result.add(new ArrayList<>());
                     }
                     break;
                 case 4:
@@ -298,13 +302,18 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         for (Object element : data) {
             Map<String, Object> needUpdate = (Map<String, Object>) element;
             int propertyType = Integer.parseInt(needUpdate.get("propertyType").toString());
-            List<Map<String, String>> updateValue = (List<Map<String, String>>) needUpdate.get("updateValue");
+            List<Map<String, Object>> updateValue = (List<Map<String, Object>>) needUpdate.get("updateValue");
             logger.debug("propertyType = " + propertyType);
-            for (Map<String, String> kvPairs : updateValue) {
-                String name = kvPairs.get("name");
-                String value = kvPairs.get("value");
-                logger.debug("name = " + name);
-                logger.debug("value = " + value);
+            for (Map<String, Object> kvPairs : updateValue) {
+                String name = null, value = null;
+                if (kvPairs.containsKey("name")) {
+                    name = kvPairs.get("name").toString();
+                    logger.debug("name = " + name);
+                }
+                if (kvPairs.containsKey("value")) {
+                    value = kvPairs.get("value").toString();
+                    logger.debug("value = " + value);
+                }
                 switch (propertyType) {
                     case 1:
                         // 物料基本信息
@@ -312,11 +321,11 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                         break;
                     case 2:
                         // 物料定义
-                        tmpresult = materialInfoMapper.updateMaterialWithMaterialParams(spuCode, name, value);
+                        tmpresult = materialInfoServiceImplSupplier.updateMaterialWithMaterialList(spuCode, updateValue);
                         break;
                     case 3:
                         // SKU定义
-                        tmpresult = materialInfoMapper.updateMaterialSkuWithMaterialSkuParams(spuCode, name, value);
+                        tmpresult = materialInfoServiceImplSupplier.updateMaterialSkuWithMaterialSkuList(spuCode, updateValue);
                         break;
                     case 4:
                         // 附件信息
@@ -329,8 +338,8 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                         //查询当前的更新信息是否在unit表中有对应记录
                         Map<String, Object> params = new HashMap<>();
                         params.clear();
-                        for(Map<String, String> e : updateValue) {
-                            params.put(e.get("name"), e.get("value"));
+                        for(Map<String, Object> e : updateValue) {
+                            params.put(e.get("name").toString(), e.get("value").toString());
                         }
                         int size = materialInfoMapper.getUnitWithUnitParams(params).size();
                         //size为0则在unit表中添加相应记录

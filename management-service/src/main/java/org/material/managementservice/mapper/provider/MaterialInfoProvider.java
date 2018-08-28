@@ -1,6 +1,7 @@
 package org.material.managementservice.mapper.provider;
 
 import java.util.Map;
+
 import org.apache.ibatis.jdbc.SQL;
 
 // 本类所有的方法均要求做到对全部参数可用
@@ -10,8 +11,8 @@ public class MaterialInfoProvider {
     // ---------------------------------------- 获取物料信息部分 ----------------------------------------
     public String getBaseInfoWithBaseInfoParams (Map<String, Object> params) {
         String[] keyList = {"id", "spuCode", "mnemonic", "spuName", "description", "type", "designCode", "designVersion", "defaultUnitId", "source",
-                            "usage", "note", "materialCatId"};
-        return new SQL () {
+                "usage", "note", "materialCatId"};
+        return new SQL() {
             {
                 SELECT("*");
                 FROM("materialBase");
@@ -26,8 +27,8 @@ public class MaterialInfoProvider {
 
     public String getMaterialWithMaterialParams (Map<String, Object> params) {
         String[] keyList = {"id", "spuCode", "materialCode", "materialName", "oldMaterialCode", "barCode", "materialBaseId", "purchasePrice",
-                            "sellingPrice"};
-        return new SQL () {
+                "sellingPrice"};
+        return new SQL() {
             {
                 SELECT("*");
                 FROM("material");
@@ -87,7 +88,7 @@ public class MaterialInfoProvider {
 
     public String getMaterialCategoryWithMaterialCategoryParams (Map<String, Object> params) {
         String[] keyList = {"id", "code", "name", "parentId"};
-        return new SQL () {
+        return new SQL() {
             {
                 SELECT("*");
                 FROM("materialCategory");
@@ -102,7 +103,7 @@ public class MaterialInfoProvider {
 
     public String getMaterialBasePropWithMaterialBasePropParams (Map<String, Object> params) {
         String[] keyList = {"id", "materialCatId", "type", "label", "name", "range", "sort"};
-        return new SQL () {
+        return new SQL() {
             {
                 SELECT("*");
                 FROM("materialBaseProp");
@@ -117,7 +118,7 @@ public class MaterialInfoProvider {
 
     public String getMaterialBasePropValWithMaterialBasePropValParams (Map<String, Object> params) {
         String[] keyList = {"id", "spuCode", "materialCode", "materialBasePropId", "value"};
-        return new SQL () {
+        return new SQL() {
             {
                 SELECT("*");
                 FROM("materialBasePropVal");
@@ -190,6 +191,58 @@ public class MaterialInfoProvider {
         }.toString();
     }
 
+    // ---------------------------------------- 添加物料基本信息部分 ----------------------------------------
+    public String insertMaterialWithSpuCodeAndParams (String spuCode, int materialBaseId, Map<String, Object> params) {
+        String[] stringList = {"materialCode", "materialName", "oldMaterialCode", "barCode"};
+        String[] intList = {"materialBaseId", "purchasePrice", "sellingPrice"};
+        return new SQL() {
+            {
+                INSERT_INTO("material");
+                VALUES("spuCode", "'" + spuCode + "'");
+                for (String key : stringList) {
+                    if (params.containsKey(key)) {
+                        String column = key;
+                        String value = params.get(key).toString();
+                        VALUES(column, "'" + value + "'");
+                    }
+                }
+                VALUES("materialBaseId", Integer.toString(materialBaseId));
+                for (String key : intList) {
+                    if (params.containsKey(key)) {
+                        String column = key;
+                        String value = params.get(key).toString();
+                        VALUES(column, value);
+                    }
+                }
+            }
+        }.toString();
+    }
+
+    public String insertMaterialSkuWithSpuCodeAndParams (String spuCode, Map<String, Object> params) {
+        String[] stringList = {"skuCode", "description"};
+        String[] intList = {"unitId", "purchasePrice", "sellingPrice", "materialId"};
+        return new SQL() {
+            {
+                INSERT_INTO("materialSku");
+                VALUES("spuCode", "'" + spuCode + "'");
+                for (String key : stringList) {
+                    if (params.containsKey(key)) {
+                        String column = key;
+                        String value = params.get(key).toString();
+                        VALUES(column, "'" + value + "'");
+                    }
+                }
+                for (String key : intList) {
+                    if (params.containsKey(key)) {
+                        String column = key;
+                        String value = params.get(key).toString();
+                        VALUES(column, value);
+                    }
+                }
+            }
+        }.toString();
+    }
+
     // ---------------------------------------- 更新物料基本信息部分 ----------------------------------------
     public String updateBaseInfoWithBaseInfoParams (String spuCode, String name, String value) {
         return new SQL() {
@@ -206,30 +259,6 @@ public class MaterialInfoProvider {
         return new SQL() {
             {
                 UPDATE("materialBase");
-                int len = names.length;
-                for (int i = 0; i < len; ++i) {
-                    SET(names[i] + "=" + values[i]);
-                }
-                WHERE("spuCode = " + spuCode);
-            }
-        }.toString();
-    }
-
-    public String updateMaterialWithMaterialParams (String spuCode, String name, String value) {
-        return new SQL() {
-            {
-                UPDATE("material");
-                SET(name + "=" + value);
-                WHERE("spuCode = " + spuCode);
-            }
-        }.toString();
-    }
-
-    public String updateMaterialWithMaterialParamsArray (String spuCode, String[] names, String[] values) {
-        // 必须保证names长度和values长度一致！
-        return new SQL() {
-            {
-                UPDATE("material");
                 int len = names.length;
                 for (int i = 0; i < len; ++i) {
                     SET(names[i] + "=" + values[i]);
@@ -341,4 +370,22 @@ public class MaterialInfoProvider {
         }.toString();
     }
 
+    // ---------------------------------------- 删除物料基本信息部分 ----------------------------------------
+    public String deleteAllMaterialWithSpuCode (String spuCode) {
+        return new SQL() {
+            {
+                DELETE_FROM("material");
+                WHERE("spuCode = " + spuCode);
+            }
+        }.toString();
+    }
+
+    public String deleteAllMaterialSkuWithSpuCode (String spuCode) {
+        return new SQL() {
+            {
+                DELETE_FROM("materialSku");
+                WHERE("spuCode = " + spuCode);
+            }
+        }.toString();
+    }
 }

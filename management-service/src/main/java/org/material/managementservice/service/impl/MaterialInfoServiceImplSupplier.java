@@ -13,6 +13,8 @@ import org.material.managementfacade.model.propertymodel.quality.QualityList;
 import org.material.managementfacade.model.propertymodel.finance.FinanceList;
 import org.material.managementservice.mapper.MaterialInfoMapper;
 import org.material.managementfacade.model.tablemodel.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,8 @@ public class MaterialInfoServiceImplSupplier {
     private FinanceList financeList;
     @Autowired
     private MaterialInfoMapper materialInfoMapper;
+
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
     // ---------------------------------------- 生成参数Map部分 ----------------------------------------
     // 根据提供的参数生成对应的参数Map的方法
@@ -74,6 +78,35 @@ public class MaterialInfoServiceImplSupplier {
         return chooseParams(params, keyList, targetList);
     }
 
+    // ---------------------------------------- 物料定义部分 ----------------------------------------
+    int updateMaterialWithMaterialList(String spuCode, List<Map<String, Object>> updateValue) {
+        int result = 0;
+        // 先删除已有的所有记录
+        result = materialInfoMapper.deleteAllMaterialWithSpuCode(spuCode);
+        logger.debug("删除所有的物料记录，删除了" + result + "条。");
+        // 再完全重新插入
+        int dataLen = updateValue.size();
+        List<MaterialBaseModel> baseInfoForFiles = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
+        int materialBaseId;
+        if (baseInfoForFiles != null && baseInfoForFiles.size() > 0) {
+            // 有对应的记录
+            materialBaseId = baseInfoForFiles.get(0).getId();
+        } else {
+            // 若没有采用-1
+            materialBaseId = -1;
+        }
+        logger.debug("spuCode = " + spuCode + ", materialBaseId = " + materialBaseId);
+        result = 0;
+        for (int i = 0; i < dataLen; ++i) {
+            int updateId;
+            updateId = materialInfoMapper.insertMaterialWithSpuCodeAndParams(spuCode, materialBaseId, updateValue.get(i));
+            if (updateId >= 0) {
+                result++;
+            }
+        }
+        return result;
+    }
+
     // ---------------------------------------- 物料sku信息部分 ----------------------------------------
 
     List<Object> getMaterialSkuWithMaterialSkuParams (Map<String, Object> params) {
@@ -107,6 +140,50 @@ public class MaterialInfoServiceImplSupplier {
             result.add(unitModels);
         } else {
             result.add(new ArrayList<>());
+        }
+        return result;
+    }
+
+    int updateMaterialSkuWithMaterialSkuList (String spuCode, List<Map<String, Object>> updateValue) {
+        int result = 0;
+        result = materialInfoMapper.deleteAllMaterialSkuWithSpuCode(spuCode);
+        logger.debug("删除所有的物料sku记录，删除了" + result + "条。");
+        int dataLen = updateValue.size();
+        result = 0;
+        Map<String, Object> paramsMap = new HashMap<>();
+        for (int i = 0; i < dataLen; ++i) {
+            int updateId;
+            logger.debug("spuCode = " + spuCode);
+            // 填充unitId
+            paramsMap.clear();
+            paramsMap.put("name", updateValue.get(i).get("unit"));
+            List<UnitModel> unitResult = materialInfoMapper.getUnitWithUnitParams(paramsMap);
+            int unitId;
+            if (unitResult != null && unitResult.size() > 0) {
+                // 有对应的记录
+                unitId = unitResult.get(0).getId();
+            } else {
+                unitId = -1;
+            }
+            updateValue.get(i).put("unitId", unitId);
+            logger.debug("unitId = " + unitId);
+            // 填充materialId
+            paramsMap.clear();
+            paramsMap.put("materialCode", updateValue.get(i).get("materialCode"));
+            List<MaterialModel> materialResult = materialInfoMapper.getMaterialWithMaterialParams(paramsMap);
+            int materialId;
+            if (materialResult != null && materialResult.size() > 0) {
+                // 存在对应记录
+                materialId = materialResult.get(0).getId();
+            } else {
+                materialId = -1;
+            }
+            updateValue.get(i).put("materialId", materialId);
+            logger.debug("materialId = " + materialId);
+            updateId = materialInfoMapper.insertMaterialSkuWithSpuCodeAndParams(spuCode, updateValue.get(i));
+            if (updateId >= 0) {
+                result++;
+            }
         }
         return result;
     }

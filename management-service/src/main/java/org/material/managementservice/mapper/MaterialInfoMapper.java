@@ -14,7 +14,7 @@ public interface MaterialInfoMapper {
     // ---------------------------------------- 获取物料信息部分 ----------------------------------------
     @Select("SELECT * FROM materialBase")
     List<MaterialBaseModel> getAllBaseInfo ();
-    
+
     @SelectProvider(type = MaterialInfoProvider.class,
                     method = "getBaseInfoWithBaseInfoParams")
     List<MaterialBaseModel> getBaseInfoWithBaseInfoParams (Map<String, Object> params);
@@ -82,22 +82,6 @@ public interface MaterialInfoMapper {
     int updateupdateBaseInfoWithBaseInfoParamsArray (String spuCode, String[] names, String[] values);
 
     @UpdateProvider(type = MaterialInfoProvider.class,
-                    method = "updateMaterialWithMaterialParams")
-    int updateMaterialWithMaterialParams (String spuCode, String name, String value);
-
-    @UpdateProvider(type = MaterialInfoProvider.class,
-                    method = "updateMaterialWithMaterialParamsArray")
-    int updateMaterialWithMaterialParamsArray (String spuCode, String[] names, String[] values);
-
-    @UpdateProvider(type = MaterialInfoProvider.class,
-                    method = "updateMaterialSkuWithMaterialSkuParams")
-    int updateMaterialSkuWithMaterialSkuParams (String spuCode, String name, String value);
-
-    @UpdateProvider(type = MaterialInfoProvider.class,
-                    method = "updateMaterialSkuWithMaterialSkuParamsArray")
-    int updateMaterialSkuWithMaterialSkuParamsArray (String spuCode, String[] names, String[] values);
-
-    @UpdateProvider(type = MaterialInfoProvider.class,
                     method = "updateMaterialUnitWithMaterialUnitParams")
     int updateMaterialUnitWithMaterialUnitParams (String spuCode, String name, String value);
 
@@ -125,10 +109,27 @@ public interface MaterialInfoMapper {
                     method = "updateCtrlPropWithCtrlPropParams")
     int updateCtrlPropWithCtrlPropParams (int versionId, int ctrlPropId, String value);
 
+    // ---------------------------------------- 删除物料基本信息部分 ----------------------------------------
+    @DeleteProvider(type = MaterialInfoProvider.class,
+                    method = "deleteAllMaterialWithSpuCode")
+    int deleteAllMaterialWithSpuCode (String spuCode);
+
+    @DeleteProvider(type = MaterialInfoProvider.class,
+                    method = "deleteAllMaterialSkuWithSpuCode")
+    int deleteAllMaterialSkuWithSpuCode (String spuCode);
+
     // ---------------------------------------- 增加物料基本信息部分 ---------------------------------------
+    @InsertProvider(type = MaterialInfoProvider.class,
+                    method = "insertMaterialWithSpuCodeAndParams")
+    int insertMaterialWithSpuCodeAndParams (String spuCode, int materialBaseId, Map<String, Object> params);
+
+    @InsertProvider(type = MaterialInfoProvider.class,
+                    method = "insertMaterialSkuWithSpuCodeAndParams")
+    int insertMaterialSkuWithSpuCodeAndParams (String spuCode, Map<String, Object> params);
+
     @Insert("INSERT INTO materialUnit(spuCode, unitId, relatedId, conversionFactor, sort) VALUES(#{spuCode},#{unitId},#{relatedId},#{conversionFactor},#{sort});")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    int addMaterialUnit(@Param("spuCode") String spuCode, @Param("unitId") int unitId, @Param("relatedId") int relatedId, @Param("conversionFactor") double conversionFactor, @Param("sort") int sort);
+    int addMaterialUnit (@Param("spuCode") String spuCode, @Param("unitId") int unitId, @Param("relatedId") int relatedId, @Param("conversionFactor") double conversionFactor, @Param("sort") int sort);
 
     @Insert("INSERT INTO unit(label, name, englishName, relatedId, conversionFactor, sort) VALUES(#{label},#{name},#{englishName},#{relatedId},#{conversionFactor},#{sort});")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
