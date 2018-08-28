@@ -245,10 +245,23 @@ public class MaterialInfoProvider {
 
     // ---------------------------------------- 更新物料基本信息部分 ----------------------------------------
     public String updateBaseInfoWithBaseInfoParams (String spuCode, String name, String value) {
+        String[] stringList = {"spuCode", "mnemonic", "spuName", "description", "designCode", "designVersion",
+                                "source", "usage", "note"};
         return new SQL() {
             {
                 UPDATE("materialBase");
-                SET(name + "=" + value);
+                boolean stringFlag = false;
+                for (String key : stringList) {
+                    if (key.equals(name)) {
+                        stringFlag = true;
+                        break;
+                    }
+                }
+                if (stringFlag) {
+                    SET(name + "='" + value + "'");
+                } else {
+                    SET(name + "=" + value);
+                }
                 WHERE("spuCode = " + spuCode);
             }
         }.toString();

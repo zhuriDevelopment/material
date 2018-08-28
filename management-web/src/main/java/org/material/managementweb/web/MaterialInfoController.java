@@ -2,10 +2,8 @@ package org.material.managementweb.web;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.jdbc.Null;
-import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
+import org.material.managementservice.service.impl.MaterialInfoServiceImpl;
 import org.springframework.http.MediaType;
-import org.material.managementfacade.service.MaterialInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +18,7 @@ import org.material.managementfacade.model.processmodel.MaterialCategoryTree;
 @Api(value = "物料信息接口", description = "物料信息接口")
 public class MaterialInfoController {
     @Autowired
-    MaterialInfoService materialInfoService;
+    private MaterialInfoServiceImpl materialInfoService;
 
     @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
                  methods = {RequestMethod.POST},
