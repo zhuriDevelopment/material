@@ -154,8 +154,11 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         result.add(baseResult);
         List<MaterialCategoryModel> catResult = new ArrayList<>();
         catResult.clear();
+        List<UnitModel> unitResult = new ArrayList<>();
+        unitResult.clear();
         for (MaterialBaseModel element : baseResult) {
             List<MaterialCategoryModel> tmp;
+            List<UnitModel> tmpUnit;
             params.clear();
             params.put("id", element.getMaterialCatId());
             tmp = materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(params);
@@ -164,8 +167,17 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
             } else {
                 catResult.add(new MaterialCategoryModel());
             }
+            params.clear();
+            params.put("id", element.getDefaultUnitId());
+            tmpUnit = materialInfoMapper.getUnitWithUnitParams(params);
+            if (tmpUnit.size() > 0) {
+                unitResult.addAll(tmpUnit);
+            } else {
+                unitResult.add(new UnitModel());
+            }
         }
         result.add(catResult);
+        result.add(unitResult);
         return result;
     }
 
