@@ -190,18 +190,25 @@ public class MaterialInfoServiceImplSupplier {
 
     // ---------------------------------------- 获取物料单位部分 ----------------------------------------
 
-    List<UnitModel> getAllUnitsBySpuCode (String spuCode) {
+    List<Object> getAllUnitsBySpuCode (String spuCode) {
         // 先获取所有的物料单位记录
         Map<String, Object> params = new HashMap<>();
         params.clear();
         params.put("spuCode", spuCode);
-        List<MaterialUnitModel> materialUnits = materialInfoMapper.getMaterialUnitWithMaterialUnitParams(params);//?????????/
-        List<UnitModel> result = new ArrayList<>();
+        List<MaterialBaseModel> materialBases = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
+        int defaultUnitId = materialBases.get(0).getDefaultUnitId();
+        List<MaterialUnitModel> materialUnits = materialInfoMapper.getMaterialUnitWithMaterialUnitParams(params);
+        List<Object> result = new ArrayList<>();
+        List<UnitModel> allUnit = new ArrayList<>();
+        List<UnitModel> defaultUnit = new ArrayList<>();
         result.clear();
+        allUnit.clear();
+        defaultUnit.clear();
         // 对于每个物料单位记录逐个查询，以覆盖转换系数
         for (MaterialUnitModel element : materialUnits) {
+            int unitId = element.getUnitId();
             params.clear();
-            params.put("id", element.getUnitId());
+            params.put("id", unitId);
             List<UnitModel> tmp = materialInfoMapper.getUnitWithUnitParams(params);
             if (tmp != null && tmp.size() > 0) {
                 // 这里应该只有第一个为有效
@@ -213,9 +220,14 @@ public class MaterialInfoServiceImplSupplier {
                 if (sort > 0) {
                     tmp.get(0).setSort(sort);
                 }
-                result.addAll(tmp);
+                allUnit.addAll(tmp);
+                if (unitId == defaultUnitId) {
+                    defaultUnit.addAll(tmp);
+                }
             }
         }
+        result.add(defaultUnit);
+        result.add(allUnit);
         return result;
     }
 

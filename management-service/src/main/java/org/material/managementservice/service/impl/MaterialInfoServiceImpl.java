@@ -254,8 +254,8 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                     break;
                 case 10:
                     // 计量单位
-                    // * 先不考虑默认计量单位，默认计量单位返回以第一个检查到的记录为准
-                    List<UnitModel> fileUnits = materialInfoServiceImplSupplier.getAllUnitsBySpuCode(spuCode);
+                    // 包括默认计量单位
+                    List<Object> fileUnits = materialInfoServiceImplSupplier.getAllUnitsBySpuCode(spuCode);
                     if (fileUnits != null && fileUnits.size() > 0) {
                         result.add(fileUnits);
                     } else {
