@@ -257,9 +257,10 @@ public class MaterialInfoServiceImplSupplier {
         Map<String, Object> params = new HashMap<>();
         params.clear();
         params.put("spuCode", spuCode);
-        //params.put("type", propertyType);
+        // 查询所有此spu编码下的不同物料的默认值
+        params.put("materialCode", "-1");
         List<MaterialBasePropValModel> valResult = materialInfoMapper.getMaterialBasePropValWithMaterialBasePropValParams(params);
-        result.addAll(valResult);
+        result.add(valResult);
         List<MaterialBasePropModel> propResult = new ArrayList<>();
         propResult.clear();
         for (MaterialBasePropValModel element : valResult) {

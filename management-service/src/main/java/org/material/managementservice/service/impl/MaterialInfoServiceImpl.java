@@ -195,7 +195,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         规格信息：11
     */
     @Override
-    public List<Object> getMaterialInfo (String spuCode, String spuName, List<Integer> types, int orgnizationId) {
+    public List<Object> getMaterialInfo (String spuCode, String spuName, List<Integer> types, int organizationId) {
         int maxTypeNum = 11;
         int[] flag = new int[maxTypeNum + 1];
         Arrays.fill(flag, 0);
@@ -206,7 +206,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         Map<String, Object> paramsMap;
         // 缓存物料基本信息id
         int materialBaseId = -1;
-        for (int i = 1; i < maxTypeNum; ++i) {
+        for (int i = 1; i <= maxTypeNum; ++i) {
             if (flag[i] == 0) {
                 continue;
             }
@@ -284,7 +284,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                     }
                     break;
                 default:
-                    List<ControlPropertyBean> controlProps = materialInfoServiceImplSupplier.getAllControlPropertyByType(i, orgnizationId, spuCode);
+                    List<ControlPropertyBean> controlProps = materialInfoServiceImplSupplier.getAllControlPropertyByType(i, organizationId, spuCode);
                     if (controlProps.size() > 0) {
                         result.add(controlProps);
                     }

@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `materialBaseProp` (
 	`type` TINYINT(4) NOT NULL,
 	`label` VARCHAR(10) NOT NULL,
 	`name` VARCHAR(50) NOT NULL,
-	`range` VARCHAR(20) NOT NULL,
+	`range` VARCHAR(50) NOT NULL,
 	`sort` INT UNSIGNED NOT NULL
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -198,25 +198,33 @@ INSERT INTO `materialCategory` VALUES (1,'1000','A类',0,0), \
 UNLOCK TABLES;
 
 LOCK TABLES `materialBaseProp` WRITE;
-INSERT INTO `materialBaseProp` VALUES (1,7,1,'可改动','wu','1-10',1), \
-										(2,7,1,'可改动','liao','1-10',2), \
-										(3,7,2,'不可改动','de','1-10',3), \
-										(4,8,3,'不可改动','ji','1-10',4), \
-										(5,8,3,'不可改动','ben','1-10',5), \
-										(6,8,4,'可改动','de','1-10',6), \
-										(7,9,5,'可改动','shu','1-10',7), \
-										(8,9,5,'可改动','xing','1-10',8);
+INSERT INTO `materialBaseProp` VALUES (1,7,4,'规格1','规格1','{ \"type\": 3, \"upper\": 10, \"lower\": 0 }',1), \
+										(2,7,4,'规格1','规格1','{ \"type\": 3, \"upper\": 10, \"lower\": 0 }',1), \
+										(3,7,4,'规格1','规格1','{ \"type\": 3, \"upper\": 10, \"lower\": 0 }',1), \
+										(4,8,4,'规格1','规格1','{ \"type\": 3, \"upper\": 10, \"lower\": 0 }',1), \
+										(5,8,4,'规格1','规格1','{ \"type\": 3, \"upper\": 10, \"lower\": 0 }',1), \
+										(6,8,4,'规格1','规格1','{ \"type\": 3, \"upper\": 10, \"lower\": 0 }',1), \
+										(7,9,4,'规格1','规格1','{ \"type\": 3, \"upper\": 10, \"lower\": 0 }',1), \
+										(8,9,4,'规格1','规格1','{ \"type\": 3, \"upper\": 10, \"lower\": 0 }',1), \
+										(9,7,4,'规格1','规格1','{ \"type\": 3, \"upper\": 10, \"lower\": 0 }',1), \
+										(10,8,4,'规格1','规格1','{ \"type\": 3, \"upper\": 10, \"lower\": 0 }',1), \
+										(11,9,4,'规格1','规格1','{ \"type\": 3, \"upper\": 10, \"lower\": 0 }',1);
 UNLOCK TABLES;
 
 LOCK TABLES `materialBasePropVal` WRITE;
-INSERT INTO `materialBasePropVal` VALUES (1,'110101','11101',1,'属'), \
-											(2,'110101','11102',2,'性'), \
-											(3,'110102','11201',3,'值'), \
-											(4,'210101','21101',4,'怎'), \
-											(5,'210101','21102',5,'么'), \
-											(6,'210102','21201',6,'设'), \
-											(7,'310101','31101',7,'置'), \
-											(8,'310101','31102',8,'呢');
+INSERT INTO `materialBasePropVal` VALUES (1,'110101','11101',1,'规格值'), \
+											(2,'110101','11102',2,'规格值'), \
+											(3,'110102','11201',3,'规格值'), \
+											(4,'210101','21101',4,'规格值'), \
+											(5,'210101','21102',5,'规格值'), \
+											(6,'210102','21201',6,'规格值'), \
+											(7,'310101','31101',7,'规格值'), \
+											(8,'310101','31102',8,'规格值'), \
+											(9,'110101','-1',9,'规格值'), \
+											(10,'110102','-1',9,'规格值'), \
+											(11,'210101','-1',10,'规格值'), \
+											(12,'210102','-1',10,'规格值'), \
+											(13,'310101','-1',11,'规格值');
 UNLOCK TABLES;
 
 LOCK TABLES `materialFiles` WRITE;
