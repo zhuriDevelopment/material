@@ -124,6 +124,10 @@ public interface MaterialInfoMapper {
 
     // ---------------------------------------- 增加物料基本信息部分 ---------------------------------------
     @InsertProvider(type = MaterialInfoProvider.class,
+                    method = "createBaseWithSpuCode")
+    int createBaseWithSpuCode (String spuCode);
+
+    @InsertProvider(type = MaterialInfoProvider.class,
                     method = "insertMaterialWithSpuCodeAndParams")
     int insertMaterialWithSpuCodeAndParams (String spuCode, int materialBaseId, Map<String, Object> params);
 

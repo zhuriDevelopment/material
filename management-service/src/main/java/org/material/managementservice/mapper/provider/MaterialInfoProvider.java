@@ -192,6 +192,19 @@ public class MaterialInfoProvider {
     }
 
     // ---------------------------------------- 添加物料基本信息部分 ----------------------------------------
+    public String createBaseWithSpuCode (String spuCode) {
+        return new SQL() {
+            {
+                INSERT_INTO("materialBase");
+                VALUES("spuCode", "'" + spuCode + "'");
+                VALUES("spuName", "spuName");
+                VALUES("type", "1");
+                VALUES("defaultUnitId", "0");
+                VALUES("materialCatId", "0");
+            }
+        }.toString();
+    }
+
     public String insertMaterialWithSpuCodeAndParams (String spuCode, int materialBaseId, Map<String, Object> params) {
         String[] stringList = {"materialCode", "materialName", "oldMaterialCode", "barCode"};
         String[] intList = {"materialBaseId", "purchasePrice", "sellingPrice"};

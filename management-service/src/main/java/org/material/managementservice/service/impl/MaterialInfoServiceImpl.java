@@ -334,34 +334,6 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                 // 查询当前的更新信息是否在unit表中有对应记录
                 List<Object> updateValue = (List<Object>) needUpdate.get("updateValue");
                 tmpresult = materialInfoServiceImplSupplier.updateUnitsBySpuCode(spuCode, updateValue);
-                // params.clear();
-                // for (Map<String, Object> e : updateValue) {
-                //     params.put(e.get("name").toString(), e.get("value").toString());
-                // }
-                // int size = materialInfoMapper.getUnitWithUnitParams(params).size();
-                // //size为0则在unit表中添加相应记录
-                // //注意：此处未对unitId做查询，故传入时要求id字段值必须正确
-                // if (size == 0) {
-                //     materialInfoMapper.addUnit((String) params.get("label"), (String) params.get("name"),
-                //             (String) params.get("englishName"), (int) params.get("relatedId"),
-                //             (double) params.get("conversionFactor"), (int) params.get("sort"));
-                //     materialInfoMapper.addMaterialUnit(spuCode, (int) params.get("id"), (int) params.get("relatedId"),
-                //             (int) params.get("conversionFactor"), (int) params.get("sort"));
-                //     tmpresult += 2;
-                // } else {
-                //     //此处根据materialUnit表中是否含相同spuCode和unitId来判断进行更新还是添加操作
-                //     Map<String, Object> property = new HashMap<>();
-                //     property.clear();
-                //     property.put("supCode", spuCode);
-                //     property.put("unitId", params.get("id"));
-                //     size = materialInfoMapper.getMaterialUnitWithMaterialUnitParams(property).size();
-                //     if (size == 0) {
-                //         materialInfoMapper.addMaterialUnit(spuCode, (int) params.get("id"), (int) params.get("relatedId"),
-                //                 (int) params.get("conversionFactor"), (int) params.get("sort"));
-                //         tmpresult++;
-                //     }
-                //     //tmpresult = MaterialInfoServiceImplSupplier.updateUnitsBySpuCode(spuCode, name, value);
-                // }
             } else {
                 List<Map<String, Object>> updateValue = (List<Map<String, Object>>) needUpdate.get("updateValue");
                 for (Map<String, Object> kvPairs : updateValue) {
@@ -377,6 +349,11 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                     switch (propertyType) {
                         case 1:
                             // 物料基本信息
+                            List<MaterialBaseModel> baseTmp = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
+                            if (!(baseTmp != null && !baseTmp.isEmpty())) {
+                                tmpresult = materialInfoMapper.createBaseWithSpuCode(spuCode);
+                                logger.info("spuCode = " + spuCode + "的默认记录由于不存在被创建。");
+                            }
                             tmpresult = materialInfoMapper.updateBaseInfoWithBaseInfoParams(spuCode, name, value);
                             break;
                         case 2:
