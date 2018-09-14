@@ -319,13 +319,15 @@ public class MaterialInfoServiceImplSupplier {
                 params.put("valueRange", rangeVal);
                 params.put("sort", curBaseProp.get("sort"));
                 materialBasePropId = materialInfoMapper.insertMaterialBasePropWithMaterialBasePropParams(params);
+                List<MaterialBasePropModel> materialBasePropTmp = materialInfoMapper.getMaterialBasePropWithMaterialBasePropParams(params);
+                materialBasePropId = materialBasePropTmp.get(0).getId();
                 logger.info("添加之后的id为：" + materialBasePropId);
             }
             // 获取materialBasePropId之后，更新materialBasePropVal表
             params.clear();
             params.put("spuCode", spuCode);
             params.put("materialCode", "-1");
-            params.put("materialBasePropId", materialBasePropId);
+             params.put("materialBasePropId", materialBasePropId);
             List<MaterialBasePropValModel> materialBasePropValResult = materialInfoMapper.getMaterialBasePropValWithMaterialBasePropValParams(params);
             int materialBasePropValId = 0;
             if (materialBasePropValResult != null && materialBasePropValResult.size() > 0) {

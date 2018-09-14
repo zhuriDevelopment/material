@@ -9,7 +9,7 @@ public class MaterialBasePropModel {
     private int type;
     private String label;
     private String name;
-    private String range;
+    private String valueRange;
     private int sort;
 
     public int getId() {
@@ -52,12 +52,12 @@ public class MaterialBasePropModel {
         this.name = name;
     }
 
-    public String getRange() {
-        return range;
+    public String getValueRange() {
+        return valueRange;
     }
 
-    public void setRange(String range) {
-        this.range = range;
+    public void setValueRange(String valueRange) {
+        this.valueRange = valueRange;
     }
 
     public int getSort() {
