@@ -173,16 +173,16 @@ UNLOCK TABLES;
 
 LOCK TABLES `unit` WRITE;
 INSERT INTO `unit` VALUES (1,'单体','部','one',1,1,1), \
-							(2,'长度','米','meter',2,1,2), \
-							(3,'单体','台','one',3,1,3);
+							(2,'长度','米','meter',2,1,1), \
+							(3,'单体','台','one',3,1,1);
 UNLOCK TABLES;
 
 LOCK TABLES `materialUnit` WRITE;
 INSERT INTO `materialUnit` VALUES (1,'110101',1,1,1,1), \
-									(2,'110102',1,1,1,2), \
-									(3,'210101',2,2,1,3), \
-									(4,'210102',2,2,1,4), \
-									(5,'310101',3,3,1,5);
+									(2,'110102',1,1,1,1), \
+									(3,'210101',2,2,1,1), \
+									(4,'210102',2,2,1,1), \
+									(5,'310101',3,3,1,1);
 UNLOCK TABLES;
 
 LOCK TABLES `materialCategory` WRITE;

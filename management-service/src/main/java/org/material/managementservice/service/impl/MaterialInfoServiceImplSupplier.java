@@ -205,7 +205,7 @@ public class MaterialInfoServiceImplSupplier {
         result.clear();
         allUnit.clear();
         defaultUnit.clear();
-        // 对于每个物料单位记录逐个查询，以覆盖转换系数
+        // 对于每个物料单位记录逐个查询，以覆盖转换系数和排序号
         for (MaterialUnitModel element : materialUnits) {
             int unitId = element.getUnitId();
             params.clear();
@@ -234,11 +234,79 @@ public class MaterialInfoServiceImplSupplier {
 
     // ---------------------------------------- 更新物料单位部分 ----------------------------------------
 
-    public int updateUnitsBySpuCode (String spuCode, String name, String value) {
-        /*Map<String, Object> params = new HashMap<>();
+    public int updateUnitsBySpuCode (String spuCode, List<Object> updateValueLists) {
+        Map<String, Object> params = new HashMap<>();
         params.clear();
-        params.put("spuCode", spuCode);
-        List<MaterialUnitModel> materialUnits = materialInfoMapper.getMaterialUnitWithMaterialUnitParams(params);*/
+        try {
+            String defaultUnitName = updateValueLists.get(0).toString();
+            List<Object> updateValue = (List<Object>) updateValueLists.get(1);
+            for (Object element : updateValue) {
+                Map<String, Object> unitElement = (Map<String, Object>) element;
+                params.put("label", unitElement.get("label"));
+                params.put("name", unitElement.get("name"));
+                params.put("englishName", unitElement.get("englishName"));
+                List<UnitModel> unitResults = materialInfoMapper.getUnitWithUnitParams(params);
+                int unitId = 0;
+                if (unitResults != null && unitResults.size() > 0) {
+                    // 存在
+                    unitId = unitResults.get(0).getId();
+                } else {
+                    // 不存在
+                    materialInfoMapper.addUnit(unitElement.get("label").toString(), unitElement.get("name").toString(),
+                                                unitElement.get("englishName").toString(), 0, 1, 1);
+                    List<UnitModel> unitTmp = materialInfoMapper.getUnitWithUnitParams(params);
+                    // 刚刚存进去，不可能为空
+                    unitId = unitTmp.get(0).getId();
+                    params.clear();
+                    params.put("relatedId", unitId);
+                    materialInfoMapper.updateUnitWithUnitParams(unitId, params);
+                }
+                logger.info("查找/更新unit表结束，所对应的unitId为：" + unitId);
+                // 根据unitId来更新materialUnit表
+                params.put("spuCode", spuCode);
+                params.put("unitId", unitId);
+                List<MaterialUnitModel> materialUnitResults = materialInfoMapper.getMaterialUnitWithMaterialUnitParams(params);
+                int materialUnitId = 0;
+                if (materialUnitResults != null && materialUnitResults.size() > 0) {
+                    // 存在
+                    materialUnitId = materialUnitResults.get(0).getId();
+                    materialInfoMapper.updateMaterialUnitWithMaterialUnitParams(materialUnitId, "conversionFactor", unitElement.get("conversionFactor").toString());
+                    materialInfoMapper.updateMaterialUnitWithMaterialUnitParams(materialUnitId, "sort", unitElement.get("sort").toString());
+                } else {
+                    // 不存在
+                    materialInfoMapper.addMaterialUnit(spuCode, unitId, unitId,
+                            Double.parseDouble(unitElement.get("conversionFactor").toString()),
+                            Integer.parseInt(unitElement.get("sort").toString()));
+                    params.clear();
+                    params.put("spuCode", spuCode);
+                    params.put("unitId", unitId);
+                    List<MaterialUnitModel> materialUnitTmp = materialInfoMapper.getMaterialUnitWithMaterialUnitParams(params);
+                    materialUnitId = materialUnitTmp.get(0).getId();
+                }
+                logger.info("查找/更新materialUnit表结束，所对应的materialUnitId为：" + materialUnitId);
+            }
+            logger.info("现在开始更新所有materialUnit表记录的id为默认计量单位id。");
+            params.clear();
+            // 此处查询的依据是中文名字！
+            params.put("name", defaultUnitName);
+            List<UnitModel> unitTmp = materialInfoMapper.getUnitWithUnitParams(params);
+            int defaultUnitId = unitTmp.get(0).getId();
+            params.clear();
+            params.put("spuCode", spuCode);
+            List<MaterialUnitModel> materialUnitTmp = materialInfoMapper.getMaterialUnitWithMaterialUnitParams(params);
+            for (MaterialUnitModel element : materialUnitTmp) {
+                if (element.getId() != defaultUnitId) {
+                    materialInfoMapper.updateMaterialUnitWithMaterialUnitParams(element.getId(), "relatedId", new Integer(defaultUnitId).toString());
+                }
+            }
+            // 更新对应spuCode的默认计量单位id
+            materialInfoMapper.updateBaseInfoWithBaseInfoParams(spuCode, "defaultUnitId", new Integer(defaultUnitId).toString());
+            logger.info("更新对应spuCode的默认计量单位id成功。");
+
+        } catch (ClassCastException e) {
+            logger.error("发生类转换错误，函数：updateUnitsBySpuCode");
+        }
+        
         return 0;
     }
 

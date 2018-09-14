@@ -82,12 +82,16 @@ public interface MaterialInfoMapper {
     int updateupdateBaseInfoWithBaseInfoParamsArray (String spuCode, String[] names, String[] values);
 
     @UpdateProvider(type = MaterialInfoProvider.class,
+                    method = "updateUnitWithUnitParams")
+    int updateUnitWithUnitParams (int id, Map<String, Object> params);
+
+    @UpdateProvider(type = MaterialInfoProvider.class,
                     method = "updateMaterialUnitWithMaterialUnitParams")
-    int updateMaterialUnitWithMaterialUnitParams (String spuCode, String name, String value);
+    int updateMaterialUnitWithMaterialUnitParams (int id, String name, String value);
 
     @UpdateProvider(type = MaterialInfoProvider.class,
                     method = "updateMaterialUnitWithMaterialUnitParamsArray")
-    int updateMaterialUnitWithMaterialUnitParamsArray (String spuCode, String[] names, String[] values);
+    int updateMaterialUnitWithMaterialUnitParamsArray (int id, String[] names, String[] values);
 
     @UpdateProvider(type = MaterialInfoProvider.class,
                     method = "updateMaterialFilesWithMaterialFilesParams")

@@ -353,17 +353,29 @@ public class MaterialInfoProvider {
         }.toString();
     }
 
-    public String updateMaterialUnitWithMaterialUnitParams (String spuCode, String name, String value) {
+    public String updateUnitWithUnitParams (int id, Map<String, Object> params) {
         return new SQL() {
             {
-                UPDATE("materialUnit");
-                SET(name + "=" + value);
-                WHERE("spuCode = " + spuCode);
+                UPDATE("unit");
+                for (String key : params.keySet()) {
+                    SET(key + "='" + params.get(key) + "'");
+                }
+                WHERE("id = " + id);
             }
         }.toString();
     }
 
-    public String updateMaterialUnitWithMaterialUnitParamsArray (String spuCode, String[] names, String[] values) {
+    public String updateMaterialUnitWithMaterialUnitParams (int id, String name, String value) {
+        return new SQL() {
+            {
+                UPDATE("materialUnit");
+                SET(name + "=" + value);
+                WHERE("id = " + id);
+            }
+        }.toString();
+    }
+
+    public String updateMaterialUnitWithMaterialUnitParamsArray (int id, String[] names, String[] values) {
         // 必须保证names长度和values长度一致！
         return new SQL() {
             {
@@ -372,7 +384,7 @@ public class MaterialInfoProvider {
                 for (int i = 0; i < len; ++i) {
                     SET(names[i] + "=" + values[i]);
                 }
-                WHERE("spuCode = " + spuCode);
+                WHERE("id = " + id);
             }
         }.toString();
     }

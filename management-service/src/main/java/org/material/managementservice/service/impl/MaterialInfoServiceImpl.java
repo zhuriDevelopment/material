@@ -192,7 +192,8 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         质量类属性：8
         财务类属性：9
         计量单位：10
-        规格信息：11
+        全部基础信息：11
+        规格信息：12
     */
     @Override
     public List<Object> getMaterialInfo (String spuCode, String spuName, List<Integer> types, int organizationId) {
@@ -275,9 +276,18 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                     }
                     break;
                 case 11:
-                    // 规格信息
-                    List<Object> standardProperty = materialInfoServiceImplSupplier.getAllMaterialBaseProp(spuCode);
+                    // 基本属性信息
+                    List<Object> baseProperty = materialInfoServiceImplSupplier.getAllMaterialBaseProp(spuCode);
                     // List<Object> standardProperty = materialInfoServiceImplSupplier.getMaterialBasePropBySpuCodeAndType(spuCode, 4);
+                    if (baseProperty != null && baseProperty.size() > 0) {
+                        result.add(baseProperty);
+                    } else {
+                        result.add(new ArrayList<>());
+                    }
+                    break;
+                case 12:
+                    // 规格信息
+                    List<Object> standardProperty = materialInfoServiceImplSupplier.getMaterialBasePropBySpuCodeAndType(spuCode, 4);
                     if (standardProperty != null && standardProperty.size() > 0) {
                         result.add(standardProperty);
                     } else {
@@ -315,11 +325,43 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         for (Object element : data) {
             Map<String, Object> needUpdate = (Map<String, Object>) element;
             int propertyType = Integer.parseInt(needUpdate.get("propertyType").toString());
-
             logger.debug("propertyType = " + propertyType);
             if (propertyType == 11) {
                 List<Object> updateValue = (List<Object>) needUpdate.get("updateValue");
                 tmpresult = materialInfoServiceImplSupplier.updateMaterialBasePropBySpuCode(spuCode, 4, updateValue);
+            } else if (propertyType == 10) {
+                // 计量单位
+                // 查询当前的更新信息是否在unit表中有对应记录
+                List<Object> updateValue = (List<Object>) needUpdate.get("updateValue");
+                tmpresult = materialInfoServiceImplSupplier.updateUnitsBySpuCode(spuCode, updateValue);
+                // params.clear();
+                // for (Map<String, Object> e : updateValue) {
+                //     params.put(e.get("name").toString(), e.get("value").toString());
+                // }
+                // int size = materialInfoMapper.getUnitWithUnitParams(params).size();
+                // //size为0则在unit表中添加相应记录
+                // //注意：此处未对unitId做查询，故传入时要求id字段值必须正确
+                // if (size == 0) {
+                //     materialInfoMapper.addUnit((String) params.get("label"), (String) params.get("name"),
+                //             (String) params.get("englishName"), (int) params.get("relatedId"),
+                //             (double) params.get("conversionFactor"), (int) params.get("sort"));
+                //     materialInfoMapper.addMaterialUnit(spuCode, (int) params.get("id"), (int) params.get("relatedId"),
+                //             (int) params.get("conversionFactor"), (int) params.get("sort"));
+                //     tmpresult += 2;
+                // } else {
+                //     //此处根据materialUnit表中是否含相同spuCode和unitId来判断进行更新还是添加操作
+                //     Map<String, Object> property = new HashMap<>();
+                //     property.clear();
+                //     property.put("supCode", spuCode);
+                //     property.put("unitId", params.get("id"));
+                //     size = materialInfoMapper.getMaterialUnitWithMaterialUnitParams(property).size();
+                //     if (size == 0) {
+                //         materialInfoMapper.addMaterialUnit(spuCode, (int) params.get("id"), (int) params.get("relatedId"),
+                //                 (int) params.get("conversionFactor"), (int) params.get("sort"));
+                //         tmpresult++;
+                //     }
+                //     //tmpresult = MaterialInfoServiceImplSupplier.updateUnitsBySpuCode(spuCode, name, value);
+                // }
             } else {
                 List<Map<String, Object>> updateValue = (List<Map<String, Object>>) needUpdate.get("updateValue");
                 for (Map<String, Object> kvPairs : updateValue) {
@@ -351,39 +393,6 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                             int baseId = baseModels.get(0).getId();
                             tmpresult = materialInfoMapper.updateMaterialFilesWithMaterialFilesParams(baseId, name, value);
                             break;
-                        case 10:
-                            // 计量单位
-                            //查询当前的更新信息是否在unit表中有对应记录
-                            Map<String, Object> params = new HashMap<>();
-                            params.clear();
-                            for (Map<String, Object> e : updateValue) {
-                                params.put(e.get("name").toString(), e.get("value").toString());
-                            }
-                            int size = materialInfoMapper.getUnitWithUnitParams(params).size();
-                            //size为0则在unit表中添加相应记录
-                            //注意：此处未对unitId做查询，故传入时要求id字段值必须正确
-                            if (size == 0) {
-                                materialInfoMapper.addUnit((String) params.get("label"), (String) params.get("name"),
-                                        (String) params.get("englishName"), (int) params.get("relatedId"),
-                                        (double) params.get("conversionFactor"), (int) params.get("sort"));
-                                materialInfoMapper.addMaterialUnit(spuCode, (int) params.get("id"), (int) params.get("relatedId"),
-                                        (int) params.get("conversionFactor"), (int) params.get("sort"));
-                                tmpresult += 2;
-                            } else {
-                                //此处根据materialUnit表中是否含相同spuCode和unitId来判断进行更新还是添加操作
-                                Map<String, Object> property = new HashMap<>();
-                                property.clear();
-                                property.put("supCode", spuCode);
-                                property.put("unitId", params.get("id"));
-                                size = materialInfoMapper.getMaterialUnitWithMaterialUnitParams(property).size();
-                                if (size == 0) {
-                                    materialInfoMapper.addMaterialUnit(spuCode, (int) params.get("id"), (int) params.get("relatedId"),
-                                            (int) params.get("conversionFactor"), (int) params.get("sort"));
-                                    tmpresult++;
-                                }
-                                //tmpresult = MaterialInfoServiceImplSupplier.updateUnitsBySpuCode(spuCode, name, value);
-                            }
-                            break;
                         default:
                             // 5 - 9 控制信息
                             // 先获取materialBaseId
@@ -399,7 +408,6 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                     result = Math.min(result, result * tmpresult);
                 }
             }
-
         }
         return result;
     }
