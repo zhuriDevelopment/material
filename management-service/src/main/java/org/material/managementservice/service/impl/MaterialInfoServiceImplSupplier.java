@@ -284,47 +284,71 @@ public class MaterialInfoServiceImplSupplier {
 
     // ---------------------------------------- 更新物料基本属性部分 ----------------------------------------
 
-    int updateMaterialBasePropBySpuCode (String spuCode, int propertyType, String name, String value) {
-        /* 先获取所有的记录List<Object> materialBasePropCurResult = getMaterialBasePropBySpuCodeAndType(spuCode, propertyType);*/
-
-        //根据spuCode和propertyType在Prop和PropVal两张表中将满足关系的记录找出
-        Map<String, Object> params = new HashMap<>();
-        params.clear();
-        params.put("spuCode", spuCode);
-        List<MaterialBasePropValModel> valResult = materialInfoMapper.getMaterialBasePropValWithMaterialBasePropValParams(params);
-        List<MaterialBasePropModel> propResult = new ArrayList<>();
-        propResult.clear();
-        for(MaterialBasePropValModel element : valResult) {
-            int id = element.getMaterialBasePropId();
+    int updateMaterialBasePropBySpuCode (String spuCode, int propertyType, List<Object> updateValue) {
+        List<Object> basePropVals = (List<Object>) updateValue.get(0);
+        List<Object> baseProps = (List<Object>) updateValue.get(1);
+        int statusCode = 0;
+        for (int i = 0; i < baseProps.size(); ++i) {
+            int eachStatusCode = 0;
+            Map<String, Object> curBaseProp = (Map<String, Object>) baseProps.get(i);
+            Map<String, Object> curBasePropVal = (Map<String, Object>) basePropVals.get(i);
+            List<MaterialBaseModel> materialBase = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
+            int materialCatId = materialBase.get(0).getMaterialCatId();
+            Map<String, Object> params = new HashMap<>();
             params.clear();
-            params.put("id", id);
-            params.put("type",propertyType);
-            propResult.addAll(materialInfoMapper.getMaterialBasePropWithMaterialBasePropParams(params));
-        }
-        //如果更新内容在PropVal表，则根据spuCode和materialBasePropId更新数据
-        //如果更新内容在Prop表，则根据id更新
-        String[] materialBasePropVal = {"spuCode", "materialCode", "materialBasePropId", "value"};
-        boolean flag = false;
-        int resultCode = 0;
-        for(String s : materialBasePropVal) {
-            if(s.equals(name)) {
-                flag = true;
-                break;
+            params.put("type", curBaseProp.get("type"));
+            params.put("label", curBaseProp.get("label"));
+            params.put("name", curBaseProp.get("name"));
+            params.put("materialCatId", materialCatId);
+            List<MaterialBasePropModel> materialBasePropResult = materialInfoMapper.getMaterialBasePropWithMaterialBasePropParams(params);
+            int materialBasePropId = 0;
+            String rangeVal = curBaseProp.get("range").toString();
+            rangeVal = rangeVal.replace("\"", "\\\"");
+            logger.info("range字段的值为：" + rangeVal);
+            if (materialBasePropResult != null && materialBasePropResult.size() > 0) {
+                // 存在即更新
+                materialBasePropId = materialBasePropResult.get(0).getId();
+                int updateResult = 0;
+                rangeVal = "\'" + rangeVal + "\'";
+                updateResult = materialInfoMapper.updateMaterialBasePropWithMaterialBaseProp(materialBasePropId, "valueRange", rangeVal);
+                logger.info("更新range字段，值为：" + curBaseProp.get("range") + "； 结果为：" + updateResult);
+                updateResult = materialInfoMapper.updateMaterialBasePropWithMaterialBaseProp(materialBasePropId, "sort", curBaseProp.get("sort").toString());
+                logger.info("更新sort字段，值为：" + curBaseProp.get("sort") + "； 结果为：" + updateResult);
+            } else {
+                // 不存在即添加
+                params.put("valueRange", rangeVal);
+                params.put("sort", curBaseProp.get("sort"));
+                materialBasePropId = materialInfoMapper.insertMaterialBasePropWithMaterialBasePropParams(params);
+                logger.info("添加之后的id为：" + materialBasePropId);
             }
-        }
-        if(flag) {
-            for(MaterialBasePropModel property : propResult) {
-                int materialBasePropId = property.getId();
-                resultCode += materialInfoMapper.updateMaterialBasePropValWithMaterialBasePropValParams(spuCode, materialBasePropId, name, value);
+            // 获取materialBasePropId之后，更新materialBasePropVal表
+            params.clear();
+            params.put("spuCode", spuCode);
+            params.put("materialCode", "-1");
+            params.put("materialBasePropId", materialBasePropId);
+            List<MaterialBasePropValModel> materialBasePropValResult = materialInfoMapper.getMaterialBasePropValWithMaterialBasePropValParams(params);
+            int materialBasePropValId = 0;
+            if (materialBasePropValResult != null && materialBasePropValResult.size() > 0) {
+                // 存在即更新
+                int updateResult = 0;
+                materialBasePropValId = materialBasePropValResult.get(0).getId();
+                updateResult = materialInfoMapper.updateMaterialBasePropValWithMaterialBasePropValParams(spuCode, "-1", materialBasePropId, "value", curBasePropVal.get("value").toString());
+                logger.info("更新value字段，值为：" + curBasePropVal.get("value") + "； 结果为：" + updateResult);
+            } else {
+                // 不存在即添加
+                params.put("value", curBasePropVal.get("value"));
+                int insertResult = 0;
+                insertResult = materialInfoMapper.insertMaterialBasePropValWithMaterialBasePropValParams(params);
+                materialBasePropValId = insertResult;
+                logger.info("添加之后的id为：" + insertResult);
             }
-        } else {
-            for(MaterialBasePropModel property : propResult) {
-                int id = property.getId();
-                resultCode += materialInfoMapper.updateMaterialBasePropWithMaterialBaseProp(id, name, value);
+            eachStatusCode = materialBasePropId * materialBasePropValId;
+            if (eachStatusCode > 0) {
+                eachStatusCode = 1;
             }
+            statusCode += eachStatusCode;
         }
-        // 返回正值代表成功，其他值代表失败
-        return resultCode;
+        return statusCode;
     }
 
     // ---------------------------------------- 获取控制信息部分 ----------------------------------------

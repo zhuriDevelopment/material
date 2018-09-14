@@ -243,6 +243,54 @@ public class MaterialInfoProvider {
         }.toString();
     }
 
+    public String insertMaterialBasePropWithMaterialBasePropParams (Map<String, Object> params) {
+        String[] stringList = {"label", "name", "valueRange"};
+        String[] intList = {"materialCatId", "type", "sort"};
+        return new SQL() {
+            {
+                INSERT_INTO("materialBaseProp");
+                for (String key : stringList) {
+                    if (params.containsKey(key)) {
+                        String column = key;
+                        String value = params.get(key).toString();
+                        VALUES(column, "'" + value + "'");
+                    }
+                }
+                for (String key : intList) {
+                    if (params.containsKey(key)) {
+                        String column = key;
+                        String value = params.get(key).toString();
+                        VALUES(column, value);
+                    }
+                }
+            }
+        }.toString();
+    }
+
+    public String insertMaterialBasePropValWithMaterialBasePropValParams (Map<String, Object> params) {
+        String[] stringList = {"spuCode", "materialCode", "value"};
+        String[] intList = {"materialBasePropId"};
+        return new SQL() {
+            {
+                INSERT_INTO("materialBasePropVal");
+                for (String key : stringList) {
+                    if (params.containsKey(key)) {
+                        String column = key;
+                        String value = params.get(key).toString();
+                        VALUES(column, "'" + value + "'");
+                    }
+                }
+                for (String key : intList) {
+                    if (params.containsKey(key)) {
+                        String column = key;
+                        String value = params.get(key).toString();
+                        VALUES(column, value);
+                    }
+                }
+            }
+        }.toString();
+    }
+
     // ---------------------------------------- 更新物料基本信息部分 ----------------------------------------
     public String updateBaseInfoWithBaseInfoParams (String spuCode, String name, String value) {
         String[] stringList = {"spuCode", "mnemonic", "spuName", "description", "designCode", "designVersion",
@@ -349,12 +397,14 @@ public class MaterialInfoProvider {
         }.toString();
     }
 
-    public String updateMaterialBasePropVal (String spuCode, int materialBaseId, String name, String value) {
+    public String updateMaterialBasePropVal (String spuCode, String materialCode, int materialBasePropId, String name, String value) {
         return new SQL() {
             {
                 UPDATE("materialBasePropVal");
-                SET(name + "=" + value);
-                WHERE("spuCode =" + spuCode + "AND materialBaseId =" + materialBaseId);
+                SET(name + "='" + value + "'");
+                WHERE("spuCode = " + spuCode);
+                WHERE("materialCode = " + materialCode);
+                WHERE("materialBasePropId = " + materialBasePropId);
             }
         }.toString();
     }

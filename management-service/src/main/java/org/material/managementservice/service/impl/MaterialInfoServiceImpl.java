@@ -314,88 +314,92 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         for (Object element : data) {
             Map<String, Object> needUpdate = (Map<String, Object>) element;
             int propertyType = Integer.parseInt(needUpdate.get("propertyType").toString());
-            List<Map<String, Object>> updateValue = (List<Map<String, Object>>) needUpdate.get("updateValue");
+
             logger.debug("propertyType = " + propertyType);
-            for (Map<String, Object> kvPairs : updateValue) {
-                String name = null, value = null;
-                if (kvPairs.containsKey("name")) {
-                    name = kvPairs.get("name").toString();
-                    logger.debug("name = " + name);
-                }
-                if (kvPairs.containsKey("value")) {
-                    value = kvPairs.get("value").toString();
-                    logger.debug("value = " + value);
-                }
-                switch (propertyType) {
-                    case 1:
-                        // 物料基本信息
-                        tmpresult = materialInfoMapper.updateBaseInfoWithBaseInfoParams(spuCode, name, value);
-                        break;
-                    case 2:
-                        // 物料定义
-                        tmpresult = materialInfoServiceImplSupplier.updateMaterialWithMaterialList(spuCode, updateValue);
-                        break;
-                    case 3:
-                        // SKU定义
-                        tmpresult = materialInfoServiceImplSupplier.updateMaterialSkuWithMaterialSkuList(spuCode, updateValue);
-                        break;
-                    case 4:
-                        // 附件信息
-                        List<MaterialBaseModel> baseModels = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
-                        int baseId = baseModels.get(0).getId();
-                        tmpresult = materialInfoMapper.updateMaterialFilesWithMaterialFilesParams(baseId, name, value);
-                        break;
-                    case 10:
-                        // 计量单位
-                        //查询当前的更新信息是否在unit表中有对应记录
-                        Map<String, Object> params = new HashMap<>();
-                        params.clear();
-                        for(Map<String, Object> e : updateValue) {
-                            params.put(e.get("name").toString(), e.get("value").toString());
-                        }
-                        int size = materialInfoMapper.getUnitWithUnitParams(params).size();
-                        //size为0则在unit表中添加相应记录
-                        //注意：此处未对unitId做查询，故传入时要求id字段值必须正确
-                        if(size == 0) {
-                            materialInfoMapper.addUnit((String)params.get("label"), (String)params.get("name"),
-                                    (String)params.get("englishName"), (int)params.get("relatedId"),
-                                    (double)params.get("conversionFactor"), (int)params.get("sort"));
-                            materialInfoMapper.addMaterialUnit(spuCode, (int)params.get("id"), (int)params.get("relatedId"),
-                                    (int)params.get("conversionFactor"), (int)params.get("sort"));
-                            tmpresult += 2;
-                        } else {
-                            //此处根据materialUnit表中是否含相同spuCode和unitId来判断进行更新还是添加操作
-                            Map<String, Object> property = new HashMap<>();
-                            property.clear();
-                            property.put("supCode", spuCode);
-                            property.put("unitId", params.get("id"));
-                            size = materialInfoMapper.getMaterialUnitWithMaterialUnitParams(property).size();
+            if (propertyType == 11) {
+                List<Object> updateValue = (List<Object>) needUpdate.get("updateValue");
+                tmpresult = materialInfoServiceImplSupplier.updateMaterialBasePropBySpuCode(spuCode, 4, updateValue);
+            }
+            else {
+                List<Map<String, Object>> updateValue = (List<Map<String, Object>>) needUpdate.get("updateValue");
+                for (Map<String, Object> kvPairs : updateValue) {
+                    String name = null, value = null;
+                    if (kvPairs.containsKey("name")) {
+                        name = kvPairs.get("name").toString();
+                        logger.debug("name = " + name);
+                    }
+                    if (kvPairs.containsKey("value")) {
+                        value = kvPairs.get("value").toString();
+                        logger.debug("value = " + value);
+                    }
+                    switch (propertyType) {
+                        case 1:
+                            // 物料基本信息
+                            tmpresult = materialInfoMapper.updateBaseInfoWithBaseInfoParams(spuCode, name, value);
+                            break;
+                        case 2:
+                            // 物料定义
+                            tmpresult = materialInfoServiceImplSupplier.updateMaterialWithMaterialList(spuCode, updateValue);
+                            break;
+                        case 3:
+                            // SKU定义
+                            tmpresult = materialInfoServiceImplSupplier.updateMaterialSkuWithMaterialSkuList(spuCode, updateValue);
+                            break;
+                        case 4:
+                            // 附件信息
+                            List<MaterialBaseModel> baseModels = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
+                            int baseId = baseModels.get(0).getId();
+                            tmpresult = materialInfoMapper.updateMaterialFilesWithMaterialFilesParams(baseId, name, value);
+                            break;
+                        case 10:
+                            // 计量单位
+                            //查询当前的更新信息是否在unit表中有对应记录
+                            Map<String, Object> params = new HashMap<>();
+                            params.clear();
+                            for(Map<String, Object> e : updateValue) {
+                                params.put(e.get("name").toString(), e.get("value").toString());
+                            }
+                            int size = materialInfoMapper.getUnitWithUnitParams(params).size();
+                            //size为0则在unit表中添加相应记录
+                            //注意：此处未对unitId做查询，故传入时要求id字段值必须正确
                             if(size == 0) {
+                                materialInfoMapper.addUnit((String)params.get("label"), (String)params.get("name"),
+                                        (String)params.get("englishName"), (int)params.get("relatedId"),
+                                        (double)params.get("conversionFactor"), (int)params.get("sort"));
                                 materialInfoMapper.addMaterialUnit(spuCode, (int)params.get("id"), (int)params.get("relatedId"),
                                         (int)params.get("conversionFactor"), (int)params.get("sort"));
-                                tmpresult++;
+                                tmpresult += 2;
+                            } else {
+                                //此处根据materialUnit表中是否含相同spuCode和unitId来判断进行更新还是添加操作
+                                Map<String, Object> property = new HashMap<>();
+                                property.clear();
+                                property.put("supCode", spuCode);
+                                property.put("unitId", params.get("id"));
+                                size = materialInfoMapper.getMaterialUnitWithMaterialUnitParams(property).size();
+                                if(size == 0) {
+                                    materialInfoMapper.addMaterialUnit(spuCode, (int)params.get("id"), (int)params.get("relatedId"),
+                                            (int)params.get("conversionFactor"), (int)params.get("sort"));
+                                    tmpresult++;
+                                }
+                                //tmpresult = MaterialInfoServiceImplSupplier.updateUnitsBySpuCode(spuCode, name, value);
                             }
-                            //tmpresult = MaterialInfoServiceImplSupplier.updateUnitsBySpuCode(spuCode, name, value);
-                        }
-                        break;
-                    case 11:
-                        // 规格信息
-                        tmpresult = materialInfoServiceImplSupplier.updateMaterialBasePropBySpuCode(spuCode, 4, name, value);
-                        break;
-                    default:
-                        // 5 - 9 控制信息
-                        // 先获取materialBaseId
-                        if (needUpdate.containsKey("organizationCode")) {
-                            int organizationCode = Integer.parseInt(needUpdate.get("organizationCode").toString());
-                            tmpresult = materialInfoServiceImplSupplier.updateControlPropertyByTypeAndValue(propertyType, organizationCode, spuCode, name, value);
-                        } else {
-                            tmpresult = 0;
-                        }
-                        break;
+                            break;
+                        default:
+                            // 5 - 9 控制信息
+                            // 先获取materialBaseId
+                            if (needUpdate.containsKey("organizationCode")) {
+                                int organizationCode = Integer.parseInt(needUpdate.get("organizationCode").toString());
+                                tmpresult = materialInfoServiceImplSupplier.updateControlPropertyByTypeAndValue(propertyType, organizationCode, spuCode, name, value);
+                            } else {
+                                tmpresult = 0;
+                            }
+                            break;
+                    }
+                    logger.debug("此次操作更新了" + tmpresult + "行。");
+                    result = Math.min(result, result * tmpresult);
                 }
-                logger.debug("此次操作更新了" + tmpresult + "行。");
-                result = Math.min(result, result * tmpresult);
             }
+
         }
         return result;
     }

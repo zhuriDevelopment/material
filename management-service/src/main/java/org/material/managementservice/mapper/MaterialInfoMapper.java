@@ -103,7 +103,7 @@ public interface MaterialInfoMapper {
 
     @UpdateProvider(type = MaterialInfoProvider.class,
                     method = "updateMaterialBasePropVal")
-    int updateMaterialBasePropValWithMaterialBasePropValParams (String spuCode, int materialBasePropId, String name, String value);
+    int updateMaterialBasePropValWithMaterialBasePropValParams (String spuCode, String materialCode, int materialBasePropId, String name, String value);
 
     @UpdateProvider(type = MaterialInfoProvider.class,
                     method = "updateCtrlPropWithCtrlPropParams")
@@ -135,6 +135,14 @@ public interface MaterialInfoMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     int addUnit (@Param("label") String label, @Param("name") String name, @Param("englishName") String englishName,
                  @Param("relatedId") int id, @Param("conversionFactor") double conversionFactor, @Param("sort") int sort);
+
+    @InsertProvider(type = MaterialInfoProvider.class,
+                    method = "insertMaterialBasePropWithMaterialBasePropParams")
+    int insertMaterialBasePropWithMaterialBasePropParams (Map<String, Object> params);
+
+    @InsertProvider(type = MaterialInfoProvider.class,
+                    method = "insertMaterialBasePropValWithMaterialBasePropValParams")
+    int insertMaterialBasePropValWithMaterialBasePropValParams (Map<String, Object> params);
 
     // ---------------------------------------- 获取物料分类信息部分 ----------------------------------------
     @Select("SELECT * FROM materialCategory;")
