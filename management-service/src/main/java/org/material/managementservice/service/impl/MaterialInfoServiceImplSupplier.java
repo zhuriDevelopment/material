@@ -79,7 +79,7 @@ public class MaterialInfoServiceImplSupplier {
     }
 
     // ---------------------------------------- 物料定义部分 ----------------------------------------
-    int updateMaterialWithMaterialList(String spuCode, List<Map<String, Object>> updateValue) {
+    int updateMaterialWithMaterialList (String spuCode, List<Map<String, Object>> updateValue) {
         int result = 0;
         // 先删除已有的所有记录
         result = materialInfoMapper.deleteAllMaterialWithSpuCode(spuCode);
@@ -127,7 +127,8 @@ public class MaterialInfoServiceImplSupplier {
                 } else {
                     materialModels.add(new MaterialModel());
                 }
-                param.clear(); param.put("id", element.getUnitId());
+                param.clear();
+                param.put("id", element.getUnitId());
                 List<UnitModel> tmpUnit = materialInfoMapper.getUnitWithUnitParams(params);
                 if (tmpUnit != null && tmpUnit.size() > 0) {
                     // 同取第一个
@@ -250,6 +251,39 @@ public class MaterialInfoServiceImplSupplier {
     */
     // ---------------------------------------- 获取物料基本属性部分 ----------------------------------------
 
+    List<Object> getAllMaterialBaseProp (String spuCode) throws ClassCastException {
+        List<Object> result = new ArrayList<>();
+        result.clear();
+        try {
+            List<MaterialBasePropValModel> valList = new ArrayList<>();
+            List<MaterialBasePropModel> propList = new ArrayList<>();
+            for (int i = 1; i <= 4; ++i) {
+                List<Object> tmpResult = getMaterialBasePropBySpuCodeAndType(spuCode, i);
+                if (tmpResult != null && tmpResult.size() > 0) {
+                    List<MaterialBasePropModel> propTmp = (List<MaterialBasePropModel>) tmpResult.get(1);
+                    List<MaterialBasePropValModel> valTmp = (List<MaterialBasePropValModel>) tmpResult.get(0);
+                    valList.addAll(valTmp);
+                    propList.addAll(propTmp);
+                }
+            }
+            int[] sortArray = new int[propList.size() + 1];
+            for (int i = 0; i < propList.size(); ++i) {
+                sortArray[propList.get(i).getSort()] = i;
+            }
+            List<MaterialBasePropValModel> valSort = new ArrayList<>();
+            List<MaterialBasePropModel> propSort = new ArrayList<>();
+            for (int i = 1; i <= propList.size(); ++i) {
+                valSort.add(valList.get(sortArray[i]));
+                propSort.add(propList.get(sortArray[i]));
+            }
+            result.add(valSort);
+            result.add(propSort);
+        } catch (ClassCastException e) {
+            logger.error("发生转换异常，函数：getAllMaterialBaseProp。");
+        }
+        return result;
+    }
+
     List<Object> getMaterialBasePropBySpuCodeAndType (String spuCode, int propertyType) {
         List<Object> result = new ArrayList<>();
         result.clear();
@@ -260,7 +294,6 @@ public class MaterialInfoServiceImplSupplier {
         // 查询所有此spu编码下的不同物料的默认值
         params.put("materialCode", "-1");
         List<MaterialBasePropValModel> valResult = materialInfoMapper.getMaterialBasePropValWithMaterialBasePropValParams(params);
-        result.add(valResult);
         List<MaterialBasePropModel> propResult = new ArrayList<>();
         propResult.clear();
         for (MaterialBasePropValModel element : valResult) {
@@ -278,7 +311,16 @@ public class MaterialInfoServiceImplSupplier {
                 propResult.add(emptyModel);
             }
         }
-        result.add(propResult);
+        List<MaterialBasePropValModel> valFilter = new ArrayList<>();
+        List<MaterialBasePropModel> propFilter = new ArrayList<>();
+        for (int i = 0; i < valResult.size(); ++i) {
+            if (propResult.get(i).getId() != -1) {
+                valFilter.add(valResult.get(i));
+                propFilter.add(propResult.get(i));
+            }
+        }
+        result.add(valFilter);
+        result.add(propFilter);
         return result;
     }
 
@@ -327,7 +369,7 @@ public class MaterialInfoServiceImplSupplier {
             params.clear();
             params.put("spuCode", spuCode);
             params.put("materialCode", "-1");
-             params.put("materialBasePropId", materialBasePropId);
+            params.put("materialBasePropId", materialBasePropId);
             List<MaterialBasePropValModel> materialBasePropValResult = materialInfoMapper.getMaterialBasePropValWithMaterialBasePropValParams(params);
             int materialBasePropValId = 0;
             if (materialBasePropValResult != null && materialBasePropValResult.size() > 0) {
@@ -598,7 +640,7 @@ public class MaterialInfoServiceImplSupplier {
         }
         return materialInfoMapper.updateCtrlPropWithCtrlPropParams(versionId, ctrlPropId, value);
     }
-    
+
     public int updateSalesProperties (int versionId, int ctrlPropId, String name, String value) {
         String[] keyList = salesList.getSalesList();
         int flag = checkList(keyList, name);
