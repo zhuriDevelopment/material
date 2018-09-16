@@ -18,8 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.naming.ldap.Control;
-
 // 作为ServiceImpl的补充类，以防止ServiceImpl类过于复杂掩盖逻辑
 
 @Service
@@ -397,10 +395,13 @@ public class MaterialInfoServiceImplSupplier {
     List<Object> getAllMaterialBaseByCatId (int catId) {
         List<Object> result = new ArrayList<>();
         result.clear();
+        logger.info("获取物料基本属性，物料分类id为：" + catId);
         for (int i = 1; i <= 4; ++i) {
             List<Object> tmpResult = getMaterialBaseByCatIdAndType(catId, i);
+            logger.info("获取物料基本属性中，类别为：" + i);
             if (tmpResult != null && tmpResult.size() > 0) {
                 result.addAll(tmpResult);
+                logger.info("获取了物料基本属性！");
             }
         }
         return result;
@@ -485,6 +486,52 @@ public class MaterialInfoServiceImplSupplier {
                 eachStatusCode = 1;
             }
             statusCode += eachStatusCode;
+        }
+        return statusCode;
+    }
+
+    int updateMaterialBasePropByCatId (int catId, List<Object> updateValue) {
+        int statusCode = 0;
+        int tmpresult = 0;
+        Map<String, Object> params = new HashMap<>();
+        try {
+            // 由于可能物料基础属性可能全部变更，故需要先删除所有已存在的记录，然后全部重新插入
+            // 删除的时候要注意要同时从materialBaseProp表和materialBasePropVal表中一起删除，以防在materialBasePropVal表中出现无效数据
+            params.clear();
+            params.put("materialCatId", catId);
+            List<MaterialBasePropModel> materialBasePropTmp = materialInfoMapper.getMaterialBasePropWithMaterialBasePropParams(params);
+            if (materialBasePropTmp != null && materialBasePropTmp.size() > 0) {
+                for (MaterialBasePropModel element : materialBasePropTmp) {
+                    tmpresult = materialInfoMapper.deleteAllMaterialBasePropValWithMaterialBasePropId(element.getId());
+                    logger.info("从materialBasePropVal表中删除materialBasePropId = " + element.getId() + "的记录返回结果为：" + tmpresult);
+                }
+                tmpresult = materialInfoMapper.deleteAllMaterialBasePropWithCatId(catId);
+                logger.info("从materialBaseProp表中删除所有materialCatId = " + catId + "的记录返回结果为：" + tmpresult);
+            } else {
+                logger.info("原数据库没有materialCatId = " + catId + "的记录，无需删除！");
+            }
+            // 再添加所有新的数据
+            for (Object element : updateValue) {
+                Map<String, Object> record = (Map<String, Object>) element;
+                // 每一个元素都是一条数据库记录
+                params.clear();
+                params.put("materialCatId", catId);
+                params.put("type", record.get("type"));
+                params.put("label", record.get("label"));
+                params.put("name", record.get("name"));
+                params.put("valueRange", record.get("valueRange"));
+                params.put("sort", record.get("sort"));
+                tmpresult = materialInfoMapper.insertMaterialBasePropWithMaterialBasePropParams(params);
+                logger.info("在materialBaseProp中添加记录，返回值为：" + tmpresult);
+            }
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+            logger.info("更新物料基本属性时出现转换错误，请检查输入格式是否正确！");
+            statusCode = -1;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            logger.info("更新物料基本属性时出现空指针错误，请检查数据库是否有此记录，或者上传的数据是否正确！");
+            statusCode = -2;
         }
         return statusCode;
     }
@@ -706,13 +753,13 @@ public class MaterialInfoServiceImplSupplier {
         }
     }
 
-    private List<ControlPropertyBean> getControlPropByCatIdAndName (String propName, int organizationId, int catId) {
+    private List<ControlPropertyBean> getControlPropByCatIdAndName (String propName, int organizationCode, int catId) {
         // 先查询基于某个物料分类下通用的控制属性
         Map<String, Object> params = new HashMap<>();
         params.clear();
         params.put("materialCatId", catId);
         params.put("spuCode", "-1");
-        params.put("organizationCode", organizationId);
+        params.put("organizationCode", organizationCode);
         List<MaterialCtrlPropValVerModel> ctrlVerResult = materialInfoMapper.getCtrlPropValVerWithCtrlPropValVerParams(params);
         // 需要确保结果只有一个，若有多个，取第一个
         int versionId = ctrlVerResult.get(0).getId();
@@ -951,6 +998,42 @@ public class MaterialInfoServiceImplSupplier {
         params.clear();
         params.put("materialCatId", materialCatId);
         params.put("materialId", materialId);
+        params.put("organizationCode", organizationCode);
+        List<MaterialCtrlPropValVerModel> ctrlVerResult = materialInfoMapper.getCtrlPropValVerWithCtrlPropValVerParams(params);
+        // 需要确保结果只有一个，若有多个，取第一个
+        int versionId = ctrlVerResult.get(0).getId();
+        // 查找控制属性名对应的id
+        params.clear();
+        params.put("name", name);
+        List<MaterialCtrlPropModel> ctrlPropResult = materialInfoMapper.getCtrlPropWithCtrlPropParams(params);
+        int ctrlPropId = ctrlPropResult.get(0).getId();
+        switch (type) {
+            case 5:
+                // 采购和库存属性：5
+                return updatePurchaseAndStoreProperties(versionId, ctrlPropId, name, value);
+            case 6:
+                // 计划类属性：6
+                return updatePlanProperties(versionId, ctrlPropId, name, value);
+            case 7:
+                // 销售类属性：7
+                return updateSalesProperties(versionId, ctrlPropId, name, value);
+            case 8:
+                // 质量类属性：8
+                return updateQualityProperties(versionId, ctrlPropId, name, value);
+            case 9:
+                // 财务类属性：9
+                return updateFinanceProperties(versionId, ctrlPropId, name, value);
+            default:
+                return 0;
+        }
+    }
+
+    int updateControlPropertyByCatIdAndTypeAndValue (int type, int organizationCode, int catId, String name, String value) {
+        // 先查询基于某个物料分类下通用的控制属性
+        Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("materialCatId", catId);
+        params.put("spuCode", "-1");
         params.put("organizationCode", organizationCode);
         List<MaterialCtrlPropValVerModel> ctrlVerResult = materialInfoMapper.getCtrlPropValVerWithCtrlPropValVerParams(params);
         // 需要确保结果只有一个，若有多个，取第一个

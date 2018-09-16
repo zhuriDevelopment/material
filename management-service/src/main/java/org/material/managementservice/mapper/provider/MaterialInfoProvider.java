@@ -256,53 +256,7 @@ public class MaterialInfoProvider {
         }.toString();
     }
 
-    public String insertMaterialBasePropWithMaterialBasePropParams (Map<String, Object> params) {
-        String[] stringList = {"label", "name", "valueRange"};
-        String[] intList = {"materialCatId", "type", "sort"};
-        return new SQL() {
-            {
-                INSERT_INTO("materialBaseProp");
-                for (String key : stringList) {
-                    if (params.containsKey(key)) {
-                        String column = key;
-                        String value = params.get(key).toString();
-                        VALUES(column, "'" + value + "'");
-                    }
-                }
-                for (String key : intList) {
-                    if (params.containsKey(key)) {
-                        String column = key;
-                        String value = params.get(key).toString();
-                        VALUES(column, value);
-                    }
-                }
-            }
-        }.toString();
-    }
 
-    public String insertMaterialBasePropValWithMaterialBasePropValParams (Map<String, Object> params) {
-        String[] stringList = {"spuCode", "materialCode", "value"};
-        String[] intList = {"materialBasePropId"};
-        return new SQL() {
-            {
-                INSERT_INTO("materialBasePropVal");
-                for (String key : stringList) {
-                    if (params.containsKey(key)) {
-                        String column = key;
-                        String value = params.get(key).toString();
-                        VALUES(column, "'" + value + "'");
-                    }
-                }
-                for (String key : intList) {
-                    if (params.containsKey(key)) {
-                        String column = key;
-                        String value = params.get(key).toString();
-                        VALUES(column, value);
-                    }
-                }
-            }
-        }.toString();
-    }
 
     // ---------------------------------------- 更新物料基本信息部分 ----------------------------------------
     public String updateBaseInfoWithBaseInfoParams (String spuCode, String name, String value) {
@@ -473,6 +427,73 @@ public class MaterialInfoProvider {
             {
                 DELETE_FROM("materialSku");
                 WHERE("spuCode = " + spuCode);
+            }
+        }.toString();
+    }
+    // ---------------------------------------- 添加物料基本属性部分 ----------------------------------------
+    public String insertMaterialBasePropWithMaterialBasePropParams (Map<String, Object> params) {
+        String[] stringList = {"label", "name", "valueRange"};
+        String[] intList = {"materialCatId", "type", "sort"};
+        return new SQL() {
+            {
+                INSERT_INTO("materialBaseProp");
+                for (String key : stringList) {
+                    if (params.containsKey(key)) {
+                        String column = key;
+                        String value = params.get(key).toString();
+                        VALUES(column, "'" + value + "'");
+                    }
+                }
+                for (String key : intList) {
+                    if (params.containsKey(key)) {
+                        String column = key;
+                        String value = params.get(key).toString();
+                        VALUES(column, value);
+                    }
+                }
+            }
+        }.toString();
+    }
+
+    public String insertMaterialBasePropValWithMaterialBasePropValParams (Map<String, Object> params) {
+        String[] stringList = {"spuCode", "materialCode", "value"};
+        String[] intList = {"materialBasePropId"};
+        return new SQL() {
+            {
+                INSERT_INTO("materialBasePropVal");
+                for (String key : stringList) {
+                    if (params.containsKey(key)) {
+                        String column = key;
+                        String value = params.get(key).toString();
+                        VALUES(column, "'" + value + "'");
+                    }
+                }
+                for (String key : intList) {
+                    if (params.containsKey(key)) {
+                        String column = key;
+                        String value = params.get(key).toString();
+                        VALUES(column, value);
+                    }
+                }
+            }
+        }.toString();
+    }
+
+    // ---------------------------------------- 删除物料基本属性部分 ----------------------------------------
+    public String deleteAllMaterialBasePropWithCatId(int catId) {
+        return new SQL() {
+            {
+                DELETE_FROM("materialBaseProp");
+                WHERE("materialCatId" + catId);
+            }
+        }.toString();
+    }
+
+    public String deleteAllMaterialBasePropValWithMaterialBasePropId (int materialBasePropId) {
+        return new SQL() {
+            {
+                DELETE_FROM("materialBasePropVal");
+                WHERE("materialBasePropId" + materialBasePropId);
             }
         }.toString();
     }

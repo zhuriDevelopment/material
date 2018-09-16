@@ -144,6 +144,7 @@ public interface MaterialInfoMapper {
     int addUnit (@Param("label") String label, @Param("name") String name, @Param("englishName") String englishName,
                  @Param("relatedId") int id, @Param("conversionFactor") double conversionFactor, @Param("sort") int sort);
 
+    // ---------------------------------------- 添加物料基本属性部分 ----------------------------------------
     @InsertProvider(type = MaterialInfoProvider.class,
                     method = "insertMaterialBasePropWithMaterialBasePropParams")
     int insertMaterialBasePropWithMaterialBasePropParams (Map<String, Object> params);
@@ -151,6 +152,15 @@ public interface MaterialInfoMapper {
     @InsertProvider(type = MaterialInfoProvider.class,
                     method = "insertMaterialBasePropValWithMaterialBasePropValParams")
     int insertMaterialBasePropValWithMaterialBasePropValParams (Map<String, Object> params);
+
+    // ---------------------------------------- 删除物料基本属性部分 ----------------------------------------
+    @DeleteProvider(type = MaterialInfoProvider.class,
+                    method = "deleteAllMaterialBasePropWithCatId")
+    int deleteAllMaterialBasePropWithCatId (int catId);
+
+    @DeleteProvider(type = MaterialInfoProvider.class,
+                    method = "deleteAllMaterialBasePropValWithMaterialBasePropId")
+    int deleteAllMaterialBasePropValWithMaterialBasePropId (int materialBasePropId);
 
     // ---------------------------------------- 获取物料分类信息部分 ----------------------------------------
     @Select("SELECT * FROM materialCategory;")

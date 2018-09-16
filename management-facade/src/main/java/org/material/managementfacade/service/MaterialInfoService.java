@@ -30,5 +30,7 @@ public interface MaterialInfoService {
 
     List<Object> getMaterialCategoryInfosWithId (int id);
 
-    List<Object> getMaterialInfoWithCatIdAndCatName (int catId, String catName, List<Integer> types, int organizationId);
+    List<Object> getMaterialInfoWithCatCodeAndCatName (int catCode, String catName, List<Integer> types, int organizationId);
+
+    int updateMaterialInfoWithCatCodeAndCatName (String catCode, String catName, List<Object> data);
 }

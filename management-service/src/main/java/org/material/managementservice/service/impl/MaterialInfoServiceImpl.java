@@ -532,37 +532,106 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         全部基础信息：11
     */
     @Override
-    public List<Object> getMaterialInfoWithCatIdAndCatName (int catId, String catName, List<Integer> types, int organizationId) {
+    public List<Object> getMaterialInfoWithCatCodeAndCatName (int catCode, String catName, List<Integer> types, int organizationId) {
         List<Object> result = new ArrayList<>();
+        result.clear();
+        Map<String, Object> params = new HashMap<>();
         int maxTypeNum = 11;
+        int catId = 0;
         int[] flag = new int[maxTypeNum + 1];
         Arrays.fill(flag, 0);
         for (int type : types) {
             flag[type] = 1;
         }
-        for (int i = 5; i <= maxTypeNum; ++i) {
-            if (flag[i] == 0) {
-                continue;
+        params.clear();
+        params.put("code", catCode);
+        List<MaterialCategoryModel> materialBaseTmp = materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(params);
+        if (materialBaseTmp != null && materialBaseTmp.size() > 0) {
+            catId = materialBaseTmp.get(0).getId();
+            logger.info("物料分类编码为" + catCode + "的记录对应的物料分类id为：" + catId);
+            for (int i = 5; i <= maxTypeNum; ++i) {
+                if (flag[i] == 0) {
+                    continue;
+                }
+                switch (i) {
+                    case 11:
+                        // 基础信息
+                        List<Object> baseProp = materialInfoServiceImplSupplier.getAllMaterialBaseByCatId(catId);
+                        if (baseProp != null && baseProp.size() > 0) {
+                            result.add(baseProp);
+                            logger.info("成功找到物料基本属性！");
+                        } else {
+                            logger.info("寻找物料基本属性失败！");
+                            result.add(new ArrayList<>());
+                        }
+                        break;
+                    default:
+                        // 6-10
+                        // 控制类属性
+                        List<ControlPropertyBean> controlProps = materialInfoServiceImplSupplier.getControlPropsByCatIdAndType(catId, i, organizationId);
+                        if (controlProps != null && controlProps.size() > 0) {
+                            result.add(controlProps);
+                        }
+                        break;
+                }
             }
-            switch (i) {
-                case 11:
-                    // 基础信息
-                    List<Object> baseProp = materialInfoServiceImplSupplier.getAllMaterialBaseByCatId(catId);
-                    if (baseProp != null && baseProp.size() > 0) {
-                        result.add(baseProp);
-                    } else {
-                        result.add(new ArrayList<>());
-                    }
-                    break;
-                default:
-                    // 6-10
-                    // 控制类属性
-                    List<ControlPropertyBean> controlProps = materialInfoServiceImplSupplier.getControlPropsByCatIdAndType(catId, i, organizationId);
-                    if (controlProps != null && controlProps.size() > 0) {
-                        result.add(controlProps);
-                    }
-                    break;
+        } else {
+            logger.info("物料分类编码为" + catCode + "的记录在数据库中不存在对应的数据！");
+            for (int i = 5; i <= maxTypeNum; ++i) {
+                if (flag[i] == 0) {
+                    continue;
+                }
+                result.add(new ArrayList<>());
             }
+        }
+        return result;
+    }
+
+    @Override
+    public int updateMaterialInfoWithCatCodeAndCatName (String catCode, String catName, List<Object> data) {
+        int result = 1;
+        int tmpresult = 0;
+        int catId = 0;
+        Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("code", catCode);
+        List<MaterialCategoryModel> materialBaseTmp = materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(params);
+        if (materialBaseTmp != null && materialBaseTmp.size() > 0) {
+            catId = materialBaseTmp.get(0).getId();
+            logger.info("物料分类编码为" + catCode + "的记录对应的物料分类id为：" + catId);
+            for (Object element : data) {
+                Map<String, Object> needUpdate = (Map<String, Object>) element;
+                int propertyType = Integer.parseInt(needUpdate.get("propertyType").toString());
+                logger.debug("propertyType = " + propertyType);
+                if (propertyType == 11) {
+                    List<Object> updateValue = (List<Object>) needUpdate.get("updateValue");
+                    tmpresult = materialInfoServiceImplSupplier.updateMaterialBasePropByCatId(catId, updateValue);
+                } else {
+                    List<Map<String, Object>> updateValue = (List<Map<String, Object>>) needUpdate.get("updateValue");
+                    for (Map<String, Object> kvPairs : updateValue) {
+                        String name = null, value = null;
+                        if (kvPairs.containsKey("name")) {
+                            name = kvPairs.get("name").toString();
+                            logger.debug("name = " + name);
+                        }
+                        if (kvPairs.containsKey("value")) {
+                            value = kvPairs.get("value").toString();
+                            logger.debug("value = " + value);
+                        }
+                        if (needUpdate.containsKey("organizationCode")) {
+                            int organizationCode = Integer.parseInt(needUpdate.get("organizationCode").toString());
+                            tmpresult = materialInfoServiceImplSupplier.updateControlPropertyByCatIdAndTypeAndValue(propertyType, organizationCode, catId, name, value);
+                        } else {
+                            tmpresult = 0;
+                        }
+                    }
+                    logger.debug("此次操作类型为：" + propertyType + "，物料分类编码为：" + catCode + "，返回结果为：" + tmpresult + "。");
+                }
+                result = Math.min(result, result * tmpresult);
+            }
+        } else {
+            logger.info("物料分类编码为" + catCode + "的记录在数据库中不存在对应的数据！");
+            result = 0;
         }
         return result;
     }

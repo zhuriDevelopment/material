@@ -2,6 +2,7 @@ package org.material.managementweb.web;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.jdbc.Null;
 import org.material.managementservice.service.impl.MaterialInfoServiceImpl;
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -187,21 +188,41 @@ public class MaterialInfoController {
     @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
                  methods = {RequestMethod.POST},
                  origins = "*")
-    @PostMapping(value = "/getMaterialInfoWithCatIdAndCatName")
+    @PostMapping(value = "/getMaterialInfoWithCatCodeAndCatName")
     @ApiOperation(value = "根据物料分类id和物料名称获取所有物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Object> getMaterialInfoWithCatIdAndCatName (@RequestBody Map<String, Object> params) {
+    public List<Object> getMaterialInfoWithCatCodeAndCatName (@RequestBody Map<String, Object> params) {
         try {
-            int catId = Integer.parseInt(params.get("id").toString());
+            int catCode = Integer.parseInt(params.get("code").toString());
             String catName = params.get("name").toString();
             List<Integer> typeArr = (List<Integer>) params.get("typeArr");
             // 先不考虑组织编码
             int organizationId = 1;
-            return materialInfoService.getMaterialInfoWithCatIdAndCatName(catId, catName, typeArr, organizationId);
+            return materialInfoService.getMaterialInfoWithCatCodeAndCatName(catCode, catName, typeArr, organizationId);
         } catch (NullPointerException | ClassCastException e) {
             e.printStackTrace();
             List<Object> result = new ArrayList<>();
             result.add("请检查输入格式是否正确！");
             return result;
+        }
+    }
+
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+                 methods = {RequestMethod.POST},
+                 origins = "*")
+    @PostMapping(value = "/updateMaterialInfoWithCatCodeAndCatName")
+    @ApiOperation(value = "根据物料分类id和物料名称更新物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int updateMaterialInfoWithCatCodeAndCatName (@RequestBody Map<String, Object> params) {
+        try {
+            String catCode = params.get("code").toString();
+            String catName = params.get("name").toString();
+            List<Object> data = (List<Object>) params.get("data");
+            return materialInfoService.updateMaterialInfoWithCatCodeAndCatName(catCode, catName, data);
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+            return -1;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return -2;
         }
     }
 }
