@@ -511,4 +511,59 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         result.add(catResult);
         return result;
     }
+
+    @Override
+    public List<Object> getMaterialCategoryInfosWithId (int id) {
+        List<Object> result = new ArrayList<>();
+        Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("id", new Integer(id).toString());
+        List<MaterialCategoryModel> materialCategoryResult = materialInfoMapper.getMaterialCategoryWithMaterialCategoryParams(params);
+        result.add(materialCategoryResult);
+        return result;
+    }
+
+    /*
+        采购和库存属性：5
+        计划类属性：6
+        销售类属性：7
+        质量类属性：8
+        财务类属性：9
+        全部基础信息：11
+    */
+    @Override
+    public List<Object> getMaterialInfoWithCatIdAndCatName (int catId, String catName, List<Integer> types, int organizationId) {
+        List<Object> result = new ArrayList<>();
+        int maxTypeNum = 11;
+        int[] flag = new int[maxTypeNum + 1];
+        Arrays.fill(flag, 0);
+        for (int type : types) {
+            flag[type] = 1;
+        }
+        for (int i = 5; i <= maxTypeNum; ++i) {
+            if (flag[i] == 0) {
+                continue;
+            }
+            switch (i) {
+                case 11:
+                    // 基础信息
+                    List<Object> baseProp = materialInfoServiceImplSupplier.getAllMaterialBaseByCatId(catId);
+                    if (baseProp != null && baseProp.size() > 0) {
+                        result.add(baseProp);
+                    } else {
+                        result.add(new ArrayList<>());
+                    }
+                    break;
+                default:
+                    // 6-10
+                    // 控制类属性
+                    List<ControlPropertyBean> controlProps = materialInfoServiceImplSupplier.getControlPropsByCatIdAndType(catId, i, organizationId);
+                    if (controlProps != null && controlProps.size() > 0) {
+                        result.add(controlProps);
+                    }
+                    break;
+            }
+        }
+        return result;
+    }
 }

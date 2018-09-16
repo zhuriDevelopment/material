@@ -27,4 +27,8 @@ public interface MaterialInfoService {
     int deleteMaterialCategory (int id, String code, String name, int parentId);
 
     List<Object> getAllMaterialBaseByCategoryInfos (int id);
+
+    List<Object> getMaterialCategoryInfosWithId (int id);
+
+    List<Object> getMaterialInfoWithCatIdAndCatName (int catId, String catName, List<Integer> types, int organizationId);
 }

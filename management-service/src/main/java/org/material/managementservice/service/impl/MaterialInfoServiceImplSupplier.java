@@ -18,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.naming.ldap.Control;
+
 // 作为ServiceImpl的补充类，以防止ServiceImpl类过于复杂掩盖逻辑
 
 @Service
@@ -253,7 +255,7 @@ public class MaterialInfoServiceImplSupplier {
                 } else {
                     // 不存在
                     materialInfoMapper.addUnit(unitElement.get("label").toString(), unitElement.get("name").toString(),
-                                                unitElement.get("englishName").toString(), 0, 1, 1);
+                            unitElement.get("englishName").toString(), 0, 1, 1);
                     List<UnitModel> unitTmp = materialInfoMapper.getUnitWithUnitParams(params);
                     // 刚刚存进去，不可能为空
                     unitId = unitTmp.get(0).getId();
@@ -306,7 +308,7 @@ public class MaterialInfoServiceImplSupplier {
         } catch (ClassCastException e) {
             logger.error("发生类转换错误，函数：updateUnitsBySpuCode");
         }
-        
+
         return 0;
     }
 
@@ -389,6 +391,30 @@ public class MaterialInfoServiceImplSupplier {
         }
         result.add(valFilter);
         result.add(propFilter);
+        return result;
+    }
+
+    List<Object> getAllMaterialBaseByCatId (int catId) {
+        List<Object> result = new ArrayList<>();
+        result.clear();
+        for (int i = 1; i <= 4; ++i) {
+            List<Object> tmpResult = getMaterialBaseByCatIdAndType(catId, i);
+            if (tmpResult != null && tmpResult.size() > 0) {
+                result.addAll(tmpResult);
+            }
+        }
+        return result;
+    }
+
+    List<Object> getMaterialBaseByCatIdAndType (int catId, int propertyType) {
+        List<Object> result = new ArrayList<>();
+        result.clear();
+        Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("materialCatId", catId);
+        params.put("type", propertyType);
+        List<MaterialBasePropModel> materialBasePropResult = materialInfoMapper.getMaterialBasePropWithMaterialBasePropParams(params);
+        result.addAll(materialBasePropResult);
         return result;
     }
 
@@ -675,6 +701,176 @@ public class MaterialInfoServiceImplSupplier {
             case 9:
                 // 财务类属性：9
                 return getFinanceProperties(-1, organizationId, spuCode);
+            default:
+                return null;
+        }
+    }
+
+    private List<ControlPropertyBean> getControlPropByCatIdAndName (String propName, int organizationId, int catId) {
+        // 先查询基于某个物料分类下通用的控制属性
+        Map<String, Object> params = new HashMap<>();
+        params.clear();
+        params.put("materialCatId", catId);
+        params.put("spuCode", "-1");
+        params.put("organizationCode", organizationId);
+        List<MaterialCtrlPropValVerModel> ctrlVerResult = materialInfoMapper.getCtrlPropValVerWithCtrlPropValVerParams(params);
+        // 需要确保结果只有一个，若有多个，取第一个
+        int versionId = ctrlVerResult.get(0).getId();
+        // 查找控制属性名对应的id
+        params.clear();
+        params.put("name", propName);
+        List<MaterialCtrlPropModel> ctrlPropResult = materialInfoMapper.getCtrlPropWithCtrlPropParams(params);
+        if (ctrlPropResult == null || ctrlPropResult.size() == 0) {
+            return null;
+        }
+        int ctrlPropId = ctrlPropResult.get(0).getId();
+        // 查找对应的属性值，根据版本号和属性名id
+        params.clear();
+        params.put("versionId", versionId);
+        params.put("materialCtrlPropId", ctrlPropId);
+        List<MaterialCtrlPropValModel> ctrlValResult = materialInfoMapper.getCtrlPropValWithCtrlPropValParams(params);
+        if (ctrlValResult == null) {
+            return null;
+        }
+        List<ControlPropertyBean> result = new ArrayList<>();
+        result.clear();
+        String value = ctrlValResult.get(0).getValue();
+        result.add(new ControlPropertyBean(propName, value));
+        return result;
+    }
+
+    private List<ControlPropertyBean> getPurchaseAndStorePropertiesWithCatId (int index, int organizationId, int catId) {
+        if (index < -1) {
+            return null;
+        }
+        if (index == -1) {
+            List<ControlPropertyBean> result = new ArrayList<>();
+            String[] purchasePropertiesList = purchaseAndStoreList.getPurchasePropertiesList();
+            for (String purchaseProperty : purchasePropertiesList) {
+                List<ControlPropertyBean> tmpResult = getControlPropByCatIdAndName(purchaseProperty, organizationId, catId);
+                if (tmpResult != null && !tmpResult.isEmpty()) {
+                    result.addAll(tmpResult);
+                } else {
+                    List<ControlPropertyBean> emptyResult = new ArrayList<>();
+                    emptyResult.add(new ControlPropertyBean(purchaseProperty, ""));
+                    result.addAll(emptyResult);
+                }
+            }
+            return result;
+        } else {
+            return getControlPropByCatIdAndName(purchaseAndStoreList.getPurchasePropertiesList()[index], organizationId, catId);
+        }
+    }
+
+    private List<ControlPropertyBean> getPlanPropertiesWithCatId (int index, int organizationId, int catId) {
+        if (index < -1) {
+            return null;
+        }
+        if (index == -1) {
+            List<ControlPropertyBean> result = new ArrayList<>();
+            String[] planPropertiesList = planList.getPlanPropertiesList();
+            for (String planProperty : planPropertiesList) {
+                List<ControlPropertyBean> tmpResult = getControlPropByCatIdAndName(planProperty, organizationId, catId);
+                if (tmpResult != null && !tmpResult.isEmpty()) {
+                    result.addAll(tmpResult);
+                } else {
+                    List<ControlPropertyBean> emptyResult = new ArrayList<>();
+                    emptyResult.add(new ControlPropertyBean(planProperty, ""));
+                    result.addAll(emptyResult);
+                }
+            }
+            return result;
+        } else {
+            return getControlPropByCatIdAndName(planList.getPlanPropertiesList()[index], organizationId, catId);
+        }
+    }
+
+    private List<ControlPropertyBean> getSalesPropertiesWithCatId (int index, int organizationId, int catId) {
+        if (index < -1) {
+            return null;
+        }
+        if (index == -1) {
+            List<ControlPropertyBean> result = new ArrayList<>();
+            String[] salesPropertiesList = salesList.getSalesList();
+            for (String salesProperty : salesPropertiesList) {
+                List<ControlPropertyBean> tmpResult = getControlPropByCatIdAndName(salesProperty, organizationId, catId);
+                if (tmpResult != null && !tmpResult.isEmpty()) {
+                    result.addAll(tmpResult);
+                } else {
+                    List<ControlPropertyBean> emptyResult = new ArrayList<>();
+                    emptyResult.add(new ControlPropertyBean(salesProperty, ""));
+                    result.addAll(emptyResult);
+                }
+            }
+            return result;
+        } else {
+            return getControlPropByCatIdAndName(salesList.getSalesList()[index], organizationId, catId);
+        }
+    }
+
+    private List<ControlPropertyBean> getQualityPropertiesWithCatId (int index, int organizationId, int catId) {
+        if (index < -1) {
+            return null;
+        }
+        if (index == -1) {
+            List<ControlPropertyBean> result = new ArrayList<>();
+            String[] qualityPropertiesList = qualityList.getQualityList();
+            for (String qualityProperty : qualityPropertiesList) {
+                List<ControlPropertyBean> tmpResult = getControlPropByCatIdAndName(qualityProperty, organizationId, catId);
+                if (tmpResult != null && !tmpResult.isEmpty()) {
+                    result.addAll(tmpResult);
+                } else {
+                    List<ControlPropertyBean> emptyResult = new ArrayList<>();
+                    emptyResult.add(new ControlPropertyBean(qualityProperty, ""));
+                    result.addAll(emptyResult);
+                }
+            }
+            return result;
+        } else {
+            return getControlPropByCatIdAndName(qualityList.getQualityList()[index], organizationId, catId);
+        }
+    }
+
+    private List<ControlPropertyBean> getFinancePropertiesWithCatId (int index, int organizationId, int catId) {
+        if (index < -1) {
+            return null;
+        }
+        if (index == -1) {
+            List<ControlPropertyBean> result = new ArrayList<>();
+            String[] financePropertiesList = financeList.getFinanceList();
+            for (String financeProperty : financePropertiesList) {
+                List<ControlPropertyBean> tmpResult = getControlPropByCatIdAndName(financeProperty, organizationId, catId);
+                if (tmpResult != null && !tmpResult.isEmpty()) {
+                    result.addAll(tmpResult);
+                } else {
+                    List<ControlPropertyBean> emptyResult = new ArrayList<>();
+                    emptyResult.add(new ControlPropertyBean(financeProperty, ""));
+                    result.addAll(emptyResult);
+                }
+            }
+            return result;
+        } else {
+            return getControlPropByCatIdAndName(financeList.getFinanceList()[index], organizationId, catId);
+        }
+    }
+
+    // 获取通用控制属性
+    List<ControlPropertyBean> getControlPropsByCatIdAndType (int catId, int type, int organizationId) {
+        switch (type) {
+            case 5:
+                return getPurchaseAndStorePropertiesWithCatId(-1, organizationId, catId);
+            case 6:
+                // 计划类属性：6
+                return getPlanPropertiesWithCatId(-1, organizationId, catId);
+            case 7:
+                // 销售类属性：7
+                return getSalesPropertiesWithCatId(-1, organizationId, catId);
+            case 8:
+                // 质量类属性：8
+                return getQualityPropertiesWithCatId(-1, organizationId, catId);
+            case 9:
+                // 财务类属性：9
+                return getFinancePropertiesWithCatId(-1, organizationId, catId);
             default:
                 return null;
         }
