@@ -156,11 +156,11 @@ public interface MaterialInfoMapper {
     // ---------------------------------------- 删除物料基本属性部分 ----------------------------------------
     @DeleteProvider(type = MaterialInfoProvider.class,
                     method = "deleteAllMaterialBasePropWithCatId")
-    int deleteAllMaterialBasePropWithCatId (int catId);
+    int deleteAllMaterialBasePropWithCatId (Integer catId);
 
     @DeleteProvider(type = MaterialInfoProvider.class,
                     method = "deleteAllMaterialBasePropValWithMaterialBasePropId")
-    int deleteAllMaterialBasePropValWithMaterialBasePropId (int materialBasePropId);
+    int deleteAllMaterialBasePropValWithMaterialBasePropId (Integer materialBasePropId);
 
     // ---------------------------------------- 获取物料分类信息部分 ----------------------------------------
     @Select("SELECT * FROM materialCategory;")

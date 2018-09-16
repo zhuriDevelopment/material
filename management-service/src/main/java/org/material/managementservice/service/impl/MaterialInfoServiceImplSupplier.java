@@ -502,10 +502,10 @@ public class MaterialInfoServiceImplSupplier {
             List<MaterialBasePropModel> materialBasePropTmp = materialInfoMapper.getMaterialBasePropWithMaterialBasePropParams(params);
             if (materialBasePropTmp != null && materialBasePropTmp.size() > 0) {
                 for (MaterialBasePropModel element : materialBasePropTmp) {
-                    tmpresult = materialInfoMapper.deleteAllMaterialBasePropValWithMaterialBasePropId(element.getId());
+                    tmpresult = materialInfoMapper.deleteAllMaterialBasePropValWithMaterialBasePropId(new Integer(element.getId()));
                     logger.info("从materialBasePropVal表中删除materialBasePropId = " + element.getId() + "的记录返回结果为：" + tmpresult);
                 }
-                tmpresult = materialInfoMapper.deleteAllMaterialBasePropWithCatId(catId);
+                tmpresult = materialInfoMapper.deleteAllMaterialBasePropWithCatId(new Integer(catId));
                 logger.info("从materialBaseProp表中删除所有materialCatId = " + catId + "的记录返回结果为：" + tmpresult);
             } else {
                 logger.info("原数据库没有materialCatId = " + catId + "的记录，无需删除！");
@@ -519,7 +519,7 @@ public class MaterialInfoServiceImplSupplier {
                 params.put("type", record.get("type"));
                 params.put("label", record.get("label"));
                 params.put("name", record.get("name"));
-                params.put("valueRange", record.get("valueRange"));
+                params.put("valueRange", record.get("range"));
                 params.put("sort", record.get("sort"));
                 tmpresult = materialInfoMapper.insertMaterialBasePropWithMaterialBasePropParams(params);
                 logger.info("在materialBaseProp中添加记录，返回值为：" + tmpresult);

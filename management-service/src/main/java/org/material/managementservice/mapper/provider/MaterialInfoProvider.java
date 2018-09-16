@@ -430,6 +430,7 @@ public class MaterialInfoProvider {
             }
         }.toString();
     }
+
     // ---------------------------------------- 添加物料基本属性部分 ----------------------------------------
     public String insertMaterialBasePropWithMaterialBasePropParams (Map<String, Object> params) {
         String[] stringList = {"label", "name", "valueRange"};
@@ -480,20 +481,20 @@ public class MaterialInfoProvider {
     }
 
     // ---------------------------------------- 删除物料基本属性部分 ----------------------------------------
-    public String deleteAllMaterialBasePropWithCatId(int catId) {
+    public String deleteAllMaterialBasePropWithCatId (Integer catId) {
         return new SQL() {
             {
                 DELETE_FROM("materialBaseProp");
-                WHERE("materialCatId" + catId);
+                WHERE("materialCatId = " + catId.toString());
             }
         }.toString();
     }
 
-    public String deleteAllMaterialBasePropValWithMaterialBasePropId (int materialBasePropId) {
+    public String deleteAllMaterialBasePropValWithMaterialBasePropId (Integer materialBasePropId) {
         return new SQL() {
             {
                 DELETE_FROM("materialBasePropVal");
-                WHERE("materialBasePropId" + materialBasePropId);
+                WHERE("materialBasePropId = " + materialBasePropId.toString());
             }
         }.toString();
     }
