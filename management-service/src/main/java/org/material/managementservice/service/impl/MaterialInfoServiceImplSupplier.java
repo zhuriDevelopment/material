@@ -1,9 +1,6 @@
 package org.material.managementservice.service.impl;
 
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import org.material.managementfacade.model.propertymodel.ControlPropertyBean;
 import org.material.managementfacade.model.propertymodel.purchaseandstore.PurchaseAndStoreList;
@@ -403,6 +400,18 @@ public class MaterialInfoServiceImplSupplier {
                 result.addAll(tmpResult);
                 logger.info("获取了物料基本属性！");
             }
+        }
+        try {
+            result.sort(new Comparator<Object>() {
+                public int compare (Object a, Object b) {
+                    MaterialBasePropModel tmpA = (MaterialBasePropModel) a;
+                    MaterialBasePropModel tmpB = (MaterialBasePropModel) b;
+                    return tmpA.getSort() - tmpB.getSort();
+                }
+            });
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+            logger.error("在getAllMaterialBaseByCatId中返回了不应该返回的值，返回的类不为MaterialBasePropModel！");
         }
         return result;
     }
