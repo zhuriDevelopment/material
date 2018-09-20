@@ -354,6 +354,9 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                                 tmpresult = materialInfoMapper.createBaseWithSpuCode(spuCode);
                                 logger.info("spuCode = " + spuCode + "的默认记录由于不存在被创建。");
                             }
+                            if ("category".equals(name)) {
+                                name = "materialCatId";
+                            }
                             tmpresult = materialInfoMapper.updateBaseInfoWithBaseInfoParams(spuCode, name, value);
                             break;
                         case 2:

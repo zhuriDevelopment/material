@@ -72,6 +72,15 @@ public interface MaterialInfoMapper {
                     method = "getCtrlPropValVerWithCtrlPropValVerParams")
     List<MaterialCtrlPropValVerModel> getCtrlPropValVerWithCtrlPropValVerParams (Map<String, Object> params);
 
+    // ---------------------------------------- 添加物料基本信息部分 ----------------------------------------
+    @InsertProvider(type = MaterialInfoProvider.class,
+                    method = "insertCtrlPropValWithCtrlPropValParams")
+    int insertCtrlPropValWithCtrlPropValParams (int versionId, int ctrlPropId, String value);
+
+    @InsertProvider(type = MaterialInfoProvider.class,
+                    method = "insertCtrlPropValVerWithCtrlPropValVerParams")
+    int insertCtrlPropValVerWithCtrlPropValVerParams (Map<String, Object> params);
+
     // ---------------------------------------- 更新物料基本信息部分 ----------------------------------------
     @UpdateProvider(type = MaterialInfoProvider.class,
                     method = "updateBaseInfoWithBaseInfoParams")

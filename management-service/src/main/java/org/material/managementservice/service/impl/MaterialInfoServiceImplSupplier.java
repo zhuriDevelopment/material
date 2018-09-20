@@ -1,5 +1,6 @@
 package org.material.managementservice.service.impl;
 
+import java.sql.Timestamp;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -988,43 +989,68 @@ public class MaterialInfoServiceImplSupplier {
         // 此时应该只有一个分类id
         int materialCatId = baseResult.get(0).getMaterialCatId();
         // 获取物料id
-        List<MaterialModel> materialResult = materialInfoMapper.getMaterialWithSpuCode(spuCode);
-        if (materialResult == null || materialResult.size() == 0) {
-            return -1;
-        }
-        int materialId = materialResult.get(0).getId();
+        // List<MaterialModel> materialResult = materialInfoMapper.getMaterialWithSpuCode(spuCode);
+        // if (materialResult == null || materialResult.size() == 0) {
+        //     return -1;
+        // }
+        // int materialId = materialResult.get(0).getId();
         // 确认版本号
         Map<String, Object> params = new HashMap<>();
         params.clear();
         params.put("materialCatId", materialCatId);
-        params.put("materialId", materialId);
+        // params.put("materialId", materialId);
+        params.put("spuCode", spuCode);
         params.put("organizationCode", organizationCode);
         List<MaterialCtrlPropValVerModel> ctrlVerResult = materialInfoMapper.getCtrlPropValVerWithCtrlPropValVerParams(params);
         // 需要确保结果只有一个，若有多个，取第一个
+        if (ctrlVerResult == null || ctrlVerResult.size() == 0) {
+            // 添加流程
+            params.put("version", "B" + (int) (Math.random() * (100000)));
+            // 默认间隔10年
+            params.put("startDate", new java.sql.Timestamp(System.currentTimeMillis()).toString());
+            params.put("endDate", new java.sql.Timestamp(System.currentTimeMillis() + 315360000000L).toString());
+            int insertCtrlVerResult = materialInfoMapper.insertCtrlPropValVerWithCtrlPropValVerParams(params);
+            logger.info("新添加了属性于materialCtrlPropValVer表，返回结果为：" + insertCtrlVerResult);
+            params.clear();
+            params.put("materialCatId", materialCatId);
+            params.put("spuCode", spuCode);
+            params.put("organizationCode", organizationCode);
+            ctrlVerResult = materialInfoMapper.getCtrlPropValVerWithCtrlPropValVerParams(params);
+        }
         int versionId = ctrlVerResult.get(0).getId();
         // 查找控制属性名对应的id
         params.clear();
         params.put("name", name);
         List<MaterialCtrlPropModel> ctrlPropResult = materialInfoMapper.getCtrlPropWithCtrlPropParams(params);
         int ctrlPropId = ctrlPropResult.get(0).getId();
-        switch (type) {
-            case 5:
-                // 采购和库存属性：5
-                return updatePurchaseAndStoreProperties(versionId, ctrlPropId, name, value);
-            case 6:
-                // 计划类属性：6
-                return updatePlanProperties(versionId, ctrlPropId, name, value);
-            case 7:
-                // 销售类属性：7
-                return updateSalesProperties(versionId, ctrlPropId, name, value);
-            case 8:
-                // 质量类属性：8
-                return updateQualityProperties(versionId, ctrlPropId, name, value);
-            case 9:
-                // 财务类属性：9
-                return updateFinanceProperties(versionId, ctrlPropId, name, value);
-            default:
-                return 0;
+        params.clear();
+        params.put("versionId", versionId);
+        params.put("materialCtrlPropId", ctrlPropId);
+        List<MaterialCtrlPropValModel> ctrlPropValResult = materialInfoMapper.getCtrlPropValWithCtrlPropValParams(params);
+        if (ctrlPropValResult != null && ctrlPropValResult.size() > 0) {
+            switch (type) {
+                case 5:
+                    // 采购和库存属性：5
+                    return updatePurchaseAndStoreProperties(versionId, ctrlPropId, name, value);
+                case 6:
+                    // 计划类属性：6
+                    return updatePlanProperties(versionId, ctrlPropId, name, value);
+                case 7:
+                    // 销售类属性：7
+                    return updateSalesProperties(versionId, ctrlPropId, name, value);
+                case 8:
+                    // 质量类属性：8
+                    return updateQualityProperties(versionId, ctrlPropId, name, value);
+                case 9:
+                    // 财务类属性：9
+                    return updateFinanceProperties(versionId, ctrlPropId, name, value);
+                default:
+                    return 0;
+            }
+        } else {
+            int insertCtrlPropValResult = materialInfoMapper.insertCtrlPropValWithCtrlPropValParams(versionId, ctrlPropId, value);
+            logger.info("新添加了属性于materialCtrlPropVal表，返回结果为：" + insertCtrlPropValResult);
+            return 0;
         }
     }
 

@@ -256,7 +256,40 @@ public class MaterialInfoProvider {
         }.toString();
     }
 
+    public String insertCtrlPropValWithCtrlPropValParams (int versionId, int ctrlPropId, String value) {
+        return new SQL() {
+            {
+                INSERT_INTO("materialCtrlPropVal");
+                VALUES("value", "'" + value + "'");
+                VALUES("versionId", Integer.valueOf(versionId).toString());
+                VALUES("materialCtrlPropId", Integer.valueOf(ctrlPropId).toString());
+            }
+        }.toString();
+    }
 
+    public String insertCtrlPropValVerWithCtrlPropValVerParams (Map<String, Object> params) {
+        String[] stringList = {"version", "organizationCode", "spuCode", "startDate", "endDate"};
+        String[] intList = {"materialCatId"};
+        return new SQL() {
+            {
+                INSERT_INTO("materialCtrlPropValVer");
+                for (String key : stringList) {
+                    if (params.containsKey(key)) {
+                        String column = key;
+                        String value = params.get(key).toString();
+                        VALUES(column, "'" + value + "'");
+                    }
+                }
+                for (String key : intList) {
+                    if (params.containsKey(key)) {
+                        String column = key;
+                        String value = params.get(key).toString();
+                        VALUES(column, value);
+                    }
+                }
+            }
+        }.toString();
+    }
 
     // ---------------------------------------- 更新物料基本信息部分 ----------------------------------------
     public String updateBaseInfoWithBaseInfoParams (String spuCode, String name, String value) {

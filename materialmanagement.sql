@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `materialCtrlPropVal` (
 CREATE TABLE IF NOT EXISTS `materialCtrlPropValVer` (
 	`id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	`version` VARCHAR(10) NOT NULL,
-	`origanizationCode` VARCHAR(20) NOT NULL,
+	`organizationCode` VARCHAR(20) NOT NULL,
 	`materialCatId` INT UNSIGNED NOT NULL,
 	`spuCode` VARCHAR(20) NOT NULL,
 	`startDate` DATETIME NOT NULL,
