@@ -1,5 +1,6 @@
 package org.material.managementservice.service.impl;
 
+import java.util.*;
 import java.sql.Timestamp;
 import java.util.Map;
 import java.util.ArrayList;
@@ -404,6 +405,18 @@ public class MaterialInfoServiceImplSupplier {
                 result.addAll(tmpResult);
                 logger.info("获取了物料基本属性！");
             }
+        }
+        try {
+            result.sort(new Comparator<Object>() {
+                public int compare (Object a, Object b) {
+                    MaterialBasePropModel tmpA = (MaterialBasePropModel) a;
+                    MaterialBasePropModel tmpB = (MaterialBasePropModel) b;
+                    return tmpA.getSort() - tmpB.getSort();
+                }
+            });
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+            logger.error("在getAllMaterialBaseByCatId中返回了不应该返回的值，返回的类不为MaterialBasePropModel！");
         }
         return result;
     }
