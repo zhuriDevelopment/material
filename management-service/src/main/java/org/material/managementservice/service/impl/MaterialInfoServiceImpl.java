@@ -638,4 +638,88 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         }
         return result;
     }
+
+    @Override
+    public List<Object> getMaterialBasePropsBySpuCodeAndMaterialCodesAndType (String spuCode, List<String> materialCodes, int propertyType) {
+        List<Object> result = new ArrayList<>();
+        Map<String, Object> params = new HashMap<>();
+        // 先找所有通用的属性，记录下所有对应属性的id
+        params.clear();
+        params.put("spuCode", spuCode);
+        params.put("materialCode", -1);
+        List<MaterialBasePropValModel> materialCommonBasePropResult = materialInfoMapper.getMaterialBasePropValWithMaterialBasePropValParams(params);
+        Map<Integer, MaterialBasePropModel> commonBaseProps = new HashMap<>();
+        commonBaseProps.clear();
+        for (MaterialBasePropValModel element : materialCommonBasePropResult) {
+            int id = element.getMaterialBasePropId();
+            params.clear();
+            params.put("id", id);
+            List<MaterialBasePropModel> tmpResult = materialInfoMapper.getMaterialBasePropWithMaterialBasePropParams(params);
+            if (tmpResult != null && tmpResult.size() > 0) {
+                // 非空，必须保证只有一个
+                if (tmpResult.size() > 1) {
+                    logger.info("在查找id = " + id + "的物料控制属性记录时出现了多个记录，请检查数据库！");
+                }
+                if (tmpResult.get(0).getType() == propertyType) {
+                    commonBaseProps.put(id, tmpResult.get(0));
+                }
+            }
+        }
+        // 对于所有可能的属性，记录下所有id
+        for (String materialCode : materialCodes) {
+            List<Object> singleResult = new ArrayList<>();
+            params.clear();
+            params.put("spuCode", spuCode);
+            params.put("materialCode", materialCode);
+            List<MaterialBasePropValModel> materialBasePropValResult = materialInfoMapper.getMaterialBasePropValWithMaterialBasePropValParams(params);
+            Set<Integer> commonBasePropIdSet = new HashSet<>(commonBaseProps.keySet());
+            for (MaterialBasePropValModel element : materialBasePropValResult) {
+                int materialBasePropId = element.getMaterialBasePropId();
+                params.clear();
+                params.put("id", materialBasePropId);
+                // 先去除处理到的记录id
+                if (commonBasePropIdSet.contains(materialBasePropId)) {
+                    commonBasePropIdSet.remove(materialBasePropId);
+                }
+                if (commonBaseProps.containsKey(materialBasePropId)) {
+                    // 存在则用已有的记录
+                    Map<String, Object> pairs = new HashMap<>();
+                    pairs.clear();
+                    pairs.put("baseProp", commonBaseProps.get(materialBasePropId));
+                    pairs.put("value", element.getValue());
+                    singleResult.add(pairs);
+                } else {
+                    List<MaterialBasePropModel> tmpResult = materialInfoMapper.getMaterialBasePropWithMaterialBasePropParams(params);
+                    if (tmpResult != null && tmpResult.size() > 0) {
+                        // 不存在则去查找
+                        if (tmpResult.size() > 1) {
+                            logger.info("在查找materialBasePropId = " + materialBasePropId + "的记录时出现了多个记录，请检查数据库！");
+                            singleResult.add(new HashMap<String, Object>());
+                        } else {
+                            Map<String, Object> pairs = new HashMap<>();
+                            pairs.clear();
+                            pairs.put("baseProp", tmpResult.get(0));
+                            pairs.put("value", element.getValue());
+                            singleResult.add(pairs);
+                        }
+                    } else {
+                        logger.info("在查找materialBasePropId = " + materialBasePropId + "的记录时出现了空记录，请检查数据库！");
+                        singleResult.add(new HashMap<String, Object>());
+                    }
+                }
+            }
+            // 有一些通用属性没有记录
+            if (commonBasePropIdSet.size() > 0) {
+                for (int materialBasePropId : commonBasePropIdSet) {
+                    Map<String, Object> pairs = new HashMap<>();
+                    pairs.clear();
+                    pairs.put("baseProp", commonBaseProps.get(materialBasePropId));
+                    pairs.put("value", "");
+                    singleResult.add(pairs);
+                }
+            }
+            result.add(singleResult);
+        }
+        return result;
+    }
 }

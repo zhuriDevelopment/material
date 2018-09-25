@@ -4,7 +4,6 @@ import java.util.*;
 
 import org.material.managementfacade.model.processmodel.MaterialCategoryTree;
 
-import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,4 +32,6 @@ public interface MaterialInfoService {
     List<Object> getMaterialInfoWithCatCodeAndCatName (int catCode, String catName, List<Integer> types, int organizationId);
 
     int updateMaterialInfoWithCatCodeAndCatName (String catCode, String catName, List<Object> data);
+
+    List<Object> getMaterialBasePropsBySpuCodeAndMaterialCodesAndType (String spuCode, List<String> materialCodes, int propertyType);
 }

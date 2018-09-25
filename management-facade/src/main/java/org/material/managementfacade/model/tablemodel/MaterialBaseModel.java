@@ -18,91 +18,91 @@ public class MaterialBaseModel {
     private String note;
     private int materialCatId;
 
-    public int getId() {
+    public int getId () {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId (int id) {
         this.id = id;
     }
 
-    public String getSpuCode() {
+    public String getSpuCode () {
         return spuCode;
     }
 
-    public void setSpuCode(String spuCode) {
+    public void setSpuCode (String spuCode) {
         this.spuCode = spuCode;
     }
 
-    public String getMnemonic() {
+    public String getMnemonic () {
         return mnemonic;
     }
 
-    public void setMnemonic(String mnemonic) {
+    public void setMnemonic (String mnemonic) {
         this.mnemonic = mnemonic;
     }
 
-    public String getSpuName() {
+    public String getSpuName () {
         return spuName;
     }
 
-    public void setSpuName(String spuName) {
+    public void setSpuName (String spuName) {
         this.spuName = spuName;
     }
 
-    public String getDescription() {
+    public String getDescription () {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription (String description) {
         this.description = description;
     }
 
-    public int getType() {
+    public int getType () {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType (int type) {
         this.type = type;
     }
 
-    public String getDesignCode() {
+    public String getDesignCode () {
         return designCode;
     }
 
-    public void setDesignCode(String designCode) {
+    public void setDesignCode (String designCode) {
         this.designCode = designCode;
     }
 
-    public String getDesignVersion() {
+    public String getDesignVersion () {
         return designVersion;
     }
 
-    public void setDesignVersion(String designVersion) {
+    public void setDesignVersion (String designVersion) {
         this.designVersion = designVersion;
     }
 
-    public int getDefaultUnitId() {
+    public int getDefaultUnitId () {
         return defaultUnitId;
     }
 
-    public void setDefaultUnitId(int defaultUnitId) {
+    public void setDefaultUnitId (int defaultUnitId) {
         this.defaultUnitId = defaultUnitId;
     }
 
-    public String getSource() {
+    public String getSource () {
         return source;
     }
 
-    public void setSource(String source) {
+    public void setSource (String source) {
         this.source = source;
     }
 
-    public String getUsage() {
+    public String getUsage () {
         return usage;
     }
 
-    public void setUsage(String usage) {
+    public void setUsage (String usage) {
         this.usage = usage;
     }
 
@@ -114,11 +114,11 @@ public class MaterialBaseModel {
         this.note = note;
     }
 
-    public int getMaterialCatId() {
+    public int getMaterialCatId () {
         return materialCatId;
     }
 
-    public void setMaterialCatId(int materialCatId) {
+    public void setMaterialCatId (int materialCatId) {
         this.materialCatId = materialCatId;
     }
 }

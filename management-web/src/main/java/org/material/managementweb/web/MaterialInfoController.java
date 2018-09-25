@@ -225,4 +225,28 @@ public class MaterialInfoController {
             return -2;
         }
     }
+
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+                 methods = {RequestMethod.POST},
+                 origins = "*")
+    @PostMapping(value = "/getMaterialBasePropsBySpuCodeAndMaterialCodes")
+    @ApiOperation(value = "根据spu编码和物料编码获取物料基本属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<Object> getMaterialBasePropsBySpuCodeAndMaterialCodes (@RequestBody Map<String, Object> params) {
+        try {
+            String spuCode = params.get("spuCode").toString();
+            List<String> materialCodes = (List<String>) params.get("materialCodes");
+            int propertyType = (int) params.get("propertyType");
+            return materialInfoService.getMaterialBasePropsBySpuCodeAndMaterialCodesAndType(spuCode, materialCodes, propertyType);
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+            List<Object> result = new ArrayList<>();
+            result.add("请检查输入格式是否正确，例如物料编码不为数组！");
+            return result;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            List<Object> result = new ArrayList<>();
+            result.add("请检查输入格式是否正确，例如不存在spuCode或者不存在物料编码数组！");
+            return result;
+        }
+    }
 }
