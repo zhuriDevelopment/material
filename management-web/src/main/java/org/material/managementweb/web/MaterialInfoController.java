@@ -249,4 +249,24 @@ public class MaterialInfoController {
             return result;
         }
     }
+
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+                 methods = {RequestMethod.POST},
+                 origins = "*")
+    @PostMapping(value = "/updateMaterialBasePropsBySpuCodeAndMaterialCodes")
+    @ApiOperation(value = "根据spu编码和物料编码更新物料基本属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int updateMaterialBasePropsBySpuCodeAndMaterialCodes (@RequestBody Map<String, Object> params) {
+        try {
+            String spuCode = params.get("spuCode").toString();
+            int propertyType = (int) params.get("propertyType");
+            List<Object> updateValue = (List<Object>) params.get("updateValue");
+            return materialInfoService.updateMaterialBasePropsBySpuCodeAndMaterialCodes(spuCode, propertyType, updateValue);
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+            return -1;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return -2;
+        }
+    }
 }

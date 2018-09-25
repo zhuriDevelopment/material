@@ -722,4 +722,21 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         }
         return result;
     }
+
+    @Override
+    public int updateMaterialBasePropsBySpuCodeAndMaterialCodes (String spuCode, int propertyType, List<Object> updateValue) {
+        for (Object element : updateValue) {
+            Map<String, Object> singleValue = (Map<String, Object>) element;
+            String materialCode = singleValue.get("materialCode").toString();
+            Map<String, Object> formatValues = (Map<String, Object>) singleValue.get("values");
+            for (String name : formatValues.keySet()) {
+                String value = formatValues.get(name).toString();
+                // spuCode, materialCode, name, value四个要素齐了
+                // 先根据name查找materialBasePropId
+                // 再查找已有的value
+                // 再根据相同情况决定是否更新
+            }
+        }
+        return 0;
+    }
 }

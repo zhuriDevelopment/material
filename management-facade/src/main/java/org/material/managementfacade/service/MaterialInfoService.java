@@ -34,4 +34,6 @@ public interface MaterialInfoService {
     int updateMaterialInfoWithCatCodeAndCatName (String catCode, String catName, List<Object> data);
 
     List<Object> getMaterialBasePropsBySpuCodeAndMaterialCodesAndType (String spuCode, List<String> materialCodes, int propertyType);
+
+    int updateMaterialBasePropsBySpuCodeAndMaterialCodes (String spuCode, int propertyType, List<Object> updateValue);
 }
