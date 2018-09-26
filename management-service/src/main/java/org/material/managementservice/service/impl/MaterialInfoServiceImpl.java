@@ -725,6 +725,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
 
     @Override
     public int updateMaterialBasePropsBySpuCodeAndMaterialCodes (String spuCode, int propertyType, List<Object> updateValue) {
+        Map<String, Object> params = new HashMap<>();
         for (Object element : updateValue) {
             Map<String, Object> singleValue = (Map<String, Object>) element;
             String materialCode = singleValue.get("materialCode").toString();
@@ -733,8 +734,40 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
                 String value = formatValues.get(name).toString();
                 // spuCode, materialCode, name, value四个要素齐了
                 // 先根据name查找materialBasePropId
-                // 再查找已有的value
-                // 再根据相同情况决定是否更新
+                params.clear();
+                params.put("name", name);
+                List<MaterialBasePropModel> materialBasePropResult = materialInfoMapper.getMaterialBasePropWithMaterialBasePropParams(params);
+                if (materialBasePropResult != null && materialBasePropResult.size() > 0) {
+                    if (materialBasePropResult.size() > 1) {
+                        logger.warn(String.format("查找name = %s的记录时出现多个记录，应该只有一条记录！", name));
+                    }
+                    int materialBasePropId = materialBasePropResult.get(0).getId();
+                    // 再查找已有的value
+                    params.clear();
+                    params.put("spuCode", spuCode);
+                    params.put("materialCode", materialCode);
+                    params.put("materialBasePropId", materialBasePropId);
+                    List<MaterialBasePropValModel> materialBasePropValResult = materialInfoMapper.getMaterialBasePropValWithMaterialBasePropValParams(params);
+                    if (materialBasePropResult.size() > 1) {
+                        logger.warn(String.format("查找spuCode = %s, materialCode = %s, materialBasePropId = %d的记录时出现多个记录，应该只有一条记录！",
+                                spuCode,
+                                materialCode,
+                                materialBasePropId));
+                    }
+                    String originValue = materialBasePropValResult.get(0).getValue();
+                    // 再根据相同情况决定是否更新
+                    if (!originValue.equals(value)) {
+                        int updateResult = materialInfoMapper.updateMaterialBasePropValWithMaterialBasePropValParams(spuCode, materialCode, materialBasePropId, "value", value);
+                        logger.debug("更新记录spuCode = %s, materialCode = %s, materialBasePropId = %d, value = %s的返回值为：%d",
+                                spuCode,
+                                materialCode,
+                                materialBasePropId,
+                                value,
+                                updateResult);
+                    }
+                } else {
+                    logger.error(String.format("查找name = %s的物料基本属性的记录不存在！", name));
+                }
             }
         }
         return 0;
