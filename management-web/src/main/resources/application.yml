@@ -5,7 +5,7 @@ spring:
     password: 12345678
     url: jdbc:mysql://127.0.0.1:3306/zhuriMaterial?useSSL=false&characterEncoding=UTF-8
   application:
-    name: MaterialManagement-Web
+    name: MaterialManagement
   servlet:
     multipart:
       # 针对post请求数据量可能过大的情况
@@ -21,6 +21,11 @@ server:
 logging:
   level:
     org.material.managementservice.mapper.MaterialInfoMapper: trace
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
 
 #-------------------------------- 以上为系统配置 --------------------------------
 #-------------------------------- 以下为业务配置 --------------------------------

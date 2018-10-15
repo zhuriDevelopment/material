@@ -15,7 +15,7 @@ import java.util.Map;
 import org.material.managementfacade.model.processmodel.MaterialCategoryTree;
 
 @RestController
-@RequestMapping("/MaterialManagement")
+//@RequestMapping("/MaterialManagement")
 @Api(value = "物料信息接口", description = "物料信息接口")
 public class MaterialInfoController {
     @Autowired
