@@ -772,4 +772,9 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         }
         return 0;
     }
+
+    @Override
+    public List<Object> getMaterialBaseByCatIdAndType(int catId, int propertyType) {
+        return materialInfoServiceImplSupplier.getMaterialBaseByCatIdAndType(catId, propertyType);
+    }
 }

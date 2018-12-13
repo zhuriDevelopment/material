@@ -269,4 +269,15 @@ public class MaterialInfoController {
             return -2;
         }
     }
+
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+                 methods = {RequestMethod.POST},
+                 origins = "*")
+    @PostMapping(value = "/getMaterialBaseByCatIdAndType")
+    @ApiOperation(value = "根据CatId和Type获取规格", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<Object> getMaterialBaseByCatIdAndType(@RequestBody Map<String, Object> params){
+        int catId = (int)params.get("catId");
+        int propertyType = (int)params.get("propertyType");
+        return materialInfoService.getMaterialBaseByCatIdAndType(catId, propertyType);
+    }
 }
