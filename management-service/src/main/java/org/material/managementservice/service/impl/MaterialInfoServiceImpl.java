@@ -197,7 +197,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
     */
     @Override
     public List<Object> getMaterialInfo (String spuCode, String spuName, List<Integer> types, int organizationId) {
-        int maxTypeNum = 11;
+        int maxTypeNum = 12 + 1;
         int[] flag = new int[maxTypeNum + 1];
         Arrays.fill(flag, 0);
         for (int type : types) {
@@ -397,7 +397,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         // 构造一个HashMap用于通过id获取对象
         Map<Integer, MaterialCategoryTree> idCategoryMap = new HashMap<>();
         idCategoryMap.clear();
-        MaterialCategoryTree root = new MaterialCategoryTree(0, "物料总分类", -1, 0);
+        MaterialCategoryTree root = new MaterialCategoryTree(0, "物料总分类", -1, 0, "-1");
         idCategoryMap.put(root.getId(), root);
         Map<String, Object> categoryMap = new HashMap<String, Object>();
         categoryMap.clear();
@@ -406,9 +406,10 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
             int id = materialCategory.getId();
             String name = materialCategory.getName();
             int parentId = materialCategory.getParentId();
+            String code = materialCategory.getCode();
             MaterialCategoryTree parent = idCategoryMap.get(parentId);
             int level = parent.getLevel() + 1;
-            MaterialCategoryTree node = new MaterialCategoryTree(id, name, parentId, level);
+            MaterialCategoryTree node = new MaterialCategoryTree(id, name, parentId, level, code);
             idCategoryMap.put(id, node);
             parent.addChild(node);
         }

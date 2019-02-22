@@ -2,7 +2,6 @@ package org.material.managementweb.web;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.jdbc.Null;
 import org.material.managementservice.service.impl.MaterialInfoServiceImpl;
 import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import java.util.Map;
 import org.material.managementfacade.model.processmodel.MaterialCategoryTree;
 
 @RestController
-//@RequestMapping("/materialmanagement")
+@RequestMapping("/materialmanagement")
 @Api(value = "物料信息接口", description = "物料信息接口")
 public class MaterialInfoController {
     @Autowired

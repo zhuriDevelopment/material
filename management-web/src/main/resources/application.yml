@@ -18,14 +18,14 @@ spring:
 server:
   port: 8080
 
-logging:
-  level:
-    org.material.managementservice.mapper.MaterialInfoMapper: trace
+#logging:
+#  level:
+#    org.material.managementservice.mapper.MaterialInfoMapper: trace
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka/
 
 #-------------------------------- 以上为系统配置 --------------------------------
 #-------------------------------- 以下为业务配置 --------------------------------

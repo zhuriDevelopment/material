@@ -1,4 +1,4 @@
-package org.material.management.mapper;
+package org.material.managementweb;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
