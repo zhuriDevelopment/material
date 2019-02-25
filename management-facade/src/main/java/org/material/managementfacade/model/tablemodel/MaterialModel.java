@@ -14,6 +14,18 @@ public class MaterialModel {
     private int purchasePrice;
     private int sellingPrice;
 
+    public MaterialModel () {
+        this.id = -1;
+        this.spuCode = null;
+        this.materialCode = null;
+        this.materialName = null;
+        this.oldMaterialCode = null;
+        this.barCode = null;
+        this.materialBaseId = -1;
+        this.purchasePrice = -1;
+        this.sellingPrice = -1;
+    }
+
     public int getId() {
         return id;
     }

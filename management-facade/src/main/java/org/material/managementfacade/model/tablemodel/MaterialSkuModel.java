@@ -13,6 +13,17 @@ public class MaterialSkuModel {
     private int sellingPrice;
     private String description;
 
+    public MaterialSkuModel () {
+        this.id = -1;
+        this.spuCode = null;
+        this.skuCode = null;
+        this.materialId = -1;
+        this.unitId = -1;
+        this.purchasePrice = -1;
+        this.sellingPrice = -1;
+        this.description = null;
+    }
+
     public int getId() {
         return id;
     }

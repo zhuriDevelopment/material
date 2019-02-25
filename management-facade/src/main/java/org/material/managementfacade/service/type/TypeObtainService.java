@@ -5,5 +5,5 @@ package org.material.managementfacade.service.type;
  * @version 1.0
  */
 
-public class MaterialTypeModifyService {
+public class TypeObtainService {
 }

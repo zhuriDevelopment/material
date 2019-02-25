@@ -2,6 +2,7 @@ package org.material.managementfacade.model.responsemodel;
 
 import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialCategoryModel;
+import org.material.managementfacade.model.tablemodel.MaterialKeyPropModel;
 import org.material.managementfacade.model.tablemodel.UnitModel;
 
 import java.util.List;
@@ -16,12 +17,14 @@ import java.util.List;
  *  第一个列表代表对应的基础信息，即materialBase表；
  *  第二个列表代表对应的分类信息，即materialCategory表；
  *  第三个列表代表对应的单位信息，即unit表；
+ *  第四个列表代表对应的关键属性，即materialKeyProp表；
  */
 
 public class BaseInfoResponse {
-    List<MaterialBaseModel> baseResult;
-    List<MaterialCategoryModel> catResult;
-    List<UnitModel> unitResult;
+    private List<MaterialBaseModel> baseResult;
+    private List<MaterialCategoryModel> catResult;
+    private List<UnitModel> unitResult;
+    private List<List<MaterialKeyPropModel>> keyPropResult;
 
     public List<MaterialBaseModel> getBaseResult () {
         return baseResult;
@@ -45,5 +48,13 @@ public class BaseInfoResponse {
 
     public void setUnitResult (List<UnitModel> unitResult) {
         this.unitResult = unitResult;
+    }
+
+    public List<List<MaterialKeyPropModel>> getKeyPropResult () {
+        return keyPropResult;
+    }
+
+    public void setKeyPropResult (List<List<MaterialKeyPropModel>> keyPropResult) {
+        this.keyPropResult = keyPropResult;
     }
 }

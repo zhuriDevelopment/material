@@ -12,6 +12,16 @@ public class MaterialBasePropModel {
     private String valueRange;
     private int sort;
 
+    public MaterialBasePropModel () {
+        this.id = -1;
+        this.materialCatId = -1;
+        this.type = -1;
+        this.label = null;
+        this.name = null;
+        this.valueRange = null;
+        this.sort = -1;
+    }
+
     public int getId() {
         return id;
     }

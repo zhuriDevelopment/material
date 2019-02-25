@@ -1,9 +1,7 @@
 package org.material.managementservice.mapper.general;
 
-import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
-import org.material.managementfacade.model.tablemodel.MaterialCategoryModel;
-import org.material.managementfacade.model.tablemodel.MaterialModel;
-import org.material.managementfacade.model.tablemodel.UnitModel;
+import org.material.managementfacade.model.tablemodel.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
@@ -15,9 +13,16 @@ import java.util.Map;
 * 物料通用Mapper类，本Mapper中存放着根据参数获取各数据表中数据的基本功能
 *
 */
-public interface MaterialGeneralMapper {
+@Repository
+public interface GeneralMapper {
+
+    List<MaterialBaseModel> getMaterialBaseWithMaterialBaseParams (MaterialBaseModel param);
 
     List<MaterialModel> getMaterialWithMaterialParams (MaterialModel param);
+
+    List<MaterialSkuModel> getMaterialSkuWithMaterialSkuParams (MaterialSkuModel param);
+
+    List<MaterialKeyPropModel> getMaterialKeyPropWithMaterialKeyPropParams (MaterialKeyPropModel param);
 
     List<MaterialCategoryModel> getMaterialCategoryWithMaterialCategoryParams(MaterialCategoryModel param);
 

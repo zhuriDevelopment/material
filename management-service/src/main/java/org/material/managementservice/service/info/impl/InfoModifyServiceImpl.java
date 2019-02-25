@@ -5,5 +5,5 @@ package org.material.managementservice.service.info.impl;
  * @version 1.0
  */
 
-public class MaterialInfoModifyServiceImpl {
+public class InfoModifyServiceImpl {
 }

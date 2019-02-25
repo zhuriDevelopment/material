@@ -10,6 +10,14 @@ public class MaterialCategoryModel {
     private int type;
     private int parentId;
 
+    public MaterialCategoryModel () {
+        this.id = -1;
+        this.code = null;
+        this.name = null;
+        this.type = -1;
+        this.parentId = -1;
+    }
+
     public int getId() {
         return id;
     }

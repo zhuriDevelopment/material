@@ -12,6 +12,16 @@ public class UnitModel {
     private double conversionFactor;
     private int sort;
 
+    public UnitModel () {
+        this.id = -1;
+        this.label = null;
+        this.name = null;
+        this.englishName = null;
+        this.relatedId = -1;
+        this.conversionFactor = -1;
+        this.sort = -1;
+    }
+
     public int getId() {
         return id;
     }

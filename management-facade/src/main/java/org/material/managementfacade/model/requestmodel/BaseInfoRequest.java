@@ -1,6 +1,7 @@
 package org.material.managementfacade.model.requestmodel;
 
-import java.lang.reflect.Field;
+
+import java.util.Date;
 
 /**
  * @author cplayer on 2019-02-25 02:46.
@@ -9,30 +10,30 @@ import java.lang.reflect.Field;
  */
 
 public class BaseInfoRequest {
-    private int materialType;
-    private String materialCode;
+    private int materialCatId;
+    private String materialName;
     private String skuCode;
-    private String startDate;
-    private String endDate;
+    private Date startDate;
+    private Date endDate;
     private String spuCode;
     private String designCode;
     private String designVersion;
     private String source;
 
-    public int getMaterialType () {
-        return materialType;
+    public int getMaterialCatId () {
+        return materialCatId;
     }
 
-    public void setMaterialType (int materialType) {
-        this.materialType = materialType;
+    public void setMaterialCatId (int materialCatId) {
+        this.materialCatId = materialCatId;
     }
 
-    public String getMaterialCode () {
-        return materialCode;
+    public String getMaterialName () {
+        return materialName;
     }
 
-    public void setMaterialCode (String materialCode) {
-        this.materialCode = materialCode;
+    public void setMaterialName (String materialName) {
+        this.materialName = materialName;
     }
 
     public String getSkuCode () {
@@ -43,19 +44,19 @@ public class BaseInfoRequest {
         this.skuCode = skuCode;
     }
 
-    public String getStartDate () {
+    public Date getStartDate () {
         return startDate;
     }
 
-    public void setStartDate (String startDate) {
+    public void setStartDate (Date startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate () {
+    public Date getEndDate () {
         return endDate;
     }
 
-    public void setEndDate (String endDate) {
+    public void setEndDate (Date endDate) {
         this.endDate = endDate;
     }
 

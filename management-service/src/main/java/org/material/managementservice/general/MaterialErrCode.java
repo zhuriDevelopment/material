@@ -6,6 +6,6 @@ package org.material.managementservice.general;
  * 物料管理模块中的错误码
  */
 
-public class MaterialInfoErrCode {
+public class MaterialErrCode {
     public static Integer errCodeClassIsEmpty = 0;
 }

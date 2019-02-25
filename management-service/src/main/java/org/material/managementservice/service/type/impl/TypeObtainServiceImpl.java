@@ -5,5 +5,5 @@ package org.material.managementservice.service.type.impl;
  * @version 1.0
  */
 
-public class MaterialTypeModifyServiceImpl {
+public class TypeObtainServiceImpl {
 }

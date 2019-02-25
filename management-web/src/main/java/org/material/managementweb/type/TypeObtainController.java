@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  * @version 1.0
  */
 
-public class MaterialTypeObtainController {
+public class TypeObtainController {
     @Autowired
     private MaterialInfoServiceImpl materialInfoService;
 

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.material.managementservice.mapper.general.GeneralMapper">
+    <!--根据MaterialBase表（物料基本信息表）的参数获取MaterialBase表的数据-->
+    <select id="getMaterialBaseWithMaterialBaseParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialBaseModel"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialBaseModel">
+        select * from materialBase
+        <where>
+            <if test="id &gt;= 0">
+                where id = #{id}
+            </if>
+            <if test="spuCode != null">
+                where spuCode = #{spuCode}
+            </if>
+            <if test="mnemonic != null">
+                where mnemonic = #{mnemonic}
+            </if>
+            <if test="spuName != null">
+                where spuName = #{spuName}
+            </if>
+            <if test="description != null">
+                where description = #{description}
+            </if>
+            <if test="type &gt;= 0">
+                where type = #{type}
+            </if>
+            <if test="designCode != null">
+                where designCode = #{designCode}
+            </if>
+            <if test="designVersion != null">
+                where designVersion = #{designVersion}
+            </if>
+            <if test="defaultUnitId &gt;= 0">
+                where defaultUnitId = #{defaultUnitId}
+            </if>
+            <if test="source != null">
+                where source = #{source}
+            </if>
+            <if test="usage != null">
+                where usage = #{usage}
+            </if>
+            <if test="note != null">
+                where note = #{note}
+            </if>
+            <if test="materialCatId &gt;= 0">
+                where materialCatId = #{materialCatId}
+            </if>
+            <if test="keyPropId &gt;= 0">
+                where keyPropId = #{keyPropId}
+            </if>
+            <if test="createDate != null">
+                where createDate = #{createDate}
+            </if>
+        </where>
+    </select>
+
+    <!--根据Material表（物料信息表）的参数获取Material表的数据-->
+    <select id="getMaterialWithMaterialParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialModel"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialModel">
+        select * from material
+        <where>
+            <if test="id &gt;= 0">
+                where id = #{id}
+            </if>
+            <if test="spuCode != null">
+                where spuCode = #{spuCode}
+            </if>
+            <if test="materialCode != null">
+                where materialCode = #{materialCode}
+            </if>
+            <if test="materialName != null">
+                where materialName = #{materialName}
+            </if>
+            <if test="oldMaterialCode != null">
+                where oldMaterialCode = #{oldMaterialCode}
+            </if>
+            <if test="barCode != null">
+                where barCode = #{barCode}
+            </if>
+            <if test="materialBaseId &gt;= 0">
+                where materialBaseId = #{materialBaseId}
+            </if>
+            <if test="purchasePrice &gt;= 0">
+                where purchasePrice = #{purchasePrice}
+            </if>
+            <if test="sellingPrice &gt;= 0">
+                where sellingPrice = #{sellingPrice}
+            </if>
+        </where>
+    </select>
+
+    <!--根据MaterialSku表（物料sku信息表）的参数获取MaterialSku表的数据-->
+    <select id="getMaterialSkuWithMaterialSkuParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialSkuModel"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialSkuModel">
+        select * from materialSku
+        <where>
+            <if test="id &gt;= 0">
+                where id = #{id}
+            </if>
+            <if test="spuCode != null">
+                where spuCode = #{spuCode}
+            </if>
+            <if test="skuCode != null">
+                where skuCode = #{skuCode}
+            </if>
+            <if test="materialId &gt;= 0">
+                where materialId = #{materialId}
+            </if>
+            <if test="unitId &gt;= 0">
+                where unitId = #{unitId}
+            </if>
+            <if test="purchasePrice &gt;= 0">
+                where purchasePrice = #{purchasePrice}
+            </if>
+            <if test="sellingPrice &gt;= 0">
+                where sellingPrice = #{sellingPrice}
+            </if>
+            <if test="description != null">
+                where description = #{description}
+            </if>
+        </where>
+    </select>
+
+    <!--根据MaterialKeyProp表（物料关键属性表）的参数获取MaterialKeyProp表的数据-->
+    <select id="getMaterialKeyPropWithMaterialKeyPropParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialKeyPropModel"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialKeyPropModel">
+        select * from materialKeyProp
+        <where>
+            <if test="id &gt;= 0">
+                where id = #{id}
+            </if>
+            <if test="value != null">
+                where value = #{value}
+            </if>
+            <if test="name != null">
+                where name = #{name}
+            </if>
+            <if test="note != null">
+                where note = #{note}
+            </if>
+            <if test="spuCode != null">
+                where spuCode = #{spuCode}
+            </if>
+        </where>
+    </select>
+
+    <!--根据MaterialCategory表（物料分类表）的参数获取MaterialCategory表的数据-->
+    <select id="getMaterialCategoryWithMaterialCategoryParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialCategoryModel"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialCategoryModel">
+        select * from materialCategory
+        <where>
+          <if test="id &gt;= 0">
+              where id = #{id}
+          </if>
+          <if test="code != null">
+              where code = #{code}
+          </if>
+          <if test="name != null">
+              where name = #{name}
+          </if>
+          <if test="type &gt;= 0">
+              where type = #{type}
+          </if>
+          <if test="parentId &gt;= 0">
+              where parentId = #{parentId}
+          </if>
+        </where>
+    </select>
+
+    <!--根据Unit表（计量单位表）的参数获取Unit表的数据-->
+    <select id="getUnitWithUnitParams"
+            parameterType="org.material.managementfacade.model.tablemodel.UnitModel"
+            resultType="org.material.managementfacade.model.tablemodel.UnitModel">
+        select * from unit
+        <where>
+            <if test="id &gt;= 0">
+                where id = #{id}
+            </if>
+            <if test="label != null">
+                where label = #{label}
+            </if>
+            <if test="name != null">
+                where name = #{name}
+            </if>
+            <if test="englishName != null">
+                where englishName = #{englishName}
+            </if>
+            <if test="relatedId &gt;= 0">
+                where relatedId = #{relatedId}
+            </if>
+            <if test="conversionFactor &gt;= 0">
+                where conversionFactor = #{conversionFactor}
+            </if>
+            <if test="sort &gt;= 0">
+                where sort = #{sort}
+            </if>
+        </where>
+    </select>
+</mapper>

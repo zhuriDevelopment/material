@@ -14,7 +14,7 @@ import java.util.Map;
  * @version 1.0
  */
 
-public class MaterialTypeModifyController {
+public class TypeModifyController {
     @Autowired
     private MaterialInfoServiceImpl materialInfoService;
 

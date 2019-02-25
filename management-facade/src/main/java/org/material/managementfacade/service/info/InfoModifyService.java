@@ -5,5 +5,5 @@ package org.material.managementfacade.service.info;
  * @version 1.0
  */
 
-public class MaterialInfoModifyService {
+public class InfoModifyService {
 }

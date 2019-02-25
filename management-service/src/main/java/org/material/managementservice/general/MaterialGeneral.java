@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
  * 存放一些物料管理模块中的通用函数
  */
 
-public class MaterialInfoGeneral {
+public class MaterialGeneral {
     /**
      * 通过反射来判断是否类中的所有属性均为空
      * 不支持泛型
@@ -23,7 +23,7 @@ public class MaterialInfoGeneral {
      *
      */
     public static boolean isEmpty (Object object) {
-        Boolean result = true;
+        boolean result = true;
         try {
             Class clazz = object.getClass();
             Field[] fields = clazz.getDeclaredFields();

@@ -2,6 +2,8 @@ package org.material.managementfacade.model.tablemodel;
 
 import io.swagger.annotations.ApiModel;
 
+import java.util.Date;
+
 @ApiModel("物料基本信息表")
 public class MaterialBaseModel {
     private int id;
@@ -17,6 +19,26 @@ public class MaterialBaseModel {
     private String usage;
     private String note;
     private int materialCatId;
+    private int keyPropId;
+    private Date createDate;
+
+    public MaterialBaseModel () {
+        this.id = -1;
+        this.spuCode = null;
+        this.mnemonic = null;
+        this.spuName = null;
+        this.description = null;
+        this.type = -1;
+        this.designCode = null;
+        this.designVersion = null;
+        this.defaultUnitId = -1;
+        this.source = null;
+        this.usage = null;
+        this.note = null;
+        this.materialCatId = -1;
+        this.keyPropId = -1;
+        this.createDate = null;
+    }
 
     public int getId () {
         return id;
@@ -120,5 +142,21 @@ public class MaterialBaseModel {
 
     public void setMaterialCatId (int materialCatId) {
         this.materialCatId = materialCatId;
+    }
+
+    public int getKeyPropId () {
+        return keyPropId;
+    }
+
+    public void setKeyPropId (int keyPropId) {
+        this.keyPropId = keyPropId;
+    }
+
+    public Date getCreateDate () {
+        return createDate;
+    }
+
+    public void setCreateDate (Date createDate) {
+        this.createDate = createDate;
     }
 }
