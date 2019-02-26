@@ -42,6 +42,7 @@ public class InfoObtainServiceImpl implements InfoObtainService {
 
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
+    @Override
     public Object test () {
         List<MaterialBaseModel> list1 = new ArrayList<>();
         MaterialBaseModel ele1 = new MaterialBaseModel();
@@ -206,9 +207,13 @@ public class InfoObtainServiceImpl implements InfoObtainService {
                     break;
                 case 11:
                     // 处理全部基础信息
+                    result.setBasePropInfos(materialInfoObtainServiceSupplier.getMaterialInfoForAllBasePropInfos(params));
                     break;
                 case 12:
                     // 处理规格信息
+                    break;
+                default:
+                    // 若出现其他的选项，什么都不做
                     break;
             }
         }

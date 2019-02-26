@@ -124,30 +124,6 @@
         </where>
     </select>
 
-    <!--根据MaterialKeyProp表（物料关键属性表）的参数获取MaterialKeyProp表的数据-->
-    <select id="getMaterialKeyPropWithMaterialKeyPropParams"
-            parameterType="org.material.managementfacade.model.tablemodel.MaterialKeyPropModel"
-            resultType="org.material.managementfacade.model.tablemodel.MaterialKeyPropModel">
-        select * from materialKeyProp
-        <where>
-            <if test="id &gt;= 0">
-                where id = #{id}
-            </if>
-            <if test="value != null">
-                where value = #{value}
-            </if>
-            <if test="name != null">
-                where name = #{name}
-            </if>
-            <if test="note != null">
-                where note = #{note}
-            </if>
-            <if test="spuCode != null">
-                where spuCode = #{spuCode}
-            </if>
-        </where>
-    </select>
-
     <!--根据MaterialCategory表（物料分类表）的参数获取MaterialCategory表的数据-->
     <select id="getMaterialCategoryWithMaterialCategoryParams"
             parameterType="org.material.managementfacade.model.tablemodel.MaterialCategoryModel"
@@ -198,6 +174,60 @@
             </if>
             <if test="sort &gt;= 0">
                 where sort = #{sort}
+            </if>
+        </where>
+    </select>
+
+    <!--根据MaterialBaseProp表（物料基本属性表）的参数获取MaterialBaseProp表的数据-->
+    <select id="getMaterialBasePropWithMaterialBasePropParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialBasePropModel"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialBasePropModel">
+        select * from materialBaseProp
+        <where>
+            <if test="id &gt;= 0">
+                where id = #{id}
+            </if>
+            <if test="materialCatId &gt;= 0">
+                where materialCatId = #{materialCatId}
+            </if>
+            <if test="type &gt;= 0">
+                where type = #{type}
+            </if>
+            <if test="label != null">
+                where label = #{label}
+            </if>
+            <if test="name != null">
+                where name = #{name}
+            </if>
+            <if test="valueRange != null">
+                where valueRange = #{valueRange}
+            </if>
+            <if test="sort &gt;= 0">
+                where sort = #{sort}
+            </if>
+        </where>
+    </select>
+
+    <!--根据MaterialBasePropVal表（物料基本属性值表）的参数获取MaterialBasePropVal表的数据-->
+    <select id="getMaterialBasePropValWithMaterialBasePropValParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialBasePropValModel"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialBasePropValModel">
+        select * from materialBasePropVal
+        <where>
+            <if test="id &gt;= 0">
+                where id = #{id}
+            </if>
+            <if test="spuCode != null">
+                where spuCode = #{spuCode}
+            </if>
+            <if test="materialCode != null">
+                where materialCode = #{materialCode}
+            </if>
+            <if test="materialBasePropId &gt;= 0">
+                where materialBasePropId = #{materialBasePropId}
+            </if>
+            <if test="value != null">
+                where value = #{value}
             </if>
         </where>
     </select>

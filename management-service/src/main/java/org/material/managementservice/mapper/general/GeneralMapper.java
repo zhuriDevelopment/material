@@ -22,9 +22,11 @@ public interface GeneralMapper {
 
     List<MaterialSkuModel> getMaterialSkuWithMaterialSkuParams (MaterialSkuModel param);
 
-    List<MaterialKeyPropModel> getMaterialKeyPropWithMaterialKeyPropParams (MaterialKeyPropModel param);
-
     List<MaterialCategoryModel> getMaterialCategoryWithMaterialCategoryParams(MaterialCategoryModel param);
 
     List<UnitModel> getUnitWithUnitParams (UnitModel param);
+
+    List<MaterialBasePropModel> getMaterialBasePropWithMaterialBasePropParams (MaterialBasePropModel param);
+
+    List<MaterialBasePropValModel> getMaterialBasePropValWithMaterialBasePropValParams (MaterialBasePropValModel param);
 }
