@@ -10,6 +10,7 @@ import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoObtainMapper;
 import org.material.managementservice.service.info.impl.supplier.InfoObtainServiceSupplier;
 import org.material.managementservice.service.info.impl.supplier.baseinfo.BaseInfoObtainServiceSupplier;
+import org.material.managementservice.service.info.impl.supplier.controlprop.ControlPropObtainServiceSupplier;
 import org.material.managementservice.service.info.impl.supplier.materialinfo.MaterialInfoObtainServiceSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,8 @@ public class InfoObtainServiceImpl implements InfoObtainService {
     private BaseInfoObtainServiceSupplier baseInfoObtainServiceSupplier;
     @Autowired
     private MaterialInfoObtainServiceSupplier materialInfoObtainServiceSupplier;
+    @Autowired
+    private ControlPropObtainServiceSupplier controlPropObtainServiceSupplier;
 
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
@@ -188,18 +191,25 @@ public class InfoObtainServiceImpl implements InfoObtainService {
                     break;
                 case 5:
                     // 处理采购和库存属性
+                    result.setPurchaseAndStoreInfos(controlPropObtainServiceSupplier.
+                            getPurchaseAndStoreProperties(-1, params));
                     break;
                 case 6:
                     // 处理计划类属性
+                    result.setPlanInfos(controlPropObtainServiceSupplier.
+                            getPlanProperties(-1, params));
                     break;
                 case 7:
                     // 处理销售类属性
+                    result.setSalesInfos(controlPropObtainServiceSupplier.getSalesProperties(-1, params));
                     break;
                 case 8:
                     // 处理质量类属性
+                    result.setQualifyInfos(controlPropObtainServiceSupplier.getQualityProperties(-1, params));
                     break;
                 case 9:
                     // 处理财务类属性
+                    result.setFinanceInfos(controlPropObtainServiceSupplier.getFinanceProperties(-1, params));
                     break;
                 case 10:
                     // 处理计量单位
@@ -211,122 +221,14 @@ public class InfoObtainServiceImpl implements InfoObtainService {
                     break;
                 case 12:
                     // 处理规格信息
+                    result.setStandardInfos(materialInfoObtainServiceSupplier.getMaterialInfoForBasePropInfoWithType(params, 4));
                     break;
                 default:
-                    // 若出现其他的选项，什么都不做
+                    // 若出现其他的选项，什么都不做，也不允许出现其他选项
                     break;
             }
         }
         return result;
     }
 
-
-//    @Override
-//    public List<Object> getMaterialInfo (String spuCode, String spuName, List<Integer> types, int organizationId) {
-//        int maxTypeNum = 12 + 1;
-//        int[] flag = new int[maxTypeNum + 1];
-//        Arrays.fill(flag, 0);
-//        for (int type : types) {
-//            flag[type] = 1;
-//        }
-//        List<Object> result = new ArrayList<>();
-//        Map<String, Object> paramsMap;
-//        // 缓存物料基本信息id
-//        int materialBaseId = -1;
-//        for (int i = 1; i <= maxTypeNum; ++i) {
-//            if (flag[i] == 0) {
-//                continue;
-//            }
-//            switch (i) {
-//                case 1:
-//                    List<MaterialBaseModel> baseInfos = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
-//                    // 预设SPU编码必须唯一！
-//                    if (baseInfos != null && baseInfos.size() > 0) {
-//                        materialBaseId = baseInfos.get(0).getId();
-//                        result.add(baseInfos);
-//                    }
-//                    break;
-//                case 2:
-//                    // 物料定义针对物料信息表
-//                    paramsMap = new HashMap<>(16);
-//                    paramsMap.put("spuCode", spuCode);
-//                    List<MaterialModel> materialInfos = materialInfoMapper.getMaterialWithMaterialParams(paramsMap);
-//                    if (materialInfos != null && materialInfos.size() > 0) {
-//                        result.add(materialInfos);
-//                    } else {
-//                        result.add(new ArrayList<>());
-//                    }
-//                    break;
-//                case 3:
-//                    paramsMap = new HashMap<>(16);
-//                    paramsMap.put("spuCode", spuCode);
-//                    List<Object> skuInfos = materialInfoServiceImplSupplier.getMaterialSkuWithMaterialSkuParams(paramsMap);
-//                    if (skuInfos != null && skuInfos.size() > 0) {
-//                        result.add(skuInfos);
-//                    } else {
-//                        result.add(new ArrayList<>());
-//                    }
-//                    break;
-//                case 4:
-//                    if (materialBaseId == -1) {
-//                        // 没有查到过物料信息ID
-//                        List<MaterialBaseModel> baseInfoForFiles = materialInfoMapper.getBaseInfoWithSpuCode(spuCode);
-//                        if (baseInfoForFiles != null && baseInfoForFiles.size() > 0) {
-//                            // 有对应的记录
-//                            materialBaseId = baseInfoForFiles.get(0).getId();
-//                        } else {
-//                            // 若没有返回空数组
-//                            result.add(new ArrayList<>());
-//                            break;
-//                        }
-//                    }
-//                    // 根据物料基本信息id进行查找
-//                    paramsMap = new HashMap<>(16);
-//                    paramsMap.put("materialBaseId", materialBaseId);
-//                    List<MaterialFilesModel> fileInfos = materialInfoMapper.getFilesWithFilesParams(paramsMap);
-//                    if (fileInfos != null && fileInfos.size() > 0) {
-//                        result.add(fileInfos);
-//                    } else {
-//                        result.add(new ArrayList<>());
-//                    }
-//                    break;
-//                case 10:
-//                    // 计量单位
-//                    // 包括默认计量单位
-//                    List<Object> fileUnits = materialInfoServiceImplSupplier.getAllUnitsBySpuCode(spuCode);
-//                    if (fileUnits != null && fileUnits.size() > 0) {
-//                        result.add(fileUnits);
-//                    } else {
-//                        result.add(new ArrayList<>());
-//                    }
-//                    break;
-//                case 11:
-//                    // 基本属性信息
-//                    List<Object> baseProperty = materialInfoServiceImplSupplier.getAllMaterialBaseProp(spuCode);
-//                    // List<Object> standardProperty = materialInfoServiceImplSupplier.getMaterialBasePropBySpuCodeAndType(spuCode, 4);
-//                    if (baseProperty != null && baseProperty.size() > 0) {
-//                        result.add(baseProperty);
-//                    } else {
-//                        result.add(new ArrayList<>());
-//                    }
-//                    break;
-//                case 12:
-//                    // 规格信息
-//                    List<Object> standardProperty = materialInfoServiceImplSupplier.getMaterialBasePropBySpuCodeAndType(spuCode, 4);
-//                    if (standardProperty != null && standardProperty.size() > 0) {
-//                        result.add(standardProperty);
-//                    } else {
-//                        result.add(new ArrayList<>());
-//                    }
-//                    break;
-//                default:
-//                    List<ControlPropertyBean> controlProps = materialInfoServiceImplSupplier.getAllControlPropertyByType(i, organizationId, spuCode);
-//                    if (controlProps.size() > 0) {
-//                        result.add(controlProps);
-//                    }
-//                    break;
-//            }
-//        }
-//        return result;
-//    }
 }

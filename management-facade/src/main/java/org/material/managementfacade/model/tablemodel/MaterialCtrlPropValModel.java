@@ -9,6 +9,13 @@ public class MaterialCtrlPropValModel {
     private int materialCtrlPropId;
     private String value;
 
+    public MaterialCtrlPropValModel () {
+        this.id = -1;
+        this.versionId = -1;
+        this.materialCtrlPropId = -1;
+        this.value = null;
+    }
+
     public int getId() {
         return id;
     }

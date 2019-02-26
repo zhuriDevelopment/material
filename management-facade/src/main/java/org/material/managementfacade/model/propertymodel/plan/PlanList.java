@@ -3,34 +3,21 @@ package org.material.managementfacade.model.propertymodel.plan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
-
-/*
-    * 对于AllowedList这个LinkedHashMap，key代表序号（从0开始），value代表迭代值
-    * 需要在yml数据里确保数据格式正确！！
-    * AllowedList中所有数据格式均为String！！！若需要其他类型必须转换！
+/**
+* @author cplayer on 2019-02-26 22:34.
+* @version 1.0
+* 物料的计划类属性列表
 */
-
 @Component
 @ConfigurationProperties (prefix = "zhuri-ctrproperties")
 public class PlanList {
-    private String[] planPropertiesList;
-    private List<Map<String, Object>> planPropertiesListMap;
+    private String[] planList;
 
-    public String[] getPlanPropertiesList () {
-        return planPropertiesList;
+    public String[] getPlanList () {
+        return planList;
     }
 
-    public void setPlanPropertiesList (String[] planPropertiesList) {
-        this.planPropertiesList = planPropertiesList;
-    }
-
-    public List<Map<String, Object>> getPlanPropertiesListMap () {
-        return planPropertiesListMap;
-    }
-
-    public void setPlanPropertiesListMap (List<Map<String, Object>> planPropertiesListMap) {
-        this.planPropertiesListMap = planPropertiesListMap;
+    public void setPlanList (String[] planList) {
+        this.planList = planList;
     }
 }

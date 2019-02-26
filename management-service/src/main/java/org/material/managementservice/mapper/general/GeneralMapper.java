@@ -15,7 +15,6 @@ import java.util.Map;
 */
 @Repository
 public interface GeneralMapper {
-
     List<MaterialBaseModel> getMaterialBaseWithMaterialBaseParams (MaterialBaseModel param);
 
     List<MaterialModel> getMaterialWithMaterialParams (MaterialModel param);
@@ -29,4 +28,10 @@ public interface GeneralMapper {
     List<MaterialBasePropModel> getMaterialBasePropWithMaterialBasePropParams (MaterialBasePropModel param);
 
     List<MaterialBasePropValModel> getMaterialBasePropValWithMaterialBasePropValParams (MaterialBasePropValModel param);
+
+    List<MaterialCtrlPropModel> getCtrlPropWithCtrlPropParams (MaterialCtrlPropModel param);
+
+    List<MaterialCtrlPropValModel> getCtrlPropValWithCtrlPropValParams (MaterialCtrlPropValModel param);
+
+    List<MaterialCtrlPropValVerModel> getCtrlPropValVerWithCtrlPropValVerParams (MaterialCtrlPropValVerModel param);
 }

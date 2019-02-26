@@ -14,6 +14,16 @@ public class MaterialCtrlPropValVerModel {
     private Timestamp startDate;
     private Timestamp endDate;
 
+    public MaterialCtrlPropValVerModel () {
+        this.id = -1;
+        this.materialCatId = -1;
+        this.version = null;
+        this.organizationCode = null;
+        this.spuCode = null;
+        this.startDate = null;
+        this.endDate = null;
+    }
+
     public int getId() {
         return id;
     }

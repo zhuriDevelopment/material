@@ -18,7 +18,7 @@ public class MaterialInfoResponse {
     private List<MaterialFilesModel> baseInfoForFiles;
     private MaterialInfoUnitResponse units;
     private MaterialInfoBasePropResponse basePropInfos;
-    private MaterialInfoStandardResponse standardInfos;
+    private MaterialInfoBasePropResponseClass standardInfos;
     private List<ControlPropertyBean> purchaseAndStoreInfos;
     private List<ControlPropertyBean> planInfos;
     private List<ControlPropertyBean> salesInfos;
@@ -73,11 +73,11 @@ public class MaterialInfoResponse {
         this.basePropInfos = basePropInfos;
     }
 
-    public MaterialInfoStandardResponse getStandardInfos () {
+    public MaterialInfoBasePropResponseClass getStandardInfos () {
         return standardInfos;
     }
 
-    public void setStandardInfos (MaterialInfoStandardResponse standardInfos) {
+    public void setStandardInfos (MaterialInfoBasePropResponseClass standardInfos) {
         this.standardInfos = standardInfos;
     }
 

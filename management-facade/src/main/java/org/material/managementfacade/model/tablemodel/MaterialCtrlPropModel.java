@@ -9,6 +9,13 @@ public class MaterialCtrlPropModel {
     private String name;
     private int label;
 
+    public MaterialCtrlPropModel () {
+        this.id = -1;
+        this.type = -1;
+        this.name = null;
+        this.label = -1;
+    }
+
     public int getId() {
         return id;
     }

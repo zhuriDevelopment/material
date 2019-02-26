@@ -231,4 +231,76 @@
             </if>
         </where>
     </select>
+
+    <!--根据MaterialCtrlProp表（物料控制属性表）的参数获取MaterialCtrlProp表的数据-->
+    <select id="getCtrlPropWithCtrlPropParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialCtrlPropModel"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialCtrlPropModel">
+        select * from materialCtrlProp
+        <where>
+            <if test="id &gt;= 0">
+                where id = #{id}
+            </if>
+            <if test="type &gt;= 0">
+                where type = #{type}
+            </if>
+            <if test="label &gt;= 0">
+                where label = #{label}
+            </if>
+            <if test="name != null">
+                where name = #{name}
+            </if>
+        </where>
+    </select>
+
+    <!--根据MaterialCtrlPropVal表（物料控制属性值表）的参数获取MaterialCtrlPropVal表的数据-->
+    <select id="getCtrlPropValWithCtrlPropValParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialCtrlPropValModel"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialCtrlPropValModel">
+        select * from materialCtrlPropVal
+        <where>
+            <if test="id &gt;= 0">
+                where id = #{id}
+            </if>
+            <if test="versionId &gt;= 0">
+                where versionId = #{versionId}
+            </if>
+            <if test="materialCtrlPropId &gt;= 0">
+                where materialCtrlPropId = #{materialCtrlPropId}
+            </if>
+            <if test="value != null">
+                where value = #{value}
+            </if>
+        </where>
+    </select>
+
+    <!--根据MaterialCtrlPropValVer表（物料控制属性值表）的参数获取MaterialCtrlPropValVer表的数据-->
+    <select id="getCtrlPropValVerWithCtrlPropValVerParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialCtrlPropValVerModel"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialCtrlPropValVerModel">
+        select * from materialCtrlPropValVer
+        <where>
+            <if test="id &gt;= 0">
+                where id = #{id}
+            </if>
+            <if test="materialCatId &gt;= 0">
+                where materialCatId = #{materialCatId}
+            </if>
+            <if test="version != null">
+                where version = #{version}
+            </if>
+            <if test="organizationCode != null">
+                where organizationCode = #{organizationCode}
+            </if>
+            <if test="spuCode != null">
+                where spuCode = #{spuCode}
+            </if>
+            <if test="startDate != null">
+                where startDate = #{startDate}
+            </if>
+            <if test="endDate != null">
+                where endDate = #{endDate}
+            </if>
+        </where>
+    </select>
 </mapper>

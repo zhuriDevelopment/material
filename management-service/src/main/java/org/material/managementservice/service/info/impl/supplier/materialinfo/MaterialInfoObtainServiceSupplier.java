@@ -1,10 +1,16 @@
 package org.material.managementservice.service.info.impl.supplier.materialinfo;
 
+import org.material.managementfacade.model.propertymodel.ControlPropertyBean;
+import org.material.managementfacade.model.propertymodel.finance.FinanceList;
+import org.material.managementfacade.model.propertymodel.plan.PlanList;
+import org.material.managementfacade.model.propertymodel.purchaseandstore.PurchaseAndStoreList;
+import org.material.managementfacade.model.propertymodel.quality.QualityList;
+import org.material.managementfacade.model.propertymodel.sales.SalesList;
 import org.material.managementfacade.model.requestmodel.MaterialInfoRequest;
 import org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoBasePropResponse;
+import org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoBasePropResponseClass;
 import org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoUnitResponse;
 import org.material.managementfacade.model.tablemodel.*;
-import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoObtainMapper;
 import org.material.managementservice.service.info.impl.supplier.InfoObtainServiceSupplier;
@@ -14,8 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author cplayer on 2019-02-25 21:22
@@ -143,6 +150,50 @@ public class MaterialInfoObtainServiceSupplier {
     }
 
     /**
+     * 根据参数中的spuCode以及物料基本属性类型获取对应物料基本属性的函数
+     *
+     * @author cplayer
+     * @date 2019-02-26 20:37
+     * @param params 从getMaterialInfo接口传入的参数
+     *
+     * @param type 物料基本信息类型
+     *
+     * @return org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoStandardResponse
+     *
+     */
+    public MaterialInfoBasePropResponseClass getMaterialInfoForBasePropInfoWithType (MaterialInfoRequest params, int type) {
+        MaterialBasePropValModel paramVal = new MaterialBasePropValModel();
+        // 将物料编码设置成-1，代表默认的属性值
+        paramVal.setSpuCode(params.getSpuCode());
+        paramVal.setMaterialCode("-1");
+        // 先查询物料基本属性值
+        List<MaterialBasePropValModel> valResult = generalMapper.getMaterialBasePropValWithMaterialBasePropValParams(paramVal);
+        List<MaterialBasePropModel> propResult = new ArrayList<>();
+        // 再根据查询到的物料基本属性值id去逐个查询对应的物料分类属性并记录
+        for (MaterialBasePropValModel val : valResult) {
+            MaterialBasePropModel param = new MaterialBasePropModel();
+            param.setId(val.getMaterialBasePropId());
+            param.setType(type);
+            // 结果只有一个才是正确的
+            List<MaterialBasePropModel> tmpBase = generalMapper.getMaterialBasePropWithMaterialBasePropParams(param);
+            propResult.add(infoObtainServiceSupplier.getInitElementOrFirstElement(tmpBase, MaterialBasePropModel.class));
+        }
+        // 去除掉无效数据
+        List<MaterialBasePropValModel> valFilter = new ArrayList<>();
+        List<MaterialBasePropModel> propFilter = new ArrayList<>();
+        for (int i = 0; i < valResult.size(); ++i) {
+            if (propResult.get(i).getId() != -1) {
+                valFilter.add(valResult.get(i));
+                propFilter.add(propResult.get(i));
+            }
+        }
+        MaterialInfoBasePropResponseClass result = new MaterialInfoBasePropResponseClass();
+        result.setPropList(propFilter);
+        result.setValList(valFilter);
+        return result;
+    }
+
+    /**
      * 根据参数中的spuCode获取所有物料基本属性的函数
      *
      * 基本属性包含以下四种：
@@ -163,36 +214,17 @@ public class MaterialInfoObtainServiceSupplier {
         String spuCode = params.getSpuCode();
         // 获取所有基本属性，那么遍历四个种类
         for (int type = 1; type <= 4; ++type) {
-            MaterialBasePropValModel paramVal = new MaterialBasePropValModel();
-            // 将物料编码设置成-1，代表默认的属性值
-            paramVal.setSpuCode(spuCode);
-            paramVal.setMaterialCode("-1");
-            // 先查询物料基本属性值
-            List<MaterialBasePropValModel> valResult = generalMapper.getMaterialBasePropValWithMaterialBasePropValParams(paramVal);
-            List<MaterialBasePropModel> propResult = new ArrayList<>();
-            // 再根据查询到的物料基本属性值id去逐个查询对应的物料分类属性并记录
-            for (MaterialBasePropValModel val : valResult) {
-                MaterialBasePropModel param = new MaterialBasePropModel();
-                param.setId(val.getMaterialBasePropId());
-                param.setType(type);
-                // 结果只有一个才是正确的
-                List<MaterialBasePropModel> tmpBase = generalMapper.getMaterialBasePropWithMaterialBasePropParams(param);
-                propResult.add(infoObtainServiceSupplier.getInitElementOrFirstElement(tmpBase, MaterialBasePropModel.class));
-            }
-            // 去除掉无效数据
-            List<MaterialBasePropValModel> valFilter = new ArrayList<>();
-            List<MaterialBasePropModel> propFilter = new ArrayList<>();
-            for (int i = 0; i < valResult.size(); ++i) {
-                if (propResult.get(i).getId() != -1) {
-                    valFilter.add(valResult.get(i));
-                    propFilter.add(propResult.get(i));
-                }
-            }
+            MaterialInfoBasePropResponseClass basePropValue = getMaterialInfoForBasePropInfoWithType(
+                    params,
+                    type
+            );
             // 将对应结果放入类中
-            result.setProp(type, valFilter, propFilter);
+            result.setProp(type, basePropValue.getValList(), basePropValue.getPropList());
         }
         // 将属性按照sort排序
         result.sortAllLists();
         return result;
     }
+
+
 }
