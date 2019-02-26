@@ -303,4 +303,163 @@
             </if>
         </where>
     </select>
+
+    <!--MaterialBase表的动态列名-->
+    <sql id="MaterialBaseKey">
+        <trim suffixOverrides=",">
+            <if test="id &gt;= 0">
+                id,
+            </if>
+            <if test="spuCode != null">
+                spuCode,
+            </if>
+            <if test="mnemonic != null">
+                mnemonic,
+            </if>
+            <if test="spuName != null">
+                spuName,
+            </if>
+            <if test="description != null">
+                <![CDATA[description]]>,
+            </if>
+            <if test="type &gt;= 0">
+                type,
+            </if>
+            <if test="designCode != null">
+                designCode,
+            </if>
+            <if test="designVersion != null">
+                designVersion,
+            </if>
+            <if test="defaultUnitId &gt;= 0">
+                defaultUnitId,
+            </if>
+            <if test="source != null">
+                <![CDATA[source]]>,
+            </if>
+            <if test="usage != null">
+                <![CDATA[usage]]>,
+            </if>
+            <if test="note != null">
+                note,
+            </if>
+            <if test="materialCatId &gt;= 0">
+                materialCatId,
+            </if>
+            <if test="keyPropId &gt;= 0">
+                keyPropId,
+            </if>
+            <if test="createDate != null">
+                createDate,
+            </if>
+        </trim>
+    </sql>
+    <!--MaterialBase表的动态列名，用于values中-->
+    <sql id="MaterialBaseValue">
+        <trim suffixOverrides=",">
+            <if test="id &gt;= 0">
+                #{id},
+            </if>
+            <if test="spuCode != null">
+                #{spuCode},
+            </if>
+            <if test="mnemonic != null">
+                #{mnemonic},
+            </if>
+            <if test="spuName != null">
+                #{spuName},
+            </if>
+            <if test="description != null">
+                #{<![CDATA[description]]>},
+            </if>
+            <if test="type &gt;= 0">
+                #{type},
+            </if>
+            <if test="designCode != null">
+                #{designCode},
+            </if>
+            <if test="designVersion != null">
+                #{designVersion},
+            </if>
+            <if test="defaultUnitId &gt;= 0">
+                #{<![CDATA[defaultUnitId]]>},
+            </if>
+            <if test="source != null">
+                #{<![CDATA[source]]>},
+            </if>
+            <if test="usage != null">
+                #{<![CDATA[usage]]>},
+            </if>
+            <if test="note != null">
+                #{note},
+            </if>
+            <if test="materialCatId &gt;= 0">
+                #{materialCatId},
+            </if>
+            <if test="keyPropId &gt;= 0">
+                #{keyPropId},
+            </if>
+            <if test="createDate != null">
+                #{createDate},
+            </if>
+        </trim>
+    </sql>
+
+    <!--插入新数据至MaterialBase表-->
+    <insert id="getMaterialBaseWithMaterialBaseParams"
+            useGeneratedKeys="true"
+            keyProperty="id"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialBaseModel">
+        insert into materialBase(<include refid="MaterialBaseKey"/>)
+        values (<include refid="MaterialBaseValue"/>)
+    </insert>
+
+    <!--更新新数据至MaterialBase表-->
+    <!--禁止更新id和spuCode！-->
+    <update id="updateMaterialBaseWithMaterialBaseParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialBaseModel">
+        update materialBase
+        <set>
+            <if test="mnemonic != null">
+                mnemonic = #{mnemonic},
+            </if>
+            <if test="spuName != null">
+                spuName = #{spuName},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="type &gt;= 0">
+                type = #{type},
+            </if>
+            <if test="designCode != null">
+                designCode = #{designCode},
+            </if>
+            <if test="designVersion != null">
+                designVersion = #{designVersion},
+            </if>
+            <if test="defaultUnitId &gt;= 0">
+                defaultUnitId = #{defaultUnitId},
+            </if>
+            <if test="source != null">
+                source = #{source},
+            </if>
+            <if test="usage != null">
+                usage = #{usage},
+            </if>
+            <if test="note != null">
+                note = #{note},
+            </if>
+            <if test="materialCatId &gt;= 0">
+                materialCatId = #{materialCatId},
+            </if>
+            <if test="keyPropId &gt;= 0">
+                keyPropId = #{keyPropId},
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate},
+            </if>
+        </set>
+        where spuCode = #{spuCode}
+    </update>
 </mapper>

@@ -1,11 +1,16 @@
 package org.material.managementweb.info;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
+import org.material.managementservice.general.MaterialErrCode;
+import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.service.impl.MaterialInfoServiceImpl;
+import org.material.managementservice.service.info.impl.InfoModifyServiceImpl;
+import org.material.managementservice.service.info.impl.InfoObtainServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -15,21 +20,22 @@ import java.util.Map;
  * @version 1.0
  */
 
+@RestController
+@RequestMapping("/materialmanagement")
+@Api(value = "物料信息修改接口", description = "物料信息修改接口")
+@CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+             methods = {RequestMethod.PUT},
+             origins = "*")
 public class InfoModifyController {
-
     @Autowired
-    private MaterialInfoServiceImpl materialInfoService;
+    private InfoModifyServiceImpl infoModifyService;
 
-    @PostMapping(value = "/updateMaterialInfo")
+    @PutMapping(value = "/updateMaterialInfo")
     @ApiOperation(value = "根据给定参数更新物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public int updateMaterialInfo (@RequestBody Map<Object, Object> params) {
-        try {
-            String spuCode = (String) params.get("spuCode");
-            String spuName = (String) params.get("spuName");
-            List<Object> data = (List<Object>) params.get("data");
-            return materialInfoService.updateMaterialInfo(spuCode, spuName, data);
-        } catch (ClassCastException e) {
-            return -1;
+    public int updateMaterialInfo (@RequestBody MaterialInfoModifyRequest params) {
+        if (MaterialGeneral.isEmpty(params)) {
+            return MaterialErrCode.errCodeClassIsEmpty;
         }
+        return infoModifyService.updateMaterialInfo(params);
     }
 }

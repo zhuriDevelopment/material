@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/materialmanagement")
 @Api(value = "物料信息获取接口", description = "物料信息获取接口")
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
-             methods = {RequestMethod.GET, RequestMethod.POST},
+             methods = {RequestMethod.GET},
              origins = "*")
 public class InfoObtainController {
 

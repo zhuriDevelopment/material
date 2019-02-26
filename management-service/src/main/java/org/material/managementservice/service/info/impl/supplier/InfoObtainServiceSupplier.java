@@ -18,10 +18,6 @@ import java.util.stream.Collectors;
  */
 @Component
 public class InfoObtainServiceSupplier {
-    @Autowired
-    private InfoObtainMapper infoObtainMapper;
-    @Autowired
-    private GeneralMapper generalMapper;
 
     /**
      * 泛型工具类，返回泛型列表中第一个元素，若列表为空，则返回一个空元素

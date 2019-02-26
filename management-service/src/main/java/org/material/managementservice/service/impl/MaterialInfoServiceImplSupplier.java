@@ -408,6 +408,7 @@ public class MaterialInfoServiceImplSupplier {
         }
         try {
             result.sort(new Comparator<Object>() {
+                @Override
                 public int compare (Object a, Object b) {
                     MaterialBasePropModel tmpA = (MaterialBasePropModel) a;
                     MaterialBasePropModel tmpB = (MaterialBasePropModel) b;
@@ -635,7 +636,7 @@ public class MaterialInfoServiceImplSupplier {
         }
         if (index == -1) {
             List<ControlPropertyBean> result = new ArrayList<>();
-            String[] purchasePropertiesList = purchaseAndStoreList.getPurchasePropertiesList();
+            String[] purchasePropertiesList = purchaseAndStoreList.getPurchaseAndStoreList();
             for (String purchaseProperty : purchasePropertiesList) {
                 List<ControlPropertyBean> tmpResult = getControlPropByName(purchaseProperty, organizationId, spuCode);
                 if (tmpResult != null && !tmpResult.isEmpty()) {
@@ -648,7 +649,7 @@ public class MaterialInfoServiceImplSupplier {
             }
             return result;
         } else {
-            return getControlPropByName(purchaseAndStoreList.getPurchasePropertiesList()[index], organizationId, spuCode);
+            return getControlPropByName(purchaseAndStoreList.getPurchaseAndStoreList()[index], organizationId, spuCode);
         }
     }
 
@@ -658,7 +659,7 @@ public class MaterialInfoServiceImplSupplier {
         }
         if (index == -1) {
             List<ControlPropertyBean> result = new ArrayList<>();
-            String[] planPropertiesList = planList.getPlanPropertiesList();
+            String[] planPropertiesList = planList.getPlanList();
             for (String planProperty : planPropertiesList) {
                 List<ControlPropertyBean> tmpResult = getControlPropByName(planProperty, organizationId, spuCode);
                 if (tmpResult != null && !tmpResult.isEmpty()) {
@@ -671,7 +672,7 @@ public class MaterialInfoServiceImplSupplier {
             }
             return result;
         } else {
-            return getControlPropByName(planList.getPlanPropertiesList()[index], organizationId, spuCode);
+            return getControlPropByName(planList.getPlanList()[index], organizationId, spuCode);
         }
     }
 
@@ -806,7 +807,7 @@ public class MaterialInfoServiceImplSupplier {
         }
         if (index == -1) {
             List<ControlPropertyBean> result = new ArrayList<>();
-            String[] purchasePropertiesList = purchaseAndStoreList.getPurchasePropertiesList();
+            String[] purchasePropertiesList = purchaseAndStoreList.getPurchaseAndStoreList();
             for (String purchaseProperty : purchasePropertiesList) {
                 List<ControlPropertyBean> tmpResult = getControlPropByCatIdAndName(purchaseProperty, organizationId, catId);
                 if (tmpResult != null && !tmpResult.isEmpty()) {
@@ -819,7 +820,7 @@ public class MaterialInfoServiceImplSupplier {
             }
             return result;
         } else {
-            return getControlPropByCatIdAndName(purchaseAndStoreList.getPurchasePropertiesList()[index], organizationId, catId);
+            return getControlPropByCatIdAndName(purchaseAndStoreList.getPurchaseAndStoreList()[index], organizationId, catId);
         }
     }
 
@@ -829,7 +830,7 @@ public class MaterialInfoServiceImplSupplier {
         }
         if (index == -1) {
             List<ControlPropertyBean> result = new ArrayList<>();
-            String[] planPropertiesList = planList.getPlanPropertiesList();
+            String[] planPropertiesList = planList.getPlanList();
             for (String planProperty : planPropertiesList) {
                 List<ControlPropertyBean> tmpResult = getControlPropByCatIdAndName(planProperty, organizationId, catId);
                 if (tmpResult != null && !tmpResult.isEmpty()) {
@@ -842,7 +843,7 @@ public class MaterialInfoServiceImplSupplier {
             }
             return result;
         } else {
-            return getControlPropByCatIdAndName(planList.getPlanPropertiesList()[index], organizationId, catId);
+            return getControlPropByCatIdAndName(planList.getPlanList()[index], organizationId, catId);
         }
     }
 
@@ -949,7 +950,7 @@ public class MaterialInfoServiceImplSupplier {
     }
 
     public int updatePurchaseAndStoreProperties (int versionId, int ctrlPropId, String name, String value) {
-        String[] keyList = purchaseAndStoreList.getPurchasePropertiesList();
+        String[] keyList = purchaseAndStoreList.getPurchaseAndStoreList();
         int flag = checkList(keyList, name);
         if (flag == 0) {
             return -1;
@@ -958,7 +959,7 @@ public class MaterialInfoServiceImplSupplier {
     }
 
     public int updatePlanProperties (int versionId, int ctrlPropId, String name, String value) {
-        String[] keyList = planList.getPlanPropertiesList();
+        String[] keyList = planList.getPlanList();
         int flag = checkList(keyList, name);
         if (flag == 0) {
             return -1;

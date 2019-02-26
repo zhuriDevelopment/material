@@ -34,4 +34,8 @@ public interface GeneralMapper {
     List<MaterialCtrlPropValModel> getCtrlPropValWithCtrlPropValParams (MaterialCtrlPropValModel param);
 
     List<MaterialCtrlPropValVerModel> getCtrlPropValVerWithCtrlPropValVerParams (MaterialCtrlPropValVerModel param);
+
+    int insertMaterialBaseWithMaterialBaseParams (MaterialBaseModel param);
+
+    int updateMaterialBaseWithMaterialBaseParams (MaterialBaseModel param);
 }
