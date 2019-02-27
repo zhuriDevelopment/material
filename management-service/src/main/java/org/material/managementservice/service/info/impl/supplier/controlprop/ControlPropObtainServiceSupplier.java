@@ -11,6 +11,7 @@ import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialCtrlPropModel;
 import org.material.managementfacade.model.tablemodel.MaterialCtrlPropValModel;
 import org.material.managementfacade.model.tablemodel.MaterialCtrlPropValVerModel;
+import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoObtainMapper;
 import org.material.managementservice.service.info.impl.supplier.InfoObtainServiceSupplier;
@@ -42,8 +43,6 @@ public class ControlPropObtainServiceSupplier {
     private GeneralMapper generalMapper;
     @Autowired
     private InfoObtainMapper infoObtainMapper;
-    @Autowired
-    private InfoObtainServiceSupplier infoObtainServiceSupplier;
 
     /**
      * 根据属性名、组织编码以及spuCode查找对应的物料控制属性
@@ -66,7 +65,7 @@ public class ControlPropObtainServiceSupplier {
             return null;
         }
         // 此时应该只有一个分类id
-        int materialCatId = infoObtainServiceSupplier.getInitElementOrFirstElement(baseResult, MaterialBaseModel.class)
+        int materialCatId = MaterialGeneral.getInitElementOrFirstElement(baseResult, MaterialBaseModel.class)
                 .getMaterialCatId();
         // 获取对应的物料控制属性值版本
         MaterialCtrlPropValVerModel paramPropValVer = new MaterialCtrlPropValVerModel();
@@ -75,7 +74,7 @@ public class ControlPropObtainServiceSupplier {
         paramPropValVer.setOrganizationCode(Integer.valueOf(organizationId).toString());
         List<MaterialCtrlPropValVerModel> ctrlVerResult = generalMapper.getCtrlPropValVerWithCtrlPropValVerParams(paramPropValVer);
         // 需要确保结果只有一个，若有多个，取第一个
-        int versionId = infoObtainServiceSupplier.getInitElementOrFirstElement(ctrlVerResult, MaterialCtrlPropValVerModel.class)
+        int versionId = MaterialGeneral.getInitElementOrFirstElement(ctrlVerResult, MaterialCtrlPropValVerModel.class)
                 .getId();
         // 查找控制属性名对应的id
         MaterialCtrlPropModel paramProp = new MaterialCtrlPropModel();
@@ -85,7 +84,7 @@ public class ControlPropObtainServiceSupplier {
         if (ctrlPropResult == null || ctrlPropResult.size() == 0) {
             return null;
         }
-        int ctrlPropId = infoObtainServiceSupplier.getInitElementOrFirstElement(ctrlPropResult, MaterialCtrlPropModel.class)
+        int ctrlPropId = MaterialGeneral.getInitElementOrFirstElement(ctrlPropResult, MaterialCtrlPropModel.class)
                 .getId();
         // 查找对应的物料控制属性值，根据版本号和属性名id
         MaterialCtrlPropValModel paramPropVal = new MaterialCtrlPropValModel();
@@ -96,7 +95,7 @@ public class ControlPropObtainServiceSupplier {
             return null;
         }
         ControlPropertyBean result;
-        String value = infoObtainServiceSupplier.getInitElementOrFirstElement(ctrlValResult, MaterialCtrlPropValModel.class)
+        String value = MaterialGeneral.getInitElementOrFirstElement(ctrlValResult, MaterialCtrlPropValModel.class)
                 .getValue();
         result = new ControlPropertyBean(propName, value);
         return result;

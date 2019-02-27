@@ -5,6 +5,7 @@ import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialCategoryModel;
 import org.material.managementfacade.model.tablemodel.MaterialKeyPropModel;
 import org.material.managementfacade.model.tablemodel.UnitModel;
+import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoObtainMapper;
 import org.material.managementservice.service.info.impl.supplier.InfoObtainServiceSupplier;
@@ -25,8 +26,6 @@ public class BaseInfoObtainServiceSupplier {
     private InfoObtainMapper infoObtainMapper;
     @Autowired
     private GeneralMapper generalMapper;
-    @Autowired
-    private InfoObtainServiceSupplier infoObtainServiceSupplier;
 
     /**
      * 获取所有的基本信息的详细信息
@@ -63,8 +62,8 @@ public class BaseInfoObtainServiceSupplier {
             paramUnit.setId(baseModel.getDefaultUnitId());
             tmpUnit = generalMapper.getUnitWithUnitParams(paramUnit);
             List<MaterialKeyPropModel> keyPropList = infoObtainMapper.getAllKeyPropWithSpuCode(baseModel.getSpuCode());
-            catResult.add(infoObtainServiceSupplier.getInitElementOrFirstElement(tmp, MaterialCategoryModel.class));
-            unitResult.add(infoObtainServiceSupplier.getInitElementOrFirstElement(tmpUnit, UnitModel.class));
+            catResult.add(MaterialGeneral.getInitElementOrFirstElement(tmp, MaterialCategoryModel.class));
+            unitResult.add(MaterialGeneral.getInitElementOrFirstElement(tmpUnit, UnitModel.class));
             keyProps.add(keyPropList);
         }
         result.setCatResult(catResult);

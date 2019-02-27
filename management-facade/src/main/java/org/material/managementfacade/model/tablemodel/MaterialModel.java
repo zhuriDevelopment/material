@@ -11,8 +11,8 @@ public class MaterialModel {
     private String oldMaterialCode;
     private String barCode;
     private int materialBaseId;
-    private int purchasePrice;
-    private int sellingPrice;
+//    private int purchasePrice;
+//    private int sellingPrice;
 
     public MaterialModel () {
         this.id = -1;
@@ -22,8 +22,8 @@ public class MaterialModel {
         this.oldMaterialCode = null;
         this.barCode = null;
         this.materialBaseId = -1;
-        this.purchasePrice = -1;
-        this.sellingPrice = -1;
+//        this.purchasePrice = -1;
+//        this.sellingPrice = -1;
     }
 
     public int getId() {
@@ -82,19 +82,4 @@ public class MaterialModel {
         this.materialBaseId = materialBaseId;
     }
 
-    public int getPurchasePrice() {
-        return purchasePrice;
-    }
-
-    public void setPurchasePrice(int purchasePrice) {
-        this.purchasePrice = purchasePrice;
-    }
-
-    public int getSellingPrice() {
-        return sellingPrice;
-    }
-
-    public void setSellingPrice(int sellingPrice) {
-        this.sellingPrice = sellingPrice;
-    }
 }

@@ -82,12 +82,12 @@
             <if test="materialBaseId &gt;= 0">
                 where materialBaseId = #{materialBaseId}
             </if>
-            <if test="purchasePrice &gt;= 0">
-                where purchasePrice = #{purchasePrice}
-            </if>
-            <if test="sellingPrice &gt;= 0">
-                where sellingPrice = #{sellingPrice}
-            </if>
+            <!--<if test="purchasePrice &gt;= 0">-->
+                <!--where purchasePrice = #{purchasePrice}-->
+            <!--</if>-->
+            <!--<if test="sellingPrice &gt;= 0">-->
+                <!--where sellingPrice = #{sellingPrice}-->
+            <!--</if>-->
         </where>
     </select>
 
@@ -406,7 +406,7 @@
     </sql>
 
     <!--插入新数据至MaterialBase表-->
-    <insert id="getMaterialBaseWithMaterialBaseParams"
+    <insert id="insertMaterialBaseWithMaterialBaseParams"
             useGeneratedKeys="true"
             keyProperty="id"
             parameterType="org.material.managementfacade.model.tablemodel.MaterialBaseModel">
@@ -462,4 +462,65 @@
         </set>
         where spuCode = #{spuCode}
     </update>
+
+    <!--Material表的动态列名-->
+    <sql id="MaterialKey">
+        <trim suffixOverrides=",">
+            <if test="id &gt;= 0">
+                id,
+            </if>
+            <if test="spuCode != null">
+                spuCode,
+            </if>
+            <if test="materialCode != null">
+                materialCode,
+            </if>
+            <if test="materialName != null">
+                materialName,
+            </if>
+            <if test="oldMaterialCode != null">
+                oldMaterialCode,
+            </if>
+            <if test="barCode != null">
+                barCode,
+            </if>
+            <if test="materialBaseId &gt;= 0">
+                materialBaseId,
+            </if>
+        </trim>
+    </sql>
+    <!--Material表的动态列名，用于values中-->
+    <sql id="MaterialValue">
+        <trim suffixOverrides=",">
+            <if test="id &gt;= 0">
+                #{id},
+            </if>
+            <if test="spuCode != null">
+                #{spuCode},
+            </if>
+            <if test="materialCode != null">
+                #{materialCode},
+            </if>
+            <if test="materialName != null">
+                #{materialName},
+            </if>
+            <if test="oldMaterialCode != null">
+                #{oldMaterialCode},
+            </if>
+            <if test="barCode != null">
+                #{barCode},
+            </if>
+            <if test="materialBaseId &gt;= 0">
+                #{materialBaseId},
+            </if>
+        </trim>
+    </sql>
+    <!--插入新数据至Material表-->
+    <insert id="insertMaterialWithMaterialParams"
+            useGeneratedKeys="true"
+            keyProperty="id"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialModel">
+        insert into material(<include refid="MaterialKey"/>)
+        values (<include refid="MaterialValue"/>)
+    </insert>
 </mapper>

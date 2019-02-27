@@ -38,8 +38,8 @@ public class InfoModifyServiceImpl implements InfoModifyService {
      * 更新物料信息的函数
      *
      * 包含更新：
-     * 物料基本信息
-     * 物料定义
+     * 物料基本信息（materialBase表）
+     * 物料定义（material表）
      * SKU定义
      * 附件管理（暂无）
      * 控制属性：包括采购和库存属性、计划类属性、销售类属性、质量类属性和财务类属性
@@ -59,8 +59,16 @@ public class InfoModifyServiceImpl implements InfoModifyService {
         String spuCode = params.getSpuCode();
         // 更新物料基本信息
         if (params.getBaseDatas() != null) {
-            int updateBaseResult = infoModifyServiceSupplier.updateMaterialInfoForBaseData(params.getBaseDatas());
+            int updateBaseResult = infoModifyServiceSupplier.updateMaterialInfoForBaseData(params);
+            // 成功的操作进入统计
             if (updateBaseResult == MaterialErrCode.successUpdateMaterialBase) {
+                result++;
+            }
+        }
+        // 更新物料定义
+        if (params.getMaterialDatas() != null) {
+            int updateMaterialResult = infoModifyServiceSupplier.updateMaterialInfoForMaterialData(params);
+            if (updateMaterialResult == MaterialErrCode.successUpdateMaterial) {
                 result++;
             }
         }

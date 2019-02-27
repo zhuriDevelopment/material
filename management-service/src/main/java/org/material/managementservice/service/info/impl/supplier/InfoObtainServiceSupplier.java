@@ -20,31 +20,6 @@ import java.util.stream.Collectors;
 public class InfoObtainServiceSupplier {
 
     /**
-     * 泛型工具类，返回泛型列表中第一个元素，若列表为空，则返回一个空元素
-     *
-     * @author cplayer
-     * @date 2019-02-25 16:31
-     * @param targetList 对应的列表
-     *
-     * @param cls List中对应类的class对象
-     *
-     * @return 对应的对象
-     *
-     */
-    public <T> T getInitElementOrFirstElement (List<T> targetList, Class<T> cls) {
-        try {
-            if (targetList.size() == 0) {
-                return cls.newInstance();
-            } else {
-                return targetList.get(0);
-            }
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
      * 将传进来的各类list中的spuCode提取出来并取交集的工具函数
      *
      * @author cplayer

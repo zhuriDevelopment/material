@@ -3,6 +3,7 @@ package org.material.managementservice.general;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * @author cplayer on 2019-02-25 02:56.
@@ -38,6 +39,31 @@ public class MaterialGeneral {
             e.printStackTrace();
             result = true;
             return result;
+        }
+    }
+
+    /**
+     * 泛型工具类，返回泛型列表中第一个元素，若列表为空，则返回一个空元素
+     *
+     * @author cplayer
+     * @date 2019-02-25 16:31
+     * @param targetList 对应的列表
+     *
+     * @param cls List中对应类的class对象
+     *
+     * @return 对应的对象
+     *
+     */
+    public static <T> T getInitElementOrFirstElement (List<T> targetList, Class<T> cls) {
+        try {
+            if (targetList.size() == 0) {
+                return cls.newInstance();
+            } else {
+                return targetList.get(0);
+            }
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

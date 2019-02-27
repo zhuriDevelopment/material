@@ -38,4 +38,6 @@ public interface GeneralMapper {
     int insertMaterialBaseWithMaterialBaseParams (MaterialBaseModel param);
 
     int updateMaterialBaseWithMaterialBaseParams (MaterialBaseModel param);
+
+    int insertMaterialWithMaterialParams (MaterialModel param);
 }

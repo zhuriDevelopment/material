@@ -7,4 +7,9 @@
         SELECT COUNT (spuCode) FROM materialBase where spuCode = #{spuCode}
     </select>
 
+    <delete id="deleteAllMaterialBySpuCode"
+            parameterType="java.lang.String">
+        delete * from material where spuCode = #{spuCode}
+    </delete>
+
 </mapper>

@@ -11,6 +11,7 @@ import org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialIn
 import org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoBasePropResponseClass;
 import org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoUnitResponse;
 import org.material.managementfacade.model.tablemodel.*;
+import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoObtainMapper;
 import org.material.managementservice.service.info.impl.supplier.InfoObtainServiceSupplier;
@@ -116,7 +117,7 @@ public class MaterialInfoObtainServiceSupplier {
             logger.error("根据参数获取计量单位信息时，获取到的MaterialBase记录不止一条！");
         }
         // 获取用于获取计量单位的MaterialBase记录
-        MaterialBaseModel baseModel = infoObtainServiceSupplier.getInitElementOrFirstElement(baseResult, MaterialBaseModel.class);
+        MaterialBaseModel baseModel = MaterialGeneral.getInitElementOrFirstElement(baseResult, MaterialBaseModel.class);
         if (baseModel.getSpuCode().equals(params.getSpuCode())) {
             // 此时可以确定获取到的结果是正确的结果，因为spuCode相等
             result = new MaterialInfoUnitResponse();
@@ -129,7 +130,7 @@ public class MaterialInfoObtainServiceSupplier {
             for (MaterialUnitModel materialUnitModel : materialUnitList) {
                 UnitModel param = new UnitModel();
                 param.setId(materialUnitModel.getUnitId());
-                UnitModel unit = infoObtainServiceSupplier.getInitElementOrFirstElement(
+                UnitModel unit = MaterialGeneral.getInitElementOrFirstElement(
                         generalMapper.getUnitWithUnitParams(param), UnitModel.class);
                 // 覆盖掉排序号和转换系数
                 if (materialUnitModel.getConversionFactor() >= 0) {
@@ -176,7 +177,7 @@ public class MaterialInfoObtainServiceSupplier {
             param.setType(type);
             // 结果只有一个才是正确的
             List<MaterialBasePropModel> tmpBase = generalMapper.getMaterialBasePropWithMaterialBasePropParams(param);
-            propResult.add(infoObtainServiceSupplier.getInitElementOrFirstElement(tmpBase, MaterialBasePropModel.class));
+            propResult.add(MaterialGeneral.getInitElementOrFirstElement(tmpBase, MaterialBasePropModel.class));
         }
         // 去除掉无效数据
         List<MaterialBasePropValModel> valFilter = new ArrayList<>();
