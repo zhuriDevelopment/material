@@ -27,4 +27,12 @@ public class MaterialErrCode {
     public static Integer successUpdateFormatInMaterial = 1;
     // 物料定义中规格信息更新失败
     public static Integer failedUpdateFormatInMaterial = 0;
+    // 物料定义中规格信息参数不符合要求
+    public static Integer notAllowedFormatObject = -1;
+    // 物料定义中单个规格信息更新成功
+    public static Integer successUpdateSingleFormatInMaterial = 1;
+    // 物料定义中单个规格信息更新失败
+    public static Integer failedUpdateSingleFormatInMaterial = 0;
+    // 物料定义中规格信息名字未找到
+    public static Integer notFoundFormatNameInDB = -2;
 }

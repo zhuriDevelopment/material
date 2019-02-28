@@ -12,4 +12,24 @@
         delete * from material where spuCode = #{spuCode}
     </delete>
 
+    <select id="countMaterialBasePropValByParams"
+            resultType="int">
+        SELECT COUNT (*) FROM materialBasePropVal
+        WHERE materialBasePropId = #{materialBasePropId} and spuCode = #{spuCode} and materialCode = #{materialCode}
+    </select>
+
+    <insert id="insertMaterialBasePropValByParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialBasePropValModel"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into materialBasePropVal(spuCode, materialCode, materialBasePropId, value)
+        values (#{spuCode}, #{materialCode}, #{materialBasePropId}, #{value})
+    </insert>
+
+    <update id="updateMaterialBasePropValByParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialBasePropValModel">
+        update materialBasePropVal
+        set value = #{value}
+        where spuCode = #{spuCode} and materialCode = #{materialCode} and materialBasePropId = #{materialBasePropId}
+    </update>
 </mapper>

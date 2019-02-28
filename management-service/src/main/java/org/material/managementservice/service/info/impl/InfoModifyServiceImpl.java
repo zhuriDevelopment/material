@@ -57,6 +57,10 @@ public class InfoModifyServiceImpl implements InfoModifyService {
     public int updateMaterialInfo (MaterialInfoModifyRequest params) {
         int result = 0;
         String spuCode = params.getSpuCode();
+        if (spuCode == null) {
+            logger.error(String.format("上传的spu编码为空！"));
+            return 0;
+        }
         // 更新物料基本信息
         if (params.getBaseDatas() != null) {
             int updateBaseResult = infoModifyServiceSupplier.updateMaterialInfoForBaseData(params);
