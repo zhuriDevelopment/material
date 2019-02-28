@@ -33,7 +33,7 @@ public class InfoModifyController {
     @PutMapping(value = "/updateMaterialInfo")
     @ApiOperation(value = "根据给定参数更新物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int updateMaterialInfo (@RequestBody MaterialInfoModifyRequest params) {
-        if (MaterialGeneral.isEmpty(params)) {
+        if (MaterialGeneral.isAllEmpty(params)) {
             return MaterialErrCode.errCodeClassIsEmpty;
         }
         return infoModifyService.updateMaterialInfo(params);

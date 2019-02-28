@@ -35,4 +35,9 @@ public class MaterialErrCode {
     public static Integer failedUpdateSingleFormatInMaterial = 0;
     // 物料定义中规格信息名字未找到
     public static Integer notFoundFormatNameInDB = -2;
+
+    // 更新物料sku信息成功
+    public static Integer successUpdateSku = 1;
+    // 更新物料sku信息失败
+    public static Integer failedUpdateSku = 0;
 }

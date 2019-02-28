@@ -32,4 +32,54 @@
         set value = #{value}
         where spuCode = #{spuCode} and materialCode = #{materialCode} and materialBasePropId = #{materialBasePropId}
     </update>
+
+    <insert id="insertMaterialSkuByParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialSkuModel"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into materialSku(spuCode, skuCode, skuName, materialCode, barCode, unitId, purchasePrice, sellingPrice, description)
+        values (#{spuCode},
+                #{skuCode},
+                #{skuName},
+                #{materialCode},
+                #{barCode},
+                #{unitId},
+                #{purchasePrice},
+                #{sellingPrice},
+                #{description})
+    </insert>
+
+    <delete id="deleteMaterialSkuByParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialSkuModel">
+        delete from materialSku
+        <where>
+            <if test="spuCode != null">
+                where spuCode = #{spuCode}
+            </if>
+            <if test="skuCode != null">
+                where skuCode = #{skuCode}
+            </if>
+            <if test="skuName != null">
+                where skuName = #{skuName}
+            </if>
+            <if test="materialCode != null">
+                where materialCode = #{materialCode}
+            </if>
+            <if test="barCode != null">
+                where barCode = #{barCode}
+            </if>
+            <if test="unitId &gt;= 0">
+                where unitId = #{unitId}
+            </if>
+            <if test="purchasePrice &gt;= 0">
+                where purchasePrice = #{purchasePrice}
+            </if>
+            <if test="sellingPrice &gt;= 0">
+                where sellingPrice = #{sellingPrice}
+            </if>
+            <if test="description != null">
+                where description = #{description}
+            </if>
+        </where>
+    </delete>
 </mapper>

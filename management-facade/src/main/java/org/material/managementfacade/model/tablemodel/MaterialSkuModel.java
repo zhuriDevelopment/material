@@ -7,7 +7,9 @@ public class MaterialSkuModel {
     private int id;
     private String spuCode;
     private String skuCode;
-    private int materialId;
+    private String skuName;
+    private String materialCode;
+    private String barCode;
     private int unitId;
     private int purchasePrice;
     private int sellingPrice;
@@ -17,7 +19,9 @@ public class MaterialSkuModel {
         this.id = -1;
         this.spuCode = null;
         this.skuCode = null;
-        this.materialId = -1;
+        this.skuName = null;
+        this.materialCode = null;
+        this.barCode = null;
         this.unitId = -1;
         this.purchasePrice = -1;
         this.sellingPrice = -1;
@@ -46,14 +50,6 @@ public class MaterialSkuModel {
 
     public void setSkuCode(String skuCode) {
         this.skuCode = skuCode;
-    }
-
-    public int getMaterialId() {
-        return materialId;
-    }
-
-    public void setMaterialId(int materialId) {
-        this.materialId = materialId;
     }
 
     public int getUnitId() {
@@ -86,5 +82,29 @@ public class MaterialSkuModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSkuName () {
+        return skuName;
+    }
+
+    public void setSkuName (String skuName) {
+        this.skuName = skuName;
+    }
+
+    public String getMaterialCode () {
+        return materialCode;
+    }
+
+    public void setMaterialCode (String materialCode) {
+        this.materialCode = materialCode;
+    }
+
+    public String getBarCode () {
+        return barCode;
+    }
+
+    public void setBarCode (String barCode) {
+        this.barCode = barCode;
     }
 }

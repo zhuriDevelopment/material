@@ -1,6 +1,7 @@
 package org.material.managementservice.mapper.info;
 
 import org.material.managementfacade.model.tablemodel.MaterialBasePropValModel;
+import org.material.managementfacade.model.tablemodel.MaterialSkuModel;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -19,4 +20,8 @@ public interface InfoModifyMapper {
     int insertMaterialBasePropValByParams (MaterialBasePropValModel param);
 
     int updateMaterialBasePropValByParams (MaterialBasePropValModel param);
+
+    int insertMaterialSkuByParams (MaterialSkuModel param);
+
+    int deleteMaterialSkuByParams (MaterialSkuModel param);
 }

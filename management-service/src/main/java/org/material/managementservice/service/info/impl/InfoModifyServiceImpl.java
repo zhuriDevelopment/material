@@ -76,6 +76,13 @@ public class InfoModifyServiceImpl implements InfoModifyService {
                 result++;
             }
         }
+        // 更新物料sku定义
+        if (params.getSkuDatas() != null) {
+            int updateSkuResult = infoModifyServiceSupplier.updateMaterialInfoForSkuData(params);
+            if (updateSkuResult == MaterialErrCode.successUpdateSku) {
+                result++;
+            }
+        }
         return result;
     };
 }

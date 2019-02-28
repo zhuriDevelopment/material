@@ -44,7 +44,7 @@ public class InfoObtainController {
     @ApiOperation(value = "根据给定参数查询基础信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Object getBaseInfo (@RequestBody BaseInfoRequest params) {
         // 参数必须非空！
-        if (MaterialGeneral.isEmpty(params)) {
+        if (MaterialGeneral.isAllEmpty(params)) {
             // 否则传回空类错误码
             return MaterialErrCode.errCodeClassIsEmpty;
         }
@@ -55,7 +55,7 @@ public class InfoObtainController {
     @GetMapping(value = "/getMaterialInfo")
     @ApiOperation(value = "根据给定参数查询物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Object getMaterialInfo (@RequestBody MaterialInfoRequest params) {
-        if (MaterialGeneral.isEmpty(params)) {
+        if (MaterialGeneral.isAllEmpty(params)) {
             return MaterialErrCode.errCodeClassIsEmpty;
         }
         // 在没有权限的情况下，统一把组织编码固定下来，无论前端是否传了组织id

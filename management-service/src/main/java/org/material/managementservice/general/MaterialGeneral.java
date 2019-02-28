@@ -1,5 +1,6 @@
 package org.material.managementservice.general;
 
+import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -12,18 +13,48 @@ import java.util.List;
  */
 
 public class MaterialGeneral {
+
+    /**
+     * 通过反射来判断是否对象中含有空属性
+     *
+     * @author cplayer
+     * @date 2019-02-28 16:30
+     * @param object 对应的对象
+     *
+     * @return boolean
+     *
+     */
+    public static boolean isContainsEmpty (@NotNull Object object) {
+        boolean result = false;
+        try {
+            Class clazz = object.getClass();
+            Field[] fields = clazz.getDeclaredFields();
+            for (Field field : fields) {
+                String name = field.getName();
+                if (field.get(object) == null) {
+                    result = true;
+                }
+            }
+            return result;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            result = true;
+            return result;
+        }
+    }
+
     /**
      * 通过反射来判断是否类中的所有属性均为空
      * 不支持泛型
      *
      * @author cplayer
      * @date 2019-02-25 03:12     
-     * @param object 对应的类
+     * @param object 对应的对象
      *
      * @return boolean
      *
      */
-    public static boolean isEmpty (Object object) {
+    public static boolean isAllEmpty (@NotNull Object object) {
         boolean result = true;
         try {
             Class clazz = object.getClass();

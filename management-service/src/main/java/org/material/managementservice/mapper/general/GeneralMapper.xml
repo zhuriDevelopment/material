@@ -106,8 +106,14 @@
             <if test="skuCode != null">
                 where skuCode = #{skuCode}
             </if>
-            <if test="materialId &gt;= 0">
-                where materialId = #{materialId}
+            <if test="skuName != null">
+                where skuName = #{skuName}
+            </if>
+            <if test="materialCode != null">
+                where materialCode = #{materialCode}
+            </if>
+            <if test="barCode != null">
+                where barCode = #{barCode}
             </if>
             <if test="unitId &gt;= 0">
                 where unitId = #{unitId}

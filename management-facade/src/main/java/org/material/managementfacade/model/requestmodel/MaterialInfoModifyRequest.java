@@ -2,6 +2,7 @@ package org.material.managementfacade.model.requestmodel;
 
 import org.material.managementfacade.model.requestmodel.infomodify.MaterialBaseModifyRequest;
 import org.material.managementfacade.model.requestmodel.infomodify.MaterialModifyRequest;
+import org.material.managementfacade.model.requestmodel.infomodify.MaterialSkuModifyRequest;
 
 /**
  * @author cplayer on 2019-02-27 04:07.
@@ -14,6 +15,7 @@ public class MaterialInfoModifyRequest {
     private String spuCode;
     private MaterialBaseModifyRequest baseDatas;
     private MaterialModifyRequest materialDatas;
+    private MaterialSkuModifyRequest skuDatas;
 
     public String getSpuCode () {
         return spuCode;
@@ -37,5 +39,13 @@ public class MaterialInfoModifyRequest {
 
     public void setMaterialDatas (MaterialModifyRequest materialDatas) {
         this.materialDatas = materialDatas;
+    }
+
+    public MaterialSkuModifyRequest getSkuDatas () {
+        return skuDatas;
+    }
+
+    public void setSkuDatas (MaterialSkuModifyRequest skuDatas) {
+        this.skuDatas = skuDatas;
     }
 }
