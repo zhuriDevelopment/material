@@ -68,7 +68,7 @@ public class BaseInfoModifyServiceSupplier {
         if (recordNum == 0) {
             // 若没有spuCode记录，则新增
             // 此时设置创建时间为当前服务器时间
-            param.setCreateDate(new Date());
+            param.setCreateDate(new java.sql.Timestamp(System.currentTimeMillis()));
             generalMapper.insertMaterialBaseWithMaterialBaseParams(param);
             // 此时返回的id应该为新增记录的id
             int id = param.getId();

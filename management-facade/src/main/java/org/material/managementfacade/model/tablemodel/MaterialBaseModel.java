@@ -2,7 +2,7 @@ package org.material.managementfacade.model.tablemodel;
 
 import io.swagger.annotations.ApiModel;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 @ApiModel("物料基本信息表")
 public class MaterialBaseModel {
@@ -20,7 +20,7 @@ public class MaterialBaseModel {
     private String note;
     private int materialCatId;
     private int keyPropId;
-    private Date createDate;
+    private Timestamp createDate;
 
     public MaterialBaseModel () {
         this.id = -1;
@@ -152,11 +152,11 @@ public class MaterialBaseModel {
         this.keyPropId = keyPropId;
     }
 
-    public Date getCreateDate () {
+    public Timestamp getCreateDate () {
         return createDate;
     }
 
-    public void setCreateDate (Date createDate) {
+    public void setCreateDate (Timestamp createDate) {
         this.createDate = createDate;
     }
 }

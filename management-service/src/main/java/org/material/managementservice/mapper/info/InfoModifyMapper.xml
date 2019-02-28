@@ -82,4 +82,46 @@
             </if>
         </where>
     </delete>
+
+    <!--带时间戳的获取物料控制属性值版本的信息-->
+    <select id="getCtrlPropValVerWithCtrlPropValVerParams"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialCtrlPropValVerModel">
+        select * from materialCtrlPropValVer
+        <where>
+            <if test="spuCode != null">
+                where spuCode = #{spuCode}
+            </if>
+            <if test="materialCatId &gt;= 0">
+                where materialCatId = #{materialCatId}
+            </if>
+            <if test="organizationCode != null">
+                where organizationCode = #{organizationCode}
+            </if>
+            <if test="timestamp != null">
+                where startDate &lt;= #{timestamp} and endDate &gt;= #{timestamp}
+            </if>
+        </where>
+    </select>
+
+    <!--插入物料控制属性值版本的表的函数-->
+    <insert id="insertCtrlPropValVerByParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialCtrlPropValVerModel"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into materialCtrlPropValVer(version, organizationCode, materialCatId, spuCode, startDate, endDate)
+        values (#{version}, #{organizationCode}, #{materialCatId}, #{spuCode}, #{startDate}, #{endDate})
+    </insert>
+
+    <!--根据版本号id去物料控制属性值表中进行查询的函数-->
+    <select id="getCtrlPropValWithVersionId"
+            parameterType="int"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialCtrlPropValModel">
+        select * from materialCtrlPropVal where versionId = #{versionId}
+    </select>
+
+    <!--根据参数更新物料控制属性值表中的数据-->
+    <update id="updateCtrlPropValByParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialCtrlPropValModel">
+        update materialCtrlPropVal set value = #{value} where versionId = #{versionId} and materialCtrlPropId = #{materialCtrlPropId}
+    </update>
 </mapper>

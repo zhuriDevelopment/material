@@ -45,4 +45,10 @@ public class MaterialErrCode {
     public static Integer successUpdateControlPropInMaterial = 1;
     // 更新物料控制属性失败
     public static Integer failedUpdateControlPropInMaterial = 0;
+    // 更新物料控制属性部分失败
+    public static Integer failedUpdateSomeControlPropInMaterial = 1;
+    // 更新物料控制属性全部失败
+    public static Integer failedUpdateAllControlPropInMaterial = 2;
+    // 更新物料控制属性成功
+    public static Integer successUpdateAllControlPropInMaterial = 0;
 }
