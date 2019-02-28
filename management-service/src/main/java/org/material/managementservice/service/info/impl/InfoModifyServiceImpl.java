@@ -83,6 +83,14 @@ public class InfoModifyServiceImpl implements InfoModifyService {
                 result++;
             }
         }
+        // 附件管理（不实现）
+        // 控制属性
+        if (params.getCtrPropDatas() != null) {
+            int updateCtrPropResult = infoModifyServiceSupplier.updateMaterialInfoForCtrData(params);
+            if (updateCtrPropResult == MaterialErrCode.successUpdateControlPropInMaterial) {
+                result++;
+            }
+        }
         return result;
     };
 }

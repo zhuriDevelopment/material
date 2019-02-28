@@ -40,4 +40,9 @@ public class MaterialErrCode {
     public static Integer successUpdateSku = 1;
     // 更新物料sku信息失败
     public static Integer failedUpdateSku = 0;
+
+    // 更新物料控制属性成功
+    public static Integer successUpdateControlPropInMaterial = 1;
+    // 更新物料控制属性失败
+    public static Integer failedUpdateControlPropInMaterial = 0;
 }

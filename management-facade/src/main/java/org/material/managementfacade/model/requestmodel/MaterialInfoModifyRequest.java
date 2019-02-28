@@ -1,6 +1,7 @@
 package org.material.managementfacade.model.requestmodel;
 
 import org.material.managementfacade.model.requestmodel.infomodify.MaterialBaseModifyRequest;
+import org.material.managementfacade.model.requestmodel.infomodify.MaterialControlPropModifyRequest;
 import org.material.managementfacade.model.requestmodel.infomodify.MaterialModifyRequest;
 import org.material.managementfacade.model.requestmodel.infomodify.MaterialSkuModifyRequest;
 
@@ -16,6 +17,7 @@ public class MaterialInfoModifyRequest {
     private MaterialBaseModifyRequest baseDatas;
     private MaterialModifyRequest materialDatas;
     private MaterialSkuModifyRequest skuDatas;
+    private MaterialControlPropModifyRequest ctrPropDatas;
 
     public String getSpuCode () {
         return spuCode;
@@ -47,5 +49,13 @@ public class MaterialInfoModifyRequest {
 
     public void setSkuDatas (MaterialSkuModifyRequest skuDatas) {
         this.skuDatas = skuDatas;
+    }
+
+    public MaterialControlPropModifyRequest getCtrPropDatas () {
+        return ctrPropDatas;
+    }
+
+    public void setCtrPropDatas (MaterialControlPropModifyRequest ctrPropDatas) {
+        this.ctrPropDatas = ctrPropDatas;
     }
 }

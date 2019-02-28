@@ -121,7 +121,8 @@ public class MaterialInfoServiceImplSupplier {
             List<UnitModel> unitModels = new ArrayList<>();
             for (MaterialSkuModel element : skuModels) {
                 param.clear();
-                param.put("id", element.getMaterialId());
+                // param.put("id", element.getMaterialId());
+                param.put("id", element.getMaterialCode());
                 List<MaterialModel> tmpModels = materialInfoMapper.getMaterialWithMaterialParams(params);
                 if (tmpModels != null && tmpModels.size() > 0) {
                     // 取第一个

@@ -18,6 +18,7 @@ import org.material.managementservice.mapper.info.InfoModifyMapper;
 import org.material.managementservice.mapper.info.InfoObtainMapper;
 import org.material.managementservice.service.info.impl.supplier.baseinfo.BaseInfoModifyServiceSupplier;
 import org.material.managementservice.service.info.impl.supplier.baseprop.FormatPropModifyServiceSupplier;
+import org.material.managementservice.service.info.impl.supplier.controlprop.ControlPropModifyServiceSupplier;
 import org.material.managementservice.service.info.impl.supplier.materialinfo.MaterialInfoModifyServiceSupplier;
 import org.material.managementservice.service.info.impl.supplier.skuinfo.SkuInfoModifyServiceSupplier;
 import org.slf4j.Logger;
@@ -46,6 +47,8 @@ public class InfoModifyServiceSupplier {
     private FormatPropModifyServiceSupplier formatPropModifyServiceSupplier;
     @Autowired
     private SkuInfoModifyServiceSupplier skuInfoModifyServiceSupplier;
+    @Autowired
+    private ControlPropModifyServiceSupplier controlPropModifyServiceSupplier;
 
     /**
      * 物料信息更新的中间函数，其中进行调用实际功能代码的操作
@@ -121,5 +124,19 @@ public class InfoModifyServiceSupplier {
      */
     public int updateMaterialInfoForSkuData (MaterialInfoModifyRequest params) {
         return skuInfoModifyServiceSupplier.updateMaterialInfoForSkuData(params);
+    }
+
+    /**
+     * 更新物料控制属性信息的对应函数
+     *
+     * @author cplayer
+     * @date 2019-02-28 17:28
+     * @param params 更新物料信息请求的参数
+     *
+     * @return controlPropModifyServiceSupplier中updateMaterialInfoForCtrData方法的返回值
+     *
+     */
+    public int updateMaterialInfoForCtrData (MaterialInfoModifyRequest params) {
+        return controlPropModifyServiceSupplier.updateMaterialInfoForCtrData(params);
     }
 }
