@@ -25,6 +25,8 @@ public interface GeneralMapper {
 
     List<UnitModel> getUnitWithUnitParams (UnitModel param);
 
+    List<MaterialUnitModel> getMaterialUnitWithMaterialUnitParams (MaterialUnitModel param);
+
     List<MaterialBasePropModel> getMaterialBasePropWithMaterialBasePropParams (MaterialBasePropModel param);
 
     List<MaterialBasePropValModel> getMaterialBasePropValWithMaterialBasePropValParams (MaterialBasePropValModel param);
@@ -40,4 +42,6 @@ public interface GeneralMapper {
     int updateMaterialBaseWithMaterialBaseParams (MaterialBaseModel param);
 
     int insertMaterialWithMaterialParams (MaterialModel param);
+
+    int deleteUnitByParams (MaterialUnitModel param);
 }

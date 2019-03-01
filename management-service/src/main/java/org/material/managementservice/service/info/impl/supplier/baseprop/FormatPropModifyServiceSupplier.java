@@ -121,7 +121,7 @@ public class FormatPropModifyServiceSupplier {
         paramProp.setType(propertyType);
         List<MaterialBasePropModel> propList = generalMapper.getMaterialBasePropWithMaterialBasePropParams(paramProp);
         // 获取所有待更新的规格信息对象列表
-        List<MaterialModifyRequestForFormatProp> formatList = params.getMaterialDatas().getFormatList();
+        List<MaterialModifyRequestForFormatProp> formatList = params.getFormatDatas().getFormatList();
         // 总的更新结果状态
         int sumModifyResult = MaterialErrCode.successUpdateFormatInMaterial;
         // 遍历待更新的规格对象信息

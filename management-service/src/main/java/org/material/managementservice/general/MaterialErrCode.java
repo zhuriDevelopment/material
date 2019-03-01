@@ -42,13 +42,30 @@ public class MaterialErrCode {
     public static Integer failedUpdateSku = 0;
 
     // 更新物料控制属性成功
-    public static Integer successUpdateControlPropInMaterial = 1;
+    public static Integer successUpdateControlProp = 1;
     // 更新物料控制属性失败
-    public static Integer failedUpdateControlPropInMaterial = 0;
+    public static Integer failedUpdateControlProp = 0;
     // 更新物料控制属性部分失败
-    public static Integer failedUpdateSomeControlPropInMaterial = 1;
+    public static Integer failedUpdateSomeControlProp = 1;
     // 更新物料控制属性全部失败
-    public static Integer failedUpdateAllControlPropInMaterial = 2;
+    public static Integer failedUpdateAllControlProp = 2;
     // 更新物料控制属性成功
-    public static Integer successUpdateAllControlPropInMaterial = 0;
+    public static Integer successUpdateAllControlProp = 0;
+
+    // 更新物料计量单位成功
+    public static Integer successUpdateUnit = 1;
+    // 更新物料计量单位失败
+    public static Integer failedUpdateUnit = 0;
+    // 更新物料计量单位中新增部分成功
+    public static Integer successUpdateInsertUnit = 1;
+    // 更新物料计量单位中新增部分失败
+    public static Integer failedUpdateInsertUnit = 0;
+    // 更新物料计量单位中修改部分成功
+    public static Integer successUpdateModifyUnit = 1;
+    // 更新物料计量单位中修改部分失败
+    public static Integer failedUpdateModifyUnit = 0;
+    // 更新物料计量单位中删除部分成功
+    public static Integer successUpdateDeleteUnit = 1;
+    // 更新物料计量单位中删除部分失败
+    public static Integer failedUpdateDeleteUnit = 0;
 }

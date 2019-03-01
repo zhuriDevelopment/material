@@ -90,11 +90,11 @@ public class ControlPropModifyServiceSupplier {
             }
         }
         if (updateSingleResult == 0) {
-            return MaterialErrCode.failedUpdateAllControlPropInMaterial;
+            return MaterialErrCode.failedUpdateAllControlProp;
         } else if (updateSingleResult < ctrPropList.size()) {
-            return MaterialErrCode.failedUpdateSomeControlPropInMaterial;
+            return MaterialErrCode.failedUpdateSomeControlProp;
         } else {
-            return MaterialErrCode.successUpdateAllControlPropInMaterial;
+            return MaterialErrCode.successUpdateAllControlProp;
         }
     }
 
@@ -120,7 +120,7 @@ public class ControlPropModifyServiceSupplier {
                         MaterialBaseModel.class);
         if (baseInfo.getMaterialCatId() == -1) {
             // 说明不存在对应的记录
-            return MaterialErrCode.failedUpdateControlPropInMaterial;
+            return MaterialErrCode.failedUpdateControlProp;
         }
         // 查询版本号
         // 设置查询参数
@@ -158,11 +158,11 @@ public class ControlPropModifyServiceSupplier {
             versionId = propValVerData.getId();
         }
         int updateResult = updateCtrPropsByCtrPropList(params, versionId);
-        if (updateResult == MaterialErrCode.failedUpdateSomeControlPropInMaterial ||
-            updateResult == MaterialErrCode.failedUpdateAllControlPropInMaterial) {
-            updateResult = MaterialErrCode.failedUpdateControlPropInMaterial;
+        if (updateResult == MaterialErrCode.failedUpdateSomeControlProp ||
+            updateResult == MaterialErrCode.failedUpdateAllControlProp) {
+            updateResult = MaterialErrCode.failedUpdateControlProp;
         } else {
-            updateResult = MaterialErrCode.successUpdateControlPropInMaterial;
+            updateResult = MaterialErrCode.successUpdateControlProp;
         }
         return updateResult;
     }

@@ -124,4 +124,22 @@
             parameterType="org.material.managementfacade.model.tablemodel.MaterialCtrlPropValModel">
         update materialCtrlPropVal set value = #{value} where versionId = #{versionId} and materialCtrlPropId = #{materialCtrlPropId}
     </update>
+
+    <!--根据参数更新物料计量单位表中的数据-->
+    <update id="updateUnitByParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialUnitModel">
+        update materialUnit set conversionFactor = #{conversionFactor}, sort = #{sort}, relatedId = #{relatedId}
+        where spuCode = #{spuCode} and unitId = #{unitId}
+    </update>
+
+    <!--根据参数向物料计量单位表中新增数据-->
+    <insert id="insertUnitByParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialUnitModel"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into materialUnit(spuCode, unitId, relatedId, conversionFactor, sort)
+        values (#{spuCode}, #{unitId}, #{relatedId}, #{conversionFactor}, #{sort})
+    </insert>
+
+
 </mapper>

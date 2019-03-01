@@ -71,8 +71,15 @@ public class InfoModifyServiceImpl implements InfoModifyService {
         }
         // 更新物料定义
         if (params.getMaterialDatas() != null) {
-            int updateMaterialResult = infoModifyServiceSupplier.updateMaterialInfoForMaterialData(params);
+            int updateMaterialResult = infoModifyServiceSupplier.updateMaterialInfoForMaterialDataByMaterial(params);
             if (updateMaterialResult == MaterialErrCode.successUpdateMaterial) {
+                result++;
+            }
+        }
+        // 更新物料定义中规格信息
+        if (params.getFormatDatas() != null) {
+            int updateFormatResult = infoModifyServiceSupplier.updateMaterialInfoForMaterialDataByFormat(params);
+            if (updateFormatResult == MaterialErrCode.successUpdateFormatInMaterial) {
                 result++;
             }
         }
@@ -87,7 +94,14 @@ public class InfoModifyServiceImpl implements InfoModifyService {
         // 控制属性
         if (params.getCtrPropDatas() != null) {
             int updateCtrPropResult = infoModifyServiceSupplier.updateMaterialInfoForCtrData(params);
-            if (updateCtrPropResult == MaterialErrCode.successUpdateControlPropInMaterial) {
+            if (updateCtrPropResult == MaterialErrCode.successUpdateControlProp) {
+                result++;
+            }
+        }
+        // 计量单位
+        if (params.getUnitDatas() != null) {
+            int updateUnitResult = infoModifyServiceSupplier.updateMaterialInfoForUnitData(params);
+            if (updateUnitResult == MaterialErrCode.successUpdateUnit) {
                 result++;
             }
         }

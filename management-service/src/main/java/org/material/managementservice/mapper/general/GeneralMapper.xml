@@ -184,6 +184,33 @@
         </where>
     </select>
 
+    <!--根据MaterialUnit表（物料计量单位表）的参数获取MaterialUnit表的数据-->
+    <select id="getMaterialUnitWithMaterialUnitParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialUnitModel"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialUnitModel">
+        select * from materialUnit
+        <where>
+            <if test="id &gt;= 0">
+                where id = #{id}
+            </if>
+            <if test="spuCode != null">
+                where spuCode = #{spuCode}
+            </if>
+            <if test="unitId &gt;= 0">
+                where unitId = #{unitId}
+            </if>
+            <if test="relatedId &gt;= 0">
+                where relatedId = #{relatedId}
+            </if>
+            <if test="conversionFactor &gt;= 0">
+                where conversionFactor = #{conversionFactor}
+            </if>
+            <if test="sort &gt;= 0">
+                where sort = #{sort}
+            </if>
+        </where>
+    </select>
+
     <!--根据MaterialBaseProp表（物料基本属性表）的参数获取MaterialBaseProp表的数据-->
     <select id="getMaterialBasePropWithMaterialBasePropParams"
             parameterType="org.material.managementfacade.model.tablemodel.MaterialBasePropModel"
@@ -529,4 +556,30 @@
         insert into material(<include refid="MaterialKey"/>)
         values (<include refid="MaterialValue"/>)
     </insert>
+
+    <!--根据参数向物料计量单位表中删除数据-->
+    <delete id="deleteUnitByParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialUnitModel">
+        delete from materialUnit
+        <where>
+            <if test="id &gt;= 0">
+                where id = #{id}
+            </if>
+            <if test="spuCode != null">
+                where spuCode = #{spuCode}
+            </if>
+            <if test="unitId &gt;= 0">
+                where unitId = #{unitId}
+            </if>
+            <if test="relatedId &gt;= 0">
+                where relatedId = #{relatedId}
+            </if>
+            <if test="conversionFactor &gt;= 0">
+                where conversionFactor = #{conversionFactor}
+            </if>
+            <if test="sort &gt;= 0">
+                where sort = #{sort}
+            </if>
+        </where>
+    </delete>
 </mapper>

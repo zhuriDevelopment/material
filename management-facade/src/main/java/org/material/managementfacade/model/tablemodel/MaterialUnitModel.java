@@ -2,6 +2,8 @@ package org.material.managementfacade.model.tablemodel;
 
 import io.swagger.annotations.ApiModel;
 
+import java.util.Objects;
+
 @ApiModel("物料单位表")
 public class MaterialUnitModel {
     private int id;
@@ -10,6 +12,37 @@ public class MaterialUnitModel {
     private int relatedId;
     private double conversionFactor;
     private int sort;
+
+    public MaterialUnitModel () {
+        this.id = -1;
+        this.spuCode = null;
+        this.unitId = -1;
+        this.relatedId = -1;
+        this.conversionFactor = -1;
+        this.sort = -1;
+    }
+
+    @Override
+    public boolean equals (Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        MaterialUnitModel that = (MaterialUnitModel) o;
+        return id == that.id &&
+                unitId == that.unitId &&
+                relatedId == that.relatedId &&
+                Double.compare(that.conversionFactor, conversionFactor) == 0 &&
+                sort == that.sort &&
+                spuCode.equals(that.spuCode);
+    }
+
+    @Override
+    public int hashCode () {
+        return Objects.hash(id, spuCode, unitId, relatedId, conversionFactor, sort);
+    }
 
     public int getId() {
         return id;

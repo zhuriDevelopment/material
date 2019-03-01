@@ -10,7 +10,6 @@ import java.util.List;
 
 public class MaterialModifyRequest {
     private List<MaterialModifyRequestForMaterial> materialList;
-    private List<MaterialModifyRequestForFormatProp> formatList;
 
     public List<MaterialModifyRequestForMaterial> getMaterialList () {
         return materialList;
@@ -18,13 +17,5 @@ public class MaterialModifyRequest {
 
     public void setMaterialList (List<MaterialModifyRequestForMaterial> materialList) {
         this.materialList = materialList;
-    }
-
-    public List<MaterialModifyRequestForFormatProp> getFormatList () {
-        return formatList;
-    }
-
-    public void setFormatList (List<MaterialModifyRequestForFormatProp> formatList) {
-        this.formatList = formatList;
     }
 }

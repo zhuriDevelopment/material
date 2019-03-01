@@ -1,9 +1,6 @@
 package org.material.managementservice.mapper.info;
 
-import org.material.managementfacade.model.tablemodel.MaterialBasePropValModel;
-import org.material.managementfacade.model.tablemodel.MaterialCtrlPropValModel;
-import org.material.managementfacade.model.tablemodel.MaterialCtrlPropValVerModel;
-import org.material.managementfacade.model.tablemodel.MaterialSkuModel;
+import org.material.managementfacade.model.tablemodel.*;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
@@ -37,4 +34,8 @@ public interface InfoModifyMapper {
     List<MaterialCtrlPropValModel> getCtrlPropValWithVersionId (int versionId);
 
     int updateCtrlPropValByParams (MaterialCtrlPropValModel param);
+
+    int updateUnitByParams (MaterialUnitModel param);
+
+    int insertUnitByParams (MaterialUnitModel param);
 }
