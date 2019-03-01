@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.material.managementservice.mapper.info.InfoObtainMapper">
+    <select id="countMaterialCategoryByCode"
+            parameterType="java.lang.String"
+            resultType="int">
+        select count(code) from materialCategory
+        where code = #{code}
+    </select>
+
+    <select id="countMaterialCategoryById"
+            parameterType="int"
+            resultType="int">
+        select count(id) from materialCategory
+        where id = #{id}
+    </select>
+
+    <select id="countMaterialCategoryByName"
+            parameterType="java.lang.String"
+            resultType="int">
+        select count(name) from materialCategory
+        where name = #{name}
+    </select>
+
+    <insert id="insertMaterialCategoryByParam"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialCategoryModel"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into materialCategory(code, name, type, parentId) VALUES (#{code}, #{name}, #{type}, #{parentId})
+    </insert>
+
+    <select id="countMaterialCategoryByParam"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialCategoryModel"
+            resultType="int">
+        select count(name, parentId) from materialCategory
+        where parentId = #{parentId} and name = #{name}
+    </select>
+
+    <update id="updateMaterialCategoryName"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialCategoryModel">
+        update materialCategory set name = #{newName} where name = #{oldName} and parentId = #{parentId}
+    </update>
+
+    <select id="getMatarialCategoryByParentId"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialCategoryModel"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialCategoryModel">
+        select * from materialCategory where parentId = #{parentId}
+    </select>
+
+    <delete id="deleteMaterialCategoryByNameAndParentId">
+        delete * from materialCategory where name = #{name} and parentId = #{parentId}
+    </delete>
+</mapper>

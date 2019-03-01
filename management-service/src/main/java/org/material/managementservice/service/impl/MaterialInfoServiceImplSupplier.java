@@ -449,7 +449,7 @@ public class MaterialInfoServiceImplSupplier {
             int materialCatId = materialBase.get(0).getMaterialCatId();
             Map<String, Object> params = new HashMap<>();
             params.clear();
-            params.put("type", curBaseProp.get("type"));
+            params.put("type", curBaseProp.get("category"));
             params.put("label", curBaseProp.get("label"));
             params.put("name", curBaseProp.get("name"));
             params.put("materialCatId", materialCatId);
@@ -532,7 +532,7 @@ public class MaterialInfoServiceImplSupplier {
                 // 每一个元素都是一条数据库记录
                 params.clear();
                 params.put("materialCatId", catId);
-                params.put("type", record.get("type"));
+                params.put("type", record.get("category"));
                 params.put("label", record.get("label"));
                 params.put("name", record.get("name"));
                 params.put("valueRange", record.get("range"));

@@ -4,7 +4,7 @@ import org.material.managementfacade.model.requestmodel.MaterialInfoModifyReques
 import org.material.managementfacade.model.requestmodel.infomodify.MaterialModifyRequestForMaterial;
 import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialModel;
-import org.material.managementservice.general.MaterialErrCode;
+import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoModifyMapper;
@@ -40,8 +40,8 @@ public class MaterialInfoModifyServiceSupplier {
      * @date 2019-02-27 21:08
      * @param params 更新物料信息请求的参数
      *
-     * @return MaterialErrCode.successUpdateMaterialInMaterial 代表成功
-     *         MaterialErrCode.failedUpdateMaterialInMaterial 代表失败
+     * @return MaterialInfoErrCode.successUpdateMaterialInMaterial 代表成功
+     *         MaterialInfoErrCode.failedUpdateMaterialInMaterial 代表失败
      *
      */
     public int updateMaterialInfoForMaterialDataByMaterial (MaterialInfoModifyRequest params) {
@@ -51,7 +51,7 @@ public class MaterialInfoModifyServiceSupplier {
         MaterialBaseModel baseInfo = MaterialGeneral.getInitElementOrFirstElement(baseList, MaterialBaseModel.class);
         if (baseInfo.getId() == -1) {
             // 若没有对应物料基本信息记录，则插入失败
-            return MaterialErrCode.failedUpdateFormatInMaterial;
+            return MaterialInfoErrCode.failedUpdateFormatInMaterial;
         }
         // 然后根据spuCode删除所有Material表记录
         int result = infoModifyMapper.deleteAllMaterialBySpuCode(params.getSpuCode());
@@ -70,6 +70,6 @@ public class MaterialInfoModifyServiceSupplier {
             logger.info("正在插入第" + result + "条记录！");
         }
         // 到此认为插入成功，返回正确结果
-        return MaterialErrCode.successUpdateMaterialInMaterial;
+        return MaterialInfoErrCode.successUpdateMaterialInMaterial;
     }
 }

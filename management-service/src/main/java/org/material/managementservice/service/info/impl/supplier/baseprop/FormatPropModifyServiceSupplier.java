@@ -5,7 +5,7 @@ import org.material.managementfacade.model.requestmodel.infomodify.MaterialModif
 import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropModel;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropValModel;
-import org.material.managementservice.general.MaterialErrCode;
+import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoModifyMapper;
@@ -40,9 +40,9 @@ public class FormatPropModifyServiceSupplier {
      *
      * @param propList 物料基本属性列表
      *
-     * @return MaterialErrCode.failedUpdateSingleFormatInMaterial 单个规格信息更新失败
-     *         MaterialErrCode.successUpdateSingleFormatInMaterial 单个规格信息更新成功
-     *         MaterialErrCode.notAllowedFormatObject 规格信息名字未找到
+     * @return MaterialInfoErrCode.failedUpdateSingleFormatInMaterial 单个规格信息更新失败
+     *         MaterialInfoErrCode.successUpdateSingleFormatInMaterial 单个规格信息更新成功
+     *         MaterialInfoErrCode.notAllowedFormatObject 规格信息名字未找到
      *
      */
     public int updateMaterialInfoForMaterialDataBySingleFormat (MaterialInfoModifyRequest params,
@@ -51,7 +51,7 @@ public class FormatPropModifyServiceSupplier {
         // 若物料编码、值为空，则直接跳过
         if (data.getMaterialCode() == null || data.getValue() == null || data.getName() == null) {
             logger.error(String.format("物料规格信息中，存在不符合要求的对象！"));
-            return MaterialErrCode.notAllowedFormatObject;
+            return MaterialInfoErrCode.notAllowedFormatObject;
         }
         // 先获取待更新的属性名
         String name = data.getName();
@@ -78,14 +78,14 @@ public class FormatPropModifyServiceSupplier {
                 logger.info(String.format("更新的物料基本属性值记录id = %d。", paramPropVal.getId()));
             }
             if (modifyResult <= 0) {
-                return MaterialErrCode.failedUpdateSingleFormatInMaterial;
+                return MaterialInfoErrCode.failedUpdateSingleFormatInMaterial;
             } else {
-                return MaterialErrCode.successUpdateSingleFormatInMaterial;
+                return MaterialInfoErrCode.successUpdateSingleFormatInMaterial;
             }
         } else {
             // 若不存在，返回错误
             logger.error(String.format("属性名为%s，物料编码为%s的规格属性不存在！"));
-            return MaterialErrCode.notFoundFormatNameInDB;
+            return MaterialInfoErrCode.notFoundFormatNameInDB;
         }
     }
 
@@ -96,8 +96,8 @@ public class FormatPropModifyServiceSupplier {
      * @date 2019-02-27 21:15
      * @param params 更新物料信息请求的参数
      *
-     * @return MaterialErrCode.successUpdateFormatInMaterial 代表成功
-     *         MaterialErrCode.failedUpdateFormatInMaterial 代表失败
+     * @return MaterialInfoErrCode.successUpdateFormatInMaterial 代表成功
+     *         MaterialInfoErrCode.failedUpdateFormatInMaterial 代表失败
      *
      */
     public int updateMaterialInfoForMaterialDataByFormat (MaterialInfoModifyRequest params) {
@@ -112,9 +112,9 @@ public class FormatPropModifyServiceSupplier {
         if (baseParam.getId() == -1) {
             // 若不存在返回错误
             logger.error(String.format("检查spu编码为%s的时候并没有发现对应的数据！", params.getSpuCode()));
-            return MaterialErrCode.failedUpdateFormatInMaterial;
+            return MaterialInfoErrCode.failedUpdateFormatInMaterial;
         }
-        // 然后根据物料分类id、属性类型（type = 4）筛选出所有当前spu编码可能出现的物料基本属性列表，并暂存
+        // 然后根据物料分类id、属性类型（category = 4）筛选出所有当前spu编码可能出现的物料基本属性列表，并暂存
         // 必须保证同物料分类下属性名不重复！！
         MaterialBasePropModel paramProp = new MaterialBasePropModel();
         paramProp.setMaterialCatId(baseParam.getMaterialCatId());
@@ -123,15 +123,15 @@ public class FormatPropModifyServiceSupplier {
         // 获取所有待更新的规格信息对象列表
         List<MaterialModifyRequestForFormatProp> formatList = params.getFormatDatas().getFormatList();
         // 总的更新结果状态
-        int sumModifyResult = MaterialErrCode.successUpdateFormatInMaterial;
+        int sumModifyResult = MaterialInfoErrCode.successUpdateFormatInMaterial;
         // 遍历待更新的规格对象信息
         for (MaterialModifyRequestForFormatProp formatData : formatList) {
             // 逐个调用更新函数更新
             int modifyResult = updateMaterialInfoForMaterialDataBySingleFormat(params, formatData, propList);
-            if (modifyResult == MaterialErrCode.failedUpdateSingleFormatInMaterial ||
-                    modifyResult == MaterialErrCode.notAllowedFormatObject ||
-                    modifyResult == MaterialErrCode.notFoundFormatNameInDB) {
-                sumModifyResult = MaterialErrCode.failedUpdateFormatInMaterial;
+            if (modifyResult == MaterialInfoErrCode.failedUpdateSingleFormatInMaterial ||
+                    modifyResult == MaterialInfoErrCode.notAllowedFormatObject ||
+                    modifyResult == MaterialInfoErrCode.notFoundFormatNameInDB) {
+                sumModifyResult = MaterialInfoErrCode.failedUpdateFormatInMaterial;
                 logger.error(String.format("更新规格属性中，更新单个规格属性操作对应的错误码为：%d。", modifyResult));
             } else {
                 logger.info(String.format("更新规格属性成功！"));

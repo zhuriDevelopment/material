@@ -3,7 +3,7 @@ package org.material.managementservice.service.info.impl.supplier.skuinfo;
 import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
 import org.material.managementfacade.model.requestmodel.infomodify.MaterialSkuModifyRequestElement;
 import org.material.managementfacade.model.tablemodel.MaterialSkuModel;
-import org.material.managementservice.general.MaterialErrCode;
+import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.mapper.info.InfoModifyMapper;
 import org.material.managementservice.mapper.info.InfoObtainMapper;
@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -162,8 +161,8 @@ public class SkuInfoModifyServiceSupplier {
      * @date 2019-02-28 17:21
      * @param params 更新物料信息请求的参数
      *
-     * @return MaterialErrCode.successUpdateSku 成功更新
-     *         MaterialErrCode.failedUpdateSku 更新失败
+     * @return MaterialInfoErrCode.successUpdateSku 成功更新
+     *         MaterialInfoErrCode.failedUpdateSku 更新失败
      *
      */
     public int updateMaterialInfoForSkuData (MaterialInfoModifyRequest params) {
@@ -195,9 +194,9 @@ public class SkuInfoModifyServiceSupplier {
         int insertResult = insertAllSkuInfosInSet(skuSet, params.getSpuCode());
         logger.info(String.format("更新sku信息时，deleteResult = %d, insertResult = %d。", deleteResult, insertResult));
         if (deleteResult * insertResult > 0) {
-            return MaterialErrCode.successUpdateSku;
+            return MaterialInfoErrCode.successUpdateSku;
         } else {
-            return MaterialErrCode.failedUpdateSku;
+            return MaterialInfoErrCode.failedUpdateSku;
         }
     }
 }

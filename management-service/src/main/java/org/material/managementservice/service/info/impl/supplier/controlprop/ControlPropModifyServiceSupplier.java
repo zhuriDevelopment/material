@@ -6,7 +6,7 @@ import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialCtrlPropModel;
 import org.material.managementfacade.model.tablemodel.MaterialCtrlPropValModel;
 import org.material.managementfacade.model.tablemodel.MaterialCtrlPropValVerModel;
-import org.material.managementservice.general.MaterialErrCode;
+import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoModifyMapper;
@@ -45,9 +45,9 @@ public class ControlPropModifyServiceSupplier {
      *
      * @param versionId 版本id
      *
-     * @return MaterialErrCode.failedUpdateAllControlPropInMaterial 更新物料控制属性全部失败
-     *         MaterialErrCode.failedUpdateSomeControlPropInMaterial 更新物料控制属性部分失败
-     *         MaterialErrCode.successUpdateAllControlPropInMaterial 更新物料控制属性成功
+     * @return MaterialInfoErrCode.failedUpdateAllControlPropInMaterial 更新物料控制属性全部失败
+     *         MaterialInfoErrCode.failedUpdateSomeControlPropInMaterial 更新物料控制属性部分失败
+     *         MaterialInfoErrCode.successUpdateAllControlPropInMaterial 更新物料控制属性成功
      *
      */
     private int updateCtrPropsByCtrPropList (MaterialInfoModifyRequest params, int versionId) {
@@ -90,11 +90,11 @@ public class ControlPropModifyServiceSupplier {
             }
         }
         if (updateSingleResult == 0) {
-            return MaterialErrCode.failedUpdateAllControlProp;
+            return MaterialInfoErrCode.failedUpdateAllControlProp;
         } else if (updateSingleResult < ctrPropList.size()) {
-            return MaterialErrCode.failedUpdateSomeControlProp;
+            return MaterialInfoErrCode.failedUpdateSomeControlProp;
         } else {
-            return MaterialErrCode.successUpdateAllControlProp;
+            return MaterialInfoErrCode.successUpdateAllControlProp;
         }
     }
 
@@ -105,8 +105,8 @@ public class ControlPropModifyServiceSupplier {
      * @date 2019-02-28 17:30
      * @param params 更新物料信息请求的参数
      *
-     * @return MaterialErrCode.successUpdateControlPropInMaterial 更新成功
-     *         MaterialErrCode.failedUpdateControlPropInMaterial 更新失败
+     * @return MaterialInfoErrCode.successUpdateControlPropInMaterial 更新成功
+     *         MaterialInfoErrCode.failedUpdateControlPropInMaterial 更新失败
      *
      */
     public int updateMaterialInfoForCtrData (MaterialInfoModifyRequest params) {
@@ -120,7 +120,7 @@ public class ControlPropModifyServiceSupplier {
                         MaterialBaseModel.class);
         if (baseInfo.getMaterialCatId() == -1) {
             // 说明不存在对应的记录
-            return MaterialErrCode.failedUpdateControlProp;
+            return MaterialInfoErrCode.failedUpdateControlProp;
         }
         // 查询版本号
         // 设置查询参数
@@ -158,11 +158,11 @@ public class ControlPropModifyServiceSupplier {
             versionId = propValVerData.getId();
         }
         int updateResult = updateCtrPropsByCtrPropList(params, versionId);
-        if (updateResult == MaterialErrCode.failedUpdateSomeControlProp ||
-            updateResult == MaterialErrCode.failedUpdateAllControlProp) {
-            updateResult = MaterialErrCode.failedUpdateControlProp;
+        if (updateResult == MaterialInfoErrCode.failedUpdateSomeControlProp ||
+            updateResult == MaterialInfoErrCode.failedUpdateAllControlProp) {
+            updateResult = MaterialInfoErrCode.failedUpdateControlProp;
         } else {
-            updateResult = MaterialErrCode.successUpdateControlProp;
+            updateResult = MaterialInfoErrCode.successUpdateControlProp;
         }
         return updateResult;
     }

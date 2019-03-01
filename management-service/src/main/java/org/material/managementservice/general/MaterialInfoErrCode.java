@@ -6,7 +6,7 @@ package org.material.managementservice.general;
  * 物料管理模块中的错误码
  */
 
-public class MaterialErrCode {
+public class MaterialInfoErrCode {
     // 传上来的类参数为空，一般用于参数为空的情况
     public static Integer errCodeClassIsEmpty = 0;
 
@@ -68,4 +68,7 @@ public class MaterialErrCode {
     public static Integer successUpdateDeleteUnit = 1;
     // 更新物料计量单位中删除部分失败
     public static Integer failedUpdateDeleteUnit = 0;
+
+    // 根据物料分类id和物料名称获取所有物料信息时，不存在对应的物料分类id
+    public static Integer notExistMaterialCateId = 0;
 }

@@ -1,15 +1,22 @@
 package org.material.managementservice.service.info.impl;
 
 import org.material.managementfacade.model.requestmodel.BaseInfoRequest;
+import org.material.managementfacade.model.requestmodel.MaterialInfoObtainByCatCodeAndNameRequest;
+import org.material.managementfacade.model.requestmodel.MaterialInfoObtainByCategoryInfoRequest;
 import org.material.managementfacade.model.requestmodel.MaterialInfoRequest;
 import org.material.managementfacade.model.responsemodel.BaseInfoResponse;
 import org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoResponse;
+import org.material.managementfacade.model.responsemodel.MaterialInfoObtainByCatCodeAndNameResponse;
+import org.material.managementfacade.model.responsemodel.MaterialInfoObtainByCategoryInfoResponse;
 import org.material.managementfacade.model.tablemodel.*;
 import org.material.managementfacade.service.info.InfoObtainService;
+import org.material.managementservice.general.MaterialGeneral;
+import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoObtainMapper;
 import org.material.managementservice.service.info.impl.supplier.InfoObtainServiceSupplier;
 import org.material.managementservice.service.info.impl.supplier.baseinfo.BaseInfoObtainServiceSupplier;
+import org.material.managementservice.service.info.impl.supplier.baseprop.BasePropObtainServiceSupplier;
 import org.material.managementservice.service.info.impl.supplier.controlprop.ControlPropObtainServiceSupplier;
 import org.material.managementservice.service.info.impl.supplier.materialinfo.MaterialInfoObtainServiceSupplier;
 import org.slf4j.Logger;
@@ -42,6 +49,8 @@ public class InfoObtainServiceImpl implements InfoObtainService {
     private MaterialInfoObtainServiceSupplier materialInfoObtainServiceSupplier;
     @Autowired
     private ControlPropObtainServiceSupplier controlPropObtainServiceSupplier;
+    @Autowired
+    private BasePropObtainServiceSupplier basePropObtainServiceSupplier;
 
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
@@ -231,4 +240,104 @@ public class InfoObtainServiceImpl implements InfoObtainService {
         return result;
     }
 
+    /**
+     * 根据物料分类信息获取所有物料基本信息的函数
+     *
+     * @author cplayer
+     * @date 2019-03-02 05:50
+     * @param params 传上来的id
+     *
+     * @return org.material.managementfacade.model.responsemodel.MaterialInfoObtainByCategoryInfoResponse
+     *
+     */
+    @Override
+    public MaterialInfoObtainByCategoryInfoResponse getAllMaterialBaseByCategoryInfos (MaterialInfoObtainByCategoryInfoRequest params) {
+        MaterialBaseModel paramBase = new MaterialBaseModel();
+        MaterialCategoryModel paramCate = new MaterialCategoryModel();
+        paramBase.setMaterialCatId(params.getId());
+        paramCate.setId(params.getId());
+        List<MaterialBaseModel> materialBaseResult = generalMapper.getMaterialBaseWithMaterialBaseParams(paramBase);
+        List<MaterialCategoryModel> catResult = generalMapper.getMaterialCategoryWithMaterialCategoryParams(paramCate);
+        MaterialInfoObtainByCategoryInfoResponse result = new MaterialInfoObtainByCategoryInfoResponse();
+        result.setCatResult(catResult);
+        result.setMaterialBaseResult(materialBaseResult);
+        return result;
+    }
+
+    /**
+     * 根据物料分类id和物料名称获取所有物料信息的函数
+     *
+     * 信息数组对应编码如下：
+     * 采购和库存属性：5
+     * 计划类属性：6
+     * 销售类属性：7
+     * 质量类属性：8
+     * 财务类属性：9
+     * 全部基础信息：11
+     * （10空出来是为了和getMaterialInfoByParams接口的数据保持一致）
+     *
+     * @author cplayer
+     * @date 2019-03-02 06:13
+     * @param params 请求对应的参数，包括物料分类编码、名称以及需要获取的信息数组
+     *
+     * @return org.material.managementfacade.model.responsemodel.MaterialInfoObtainByCatCodeAndNameResponse
+     *
+     */
+    @Override
+    public MaterialInfoObtainByCatCodeAndNameResponse getMaterialInfoWithCatCodeAndCatName (MaterialInfoObtainByCatCodeAndNameRequest params) {
+        String catCode = params.getCode();
+        String catName = params.getName();
+        List<Integer> typeArr = params.getTypeArr();
+        int organizationId = 1;
+        // 先查找对应的物料分类id
+        MaterialCategoryModel param = new MaterialCategoryModel();
+        param.setCode(catCode);
+        MaterialCategoryModel searchResult = MaterialGeneral.getInitElementOrFirstElement(
+                generalMapper.getMaterialCategoryWithMaterialCategoryParams(param),
+                MaterialCategoryModel.class);
+        MaterialInfoObtainByCatCodeAndNameResponse result = new MaterialInfoObtainByCatCodeAndNameResponse();
+        if (searchResult.getId() != -1) {
+            // 说明找到了，继续处理
+            int catId = searchResult.getId();
+            logger.info("物料分类编码为" + catCode + "的记录对应的物料分类id为：" + catId);
+            for (Integer type : typeArr) {
+                // 若是全部基础信息
+                switch (type) {
+                    case 5:
+                        // 处理采购和库存属性
+                        result.setPurchaseAndStoreInfos(controlPropObtainServiceSupplier.getPurchaseAndStorePropertiesWithCatId(-1, organizationId, catId));
+                        break;
+                    case 6:
+                        // 处理计划类属性
+                        result.setPlanInfos(controlPropObtainServiceSupplier.getPlanPropertiesWithCatId(-1, organizationId, catId));
+                        break;
+                    case 7:
+                        // 处理销售类属性
+                        result.setSalesInfos(controlPropObtainServiceSupplier.getSalesPropertiesWithCatId(-1, organizationId, catId));
+                        break;
+                    case 8:
+                        // 处理质量类属性
+                        result.setQualifyInfos(controlPropObtainServiceSupplier.getQualityPropertiesWithCatId(-1, organizationId, catId));
+                        break;
+                    case 9:
+                        // 处理财务类属性
+                        result.setFinanceInfos(controlPropObtainServiceSupplier.getFinancePropertiesWithCatId(-1, organizationId, catId));
+                        break;
+                    case 11:
+                        List<MaterialBasePropModel> basePropList = basePropObtainServiceSupplier.getAllMaterialBasePropByCatId(catId);
+                        if (basePropList.size() == 0) {
+                            logger.info("待寻找的物料基本属性不存在！");
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return result;
+        } else {
+            logger.error(String.format("根据物料分类id和物料名称获取所有物料信息时，分类编码 = %s的记录不存在。", catCode));
+            result.setResultCode(MaterialInfoErrCode.notExistMaterialCateId);
+            return result;
+        }
+    }
 }

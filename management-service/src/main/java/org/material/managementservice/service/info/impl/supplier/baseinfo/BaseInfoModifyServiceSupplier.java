@@ -3,15 +3,13 @@ package org.material.managementservice.service.info.impl.supplier.baseinfo;
 import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
 import org.material.managementfacade.model.requestmodel.infomodify.MaterialBaseModifyRequest;
 import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
-import org.material.managementservice.general.MaterialErrCode;
+import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoModifyMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
 
 /**
  * @author cplayer on 2019-02-28 16:10
@@ -36,8 +34,8 @@ public class BaseInfoModifyServiceSupplier {
      * @date 2019-02-27 04:35
      * @param params 更新物料信息请求的参数
      *
-     * @return MaterialErrCode.successUpdateMaterialBase 代表成功
-     *         MaterialErrCode.failedUpdateMaterialBase 代表失败
+     * @return MaterialInfoErrCode.successUpdateMaterialBase 代表成功
+     *         MaterialInfoErrCode.failedUpdateMaterialBase 代表失败
      *
      */
     public int updateMaterialInfoForBaseData (MaterialInfoModifyRequest params) {
@@ -45,13 +43,13 @@ public class BaseInfoModifyServiceSupplier {
         // 先检查spuCode是否为空
         if (updateBaseDatas.getSpuCode() == null) {
             logger.error("更新物料基本信息过程中，spuCode为空！禁止的操作！");
-            return MaterialErrCode.failedUpdateMaterialBase;
+            return MaterialInfoErrCode.failedUpdateMaterialBase;
         }
         // 再检查是否只有一条spuCode记录
         int recordNum = infoModifyMapper.countBaseBySpuCode(updateBaseDatas.getSpuCode());
         if (recordNum > 1) {
             logger.error("更新物料基本信息过程中，spuCode为指定代码的记录有多条！不正确的库内数据！");
-            return MaterialErrCode.failedUpdateMaterialBase;
+            return MaterialInfoErrCode.failedUpdateMaterialBase;
         }
         // 转换成MaterialBaseModel
         MaterialBaseModel param = new MaterialBaseModel();
@@ -73,15 +71,15 @@ public class BaseInfoModifyServiceSupplier {
             // 此时返回的id应该为新增记录的id
             int id = param.getId();
             logger.info("新增物料基本信息成功，新增记录id = " + id);
-            return MaterialErrCode.successUpdateMaterialBase;
+            return MaterialInfoErrCode.successUpdateMaterialBase;
         } else {
             // 反之则更新
             int affectedRows = generalMapper.updateMaterialBaseWithMaterialBaseParams(param);
             // 检查受影响记录条数
             if (affectedRows <= 0) {
-                return MaterialErrCode.failedUpdateMaterialBase;
+                return MaterialInfoErrCode.failedUpdateMaterialBase;
             } else {
-                return MaterialErrCode.successUpdateMaterialBase;
+                return MaterialInfoErrCode.successUpdateMaterialBase;
             }
         }
     }

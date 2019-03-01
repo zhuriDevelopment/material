@@ -198,10 +198,10 @@ public class MaterialInfoObtainServiceSupplier {
      * 根据参数中的spuCode获取所有物料基本属性的函数
      *
      * 基本属性包含以下四种：
-     * 1、关键属性，type = 1
-     * 2、非关键属性，type = 2
-     * 3、批号属性，type = 3
-     * 4、规格属性，type = 4
+     * 1、关键属性，category = 1
+     * 2、非关键属性，category = 2
+     * 3、批号属性，category = 3
+     * 4、规格属性，category = 4
      *
      * @author cplayer
      * @date 2019-02-26 16:37

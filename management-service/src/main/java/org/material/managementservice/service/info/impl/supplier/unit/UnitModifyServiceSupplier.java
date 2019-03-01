@@ -3,7 +3,7 @@ package org.material.managementservice.service.info.impl.supplier.unit;
 import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
 import org.material.managementfacade.model.requestmodel.infomodify.MaterialUnitModifyRequestElement;
 import org.material.managementfacade.model.tablemodel.MaterialUnitModel;
-import org.material.managementservice.general.MaterialErrCode;
+import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoModifyMapper;
 import org.slf4j.Logger;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author cplayer on 2019-03-01 22:21.
@@ -49,8 +48,8 @@ public class UnitModifyServiceSupplier {
      *
      * @param defaultUnitId 默认计量单位id
      *
-     * @return MaterialErrCode.successUpdateModifyUnit 成功更新
-     *         MaterialErrCode.failedUpdateModifyUnit 更新失败
+     * @return MaterialInfoErrCode.successUpdateModifyUnit 成功更新
+     *         MaterialInfoErrCode.failedUpdateModifyUnit 更新失败
      *
      */
     public int updateUnitWithUnitList (List<MaterialUnitModifyRequestElement> updateList,
@@ -64,9 +63,9 @@ public class UnitModifyServiceSupplier {
             }
         }
         if (updateCount == updateList.size()) {
-            return MaterialErrCode.successUpdateModifyUnit;
+            return MaterialInfoErrCode.successUpdateModifyUnit;
         } else {
-            return MaterialErrCode.failedUpdateModifyUnit;
+            return MaterialInfoErrCode.failedUpdateModifyUnit;
         }
     }
 
@@ -81,8 +80,8 @@ public class UnitModifyServiceSupplier {
      *
      * @param defaultUnitId 默认计量单位id
      *
-     * @return MaterialErrCode.successUpdateInsertUnit 新增成功
-     *         MaterialErrCode.failedUpdateInsertUnit 新增失败
+     * @return MaterialInfoErrCode.successUpdateInsertUnit 新增成功
+     *         MaterialInfoErrCode.failedUpdateInsertUnit 新增失败
      *
      */
     public int insertUnitWithUnitList (List<MaterialUnitModifyRequestElement> insertList,
@@ -96,9 +95,9 @@ public class UnitModifyServiceSupplier {
             }
         }
         if (insertCount == insertList.size()) {
-            return MaterialErrCode.successUpdateInsertUnit;
+            return MaterialInfoErrCode.successUpdateInsertUnit;
         } else {
-            return MaterialErrCode.failedUpdateInsertUnit;
+            return MaterialInfoErrCode.failedUpdateInsertUnit;
         }
     }
 
@@ -109,8 +108,8 @@ public class UnitModifyServiceSupplier {
      * @date 2019-03-01 23:10
      * @param deleteList 待删除的物料计量单位信息列表
      *
-     * @return MaterialErrCode.successUpdateDeleteUnit 删除成功
-     *         MaterialErrCode.failedUpdateDeleteUnit 删除成功
+     * @return MaterialInfoErrCode.successUpdateDeleteUnit 删除成功
+     *         MaterialInfoErrCode.failedUpdateDeleteUnit 删除成功
      *
      */
     public int deleteUnitWithUnitList (List<MaterialUnitModel> deleteList) {
@@ -121,9 +120,9 @@ public class UnitModifyServiceSupplier {
             }
         }
         if (deleteCount == deleteList.size()) {
-            return MaterialErrCode.successUpdateDeleteUnit;
+            return MaterialInfoErrCode.successUpdateDeleteUnit;
         } else {
-            return MaterialErrCode.failedUpdateDeleteUnit;
+            return MaterialInfoErrCode.failedUpdateDeleteUnit;
         }
     }
 
@@ -134,8 +133,8 @@ public class UnitModifyServiceSupplier {
      * @date 2019-03-01 22:25
      * @param params 更新物料信息请求的参数
      *
-     * @return MaterialErrCode.successUpdateUnit 更新成功
-     *         MaterialErrCode.failedUpdateUnit 更新失败
+     * @return MaterialInfoErrCode.successUpdateUnit 更新成功
+     *         MaterialInfoErrCode.failedUpdateUnit 更新失败
      *
      */
     public int updateMaterialInfoForUnitData (MaterialInfoModifyRequest params) {

@@ -67,7 +67,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
         } else {
             // 物料类型，助记码，SPU名称，物料描述，得到一个SPU Code List
             String[] baseInfoKeyList = {"materialType", "mnemonic", "spuName", "description"};
-            String[] baseInfoTargetList = {"type", "mnemonic", "spuName", "description"};
+            String[] baseInfoTargetList = {"category", "mnemonic", "spuName", "description"};
             Map<String, Object> baseInfoMap = materialInfoServiceImplSupplier.splitBaseInfoParams(params, baseInfoKeyList, baseInfoTargetList);
             List<String> spuCodeFromBase = null;
             if (baseInfoMap.size() > 0) {

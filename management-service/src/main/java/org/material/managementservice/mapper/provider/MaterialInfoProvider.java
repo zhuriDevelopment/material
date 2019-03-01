@@ -10,7 +10,7 @@ import org.apache.ibatis.jdbc.SQL;
 public class MaterialInfoProvider {
     // ---------------------------------------- 获取物料信息部分 ----------------------------------------
     public String getBaseInfoWithBaseInfoParams (Map<String, Object> params) {
-        String[] keyList = {"id", "spuCode", "mnemonic", "spuName", "description", "type", "designCode", "designVersion", "defaultUnitId", "source",
+        String[] keyList = {"id", "spuCode", "mnemonic", "spuName", "description", "category", "designCode", "designVersion", "defaultUnitId", "source",
                 "usage", "note", "materialCatId"};
         return new SQL() {
             {
@@ -102,7 +102,7 @@ public class MaterialInfoProvider {
     }
 
     public String getMaterialBasePropWithMaterialBasePropParams (Map<String, Object> params) {
-        String[] keyList = {"id", "materialCatId", "type", "label", "name", "range", "sort"};
+        String[] keyList = {"id", "materialCatId", "category", "label", "name", "range", "sort"};
         return new SQL() {
             {
                 SELECT("*");
@@ -147,7 +147,7 @@ public class MaterialInfoProvider {
     }
 
     public String getCtrlPropWithCtrlPropParams (Map<String, Object> params) {
-        String[] keyList = {"id", "type", "name", "label"};
+        String[] keyList = {"id", "category", "name", "label"};
         return new SQL() {
             {
                 SELECT("*");
@@ -198,7 +198,7 @@ public class MaterialInfoProvider {
                 INSERT_INTO("materialBase");
                 VALUES("spuCode", "'" + spuCode + "'");
                 VALUES("spuName", "spuName");
-                VALUES("type", "1");
+                VALUES("category", "1");
                 VALUES("defaultUnitId", "0");
                 VALUES("materialCatId", "0");
             }
@@ -467,7 +467,7 @@ public class MaterialInfoProvider {
     // ---------------------------------------- 添加物料基本属性部分 ----------------------------------------
     public String insertMaterialBasePropWithMaterialBasePropParams (Map<String, Object> params) {
         String[] stringList = {"label", "name", "valueRange"};
-        String[] intList = {"materialCatId", "type", "sort"};
+        String[] intList = {"materialCatId", "category", "sort"};
         return new SQL() {
             {
                 INSERT_INTO("materialBaseProp");
