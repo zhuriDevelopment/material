@@ -71,4 +71,22 @@ public class MaterialInfoErrCode {
 
     // 根据物料分类id和物料名称获取所有物料信息时，不存在对应的物料分类id
     public static Integer notExistMaterialCateId = 0;
+
+    // 根据物料分类id和物料名称更新物料信息，参数错误
+    public static Integer errorParamInUpdatingInfoWithCatIdAndName = 0;
+    // 根据物料分类id和物料名称更新物料信息，没有对应的物料分类信息
+    public static Integer notFoundCategoryInUpdatingInfoWithCatIdAndName = -1;
+    // 根据物料分类id和物料名称更新物料信息，更新基本属性成功
+    public static Integer successUpdateMaterialBasePropWithCatIdAndName = 0;
+    // 根据物料分类id和物料名称更新物料信息，更新基本属性失败
+    public static Integer failedUpdateMaterialBasePropWithCatIdAndName = 0;
+
+    // 根据物料分类id、属性类别以及待更新属性值更新物料控制属性成功
+    public static Integer successUpdateControlPropertyByCatIdAndTypeAndValue = 1;
+    // 根据物料分类id、属性类别以及待更新属性值更新物料控制属性失败
+    public static Integer failedUpdateControlPropertyByCatIdAndTypeAndValue = 1;
+    // 提交上来的物料控制属性分类未找到
+    public static Integer notFoundControlPropertyType = -1;
+    // 提交上来的物料控制属性名称未找到
+    public static Integer notFoundControlPropertyName = -2;
 }

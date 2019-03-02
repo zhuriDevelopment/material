@@ -1,6 +1,12 @@
 package org.material.managementservice.service.info.impl.supplier.controlprop;
 
+import org.material.managementfacade.model.propertymodel.finance.FinanceList;
+import org.material.managementfacade.model.propertymodel.plan.PlanList;
+import org.material.managementfacade.model.propertymodel.purchaseandstore.PurchaseAndStoreList;
+import org.material.managementfacade.model.propertymodel.quality.QualityList;
+import org.material.managementfacade.model.propertymodel.sales.SalesList;
 import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
+import org.material.managementfacade.model.requestmodel.infomodify.InfoModifyByCatCodeAndNameControlPropRequest;
 import org.material.managementfacade.model.requestmodel.infomodify.MaterialControlPropModifyRequestElement;
 import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialCtrlPropModel;
@@ -17,9 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author cplayer on 2019-02-28 17:27
@@ -34,6 +38,16 @@ public class ControlPropModifyServiceSupplier {
     private GeneralMapper generalMapper;
     @Autowired
     private InfoModifyMapper infoModifyMapper;
+    @Autowired
+    private PurchaseAndStoreList purchaseAndStoreList;
+    @Autowired
+    private PlanList planList;
+    @Autowired
+    private SalesList salesList;
+    @Autowired
+    private QualityList qualityList;
+    @Autowired
+    private FinanceList financeList;
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
     /**
@@ -165,5 +179,113 @@ public class ControlPropModifyServiceSupplier {
             updateResult = MaterialInfoErrCode.successUpdateControlProp;
         }
         return updateResult;
+    }
+
+
+    /**
+     * 根据控制属性类别、组织编码，物料分类id，属性名和属性值更新对应控制属性的函数
+     *
+     * @author cplayer
+     * @date 2019-03-02 20:57
+     * @param type 控制属性类别
+     *
+     * @param organizationCode 组织编码
+     *
+     * @param catId 物料分类id
+     *
+     * @param name 属性名
+     *
+     * @param value 属性值
+     *
+     * @return MaterialInfoErrCode.notFoundControlPropertyType 提交上来的物料控制属性分类未找到
+     *         MaterialInfoErrCode.notFoundControlPropertyName 提交上来的物料控制属性名称未找到
+     *         任意正值 更新成功
+     *
+     */
+    public int updateControlPropertyByCatIdAndTypeAndDatas (int type, String organizationCode, int catId, String name, String value) {
+        MaterialCtrlPropValVerModel varParam = new MaterialCtrlPropValVerModel();
+        varParam.setMaterialCatId(catId);
+        varParam.setSpuCode(MaterialGeneral.generalSpuCode);
+        varParam.setOrganizationCode(organizationCode);
+        List<MaterialCtrlPropValVerModel> ctrlVerResult = generalMapper.getCtrlPropValVerWithCtrlPropValVerParams(varParam);
+        // 需要确保结果只有一个版本id，若有多个，取第一个版本id
+        int versionId = MaterialGeneral.getInitElementOrFirstElement(ctrlVerResult, MaterialCtrlPropValVerModel.class).getId();
+        // 查找控制属性名对应的id
+        MaterialCtrlPropModel propParam = new MaterialCtrlPropModel();
+        propParam.setName(name);
+        List<MaterialCtrlPropModel> ctrlPropResult = generalMapper.getCtrlPropWithCtrlPropParams(propParam);
+        // 同样取第一个控制属性id
+        int ctrlPropId = MaterialGeneral.getInitElementOrFirstElement(ctrlPropResult, MaterialCtrlPropModel.class).getId();
+        String[] nameList;
+        switch (type) {
+            case 5:
+                // 采购和库存属性：5
+                nameList = purchaseAndStoreList.getPurchaseAndStoreList();
+                break;
+            case 6:
+                // 计划类属性：6
+                nameList = planList.getPlanList();
+                break;
+            case 7:
+                // 销售类属性：7
+                nameList = salesList.getSalesList();
+                break;
+            case 8:
+                // 质量类属性：8
+                nameList = qualityList.getQualityList();
+                break;
+            case 9:
+                // 财务类属性：9
+                nameList = financeList.getFinanceList();
+                break;
+            default:
+                return MaterialInfoErrCode.notFoundControlPropertyType;
+        }
+        // 若含有对应的属性名
+        if (MaterialGeneral.checkList(nameList, name)) {
+            return infoModifyMapper.updateCtrlPropWithCtrlPropParams(versionId, ctrlPropId, value);
+        } else {
+            return MaterialInfoErrCode.notFoundControlPropertyName;
+        }
+    }
+
+    /**
+     * 根据物料分类id待更新属性值更新物料控制属性的功能函数
+     *
+     * @author cplayer
+     * @date 2019-03-02 20:34
+     * @param updateDatas 待更新的属性值
+     *
+     * @param catId 物料分类id
+     *
+     * @return MaterialInfoErrCode.failedUpdateControlPropertyByCatIdAndTypeAndValue 更新失败
+     *         MaterialInfoErrCode.successUpdateControlPropertyByCatIdAndTypeAndValue 更新成功
+     *
+     */
+    public int updateControlPropertyByCatIdAndTypeAndValue (
+            List<InfoModifyByCatCodeAndNameControlPropRequest> updateDatas,
+            int catId) {
+        boolean hasFailed = false;
+        for (InfoModifyByCatCodeAndNameControlPropRequest element : updateDatas) {
+            int propertyType = element.getPropertyType();
+            String organizationCode = element.getOrganizationCode();
+            // 若没有提供组织id，则将组织id设为1，代表通用的组织编码
+            if (organizationCode == null) {
+                organizationCode = MaterialGeneral.generalOrganizationCode;
+            }
+            for (MaterialControlPropModifyRequestElement dataEle : element.getCtrPropList()) {
+                String name = dataEle.getName();
+                String value = dataEle.getValue();
+                int updateEleRes = updateControlPropertyByCatIdAndTypeAndDatas(propertyType, organizationCode, catId, name, value);
+                if (updateEleRes <= 0) {
+                    hasFailed = true;
+                }
+            }
+        }
+        if (hasFailed) {
+            return MaterialInfoErrCode.failedUpdateControlPropertyByCatIdAndTypeAndValue;
+        } else {
+            return MaterialInfoErrCode.successUpdateControlPropertyByCatIdAndTypeAndValue;
+        }
     }
 }

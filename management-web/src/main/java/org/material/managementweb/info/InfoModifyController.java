@@ -2,13 +2,19 @@ package org.material.managementweb.info;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.material.managementfacade.model.requestmodel.MaterialInfoModifyByCatCodeAndNameRequest;
 import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
+import org.material.managementfacade.model.responsemodel.MaterialInfoModifyByCatCodeAndNameResponse;
 import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.service.info.impl.InfoModifyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author cplayer on 2019-02-25.
@@ -32,5 +38,18 @@ public class InfoModifyController {
             return MaterialInfoErrCode.errCodeClassIsEmpty;
         }
         return infoModifyService.updateMaterialInfo(params);
+    }
+
+    @PostMapping(value = "/updateMaterialInfoWithCatCodeAndCatName")
+    @ApiOperation(value = "根据物料分类id和物料名称更新物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public MaterialInfoModifyByCatCodeAndNameResponse updateMaterialInfoWithCatCodeAndCatName
+            (@RequestBody @NotNull MaterialInfoModifyByCatCodeAndNameRequest params) {
+        if (MaterialGeneral.isContainsEmpty(params)) {
+            MaterialInfoModifyByCatCodeAndNameResponse result = new MaterialInfoModifyByCatCodeAndNameResponse();
+            result.setErrCode(MaterialInfoErrCode.errorParamInUpdatingInfoWithCatIdAndName);
+            return result;
+        } else {
+            return infoModifyService.updateMaterialInfoWithCatCodeAndCatName(params);
+        }
     }
 }

@@ -415,13 +415,13 @@
                 #{designVersion},
             </if>
             <if test="defaultUnitId &gt;= 0">
-                #{<![CDATA[defaultUnitId]]>},
+                #{defaultUnitId},
             </if>
             <if test="source != null">
-                #{<![CDATA[source]]>},
+                #{source},
             </if>
             <if test="usage != null">
-                #{<![CDATA[usage]]>},
+                #{usage},
             </if>
             <if test="note != null">
                 #{note},

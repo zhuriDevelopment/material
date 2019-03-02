@@ -141,5 +141,81 @@
         values (#{spuCode}, #{unitId}, #{relatedId}, #{conversionFactor}, #{sort})
     </insert>
 
+    <!--根据id从物料基本属性版本值表中删除对应记录-->
+    <delete id="deleteAllMaterialBasePropValWithMaterialBasePropId"
+            parameterType="int">
+        delete from materialBasePropVal where id = #{id}
+    </delete>
 
+    <!--根据id从物料基本属性表中删除对应记录-->
+    <delete id="deleteAllMaterialBasePropWithCatId"
+            parameterType="int">
+        delete from materialBaseProp where materialCatId = #{catId}
+    </delete>
+
+    <!--materialBaseProp表的动态列名-->
+    <sql id="MaterialBasePropKey">
+        <trim suffixOverrides=",">
+            <if test="id &gt;= 0">
+                id,
+            </if>
+            <if test="materialCatId &gt;= 0">
+                materialCatId,
+            </if>
+            <if test="type &gt;= 0">
+                type,
+            </if>
+            <if test="label != null">
+                label,
+            </if>
+            <if test="name != null">
+                <![CDATA[name]]>,
+            </if>
+            <if test="valueRange != null">
+                valueRange,
+            </if>
+            <if test="sort &gt;= 0">
+                sort,
+            </if>
+        </trim>
+    </sql>
+    <!--materialBaseProp表的动态列名，用于values中-->
+    <sql id="MaterialBasePropValue">
+        <trim suffixOverrides=",">
+            <if test="id &gt;= 0">
+                #{id},
+            </if>
+            <if test="materialCatId &gt;= 0">
+                #{materialCatId},
+            </if>
+            <if test="type &gt;= 0">
+                #{type},
+            </if>
+            <if test="label != null">
+                #{label},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="valueRange != null">
+                #{valueRange},
+            </if>
+            <if test="sort &gt;= 0">
+                #{sort},
+            </if>
+        </trim>
+    </sql>
+    <!--向物料基本属性表中插入数据-->
+    <insert id="insertMaterialBasePropWithMaterialBasePropParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialBasePropModel"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into materialBaseProp(<include refid="MaterialBasePropKey"/>)
+        values (<include refid="MaterialBasePropValue"/>)
+    </insert>
+
+    <!--向物料控制属性值表中插入数据-->
+    <update id="updateCtrlPropWithCtrlPropParams">
+        update materialCtrlPropVal set value = #{value} where versionId = #{versionId} and materialCtrlPropId = #{materialCtrlPropId}
+    </update>
 </mapper>

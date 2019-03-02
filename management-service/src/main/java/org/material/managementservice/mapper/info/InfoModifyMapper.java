@@ -38,4 +38,12 @@ public interface InfoModifyMapper {
     int updateUnitByParams (MaterialUnitModel param);
 
     int insertUnitByParams (MaterialUnitModel param);
+
+    int deleteAllMaterialBasePropValWithMaterialBasePropId (int id);
+
+    int deleteAllMaterialBasePropWithCatId (int catId);
+
+    int insertMaterialBasePropWithMaterialBasePropParams (MaterialBasePropModel param);
+
+    int updateCtrlPropWithCtrlPropParams (int versionId, int materialCtrlPropId, String value);
 }

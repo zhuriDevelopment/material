@@ -1,13 +1,22 @@
 package org.material.managementservice.service.info.impl;
 
+import org.material.managementfacade.model.requestmodel.MaterialInfoModifyByCatCodeAndNameRequest;
 import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
+import org.material.managementfacade.model.responsemodel.MaterialInfoModifyByCatCodeAndNameResponse;
+import org.material.managementfacade.model.tablemodel.MaterialCategoryModel;
 import org.material.managementfacade.service.info.InfoModifyService;
+import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.general.MaterialInfoErrCode;
+import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.service.info.impl.supplier.InfoModifyServiceSupplier;
+import org.material.managementservice.service.info.impl.supplier.baseprop.BasePropModifyServiceSupplier;
+import org.material.managementservice.service.info.impl.supplier.controlprop.ControlPropModifyServiceSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author cplayer on 2019-02-25.
@@ -18,22 +27,15 @@ import org.springframework.stereotype.Component;
 public class InfoModifyServiceImpl implements InfoModifyService {
     @Autowired
     private InfoModifyServiceSupplier infoModifyServiceSupplier;
+    @Autowired
+    private GeneralMapper generalMapper;
+    @Autowired
+    private BasePropModifyServiceSupplier basePropModifyServiceSupplier;
+    @Autowired
+    private ControlPropModifyServiceSupplier controlPropModifyServiceSupplier;
 
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
-    /*
-        物料基本信息：1
-        物料定义：2
-        SKU定义：3
-        附件管理：4 （依赖于物料基本信息Id）
-        采购和库存属性：5
-        计划类属性：6
-        销售类属性：7
-        质量类属性：8
-        财务类属性：9
-        计量单位：10
-        规格信息：11
-    */
     /**
      * 更新物料信息的函数
      *
@@ -107,4 +109,43 @@ public class InfoModifyServiceImpl implements InfoModifyService {
         }
         return result;
     };
+
+    /**
+     * 根据物料分类编码、物料名称以及待更新的数据更新物料信息的实现函数
+     *
+     * @author cplayer
+     * @date 2019-03-02 18:03
+     * @param params 更新物料信息请求的参数
+     *
+     * @return org.material.managementfacade.model.responsemodel.MaterialInfoModifyByCatCodeAndNameResponse
+     *
+     */
+    @Override
+    public MaterialInfoModifyByCatCodeAndNameResponse updateMaterialInfoWithCatCodeAndCatName
+            (MaterialInfoModifyByCatCodeAndNameRequest params) {
+        MaterialInfoModifyByCatCodeAndNameResponse result = new MaterialInfoModifyByCatCodeAndNameResponse();
+        // 获取物料分类id
+        MaterialCategoryModel cateParam = new MaterialCategoryModel();
+        cateParam.setCode(params.getCatCode());
+        List<MaterialCategoryModel> materialBaseTmp = generalMapper.getMaterialCategoryWithMaterialCategoryParams(cateParam);
+        int catId = MaterialGeneral.getInitElementOrFirstElement(materialBaseTmp, MaterialCategoryModel.class).getId();
+        // 成功获取了物料分类id
+        if (catId != -1) {
+            logger.info("物料分类编码为" + params.getCatCode() + "的记录对应的物料分类id为：" + catId);
+            // 更新物料基本属性，并设置错误码
+            if (params.getBaseProps() != null) {
+                int basePropResult = basePropModifyServiceSupplier.updateMaterialBasePropByCatId(catId, params.getBaseProps());
+                result.setErrCodeInBaseProp(basePropResult);
+            }
+            // 更新物料控制属性
+            if (params.getCtrProps() != null) {
+                int ctrPropResult = controlPropModifyServiceSupplier.updateControlPropertyByCatIdAndTypeAndValue(params.getCtrProps(), catId);
+                result.setErrCodeInCtrProp(ctrPropResult);
+            }
+        } else {
+            // 返回不存在对应物料分类信息的错误码
+            result.setErrCode(MaterialInfoErrCode.notFoundCategoryInUpdatingInfoWithCatIdAndName);
+        }
+        return result;
+    }
 }

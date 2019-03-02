@@ -1,6 +1,8 @@
 package org.material.managementfacade.service.info;
 
+import org.material.managementfacade.model.requestmodel.MaterialInfoModifyByCatCodeAndNameRequest;
 import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
+import org.material.managementfacade.model.responsemodel.MaterialInfoModifyByCatCodeAndNameResponse;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,4 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface InfoModifyService {
     int updateMaterialInfo (MaterialInfoModifyRequest params);
+
+    MaterialInfoModifyByCatCodeAndNameResponse updateMaterialInfoWithCatCodeAndCatName
+            (MaterialInfoModifyByCatCodeAndNameRequest params);
 }

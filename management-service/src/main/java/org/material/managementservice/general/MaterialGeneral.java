@@ -9,10 +9,36 @@ import java.util.List;
 /**
  * @author cplayer on 2019-02-25 02:56.
  * @version 1.0
- * 存放一些物料管理模块中的通用函数
+ * 存放一些物料管理模块中的通用函数以及通用配置
  */
 
 public class MaterialGeneral {
+
+    // 通用组织编码
+    public static String generalOrganizationCode = "-1";
+    // 通用spu编码
+    public static String generalSpuCode = "-1";
+
+    /**
+     * 泛型工具函数，判断一个数组内是否有需要的对象
+     *
+     * @author cplayer
+     * @date 2019-03-02 21:09
+     * @param eleList 待检查的元素数组
+     *
+     * @param key 需要判断是否存在的对象
+     *
+     * @return boolean
+     *
+     */
+    public static <T> boolean checkList (T[] eleList, T key) {
+        for (T ele : eleList) {
+            if (ele.equals(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * 通过反射来判断是否对象中含有空属性
