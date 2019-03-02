@@ -29,4 +29,13 @@ public interface InfoObtainMapper {
     List<MaterialSkuModel> getMaterialSkuWithSpuCode (String spuCode);
 
     List<MaterialUnitModel> getMaterialUnitWithSpuCode (String spuCode);
+
+    List<MaterialBasePropModel> getMaterialBasePropWithId (int id);
+
+    List<MaterialBasePropValModel> getMaterialBasePropValWithSpuCodeAndMatCode (String spuCode, String materialCode);
+
+    List<MaterialBasePropModel> getMaterialBasePropWithNameAndMatCatId (String name, int materialCatId);
+
+    List<MaterialBasePropValModel> getMaterialBasePropValWithSpuAndCatCodeAndPropId (String spuCode, String materialCode, int materialBasePropId);
+
 }

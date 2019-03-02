@@ -1,13 +1,8 @@
 package org.material.managementservice.service.info.impl;
 
-import org.material.managementfacade.model.requestmodel.BaseInfoRequest;
-import org.material.managementfacade.model.requestmodel.MaterialInfoObtainByCatCodeAndNameRequest;
-import org.material.managementfacade.model.requestmodel.MaterialInfoObtainByCategoryInfoRequest;
-import org.material.managementfacade.model.requestmodel.MaterialInfoRequest;
-import org.material.managementfacade.model.responsemodel.BaseInfoResponse;
+import org.material.managementfacade.model.requestmodel.*;
+import org.material.managementfacade.model.responsemodel.*;
 import org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoResponse;
-import org.material.managementfacade.model.responsemodel.MaterialInfoObtainByCatCodeAndNameResponse;
-import org.material.managementfacade.model.responsemodel.MaterialInfoObtainByCategoryInfoResponse;
 import org.material.managementfacade.model.tablemodel.*;
 import org.material.managementfacade.service.info.InfoObtainService;
 import org.material.managementservice.general.MaterialGeneral;
@@ -53,22 +48,6 @@ public class InfoObtainServiceImpl implements InfoObtainService {
     private BasePropObtainServiceSupplier basePropObtainServiceSupplier;
 
     private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
-
-    @Override
-    public Object test () {
-        List<MaterialBaseModel> list1 = new ArrayList<>();
-        MaterialBaseModel ele1 = new MaterialBaseModel();
-        MaterialBaseModel ele2 = new MaterialBaseModel();
-        MaterialBaseModel ele3 = new MaterialBaseModel();
-        ele1.setSpuCode("10001");
-        list1.add(ele1);
-        ele2.setSpuCode("10003");
-        list1.add(ele2);
-        List<MaterialBaseModel> list2 = new ArrayList<>();
-        ele3.setSpuCode("10001");
-        list2.add(ele3);
-        return infoObtainServiceSupplier.addAllListSpuCode(list1, list2);
-    }
 
     /**
      * 获取所有物料基本信息
@@ -339,5 +318,70 @@ public class InfoObtainServiceImpl implements InfoObtainService {
             result.setResultCode(MaterialInfoErrCode.notExistMaterialCateId);
             return result;
         }
+    }
+
+    /**
+     * 根据spu编码和物料编码获取物料基本属性的实现函数
+     *
+     * @author cplayer
+     * @date 2019-03-03 01:46
+     * @param params 请求对应的参数
+     *
+     * @return org.material.managementfacade.model.responsemodel.MaterialBaseObtainBySpuAndMatCodeResponse
+     *
+     */
+    @Override
+    public MaterialBaseObtainBySpuAndMatCodeResponse getMaterialBasePropsBySpuCodeAndMaterialCodes (MaterialBaseObtainBySpuAndMatCodeRequest params) {
+        MaterialBaseObtainBySpuAndMatCodeResponse response = new MaterialBaseObtainBySpuAndMatCodeResponse();
+        // 先找所有通用的属性，记录下所有对应属性的id
+        List<MaterialBasePropValModel> materialCommonBasePropResult = infoObtainMapper.getMaterialBasePropValWithSpuCodeAndMatCode(params.getSpuCode(), MaterialGeneral.generalMaterialCode);
+        Map<Integer, MaterialBasePropModel> commonBaseProps = new HashMap<>(16);
+        commonBaseProps.clear();
+        // 记录下所有通用基本属性的信息
+        for (MaterialBasePropValModel element : materialCommonBasePropResult) {
+            int id = element.getMaterialBasePropId();
+            List<MaterialBasePropModel> tmpResult = infoObtainMapper.getMaterialBasePropWithId(id);
+            MaterialBasePropModel baseProp = MaterialGeneral.getInitElementOrFirstElement(tmpResult, MaterialBasePropModel.class);
+            if (baseProp.getId() != -1) {
+                // 非空，必须保证只有一个
+                if (tmpResult.size() > 1) {
+                    logger.info("在查找id = " + id + "的物料控制属性记录时出现了多个记录，请检查数据库！");
+                }
+                if (baseProp.getType() == params.getPropertyType()) {
+                    commonBaseProps.put(id, tmpResult.get(0));
+                }
+            }
+        }
+        response.setBaseInfos(new ArrayList<>());
+        // 接下来处理每个物料编码的信息
+        for (String materialCode : params.getMaterialCodes()) {
+            // 获取单个物料编码的所有基本属性
+            MaterialBaseObtainBySpuAndMatCodeElement singleClass = basePropObtainServiceSupplier.getMateialBaseBySpuCodeAndSpecificMatCode(
+                    params,
+                    materialCode,
+                    commonBaseProps
+            );
+            response.getBaseInfos().add(singleClass);
+        }
+        response.setErrCode(MaterialInfoErrCode.successObtainBaseBySpuAndMatCode);
+        return response;
+    }
+
+    /**
+     * 根据物料分类id和属性类型获取物料基本属性的实现函数
+     *
+     * @author cplayer
+     * @date 2019-03-03 05:53
+     * @param params 请求对应的参数
+     *
+     * @return java.util.List<org.material.managementfacade.model.tablemodel.MaterialBasePropModel>
+     *
+     */
+    @Override
+    public List<MaterialBasePropModel> getMaterialBaseByCatIdAndType (BasePropObtainByCatIdAndTypeRequest params) {
+        MaterialBasePropModel param = new MaterialBasePropModel();
+        param.setMaterialCatId(params.getCatId());
+        param.setType(params.getPropertyType());
+        return generalMapper.getMaterialBasePropWithMaterialBasePropParams(param);
     }
 }

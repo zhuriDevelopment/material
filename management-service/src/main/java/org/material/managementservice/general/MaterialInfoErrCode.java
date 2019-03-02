@@ -89,4 +89,18 @@ public class MaterialInfoErrCode {
     public static Integer notFoundControlPropertyType = -1;
     // 提交上来的物料控制属性名称未找到
     public static Integer notFoundControlPropertyName = -2;
+
+    // 根据spu编码和物料编码获取物料基本属性，参数不合法
+    public static Integer invalidParamWhenObtainBaseBySpuAndMatCode = -1;
+    // 根据spu编码和物料编码获取物料基本属性成功
+    public static Integer successObtainBaseBySpuAndMatCode = 1;
+    // 根据spu编码和物料编码获取物料基本属性失败
+    public static Integer failedObtainBaseBySpuAndMatCode = 0;
+
+    // 根据spu编码和物料编码更新物料基本属性成功
+    public static Integer successUpdateMaterialBaseWithSpuAndCatCode = 1;
+    // 根据spu编码和物料编码更新物料基本属性失败
+    public static Integer failedUpdateMaterialBaseWithSpuAndCatCode = 0;
+    // 给定的spu编码不合法或者没有对应记录
+    public static Integer invalidOrNotFoundSpuCode = -2;
 }

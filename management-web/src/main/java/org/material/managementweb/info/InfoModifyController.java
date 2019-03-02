@@ -2,6 +2,7 @@ package org.material.managementweb.info;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.material.managementfacade.model.requestmodel.MaterialBaseModifyBySpuAndMatCodeRequest;
 import org.material.managementfacade.model.requestmodel.MaterialInfoModifyByCatCodeAndNameRequest;
 import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
 import org.material.managementfacade.model.responsemodel.MaterialInfoModifyByCatCodeAndNameResponse;
@@ -40,7 +41,7 @@ public class InfoModifyController {
         return infoModifyService.updateMaterialInfo(params);
     }
 
-    @PostMapping(value = "/updateMaterialInfoWithCatCodeAndCatName")
+    @PutMapping(value = "/updateMaterialInfoWithCatCodeAndCatName")
     @ApiOperation(value = "根据物料分类id和物料名称更新物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public MaterialInfoModifyByCatCodeAndNameResponse updateMaterialInfoWithCatCodeAndCatName
             (@RequestBody @NotNull MaterialInfoModifyByCatCodeAndNameRequest params) {
@@ -50,6 +51,16 @@ public class InfoModifyController {
             return result;
         } else {
             return infoModifyService.updateMaterialInfoWithCatCodeAndCatName(params);
+        }
+    }
+
+    @PutMapping(value = "/updateMaterialBasePropsBySpuCodeAndMaterialCodes")
+    @ApiOperation(value = "根据spu编码和物料编码更新物料基本属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public int updateMaterialBasePropsBySpuCodeAndMaterialCodes (@RequestBody @NotNull MaterialBaseModifyBySpuAndMatCodeRequest params) {
+        if (!MaterialGeneral.isContainsEmpty(params)) {
+            return MaterialInfoErrCode.failedUpdateMaterialBaseWithSpuAndCatCode;
+        } else {
+            return infoModifyService.updateMaterialBasePropsBySpuCodeAndMaterialCodes(params);
         }
     }
 }

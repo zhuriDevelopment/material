@@ -2,13 +2,12 @@ package org.material.managementweb.info;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.material.managementfacade.model.requestmodel.BaseInfoRequest;
-import org.material.managementfacade.model.requestmodel.MaterialInfoObtainByCatCodeAndNameRequest;
-import org.material.managementfacade.model.requestmodel.MaterialInfoObtainByCategoryInfoRequest;
-import org.material.managementfacade.model.requestmodel.MaterialInfoRequest;
+import org.material.managementfacade.model.requestmodel.*;
 import org.material.managementfacade.model.responsemodel.BaseInfoResponse;
+import org.material.managementfacade.model.responsemodel.MaterialBaseObtainBySpuAndMatCodeResponse;
 import org.material.managementfacade.model.responsemodel.MaterialInfoObtainByCatCodeAndNameResponse;
 import org.material.managementfacade.model.responsemodel.MaterialInfoObtainByCategoryInfoResponse;
+import org.material.managementfacade.model.tablemodel.MaterialBasePropModel;
 import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.service.info.impl.InfoObtainServiceImpl;
@@ -36,11 +35,6 @@ public class InfoObtainController {
 
     @Autowired
     private InfoObtainServiceImpl infoObtainService;
-
-    @GetMapping(value = "/test")
-    public Object test () {
-        return infoObtainService.test();
-    }
 
     @GetMapping(value = "/getAllBaseInfo")
     @ApiOperation(value = "获取所有的物料基本信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -87,6 +81,24 @@ public class InfoObtainController {
     @ApiOperation(value = "根据物料分类编码和物料分类名称获取所有物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public MaterialInfoObtainByCatCodeAndNameResponse getMaterialInfoWithCatCodeAndCatName (@RequestBody @NotNull MaterialInfoObtainByCatCodeAndNameRequest params) {
         return infoObtainService.getMaterialInfoWithCatCodeAndCatName(params);
+    }
+
+    @GetMapping(value = "/getMaterialBasePropsBySpuCodeAndMaterialCodes")
+    @ApiOperation(value = "根据spu编码和物料编码获取物料基本属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public MaterialBaseObtainBySpuAndMatCodeResponse getMaterialBasePropsBySpuCodeAndMaterialCodes (@RequestBody @NotNull MaterialBaseObtainBySpuAndMatCodeRequest params) {
+        if (MaterialGeneral.isContainsEmpty(params)) {
+            MaterialBaseObtainBySpuAndMatCodeResponse response = new MaterialBaseObtainBySpuAndMatCodeResponse();
+            response.setErrCode(MaterialInfoErrCode.invalidParamWhenObtainBaseBySpuAndMatCode);
+            return response;
+        } else {
+            return infoObtainService.getMaterialBasePropsBySpuCodeAndMaterialCodes(params);
+        }
+    }
+
+    @GetMapping(value = "/getMaterialBaseByCatIdAndType")
+    @ApiOperation(value = "根据物料分类id和属性类型获取物料基本属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<MaterialBasePropModel> getMaterialBaseByCatIdAndType(@RequestBody @NotNull BasePropObtainByCatIdAndTypeRequest params) {
+        return infoObtainService.getMaterialBaseByCatIdAndType(params);
     }
 
 }

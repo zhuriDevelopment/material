@@ -1,5 +1,6 @@
 package org.material.managementfacade.service.info;
 
+import org.material.managementfacade.model.requestmodel.MaterialBaseModifyBySpuAndMatCodeRequest;
 import org.material.managementfacade.model.requestmodel.MaterialInfoModifyByCatCodeAndNameRequest;
 import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
 import org.material.managementfacade.model.responsemodel.MaterialInfoModifyByCatCodeAndNameResponse;
@@ -16,4 +17,7 @@ public interface InfoModifyService {
 
     MaterialInfoModifyByCatCodeAndNameResponse updateMaterialInfoWithCatCodeAndCatName
             (MaterialInfoModifyByCatCodeAndNameRequest params);
+
+    int updateMaterialBasePropsBySpuCodeAndMaterialCodes
+            (MaterialBaseModifyBySpuAndMatCodeRequest params);
 }

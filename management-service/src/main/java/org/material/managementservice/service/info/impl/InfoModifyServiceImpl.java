@@ -1,13 +1,17 @@
 package org.material.managementservice.service.info.impl;
 
-import org.material.managementfacade.model.requestmodel.MaterialInfoModifyByCatCodeAndNameRequest;
-import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
+import org.material.managementfacade.model.requestmodel.*;
 import org.material.managementfacade.model.responsemodel.MaterialInfoModifyByCatCodeAndNameResponse;
+import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
+import org.material.managementfacade.model.tablemodel.MaterialBasePropModel;
+import org.material.managementfacade.model.tablemodel.MaterialBasePropValModel;
 import org.material.managementfacade.model.tablemodel.MaterialCategoryModel;
 import org.material.managementfacade.service.info.InfoModifyService;
 import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.mapper.general.GeneralMapper;
+import org.material.managementservice.mapper.info.InfoModifyMapper;
+import org.material.managementservice.mapper.info.InfoObtainMapper;
 import org.material.managementservice.service.info.impl.supplier.InfoModifyServiceSupplier;
 import org.material.managementservice.service.info.impl.supplier.baseprop.BasePropModifyServiceSupplier;
 import org.material.managementservice.service.info.impl.supplier.controlprop.ControlPropModifyServiceSupplier;
@@ -29,6 +33,10 @@ public class InfoModifyServiceImpl implements InfoModifyService {
     private InfoModifyServiceSupplier infoModifyServiceSupplier;
     @Autowired
     private GeneralMapper generalMapper;
+    @Autowired
+    private InfoModifyMapper infoModifyMapper;
+    @Autowired
+    private InfoObtainMapper infoObtainMapper;
     @Autowired
     private BasePropModifyServiceSupplier basePropModifyServiceSupplier;
     @Autowired
@@ -147,5 +155,72 @@ public class InfoModifyServiceImpl implements InfoModifyService {
             result.setErrCode(MaterialInfoErrCode.notFoundCategoryInUpdatingInfoWithCatIdAndName);
         }
         return result;
+    }
+
+    /**
+     * 根据spu编码和物料编码更新物料基本属性的实现函数
+     *
+     * @author cplayer
+     * @date 2019-03-03 05:10
+     * @param params 更新物料信息请求的参数
+     *
+     * @return MaterialInfoErrCode.successUpdateMaterialBaseWithSpuAndCatCode 更新成功
+     *         MaterialInfoErrCode.failedUpdateMaterialBaseWithSpuAndCatCode 更新失败
+     *
+     */
+    @Override
+    public int updateMaterialBasePropsBySpuCodeAndMaterialCodes
+            (MaterialBaseModifyBySpuAndMatCodeRequest params) {
+        int resultCode = MaterialInfoErrCode.successUpdateMaterialBaseWithSpuAndCatCode;
+        for (MaterialBaseModifyBySpuAndMatCodeUpdateProps element : params.getUpdateValues()) {
+            String materialCode = element.getMaterialCode();
+            for (MaterialBaseModifyBySpuAndMatCodeUpdatePropsDatas keyValue : element.getValueList()) {
+                String name = keyValue.getName();
+                String value = keyValue.getValue();
+                // spuCode, materialCode, name, value四个要素齐了
+                // 先根据name查找materialBasePropId
+                // 为此需要物料分类id
+                int materialCatId = MaterialGeneral.getInitElementOrFirstElement(
+                        infoObtainMapper.getBaseInfoWithSpuCode(params.getSpuCode()),
+                        MaterialBaseModel.class).getMaterialCatId();
+                if (materialCatId == -1) {
+                    // 说明没有对应的物料分类id
+                    logger.error(String.format("查找spuCode = %s的记录时出现错误。", params.getSpuCode()));
+                    resultCode = MaterialInfoErrCode.invalidOrNotFoundSpuCode;
+                    continue;
+                }
+                // 查找对应的物料基本属性id
+                List<MaterialBasePropModel> materialBasePropResult = infoObtainMapper.getMaterialBasePropWithNameAndMatCatId(name, materialCatId);
+                if (materialBasePropResult.size() > 0) {
+                    if (materialBasePropResult.size() > 1) {
+                        logger.warn(String.format("查找name = %s，materialCatId = %d的记录时出现多个记录，应该只有一条记录！", name, materialCatId));
+                    }
+                    int materialBasePropId = materialBasePropResult.get(0).getId();
+                    // 再查找已有的value
+                    List<MaterialBasePropValModel> materialBasePropValResult = infoObtainMapper
+                            .getMaterialBasePropValWithSpuAndCatCodeAndPropId(params.getSpuCode(), materialCode, materialBasePropId);
+                    if (materialBasePropResult.size() > 1) {
+                        logger.warn(String.format("查找spuCode = %s, materialCode = %s, materialBasePropId = %d的记录时出现多个记录，应该只有一条记录！",
+                                params.getSpuCode(), materialCode, materialBasePropId));
+                    }
+                    String originValue = materialBasePropValResult.get(0).getValue();
+                    // 再根据相同情况决定是否更新
+                    if (!originValue.equals(value)) {
+                        MaterialBasePropValModel propValParam = new MaterialBasePropValModel();
+                        propValParam.setSpuCode(params.getSpuCode());
+                        propValParam.setMaterialCode(materialCode);
+                        propValParam.setMaterialBasePropId(materialBasePropId);
+                        propValParam.setValue(value);
+                        int updateResult = infoModifyMapper.updateMaterialBasePropValByParams(propValParam);
+                        if (updateResult <= 0) {
+                            resultCode = MaterialInfoErrCode.failedUpdateMaterialBaseWithSpuAndCatCode;
+                        }
+                        logger.debug("更新记录spuCode = %s, materialCode = %s, materialBasePropId = %d, value = %s的返回值为：%d",
+                                params.getSpuCode(), materialCode, materialBasePropId, value, updateResult);
+                    }
+                }
+            }
+        }
+        return resultCode;
     }
 }

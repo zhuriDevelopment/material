@@ -50,4 +50,31 @@
         select * from materialUnit where spuCode = #{spuCode}
     </select>
 
+    <!--根据id从materialBaseProp表中提取数据-->
+    <select id="getMaterialBasePropWithId"
+            parameterType="int"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialBasePropModel">
+        select * from materialBaseProp where id = #{id}
+    </select>
+
+    <!--根据spu编码和物料编码从materialBasePropVal表中获取数据-->
+    <select id="getMaterialBasePropValWithSpuCodeAndMatCode"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialBasePropValModel">
+        select * from materialBasePropVal
+        where spuCode = #{spuCode} and materialCode = #{materialCode}
+    </select>
+
+    <!--根据物料名称和物料分类id从物料基本属性表中获取数据-->
+    <select id="getMaterialBasePropWithNameAndMatCatId"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialBasePropModel">
+        select * from materialBaseProp
+        where <![CDATA[name]]> = #{name} and materialCatId = #{materialCatId}
+    </select>
+
+    <!--根据spu编码、物料编码和基本属性id从物料基本属性值表中获取数据-->
+    <select id="getMaterialBasePropValWithSpuAndCatCodeAndPropId"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialBasePropValModel">
+        select * from materialBasePropVal
+        where spuCode = #{spuCode} and materialCode = #{materialCode} and materialBasePropId = #{materialBasePropId}
+    </select>
 </mapper>
