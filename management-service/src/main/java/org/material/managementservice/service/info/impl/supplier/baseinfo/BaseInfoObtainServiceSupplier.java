@@ -1,14 +1,14 @@
 package org.material.managementservice.service.info.impl.supplier.baseinfo;
 
-import org.material.managementfacade.model.responsemodel.BaseInfoResponse;
+import org.material.managementfacade.model.responsemodel.BaseInfoResp;
+import org.material.managementfacade.model.responsemodel.BaseInfoRespParams;
 import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialCategoryModel;
-import org.material.managementfacade.model.tablemodel.MaterialKeyPropModel;
 import org.material.managementfacade.model.tablemodel.UnitModel;
 import org.material.managementservice.general.MaterialGeneral;
+import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoObtainMapper;
-import org.material.managementservice.service.info.impl.supplier.InfoObtainServiceSupplier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,12 +37,13 @@ public class BaseInfoObtainServiceSupplier {
      * @date 2019-02-25 16:33
      * @param baseModels 待获取的基本信息列表
      *
-     * @return org.material.managementfacade.model.responsemodel.BaseInfoResponse
+     * @return org.material.managementfacade.model.responsemodel.BaseInfoRespParams
      *
      */
-    public BaseInfoResponse getBaseInfoAllParams (List<MaterialBaseModel> baseModels) {
-        BaseInfoResponse result = new BaseInfoResponse();
-        result.setBaseResult(baseModels);
+    public BaseInfoResp getBaseInfoAllParams (List<MaterialBaseModel> baseModels) {
+        BaseInfoResp result = new BaseInfoResp();
+        BaseInfoRespParams resultParams = new BaseInfoRespParams();
+        resultParams.setBaseResult(baseModels);
         // 物料分类信息
         List<MaterialCategoryModel> catResult = new ArrayList<>();
         // 物料计量单位信息
@@ -61,8 +62,10 @@ public class BaseInfoObtainServiceSupplier {
             catResult.add(MaterialGeneral.getInitElementOrFirstElement(tmp, MaterialCategoryModel.class));
             unitResult.add(MaterialGeneral.getInitElementOrFirstElement(tmpUnit, UnitModel.class));
         }
-        result.setCatResult(catResult);
-        result.setUnitResult(unitResult);
+        resultParams.setCatResult(catResult);
+        resultParams.setUnitResult(unitResult);
+        result.setResult(resultParams);
+        result.setErrCode(MaterialInfoErrCode.successObtainMaterialBase);
         return result;
     }
 }

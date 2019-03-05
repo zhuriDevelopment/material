@@ -9,7 +9,7 @@ import java.util.Date;
  * getBaseInfo接口的请求类
  */
 
-public class BaseInfoRequest {
+public class BaseInfoReq {
     private int materialCatId;
     private String materialName;
     private String skuCode;

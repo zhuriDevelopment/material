@@ -58,7 +58,7 @@ public class InfoObtainServiceImpl implements InfoObtainService {
      *
      */
     @Override
-    public BaseInfoResponse getAllBaseInfo () {
+    public BaseInfoResp getAllBaseInfo () {
         // 获取所有物料基本信息
         List<MaterialBaseModel> baseResult = infoObtainMapper.getAllBaseInfo();
         return baseInfoObtainServiceSupplier.getBaseInfoAllParams(baseResult);
@@ -85,11 +85,11 @@ public class InfoObtainServiceImpl implements InfoObtainService {
      *               设计版本
      *               来源
      *
-     * @return org.material.managementfacade.model.responsemodel.BaseInfoResponse
+     * @return org.material.managementfacade.model.responsemodel.BaseInfoRespParams
      *
      */
     @Override
-    public BaseInfoResponse getBaseInfoByParams (BaseInfoRequest params) {
+    public BaseInfoResp getBaseInfoByParams (BaseInfoReq params) {
         // 针对materialBase表，采取两步：
         // 第一步根据时间以外的标准筛选
         MaterialBaseModel param_first = new MaterialBaseModel();

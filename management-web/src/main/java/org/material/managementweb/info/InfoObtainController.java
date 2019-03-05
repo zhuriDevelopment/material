@@ -3,10 +3,7 @@ package org.material.managementweb.info;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.material.managementfacade.model.requestmodel.*;
-import org.material.managementfacade.model.responsemodel.BaseInfoResponse;
-import org.material.managementfacade.model.responsemodel.MaterialBaseObtainBySpuAndMatCodeResponse;
-import org.material.managementfacade.model.responsemodel.MaterialInfoObtainByCatCodeAndNameResponse;
-import org.material.managementfacade.model.responsemodel.MaterialInfoObtainByCategoryInfoResponse;
+import org.material.managementfacade.model.responsemodel.*;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropModel;
 import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.general.MaterialGeneral;
@@ -16,9 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author cplayer on 2019-02-25.
@@ -38,17 +33,19 @@ public class InfoObtainController {
 
     @GetMapping(value = "/getAllBaseInfo")
     @ApiOperation(value = "获取所有的物料基本信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public BaseInfoResponse getAllBaseInfo () {
+    public BaseInfoResp getAllBaseInfo () {
         return infoObtainService.getAllBaseInfo();
     }
 
     @GetMapping(value = "/getBaseInfo")
     @ApiOperation(value = "根据给定参数查询基础信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Object getBaseInfo (@RequestBody BaseInfoRequest params) {
+    public BaseInfoResp getBaseInfo (@RequestBody BaseInfoReq params) {
         // 参数必须非空！
         if (MaterialGeneral.isAllEmpty(params)) {
             // 否则传回空类错误码
-            return MaterialInfoErrCode.errCodeClassIsEmpty;
+            BaseInfoResp result = new BaseInfoResp();
+            result.setErrCode(MaterialInfoErrCode.errCodeClassIsEmpty);
+            return result;
         }
         // 若非空，返回正常结果
         return infoObtainService.getBaseInfoByParams(params);

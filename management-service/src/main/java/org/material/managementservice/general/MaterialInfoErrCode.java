@@ -10,6 +10,11 @@ public class MaterialInfoErrCode {
     // 传上来的类参数为空，一般用于参数为空的情况
     public static Integer errCodeClassIsEmpty = 0;
 
+    // 物料基本信息获取成功
+    public static Integer successObtainMaterialBase = 1;
+    // 物料基本信息获取失败
+    public static Integer failedObtainMaterialBase = 0;
+
     // 物料基本信息更新成功
     public static Integer successUpdateMaterialBase = 1;
     // 物料基本信息更新失败

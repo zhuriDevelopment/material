@@ -19,7 +19,7 @@ import java.util.List;
  *  第三个列表代表对应的单位信息，即unit表；
  */
 
-public class BaseInfoResponse {
+public class BaseInfoRespParams {
     private List<MaterialBaseModel> baseResult;
     private List<MaterialCategoryModel> catResult;
     private List<UnitModel> unitResult;
