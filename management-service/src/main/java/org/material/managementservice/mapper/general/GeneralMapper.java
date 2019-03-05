@@ -1,6 +1,8 @@
 package org.material.managementservice.mapper.general;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.material.managementfacade.model.tablemodel.*;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,7 +15,8 @@ import java.util.Map;
 * 物料通用Mapper类，本Mapper中存放着根据参数获取各数据表中数据的基本功能
 *
 */
-@Repository
+@Mapper
+@Component(value = "generalMapper")
 public interface GeneralMapper {
     List<MaterialBaseModel> getMaterialBaseWithMaterialBaseParams (MaterialBaseModel param);
 

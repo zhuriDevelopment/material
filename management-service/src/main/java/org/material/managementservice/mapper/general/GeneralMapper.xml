@@ -8,49 +8,49 @@
         select * from materialBase
         <where>
             <if test="id &gt;= 0">
-                id = #{id}
+                and id = #{id}
             </if>
             <if test="spuCode != null">
-                spuCode = #{spuCode}
+                and spuCode = #{spuCode}
             </if>
             <if test="mnemonic != null">
-                mnemonic = #{mnemonic}
+                and mnemonic = #{mnemonic}
             </if>
             <if test="spuName != null">
-                spuName = #{spuName}
+                and spuName = #{spuName}
             </if>
             <if test="description != null">
-                description = #{description}
+                and description = #{description}
             </if>
             <if test="type &gt;= 0">
-                type = #{type}
+                and type = #{type}
             </if>
             <if test="designCode != null">
-                designCode = #{designCode}
+                and designCode = #{designCode}
             </if>
             <if test="designVersion != null">
-                designVersion = #{designVersion}
+                and designVersion = #{designVersion}
             </if>
             <if test="defaultUnitId &gt;= 0">
-                defaultUnitId = #{defaultUnitId}
+                and defaultUnitId = #{defaultUnitId}
             </if>
             <if test="source != null">
-                source = #{source}
+                and source = #{source}
             </if>
             <if test="usage != null">
-                usage = #{usage}
+                and usage = #{usage}
             </if>
             <if test="note != null">
-                note = #{note}
+                and note = #{note}
             </if>
             <if test="materialCatId &gt;= 0">
-                materialCatId = #{materialCatId}
+                and materialCatId = #{materialCatId}
             </if>
             <if test="keyPropId &gt;= 0">
-                keyPropId = #{keyPropId}
+                and keyPropId = #{keyPropId}
             </if>
             <if test="createDate != null">
-                createDate = #{createDate}
+                and createDate = #{createDate}
             </if>
         </where>
     </select>
@@ -62,25 +62,25 @@
         select * from material
         <where>
             <if test="id &gt;= 0">
-                id = #{id}
+                and id = #{id}
             </if>
             <if test="spuCode != null">
-                spuCode = #{spuCode}
+                and spuCode = #{spuCode}
             </if>
             <if test="materialCode != null">
-                materialCode = #{materialCode}
+                and materialCode = #{materialCode}
             </if>
             <if test="materialName != null">
-                materialName = #{materialName}
+                and materialName = #{materialName}
             </if>
             <if test="oldMaterialCode != null">
-                oldMaterialCode = #{oldMaterialCode}
+                and oldMaterialCode = #{oldMaterialCode}
             </if>
             <if test="barCode != null">
-                barCode = #{barCode}
+                and barCode = #{barCode}
             </if>
             <if test="materialBaseId &gt;= 0">
-                materialBaseId = #{materialBaseId}
+                and materialBaseId = #{materialBaseId}
             </if>
         </where>
     </select>

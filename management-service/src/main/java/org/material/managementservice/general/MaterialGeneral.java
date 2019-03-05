@@ -88,6 +88,7 @@ public class MaterialGeneral {
             Class clazz = object.getClass();
             Field[] fields = clazz.getDeclaredFields();
             for (Field field : fields) {
+                field.setAccessible(true);
                 String name = field.getName();
                 if (field.get(object) != null) {
                     result = false;
@@ -124,5 +125,33 @@ public class MaterialGeneral {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * 判断传入的所有对象是否含有无效对象的函数
+     * Object以null作为无效，int以-1作为无效
+     *
+     * @author cplayer
+     * @date 2019-03-05 19:43
+     * @param params 参数数组
+     *
+     * @return true代表含有，false代表不含
+     *
+     */
+    public static boolean isAllEmptyParams (Object... params) {
+        boolean result = true;
+        for (Object object : params) {
+            if (object instanceof Integer) {
+                Integer temp = (Integer) object;
+                if (temp != -1) {
+                    result = false;
+                }
+            } else {
+                if (object != null) {
+                    result = false;
+                }
+            }
+        }
+        return result;
     }
 }

@@ -54,31 +54,31 @@
         delete from materialSku
         <where>
             <if test="spuCode != null">
-                where spuCode = #{spuCode}
+                and where spuCode = #{spuCode}
             </if>
             <if test="skuCode != null">
-                where skuCode = #{skuCode}
+                and where skuCode = #{skuCode}
             </if>
             <if test="skuName != null">
-                where skuName = #{skuName}
+                and where skuName = #{skuName}
             </if>
             <if test="materialCode != null">
-                where materialCode = #{materialCode}
+                and where materialCode = #{materialCode}
             </if>
             <if test="barCode != null">
-                where barCode = #{barCode}
+                and where barCode = #{barCode}
             </if>
             <if test="unitId &gt;= 0">
-                where unitId = #{unitId}
+                and where unitId = #{unitId}
             </if>
             <if test="purchasePrice &gt;= 0">
-                where purchasePrice = #{purchasePrice}
+                and where purchasePrice = #{purchasePrice}
             </if>
             <if test="sellingPrice &gt;= 0">
-                where sellingPrice = #{sellingPrice}
+                and where sellingPrice = #{sellingPrice}
             </if>
             <if test="description != null">
-                where description = #{description}
+                and where description = #{description}
             </if>
         </where>
     </delete>
@@ -89,16 +89,16 @@
         select * from materialCtrlPropValVer
         <where>
             <if test="spuCode != null">
-                where spuCode = #{spuCode}
+                and where spuCode = #{spuCode}
             </if>
             <if test="materialCatId &gt;= 0">
-                where materialCatId = #{materialCatId}
+                and where materialCatId = #{materialCatId}
             </if>
             <if test="organizationCode != null">
-                where organizationCode = #{organizationCode}
+                and where organizationCode = #{organizationCode}
             </if>
             <if test="timestamp != null">
-                where startDate &lt;= #{timestamp} and endDate &gt;= #{timestamp}
+                and where startDate &lt;= #{timestamp} and endDate &gt;= #{timestamp}
             </if>
         </where>
     </select>

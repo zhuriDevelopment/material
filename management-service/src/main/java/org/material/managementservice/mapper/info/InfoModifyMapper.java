@@ -1,6 +1,8 @@
 package org.material.managementservice.mapper.info;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.material.managementfacade.model.tablemodel.*;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
@@ -11,7 +13,8 @@ import java.util.List;
 * @version 1.0 
 * 物料信息修改Mapper类
 */
-@Repository
+@Mapper
+@Component(value = "infoModifyMapper")
 public interface InfoModifyMapper {
     int countBaseBySpuCode (String spuCode);
 

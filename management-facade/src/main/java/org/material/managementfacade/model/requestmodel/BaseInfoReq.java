@@ -20,6 +20,18 @@ public class BaseInfoReq {
     private String designVersion;
     private String source;
 
+    BaseInfoReq () {
+        this.materialCatId = -1;
+        this.materialName = null;
+        this.skuCode = null;
+        this.startDate = null;
+        this.endDate = null;
+        this.spuCode = null;
+        this.designCode = null;
+        this.designVersion = null;
+        this.source = null;
+    }
+
     public int getMaterialCatId () {
         return materialCatId;
     }

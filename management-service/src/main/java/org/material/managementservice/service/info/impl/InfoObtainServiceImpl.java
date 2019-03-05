@@ -93,19 +93,29 @@ public class InfoObtainServiceImpl implements InfoObtainService {
         // 针对materialBase表，采取两步：
         // 第一步根据时间以外的标准筛选
         MaterialBaseModel param_first = new MaterialBaseModel();
-        param_first.setMaterialCatId(params.getMaterialCatId());
-        param_first.setSpuCode(params.getSpuCode());
-        param_first.setDesignCode(params.getDesignCode());
-        param_first.setDesignVersion(params.getDesignVersion());
-        param_first.setSource(params.getSource());
-        List<MaterialBaseModel> baseModel_first = generalMapper.getMaterialBaseWithMaterialBaseParams(param_first);
+        List<MaterialBaseModel> baseModel_first;
+        if (!MaterialGeneral.isAllEmptyParams(params.getMaterialCatId(), params.getSpuCode(), params.getDesignCode(),
+                params.getSource())) {
+            param_first.setMaterialCatId(params.getMaterialCatId());
+            param_first.setSpuCode(params.getSpuCode());
+            param_first.setDesignCode(params.getDesignCode());
+            param_first.setDesignVersion(params.getDesignVersion());
+            param_first.setSource(params.getSource());
+            baseModel_first = generalMapper.getMaterialBaseWithMaterialBaseParams(param_first);
+        } else {
+            baseModel_first = null;
+        }
         // 第二步根据时间筛选
-        List<MaterialBaseModel> baseModel_second =
-                infoObtainMapper.getBaseInfoWithDateRange(params.getStartDate(), params.getEndDate());
+        List<MaterialBaseModel> baseModel_second;
+        if (!MaterialGeneral.isAllEmptyParams(params.getStartDate(), params.getEndDate())) {
+            baseModel_second = infoObtainMapper.getBaseInfoWithDateRange(params.getStartDate(), params.getEndDate());
+        } else {
+            baseModel_second = null;
+        }
         // 针对material表，根据物料名称获取spuCode，进而获取materialBase表信息
         // 若参数为空，则不考虑此步
         List<MaterialModel> materialModelList = null;
-        if (params.getMaterialName() != null) {
+        if (!MaterialGeneral.isAllEmptyParams(params.getMaterialName())) {
             MaterialModel paramMaterial = new MaterialModel();
             paramMaterial.setMaterialName(params.getMaterialName());
             materialModelList = generalMapper.getMaterialWithMaterialParams(paramMaterial);
@@ -113,7 +123,7 @@ public class InfoObtainServiceImpl implements InfoObtainService {
         // 针对materialSku表，根据sku编码获取spu编码，进而获取materialBase表信息
         // 若参数为空，则不考虑此步
         List<MaterialSkuModel> materialSkuModelList = null;
-        if (params.getSkuCode() != null) {
+        if (!MaterialGeneral.isAllEmptyParams(params.getSkuCode())) {
             MaterialSkuModel paramMaterialSku = new MaterialSkuModel();
             paramMaterialSku.setSkuCode(params.getSkuCode());
             materialSkuModelList = generalMapper.getMaterialSkuWithMaterialSkuParams(paramMaterialSku);

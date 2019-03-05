@@ -18,10 +18,10 @@
         select * from materialBase
         <where>
             <if test="startDate != null">
-                where createDate &gt;= #{startDate}
+                and createDate &gt;= #{startDate}
             </if>
             <if test="endDate != null">
-                where createDate &lt;= #{endDate}
+                and createDate &lt;= #{endDate}
             </if>
         </where>
     </select>
