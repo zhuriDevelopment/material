@@ -1,12 +1,6 @@
 package org.material.managementservice.service.info.impl.supplier.materialinfo;
 
-import org.material.managementfacade.model.propertymodel.ControlPropertyBean;
-import org.material.managementfacade.model.propertymodel.finance.FinanceList;
-import org.material.managementfacade.model.propertymodel.plan.PlanList;
-import org.material.managementfacade.model.propertymodel.purchaseandstore.PurchaseAndStoreList;
-import org.material.managementfacade.model.propertymodel.quality.QualityList;
-import org.material.managementfacade.model.propertymodel.sales.SalesList;
-import org.material.managementfacade.model.requestmodel.MaterialInfoRequest;
+import org.material.managementfacade.model.requestmodel.MatInfoReq;
 import org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoBasePropResponse;
 import org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoBasePropResponseClass;
 import org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoUnitResponse;
@@ -21,9 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author cplayer on 2019-02-25 21:22
@@ -51,7 +43,7 @@ public class MaterialInfoObtainServiceSupplier {
      * @return java.util.List<org.material.managementfacade.model.tablemodel.MaterialBaseModel>
      *
      */
-    public List<MaterialBaseModel> getMaterialInfoForBaseInfo (MaterialInfoRequest params) {
+    public List<MaterialBaseModel> getMaterialInfoForBaseInfo (MatInfoReq params) {
         return infoObtainMapper.getBaseInfoWithSpuCode(params.getSpuCode());
     }
     
@@ -65,7 +57,7 @@ public class MaterialInfoObtainServiceSupplier {
      * @return java.util.List<org.material.managementfacade.model.tablemodel.MaterialModel>
      *
      */
-    public List<MaterialModel> getMaterialInfoForMaterialInfo (MaterialInfoRequest params) {
+    public List<MaterialModel> getMaterialInfoForMaterialInfo (MatInfoReq params) {
         return infoObtainMapper.getMaterialWithSpuCode(params.getSpuCode());
     }
 
@@ -79,7 +71,7 @@ public class MaterialInfoObtainServiceSupplier {
      * @return java.util.List<org.material.managementfacade.model.tablemodel.MaterialSkuModel>
      *
      */
-    public List<MaterialSkuModel> getMaterialInfoForMaterialSkuInfo (MaterialInfoRequest params) {
+    public List<MaterialSkuModel> getMaterialInfoForMaterialSkuInfo (MatInfoReq params) {
         return infoObtainMapper.getMaterialSkuWithSpuCode(params.getSpuCode());
     }
 
@@ -93,7 +85,7 @@ public class MaterialInfoObtainServiceSupplier {
      * @return java.util.List<org.material.managementfacade.model.tablemodel.MaterialFilesModel>
      *
      */
-    public List<MaterialFilesModel> getMaterialInfoForFileInfo (MaterialInfoRequest params) {
+    public List<MaterialFilesModel> getMaterialInfoForFileInfo (MatInfoReq params) {
         // 附件功能待之后完善
         return null;
     }
@@ -108,7 +100,7 @@ public class MaterialInfoObtainServiceSupplier {
      * @return org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoUnitResponse
      *
      */
-    public MaterialInfoUnitResponse getMaterialInfoForUnitInfo (MaterialInfoRequest params) {
+    public MaterialInfoUnitResponse getMaterialInfoForUnitInfo (MatInfoReq params) {
         MaterialInfoUnitResponse result = null;
         // 先获取所有的物料基本信息记录，通过spuCode
         List<MaterialBaseModel> baseResult = infoObtainMapper.getBaseInfoWithSpuCode(params.getSpuCode());
@@ -162,7 +154,7 @@ public class MaterialInfoObtainServiceSupplier {
      * @return org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoStandardResponse
      *
      */
-    public MaterialInfoBasePropResponseClass getMaterialInfoForBasePropInfoWithType (MaterialInfoRequest params, int type) {
+    public MaterialInfoBasePropResponseClass getMaterialInfoForBasePropInfoWithType (MatInfoReq params, int type) {
         MaterialBasePropValModel paramVal = new MaterialBasePropValModel();
         // 将物料编码设置成-1，代表默认的属性值
         paramVal.setSpuCode(params.getSpuCode());
@@ -210,7 +202,7 @@ public class MaterialInfoObtainServiceSupplier {
      * @return org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoBasePropResponse
      *
      */
-    public MaterialInfoBasePropResponse getMaterialInfoForAllBasePropInfos (MaterialInfoRequest params) {
+    public MaterialInfoBasePropResponse getMaterialInfoForAllBasePropInfos (MatInfoReq params) {
         MaterialInfoBasePropResponse result = new MaterialInfoBasePropResponse();
         String spuCode = params.getSpuCode();
         // 获取所有基本属性，那么遍历四个种类

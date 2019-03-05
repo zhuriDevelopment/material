@@ -7,8 +7,8 @@ package org.material.managementfacade.model.responsemodel;
  */
 
 public class BaseInfoResp {
-    private BaseInfoRespParams result;
-    private int errCode;
+    private BaseInfoRespParams result = null;
+    private int errCode = -1;
 
     public BaseInfoRespParams getResult () {
         return result;

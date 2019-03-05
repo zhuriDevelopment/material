@@ -2,7 +2,8 @@ package org.material.managementfacade.service.info;
 
 import org.material.managementfacade.model.requestmodel.*;
 import org.material.managementfacade.model.responsemodel.*;
-import org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoResponse;
+import org.material.managementfacade.model.responsemodel.MaterialInfo.MatInfoResp;
+import org.material.managementfacade.model.responsemodel.MaterialInfo.MatInfoRespParams;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropModel;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public interface InfoObtainService {
 
     BaseInfoResp getBaseInfoByParams (BaseInfoReq params);
 
-    MaterialInfoResponse getMaterialInfoByParams (MaterialInfoRequest params);
+    MatInfoResp getMaterialInfoByParams (MatInfoReq params);
 
     MaterialInfoObtainByCategoryInfoResponse getAllMaterialBaseByCategoryInfos (MaterialInfoObtainByCategoryInfoRequest params);
 

@@ -15,6 +15,11 @@ public class MaterialInfoErrCode {
     // 物料基本信息获取失败
     public static Integer failedObtainMaterialBase = 0;
 
+    // 物料信息获取成功
+    public static Integer successObtainMaterialInfo = 1;
+    // 物料信息获取失败
+    public static Integer failedObtainMaterialInfo = 0;
+
     // 物料基本信息更新成功
     public static Integer successUpdateMaterialBase = 1;
     // 物料基本信息更新失败

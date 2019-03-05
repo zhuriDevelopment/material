@@ -8,7 +8,7 @@ import java.util.List;
  * getMaterialInfo的请求类
  */
 
-public class MaterialInfoRequest {
+public class MatInfoReq {
     private String spuCode;
     private List<Integer> typeArr;
     private Integer organizationId;

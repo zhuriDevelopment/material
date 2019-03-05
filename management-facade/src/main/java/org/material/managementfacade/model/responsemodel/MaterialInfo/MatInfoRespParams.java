@@ -8,10 +8,10 @@ import java.util.List;
 /**
  * @author cplayer on 2019-02-25 20:41
  * @version 1.0
- * getMaterialInfo方法的回复类
+ * getMaterialInfo方法的回复类中的参数
  */
 
-public class MaterialInfoResponse {
+public class MatInfoRespParams {
     private List<MaterialBaseModel> baseInfos;
     private List<MaterialModel> materialInfos;
     private List<MaterialSkuModel> skuInfos;

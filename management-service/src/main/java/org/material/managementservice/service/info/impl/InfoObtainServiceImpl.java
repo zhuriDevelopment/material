@@ -2,7 +2,8 @@ package org.material.managementservice.service.info.impl;
 
 import org.material.managementfacade.model.requestmodel.*;
 import org.material.managementfacade.model.responsemodel.*;
-import org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoResponse;
+import org.material.managementfacade.model.responsemodel.MaterialInfo.MatInfoResp;
+import org.material.managementfacade.model.responsemodel.MaterialInfo.MatInfoRespParams;
 import org.material.managementfacade.model.tablemodel.*;
 import org.material.managementfacade.service.info.InfoObtainService;
 import org.material.managementservice.general.MaterialGeneral;
@@ -163,12 +164,13 @@ public class InfoObtainServiceImpl implements InfoObtainService {
      * @date 2019-02-25 20:47
      * @param params 物料信息参数，详细定义见类
      *
-     * @return org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoResponse
+     * @return org.material.managementfacade.model.responsemodel.MaterialInfo.MatInfoRespParams
      *
      */
     @Override
-    public MaterialInfoResponse getMaterialInfoByParams (MaterialInfoRequest params) {
-        MaterialInfoResponse result = new MaterialInfoResponse();
+    public MatInfoResp getMaterialInfoByParams (MatInfoReq params) {
+        MatInfoResp response = new MatInfoResp();
+        MatInfoRespParams result = new MatInfoRespParams();
         for (int type : params.getTypeArr()) {
             switch (type) {
                 case 1:
@@ -226,7 +228,9 @@ public class InfoObtainServiceImpl implements InfoObtainService {
                     break;
             }
         }
-        return result;
+        response.setResult(result);
+        response.setErrCode(MaterialInfoErrCode.successObtainMaterialInfo);
+        return response;
     }
 
     /**

@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.material.managementfacade.model.requestmodel.*;
 import org.material.managementfacade.model.responsemodel.*;
+import org.material.managementfacade.model.responsemodel.MaterialInfo.MatInfoResp;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropModel;
 import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.general.MaterialGeneral;
@@ -53,9 +54,11 @@ public class InfoObtainController {
 
     @GetMapping(value = "/getMaterialInfo")
     @ApiOperation(value = "根据给定参数查询物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Object getMaterialInfo (@RequestBody MaterialInfoRequest params) {
+    public MatInfoResp getMaterialInfo (@RequestBody MatInfoReq params) {
         if (MaterialGeneral.isAllEmpty(params)) {
-            return MaterialInfoErrCode.errCodeClassIsEmpty;
+            MatInfoResp response = new MatInfoResp();
+            response.setErrCode(MaterialInfoErrCode.errCodeClassIsEmpty);
+            return response;
         }
         // 在没有权限的情况下，统一把组织编码固定下来，无论前端是否传了组织id
         params.setOrganizationId(1);

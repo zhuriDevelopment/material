@@ -6,7 +6,7 @@ import org.material.managementfacade.model.propertymodel.plan.PlanList;
 import org.material.managementfacade.model.propertymodel.purchaseandstore.PurchaseAndStoreList;
 import org.material.managementfacade.model.propertymodel.quality.QualityList;
 import org.material.managementfacade.model.propertymodel.sales.SalesList;
-import org.material.managementfacade.model.requestmodel.MaterialInfoRequest;
+import org.material.managementfacade.model.requestmodel.MatInfoReq;
 import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialCtrlPropModel;
 import org.material.managementfacade.model.tablemodel.MaterialCtrlPropValModel;
@@ -14,14 +14,11 @@ import org.material.managementfacade.model.tablemodel.MaterialCtrlPropValVerMode
 import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoObtainMapper;
-import org.material.managementservice.service.info.impl.supplier.InfoObtainServiceSupplier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author cplayer on 2019-02-26 22:58
@@ -175,7 +172,7 @@ public class ControlPropObtainServiceSupplier {
      * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      *
      */
-    public List<ControlPropertyBean> getPurchaseAndStoreProperties (int index, MaterialInfoRequest params) {
+    public List<ControlPropertyBean> getPurchaseAndStoreProperties (int index, MatInfoReq params) {
         return getControlPropListWithIndex(index,
                 purchaseAndStoreList.getPurchaseAndStoreList(),
                 params.getOrganizationId(),
@@ -194,7 +191,7 @@ public class ControlPropObtainServiceSupplier {
      * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      *
      */
-    public List<ControlPropertyBean> getPlanProperties (int index, MaterialInfoRequest params) {
+    public List<ControlPropertyBean> getPlanProperties (int index, MatInfoReq params) {
         return getControlPropListWithIndex(index,
                 planList.getPlanList(),
                 params.getOrganizationId(),
@@ -213,7 +210,7 @@ public class ControlPropObtainServiceSupplier {
      * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      *
      */
-    public List<ControlPropertyBean> getSalesProperties (int index, MaterialInfoRequest params) {
+    public List<ControlPropertyBean> getSalesProperties (int index, MatInfoReq params) {
         return getControlPropListWithIndex(index,
                 salesList.getSalesList(),
                 params.getOrganizationId(),
@@ -232,7 +229,7 @@ public class ControlPropObtainServiceSupplier {
      * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      *
      */
-    public List<ControlPropertyBean> getQualityProperties (int index, MaterialInfoRequest params) {
+    public List<ControlPropertyBean> getQualityProperties (int index, MatInfoReq params) {
         return getControlPropListWithIndex(index,
                 qualityList.getQualityList(),
                 params.getOrganizationId(),
@@ -251,7 +248,7 @@ public class ControlPropObtainServiceSupplier {
      * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      *
      */
-    public List<ControlPropertyBean> getFinanceProperties (int index, MaterialInfoRequest params) {
+    public List<ControlPropertyBean> getFinanceProperties (int index, MatInfoReq params) {
         return getControlPropListWithIndex(index,
                 financeList.getFinanceList(),
                 params.getOrganizationId(),
