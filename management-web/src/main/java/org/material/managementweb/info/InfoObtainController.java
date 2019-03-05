@@ -61,7 +61,7 @@ public class InfoObtainController {
             return response;
         }
         // 在没有权限的情况下，统一把组织编码固定下来，无论前端是否传了组织id
-        params.setOrganizationId(1);
+        params.setOrganizationId(MaterialGeneral.generalOrganizationId);
         return infoObtainService.getMaterialInfoByParams(params);
     }
 

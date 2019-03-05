@@ -15,7 +15,8 @@ import java.util.List;
 public class MaterialGeneral {
 
     // 通用组织编码
-    public static String generalOrganizationCode = "-1";
+    public static String generalOrganizationCode = "1";
+    public static Integer generalOrganizationId = Integer.parseInt(generalOrganizationCode);
     // 通用spu编码
     public static String generalSpuCode = "-1";
     // 通用物料编码

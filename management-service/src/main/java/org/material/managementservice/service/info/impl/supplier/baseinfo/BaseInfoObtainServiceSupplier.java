@@ -50,6 +50,7 @@ public class BaseInfoObtainServiceSupplier {
         List<UnitModel> unitResult = new ArrayList<>();
         catResult.clear();
         unitResult.clear();
+        // 对于所有的物料基本信息，逐个寻找对应的物料分类详情和物料计量单位详情，以便前端填写物料分类名称和计量单位名称
         for (MaterialBaseModel baseModel : baseModels) {
             List<MaterialCategoryModel> tmp;
             List<UnitModel> tmpUnit;
@@ -62,6 +63,7 @@ public class BaseInfoObtainServiceSupplier {
             catResult.add(MaterialGeneral.getInitElementOrFirstElement(tmp, MaterialCategoryModel.class));
             unitResult.add(MaterialGeneral.getInitElementOrFirstElement(tmpUnit, UnitModel.class));
         }
+        // 设置返回值
         resultParams.setCatResult(catResult);
         resultParams.setUnitResult(unitResult);
         result.setResult(resultParams);
