@@ -30,8 +30,8 @@ public class BaseInfoObtainServiceSupplier {
     /**
      * 获取所有的基本信息的详细信息
      *
-     * 包括物料基本信息、物料分类信息、计量单位信息和物料关键属性信息
-     * materialBase、materialCategory、unit、materialKeyProp
+     * 包括物料基本信息、物料分类信息、计量单位信息
+     * materialBase、materialCategory、unit
      *
      * @author cplayer
      * @date 2019-02-25 16:33
@@ -47,11 +47,8 @@ public class BaseInfoObtainServiceSupplier {
         List<MaterialCategoryModel> catResult = new ArrayList<>();
         // 物料计量单位信息
         List<UnitModel> unitResult = new ArrayList<>();
-        // 物料关键属性信息（可能有多个）
-        List<List<MaterialKeyPropModel>> keyProps = new ArrayList<>();
         catResult.clear();
         unitResult.clear();
-        keyProps.clear();
         for (MaterialBaseModel baseModel : baseModels) {
             List<MaterialCategoryModel> tmp;
             List<UnitModel> tmpUnit;
@@ -61,14 +58,11 @@ public class BaseInfoObtainServiceSupplier {
             UnitModel paramUnit = new UnitModel();
             paramUnit.setId(baseModel.getDefaultUnitId());
             tmpUnit = generalMapper.getUnitWithUnitParams(paramUnit);
-            List<MaterialKeyPropModel> keyPropList = infoObtainMapper.getAllKeyPropWithSpuCode(baseModel.getSpuCode());
             catResult.add(MaterialGeneral.getInitElementOrFirstElement(tmp, MaterialCategoryModel.class));
             unitResult.add(MaterialGeneral.getInitElementOrFirstElement(tmpUnit, UnitModel.class));
-            keyProps.add(keyPropList);
         }
         result.setCatResult(catResult);
         result.setUnitResult(unitResult);
-        result.setKeyPropResult(keyProps);
         return result;
     }
 }

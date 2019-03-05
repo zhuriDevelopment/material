@@ -32,12 +32,6 @@
         select * from material where spuCode = #{spuCode}
     </select>
 
-    <select id="getAllKeyPropWithSpuCode"
-            parameterType="java.lang.String"
-            resultType="org.material.managementfacade.model.tablemodel.MaterialKeyPropModel">
-        select * from materialKeyProp where spuCode = #{spuCode}
-    </select>
-
     <select id="getMaterialSkuWithSpuCode"
             parameterType="java.lang.String"
             resultType="org.material.managementfacade.model.tablemodel.MaterialSkuModel">

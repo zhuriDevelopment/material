@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"org.material.managementservice",
         "org.material.managementfacade",
         "org.material.managementweb"})
-@MapperScan({"org.material.managementservice", "org.material.managementfacade"})
+@MapperScan({"org.material.managementservice.mapper"})
 // @EnableEurekaClient
 public class MaterialManagementMapperApplication {
 

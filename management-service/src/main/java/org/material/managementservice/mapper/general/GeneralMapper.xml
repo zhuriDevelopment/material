@@ -8,49 +8,49 @@
         select * from materialBase
         <where>
             <if test="id &gt;= 0">
-                where id = #{id}
+                id = #{id}
             </if>
             <if test="spuCode != null">
-                where spuCode = #{spuCode}
+                spuCode = #{spuCode}
             </if>
             <if test="mnemonic != null">
-                where mnemonic = #{mnemonic}
+                mnemonic = #{mnemonic}
             </if>
             <if test="spuName != null">
-                where spuName = #{spuName}
+                spuName = #{spuName}
             </if>
             <if test="description != null">
-                where description = #{description}
+                description = #{description}
             </if>
             <if test="type &gt;= 0">
-                where type = #{type}
+                type = #{type}
             </if>
             <if test="designCode != null">
-                where designCode = #{designCode}
+                designCode = #{designCode}
             </if>
             <if test="designVersion != null">
-                where designVersion = #{designVersion}
+                designVersion = #{designVersion}
             </if>
             <if test="defaultUnitId &gt;= 0">
-                where defaultUnitId = #{defaultUnitId}
+                defaultUnitId = #{defaultUnitId}
             </if>
             <if test="source != null">
-                where source = #{source}
+                source = #{source}
             </if>
             <if test="usage != null">
-                where usage = #{usage}
+                usage = #{usage}
             </if>
             <if test="note != null">
-                where note = #{note}
+                note = #{note}
             </if>
             <if test="materialCatId &gt;= 0">
-                where materialCatId = #{materialCatId}
+                materialCatId = #{materialCatId}
             </if>
             <if test="keyPropId &gt;= 0">
-                where keyPropId = #{keyPropId}
+                keyPropId = #{keyPropId}
             </if>
             <if test="createDate != null">
-                where createDate = #{createDate}
+                createDate = #{createDate}
             </if>
         </where>
     </select>
@@ -62,32 +62,26 @@
         select * from material
         <where>
             <if test="id &gt;= 0">
-                where id = #{id}
+                id = #{id}
             </if>
             <if test="spuCode != null">
-                where spuCode = #{spuCode}
+                spuCode = #{spuCode}
             </if>
             <if test="materialCode != null">
-                where materialCode = #{materialCode}
+                materialCode = #{materialCode}
             </if>
             <if test="materialName != null">
-                where materialName = #{materialName}
+                materialName = #{materialName}
             </if>
             <if test="oldMaterialCode != null">
-                where oldMaterialCode = #{oldMaterialCode}
+                oldMaterialCode = #{oldMaterialCode}
             </if>
             <if test="barCode != null">
-                where barCode = #{barCode}
+                barCode = #{barCode}
             </if>
             <if test="materialBaseId &gt;= 0">
-                where materialBaseId = #{materialBaseId}
+                materialBaseId = #{materialBaseId}
             </if>
-            <!--<if test="purchasePrice &gt;= 0">-->
-                <!--where purchasePrice = #{purchasePrice}-->
-            <!--</if>-->
-            <!--<if test="sellingPrice &gt;= 0">-->
-                <!--where sellingPrice = #{sellingPrice}-->
-            <!--</if>-->
         </where>
     </select>
 
@@ -98,34 +92,34 @@
         select * from materialSku
         <where>
             <if test="id &gt;= 0">
-                where id = #{id}
+                id = #{id}
             </if>
             <if test="spuCode != null">
-                where spuCode = #{spuCode}
+                spuCode = #{spuCode}
             </if>
             <if test="skuCode != null">
-                where skuCode = #{skuCode}
+                skuCode = #{skuCode}
             </if>
             <if test="skuName != null">
-                where skuName = #{skuName}
+                skuName = #{skuName}
             </if>
             <if test="materialCode != null">
-                where materialCode = #{materialCode}
+                materialCode = #{materialCode}
             </if>
             <if test="barCode != null">
-                where barCode = #{barCode}
+                barCode = #{barCode}
             </if>
             <if test="unitId &gt;= 0">
-                where unitId = #{unitId}
+                unitId = #{unitId}
             </if>
             <if test="purchasePrice &gt;= 0">
-                where purchasePrice = #{purchasePrice}
+                purchasePrice = #{purchasePrice}
             </if>
             <if test="sellingPrice &gt;= 0">
-                where sellingPrice = #{sellingPrice}
+                sellingPrice = #{sellingPrice}
             </if>
             <if test="description != null">
-                where description = #{description}
+                description = #{description}
             </if>
         </where>
     </select>
@@ -137,19 +131,19 @@
         select * from materialCategory
         <where>
           <if test="id &gt;= 0">
-              where id = #{id}
+              id = #{id}
           </if>
           <if test="code != null">
-              where code = #{code}
+              code = #{code}
           </if>
           <if test="name != null">
-              where name = #{name}
+              name = #{name}
           </if>
           <if test="type &gt;= 0">
-              where type = #{type}
+              type = #{type}
           </if>
           <if test="parentId &gt;= 0">
-              where parentId = #{parentId}
+              parentId = #{parentId}
           </if>
         </where>
     </select>
@@ -161,25 +155,25 @@
         select * from unit
         <where>
             <if test="id &gt;= 0">
-                where id = #{id}
+                id = #{id}
             </if>
             <if test="label != null">
-                where label = #{label}
+                label = #{label}
             </if>
             <if test="name != null">
-                where name = #{name}
+                name = #{name}
             </if>
             <if test="englishName != null">
-                where englishName = #{englishName}
+                englishName = #{englishName}
             </if>
             <if test="relatedId &gt;= 0">
-                where relatedId = #{relatedId}
+                relatedId = #{relatedId}
             </if>
             <if test="conversionFactor &gt;= 0">
-                where conversionFactor = #{conversionFactor}
+                conversionFactor = #{conversionFactor}
             </if>
             <if test="sort &gt;= 0">
-                where sort = #{sort}
+                sort = #{sort}
             </if>
         </where>
     </select>
@@ -191,22 +185,22 @@
         select * from materialUnit
         <where>
             <if test="id &gt;= 0">
-                where id = #{id}
+                id = #{id}
             </if>
             <if test="spuCode != null">
-                where spuCode = #{spuCode}
+                spuCode = #{spuCode}
             </if>
             <if test="unitId &gt;= 0">
-                where unitId = #{unitId}
+                unitId = #{unitId}
             </if>
             <if test="relatedId &gt;= 0">
-                where relatedId = #{relatedId}
+                relatedId = #{relatedId}
             </if>
             <if test="conversionFactor &gt;= 0">
-                where conversionFactor = #{conversionFactor}
+                conversionFactor = #{conversionFactor}
             </if>
             <if test="sort &gt;= 0">
-                where sort = #{sort}
+                sort = #{sort}
             </if>
         </where>
     </select>
@@ -218,25 +212,25 @@
         select * from materialBaseProp
         <where>
             <if test="id &gt;= 0">
-                where id = #{id}
+                id = #{id}
             </if>
             <if test="materialCatId &gt;= 0">
-                where materialCatId = #{materialCatId}
+                materialCatId = #{materialCatId}
             </if>
             <if test="type &gt;= 0">
-                where type = #{type}
+                type = #{type}
             </if>
             <if test="label != null">
-                where label = #{label}
+                label = #{label}
             </if>
             <if test="name != null">
-                where name = #{name}
+                name = #{name}
             </if>
             <if test="valueRange != null">
-                where valueRange = #{valueRange}
+                valueRange = #{valueRange}
             </if>
             <if test="sort &gt;= 0">
-                where sort = #{sort}
+                sort = #{sort}
             </if>
         </where>
     </select>
@@ -248,19 +242,19 @@
         select * from materialBasePropVal
         <where>
             <if test="id &gt;= 0">
-                where id = #{id}
+                id = #{id}
             </if>
             <if test="spuCode != null">
-                where spuCode = #{spuCode}
+                spuCode = #{spuCode}
             </if>
             <if test="materialCode != null">
-                where materialCode = #{materialCode}
+                materialCode = #{materialCode}
             </if>
             <if test="materialBasePropId &gt;= 0">
-                where materialBasePropId = #{materialBasePropId}
+                materialBasePropId = #{materialBasePropId}
             </if>
             <if test="value != null">
-                where value = #{value}
+                value = #{value}
             </if>
         </where>
     </select>
@@ -272,16 +266,16 @@
         select * from materialCtrlProp
         <where>
             <if test="id &gt;= 0">
-                where id = #{id}
+                id = #{id}
             </if>
             <if test="type &gt;= 0">
-                where type = #{type}
+                type = #{type}
             </if>
             <if test="label &gt;= 0">
-                where label = #{label}
+                label = #{label}
             </if>
             <if test="name != null">
-                where name = #{name}
+                name = #{name}
             </if>
         </where>
     </select>
@@ -293,16 +287,16 @@
         select * from materialCtrlPropVal
         <where>
             <if test="id &gt;= 0">
-                where id = #{id}
+                id = #{id}
             </if>
             <if test="versionId &gt;= 0">
-                where versionId = #{versionId}
+                versionId = #{versionId}
             </if>
             <if test="materialCtrlPropId &gt;= 0">
-                where materialCtrlPropId = #{materialCtrlPropId}
+                materialCtrlPropId = #{materialCtrlPropId}
             </if>
             <if test="value != null">
-                where value = #{value}
+                value = #{value}
             </if>
         </where>
     </select>
@@ -314,25 +308,25 @@
         select * from materialCtrlPropValVer
         <where>
             <if test="id &gt;= 0">
-                where id = #{id}
+                id = #{id}
             </if>
             <if test="materialCatId &gt;= 0">
-                where materialCatId = #{materialCatId}
+                materialCatId = #{materialCatId}
             </if>
             <if test="version != null">
-                where version = #{version}
+                version = #{version}
             </if>
             <if test="organizationCode != null">
-                where organizationCode = #{organizationCode}
+                organizationCode = #{organizationCode}
             </if>
             <if test="spuCode != null">
-                where spuCode = #{spuCode}
+                spuCode = #{spuCode}
             </if>
             <if test="startDate != null">
-                where startDate = #{startDate}
+                startDate = #{startDate}
             </if>
             <if test="endDate != null">
-                where endDate = #{endDate}
+                endDate = #{endDate}
             </if>
         </where>
     </select>
@@ -563,22 +557,22 @@
         delete from materialUnit
         <where>
             <if test="id &gt;= 0">
-                where id = #{id}
+                id = #{id}
             </if>
             <if test="spuCode != null">
-                where spuCode = #{spuCode}
+                spuCode = #{spuCode}
             </if>
             <if test="unitId &gt;= 0">
-                where unitId = #{unitId}
+                unitId = #{unitId}
             </if>
             <if test="relatedId &gt;= 0">
-                where relatedId = #{relatedId}
+                relatedId = #{relatedId}
             </if>
             <if test="conversionFactor &gt;= 0">
-                where conversionFactor = #{conversionFactor}
+                conversionFactor = #{conversionFactor}
             </if>
             <if test="sort &gt;= 0">
-                where sort = #{sort}
+                sort = #{sort}
             </if>
         </where>
     </delete>

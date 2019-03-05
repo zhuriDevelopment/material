@@ -18,9 +18,12 @@ spring:
 server:
   port: 8080
 
-#logging:
-#  level:
-#    org.material.managementservice.mapper.MaterialInfoMapper: trace
+mybatis:
+  mapper-locations: classpath*:org/material/managementservice/mapper/**/*Mapper.xml
+
+logging:
+  level:
+    org.material.managementservice.mapper.*: trace
 
 #eureka:
 #  client:

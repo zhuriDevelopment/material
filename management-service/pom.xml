@@ -61,5 +61,14 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include><!-- 此配置不可缺，否则mybatis的Mapper.xml将会丢失 -->
+                </includes>
+            </resource>
+        </resources>
     </build>
+
 </project>

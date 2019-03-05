@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/materialmanagement")
+@RequestMapping("/materialmanagementtest")
 @Api(value = "物料信息接口", description = "物料信息接口")
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
             methods = {RequestMethod.GET, RequestMethod.POST},
