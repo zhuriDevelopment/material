@@ -23,23 +23,20 @@ import java.util.List;
  */
 @Component
 public class CategoryModifyServiceImpl implements CategoryModifyService {
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
     @Autowired
     private CategoryModifyMapper categoryModifyMapper;
     @Autowired
     private GeneralMapper generalMapper;
 
-    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
-    
     /**
      * 添加物料分类信息的功能函数（单次）
      *
-     * @author cplayer
-     * @date 2019-03-02 04:37     
      * @param request 请求被添加的物料分类信息
-     *
      * @return MaterialCategoryErrCode.successAddCategory 添加成功
-     *         MaterialCategoryErrCode.failedAddCategory 添加失败
-     *
+     * MaterialCategoryErrCode.failedAddCategory 添加失败
+     * @author cplayer
+     * @date 2019-03-02 04:37
      */
     @Override
     public int addMaterialCategory (CategoryAddRequest request) {
@@ -73,13 +70,11 @@ public class CategoryModifyServiceImpl implements CategoryModifyService {
     /**
      * 修改物料分类信息的函数（单次）
      *
-     * @author cplayer
-     * @date 2019-03-02 05:00     
      * @param request 请求被修改的物料分类信息
-     *
      * @return MaterialCategoryErrCode.successModifyCategory 修改成功
-     *         MaterialCategoryErrCode.failedModifyCategory 修改失败
-     *
+     * MaterialCategoryErrCode.failedModifyCategory 修改失败
+     * @author cplayer
+     * @date 2019-03-02 05:00
      */
     @Override
     public int updateMaterialCategoryName (CategoryModifyNameRequest request) {
@@ -107,17 +102,15 @@ public class CategoryModifyServiceImpl implements CategoryModifyService {
         }
         return MaterialCategoryErrCode.failedModifyCategory;
     }
-    
+
     /**
      * 删除物料分类信息的函数
      *
-     * @author cplayer
-     * @date 2019-03-02 05:17     
      * @param request 请求被删除的物料分类信息
-     *
      * @return MaterialCategoryErrCode.successDeleteCategory 删除成功
-     *         MaterialCategoryErrCode.failedDeleteCategory 删除失败
-     *
+     * MaterialCategoryErrCode.failedDeleteCategory 删除失败
+     * @author cplayer
+     * @date 2019-03-02 05:17
      */
     @Override
     public int deleteMaterialCategory (CategoryDeleteRequest request) {
@@ -160,7 +153,7 @@ public class CategoryModifyServiceImpl implements CategoryModifyService {
             // 若出错，继续删除
             if (deleteResult == 0) {
                 logger.error(String.format("物料分类信息数据库删除出错，对应的数据不存在，数据为：" +
-                        "父分类id = %d，名称 = %s。",
+                                "父分类id = %d，名称 = %s。",
                         param.getName(),
                         param.getParentId()));
                 failed++;

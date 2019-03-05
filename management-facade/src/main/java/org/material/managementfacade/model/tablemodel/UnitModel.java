@@ -22,59 +22,59 @@ public class UnitModel {
         this.sort = -1;
     }
 
-    public int getId() {
+    public int getId () {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId (int id) {
         this.id = id;
     }
 
-    public String getLabel() {
+    public String getLabel () {
         return label;
     }
 
-    public void setLabel(String label) {
+    public void setLabel (String label) {
         this.label = label;
     }
 
-    public String getName() {
+    public String getName () {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName (String name) {
         this.name = name;
     }
 
-    public String getEnglishName() {
+    public String getEnglishName () {
         return englishName;
     }
 
-    public void setEnglishName(String englishName) {
+    public void setEnglishName (String englishName) {
         this.englishName = englishName;
     }
 
-    public int getRelatedId() {
+    public int getRelatedId () {
         return relatedId;
     }
 
-    public void setRelatedId(int relatedId) {
+    public void setRelatedId (int relatedId) {
         this.relatedId = relatedId;
     }
 
-    public double getConversionFactor() {
+    public double getConversionFactor () {
         return conversionFactor;
     }
 
-    public void setConversionFactor(double conversionFactor) {
+    public void setConversionFactor (double conversionFactor) {
         this.conversionFactor = conversionFactor;
     }
 
-    public int getSort() {
+    public int getSort () {
         return sort;
     }
 
-    public void setSort(int sort) {
+    public void setSort (int sort) {
         this.sort = sort;
     }
 }

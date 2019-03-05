@@ -24,15 +24,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
-* @author cplayer on 2019-02-25 02:37.
-* @version 1.0 
-*        
-* 物料信息获取的服务实现接口
-*
-*/
+ * @author cplayer on 2019-02-25 02:37.
+ * @version 1.0
+ * <p>
+ * 物料信息获取的服务实现接口
+ */
 
 @Component
 public class InfoObtainServiceImpl implements InfoObtainService {
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
     @Autowired
     private InfoObtainMapper infoObtainMapper;
     @Autowired
@@ -48,15 +48,12 @@ public class InfoObtainServiceImpl implements InfoObtainService {
     @Autowired
     private BasePropObtainServiceSupplier basePropObtainServiceSupplier;
 
-    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
-
     /**
      * 获取所有物料基本信息
      *
+     * @return BaseInfoResponse类，包含所有物料基本信息
      * @author cplayer
      * @date 2019-02-25 02:32
-     * @return BaseInfoResponse类，包含所有物料基本信息
-     *
      */
     @Override
     public BaseInfoResp getAllBaseInfo () {
@@ -67,13 +64,11 @@ public class InfoObtainServiceImpl implements InfoObtainService {
 
     /**
      * 根据给定参数获取物料基本信息
-     *
+     * <p>
      * materialBase表：物料分类、spu编码、设计图号、设计版本、来源、起始时间、终止时间
      * material表：物料名称
      * materialSku表：sku编码
      *
-     * @author cplayer
-     * @date 2019-02-25 03:25
      * @param params 所给的基本信息参数
      *               包含：
      *               物料分类（以id的形式传过来）
@@ -85,9 +80,9 @@ public class InfoObtainServiceImpl implements InfoObtainService {
      *               设计图号
      *               设计版本
      *               来源
-     *
-     * @return org.material.managementfacade.model.responsemodel.BaseInfoRespParams
-     *
+     * @return org.material.managementfacade.model.responsemodel.BaseInfoResp
+     * @author cplayer
+     * @date 2019-02-25 03:25
      */
     @Override
     public BaseInfoResp getBaseInfoByParams (BaseInfoReq params) {
@@ -146,6 +141,7 @@ public class InfoObtainServiceImpl implements InfoObtainService {
 
     /**
      * 根据参数获取物料信息的接口
+     * <p>
      * typeArr中对应值如下：
      * 物料基本信息：1
      * 物料定义：2
@@ -160,12 +156,10 @@ public class InfoObtainServiceImpl implements InfoObtainService {
      * 全部基础信息：11
      * 规格信息：12
      *
+     * @param params 物料信息参数，详细定义见类
+     * @return org.material.managementfacade.model.responsemodel.MaterialInfo.MatInfoResp
      * @author cplayer
      * @date 2019-02-25 20:47
-     * @param params 物料信息参数，详细定义见类
-     *
-     * @return org.material.managementfacade.model.responsemodel.MaterialInfo.MatInfoRespParams
-     *
      */
     @Override
     public MatInfoResp getMaterialInfoByParams (MatInfoReq params) {
@@ -236,30 +230,31 @@ public class InfoObtainServiceImpl implements InfoObtainService {
     /**
      * 根据物料分类信息获取所有物料基本信息的函数
      *
+     * @param params 传上来的id
+     * @return org.material.managementfacade.model.responsemodel.MatInfoObtainByCatInfoResp
      * @author cplayer
      * @date 2019-03-02 05:50
-     * @param params 传上来的id
-     *
-     * @return org.material.managementfacade.model.responsemodel.MaterialInfoObtainByCategoryInfoResponse
-     *
      */
     @Override
-    public MaterialInfoObtainByCategoryInfoResponse getAllMaterialBaseByCategoryInfos (MaterialInfoObtainByCategoryInfoRequest params) {
+    public MatInfoObtainByCatInfoResp getAllMaterialBaseByCategoryInfos (MatInfoObtainByCatInfoReq params) {
+        MatInfoObtainByCatInfoResp response = new MatInfoObtainByCatInfoResp();
         MaterialBaseModel paramBase = new MaterialBaseModel();
         MaterialCategoryModel paramCate = new MaterialCategoryModel();
         paramBase.setMaterialCatId(params.getId());
         paramCate.setId(params.getId());
         List<MaterialBaseModel> materialBaseResult = generalMapper.getMaterialBaseWithMaterialBaseParams(paramBase);
         List<MaterialCategoryModel> catResult = generalMapper.getMaterialCategoryWithMaterialCategoryParams(paramCate);
-        MaterialInfoObtainByCategoryInfoResponse result = new MaterialInfoObtainByCategoryInfoResponse();
+        MatInfoObtainByCatInfoRespParams result = new MatInfoObtainByCatInfoRespParams();
         result.setCatResult(catResult);
         result.setMaterialBaseResult(materialBaseResult);
-        return result;
+        response.setResult(result);
+        response.setErrCode(MaterialInfoErrCode.successOperation);
+        return response;
     }
 
     /**
      * 根据物料分类id和物料名称获取所有物料信息的函数
-     *
+     * <p>
      * 信息数组对应编码如下：
      * 采购和库存属性：5
      * 计划类属性：6
@@ -269,15 +264,13 @@ public class InfoObtainServiceImpl implements InfoObtainService {
      * 全部基础信息：11
      * （10空出来是为了和getMaterialInfoByParams接口的数据保持一致）
      *
+     * @param params 请求对应的参数，包括物料分类编码、名称以及需要获取的信息数组
+     * @return org.material.managementfacade.model.responsemodel.MatInfoObtainByCatCodeAndNameResp
      * @author cplayer
      * @date 2019-03-02 06:13
-     * @param params 请求对应的参数，包括物料分类编码、名称以及需要获取的信息数组
-     *
-     * @return org.material.managementfacade.model.responsemodel.MaterialInfoObtainByCatCodeAndNameResponse
-     *
      */
     @Override
-    public MaterialInfoObtainByCatCodeAndNameResponse getMaterialInfoWithCatCodeAndCatName (MaterialInfoObtainByCatCodeAndNameRequest params) {
+    public MatInfoObtainByCatCodeAndNameResp getMaterialInfoWithCatCodeAndCatName (MatInfoObtainByCatCodeAndNameReq params) {
         String catCode = params.getCode();
         String catName = params.getName();
         List<Integer> typeArr = params.getTypeArr();
@@ -288,7 +281,7 @@ public class InfoObtainServiceImpl implements InfoObtainService {
         MaterialCategoryModel searchResult = MaterialGeneral.getInitElementOrFirstElement(
                 generalMapper.getMaterialCategoryWithMaterialCategoryParams(param),
                 MaterialCategoryModel.class);
-        MaterialInfoObtainByCatCodeAndNameResponse result = new MaterialInfoObtainByCatCodeAndNameResponse();
+        MatInfoObtainByCatCodeAndNameResp result = new MatInfoObtainByCatCodeAndNameResp();
         if (searchResult.getId() != -1) {
             // 说明找到了，继续处理
             int catId = searchResult.getId();
@@ -337,16 +330,14 @@ public class InfoObtainServiceImpl implements InfoObtainService {
     /**
      * 根据spu编码和物料编码获取物料基本属性的实现函数
      *
+     * @param params 请求对应的参数
+     * @return org.material.managementfacade.model.responsemodel.MatBaseObtainBySpuAndMatCodeResp
      * @author cplayer
      * @date 2019-03-03 01:46
-     * @param params 请求对应的参数
-     *
-     * @return org.material.managementfacade.model.responsemodel.MaterialBaseObtainBySpuAndMatCodeResponse
-     *
      */
     @Override
-    public MaterialBaseObtainBySpuAndMatCodeResponse getMaterialBasePropsBySpuCodeAndMaterialCodes (MaterialBaseObtainBySpuAndMatCodeRequest params) {
-        MaterialBaseObtainBySpuAndMatCodeResponse response = new MaterialBaseObtainBySpuAndMatCodeResponse();
+    public MatBaseObtainBySpuAndMatCodeResp getMaterialBasePropsBySpuCodeAndMaterialCodes (MatBaseObtainBySpuAndMatCodeReq params) {
+        MatBaseObtainBySpuAndMatCodeResp response = new MatBaseObtainBySpuAndMatCodeResp();
         // 先找所有通用的属性，记录下所有对应属性的id
         List<MaterialBasePropValModel> materialCommonBasePropResult = infoObtainMapper.getMaterialBasePropValWithSpuCodeAndMatCode(params.getSpuCode(), MaterialGeneral.generalMaterialCode);
         Map<Integer, MaterialBasePropModel> commonBaseProps = new HashMap<>(16);
@@ -370,11 +361,12 @@ public class InfoObtainServiceImpl implements InfoObtainService {
         // 接下来处理每个物料编码的信息
         for (String materialCode : params.getMaterialCodes()) {
             // 获取单个物料编码的所有基本属性
-            MaterialBaseObtainBySpuAndMatCodeElement singleClass = basePropObtainServiceSupplier.getMateialBaseBySpuCodeAndSpecificMatCode(
-                    params,
-                    materialCode,
-                    commonBaseProps
-            );
+            MaterialBaseObtainBySpuAndMatCodeElement singleClass =
+                    basePropObtainServiceSupplier.getMateialBaseBySpuCodeAndSpecificMatCode(
+                            params,
+                            materialCode,
+                            commonBaseProps
+                    );
             response.getBaseInfos().add(singleClass);
         }
         response.setErrCode(MaterialInfoErrCode.successObtainBaseBySpuAndMatCode);
@@ -384,15 +376,13 @@ public class InfoObtainServiceImpl implements InfoObtainService {
     /**
      * 根据物料分类id和属性类型获取物料基本属性的实现函数
      *
+     * @param params 请求对应的参数
+     * @return java.util.List<org.material.managementfacade.model.tablemodel.MaterialBasePropModel>
      * @author cplayer
      * @date 2019-03-03 05:53
-     * @param params 请求对应的参数
-     *
-     * @return java.util.List<org.material.managementfacade.model.tablemodel.MaterialBasePropModel>
-     *
      */
     @Override
-    public List<MaterialBasePropModel> getMaterialBaseByCatIdAndType (BasePropObtainByCatIdAndTypeRequest params) {
+    public List<MaterialBasePropModel> getMaterialBaseByCatIdAndType (BasePropObtainByCatIdAndTypeReq params) {
         MaterialBasePropModel param = new MaterialBasePropModel();
         param.setMaterialCatId(params.getCatId());
         param.setType(params.getPropertyType());

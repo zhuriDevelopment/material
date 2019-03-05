@@ -29,6 +29,7 @@ import java.util.List;
 
 @Component
 public class InfoModifyServiceImpl implements InfoModifyService {
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
     @Autowired
     private InfoModifyServiceSupplier infoModifyServiceSupplier;
     @Autowired
@@ -42,11 +43,9 @@ public class InfoModifyServiceImpl implements InfoModifyService {
     @Autowired
     private ControlPropModifyServiceSupplier controlPropModifyServiceSupplier;
 
-    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
-
     /**
      * 更新物料信息的函数
-     *
+     * <p>
      * 包含更新：
      * 物料基本信息（materialBase表）
      * 物料定义（material表）
@@ -56,12 +55,10 @@ public class InfoModifyServiceImpl implements InfoModifyService {
      * 计量单位
      * 规格信息
      *
+     * @param params 更新物料信息请求的参数
+     * @return 成功了的操作个数
      * @author cplayer
      * @date 2019-02-27 04:37
-     * @param params 更新物料信息请求的参数
-     *
-     * @return 成功了的操作个数
-     *
      */
     @Override
     public int updateMaterialInfo (MaterialInfoModifyRequest params) {
@@ -116,21 +113,21 @@ public class InfoModifyServiceImpl implements InfoModifyService {
             }
         }
         return result;
-    };
+    }
+
+    ;
 
     /**
      * 根据物料分类编码、物料名称以及待更新的数据更新物料信息的实现函数
      *
+     * @param params 更新物料信息请求的参数
+     * @return org.material.managementfacade.model.responsemodel.MaterialInfoModifyByCatCodeAndNameResponse
      * @author cplayer
      * @date 2019-03-02 18:03
-     * @param params 更新物料信息请求的参数
-     *
-     * @return org.material.managementfacade.model.responsemodel.MaterialInfoModifyByCatCodeAndNameResponse
-     *
      */
     @Override
     public MaterialInfoModifyByCatCodeAndNameResponse updateMaterialInfoWithCatCodeAndCatName
-            (MaterialInfoModifyByCatCodeAndNameRequest params) {
+    (MaterialInfoModifyByCatCodeAndNameRequest params) {
         MaterialInfoModifyByCatCodeAndNameResponse result = new MaterialInfoModifyByCatCodeAndNameResponse();
         // 获取物料分类id
         MaterialCategoryModel cateParam = new MaterialCategoryModel();
@@ -160,17 +157,15 @@ public class InfoModifyServiceImpl implements InfoModifyService {
     /**
      * 根据spu编码和物料编码更新物料基本属性的实现函数
      *
+     * @param params 更新物料信息请求的参数
+     * @return MaterialInfoErrCode.successUpdateMaterialBaseWithSpuAndCatCode 更新成功
+     * MaterialInfoErrCode.failedUpdateMaterialBaseWithSpuAndCatCode 更新失败
      * @author cplayer
      * @date 2019-03-03 05:10
-     * @param params 更新物料信息请求的参数
-     *
-     * @return MaterialInfoErrCode.successUpdateMaterialBaseWithSpuAndCatCode 更新成功
-     *         MaterialInfoErrCode.failedUpdateMaterialBaseWithSpuAndCatCode 更新失败
-     *
      */
     @Override
     public int updateMaterialBasePropsBySpuCodeAndMaterialCodes
-            (MaterialBaseModifyBySpuAndMatCodeRequest params) {
+    (MaterialBaseModifyBySpuAndMatCodeRequest params) {
         int resultCode = MaterialInfoErrCode.successUpdateMaterialBaseWithSpuAndCatCode;
         for (MaterialBaseModifyBySpuAndMatCodeUpdateProps element : params.getUpdateValues()) {
             String materialCode = element.getMaterialCode();

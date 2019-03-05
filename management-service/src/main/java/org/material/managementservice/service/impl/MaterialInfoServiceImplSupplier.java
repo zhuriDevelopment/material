@@ -1,29 +1,25 @@
 package org.material.managementservice.service.impl;
 
-import java.util.*;
-import java.sql.Timestamp;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.material.managementfacade.model.propertymodel.ControlPropertyBean;
-import org.material.managementfacade.model.propertymodel.purchaseandstore.PurchaseAndStoreList;
-import org.material.managementfacade.model.propertymodel.sales.SalesList;
-import org.material.managementfacade.model.propertymodel.plan.PlanList;
-import org.material.managementfacade.model.propertymodel.quality.QualityList;
 import org.material.managementfacade.model.propertymodel.finance.FinanceList;
-import org.material.managementservice.mapper.MaterialInfoMapper;
+import org.material.managementfacade.model.propertymodel.plan.PlanList;
+import org.material.managementfacade.model.propertymodel.purchaseandstore.PurchaseAndStoreList;
+import org.material.managementfacade.model.propertymodel.quality.QualityList;
+import org.material.managementfacade.model.propertymodel.sales.SalesList;
 import org.material.managementfacade.model.tablemodel.*;
+import org.material.managementservice.mapper.MaterialInfoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.*;
+
 // 作为ServiceImpl的补充类，以防止ServiceImpl类过于复杂掩盖逻辑
 
 @Service
 public class MaterialInfoServiceImplSupplier {
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
     @Autowired
     private PurchaseAndStoreList purchaseAndStoreList;
     @Autowired
@@ -36,8 +32,6 @@ public class MaterialInfoServiceImplSupplier {
     private FinanceList financeList;
     @Autowired
     private MaterialInfoMapper materialInfoMapper;
-
-    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
     // ---------------------------------------- 生成参数Map部分 ----------------------------------------
     // 根据提供的参数生成对应的参数Map的方法

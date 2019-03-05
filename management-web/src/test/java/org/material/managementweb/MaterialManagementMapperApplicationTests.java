@@ -2,7 +2,6 @@ package org.material.managementweb;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.material.managementweb.MaterialManagementMapperApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -11,7 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class MaterialManagementMapperApplicationTests {
 
     @Test
-    public void contextLoads() {
+    public void contextLoads () {
     }
 
 }

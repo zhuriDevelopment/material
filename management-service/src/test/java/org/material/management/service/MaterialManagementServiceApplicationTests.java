@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class MaterialManagementServiceApplicationTests {
 
     @Test
-    public void contextLoads() {
+    public void contextLoads () {
     }
 
 }

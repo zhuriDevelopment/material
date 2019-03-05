@@ -8,27 +8,27 @@ public class MaterialFilesModel {
     private int materialBaseId;
     private int fileId;
 
-    public int getId() {
+    public int getId () {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId (int id) {
         this.id = id;
     }
 
-    public int getMaterialBaseId() {
+    public int getMaterialBaseId () {
         return materialBaseId;
     }
 
-    public void setMaterialBaseId(int materialBaseId) {
+    public void setMaterialBaseId (int materialBaseId) {
         this.materialBaseId = materialBaseId;
     }
 
-    public int getFileId() {
+    public int getFileId () {
         return fileId;
     }
 
-    public void setFileId(int fileId) {
+    public void setFileId (int fileId) {
         this.fileId = fileId;
     }
 }

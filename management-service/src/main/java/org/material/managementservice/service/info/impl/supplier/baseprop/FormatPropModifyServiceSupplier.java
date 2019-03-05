@@ -5,8 +5,8 @@ import org.material.managementfacade.model.requestmodel.infomodify.MaterialModif
 import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropModel;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropValModel;
-import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.general.MaterialGeneral;
+import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoModifyMapper;
 import org.slf4j.Logger;
@@ -23,27 +23,23 @@ import java.util.List;
  */
 @Component
 public class FormatPropModifyServiceSupplier {
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
     @Autowired
     private InfoModifyMapper infoModifyMapper;
     @Autowired
     private GeneralMapper generalMapper;
-    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
     /**
      * 更新单个物料规格属性值的函数
      *
+     * @param params   更新物料信息请求的参数
+     * @param data     单个待更新的规格属性值对象
+     * @param propList 物料基本属性列表
+     * @return MaterialInfoErrCode.failedUpdateSingleFormatInMaterial 单个规格信息更新失败
+     * MaterialInfoErrCode.successUpdateSingleFormatInMaterial 单个规格信息更新成功
+     * MaterialInfoErrCode.notAllowedFormatObject 规格信息名字未找到
      * @author cplayer
      * @date 2019-02-28 15:53
-     * @param params 更新物料信息请求的参数
-     *
-     * @param data 单个待更新的规格属性值对象
-     *
-     * @param propList 物料基本属性列表
-     *
-     * @return MaterialInfoErrCode.failedUpdateSingleFormatInMaterial 单个规格信息更新失败
-     *         MaterialInfoErrCode.successUpdateSingleFormatInMaterial 单个规格信息更新成功
-     *         MaterialInfoErrCode.notAllowedFormatObject 规格信息名字未找到
-     *
      */
     public int updateMaterialInfoForMaterialDataBySingleFormat (MaterialInfoModifyRequest params,
                                                                 MaterialModifyRequestForFormatProp data,
@@ -92,13 +88,11 @@ public class FormatPropModifyServiceSupplier {
     /**
      * 更新物料定义页面中规格部分的函数
      *
+     * @param params 更新物料信息请求的参数
+     * @return MaterialInfoErrCode.successUpdateFormatInMaterial 代表成功
+     * MaterialInfoErrCode.failedUpdateFormatInMaterial 代表失败
      * @author cplayer
      * @date 2019-02-27 21:15
-     * @param params 更新物料信息请求的参数
-     *
-     * @return MaterialInfoErrCode.successUpdateFormatInMaterial 代表成功
-     *         MaterialInfoErrCode.failedUpdateFormatInMaterial 代表失败
-     *
      */
     public int updateMaterialInfoForMaterialDataByFormat (MaterialInfoModifyRequest params) {
         // 先删除所有规格属性值，规格属性类别对应的是4

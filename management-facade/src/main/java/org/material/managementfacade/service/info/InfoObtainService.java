@@ -1,9 +1,11 @@
 package org.material.managementfacade.service.info;
 
 import org.material.managementfacade.model.requestmodel.*;
-import org.material.managementfacade.model.responsemodel.*;
+import org.material.managementfacade.model.responsemodel.BaseInfoResp;
+import org.material.managementfacade.model.responsemodel.MatBaseObtainBySpuAndMatCodeResp;
+import org.material.managementfacade.model.responsemodel.MatInfoObtainByCatCodeAndNameResp;
+import org.material.managementfacade.model.responsemodel.MatInfoObtainByCatInfoResp;
 import org.material.managementfacade.model.responsemodel.MaterialInfo.MatInfoResp;
-import org.material.managementfacade.model.responsemodel.MaterialInfo.MatInfoRespParams;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropModel;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +26,11 @@ public interface InfoObtainService {
 
     MatInfoResp getMaterialInfoByParams (MatInfoReq params);
 
-    MaterialInfoObtainByCategoryInfoResponse getAllMaterialBaseByCategoryInfos (MaterialInfoObtainByCategoryInfoRequest params);
+    MatInfoObtainByCatInfoResp getAllMaterialBaseByCategoryInfos (MatInfoObtainByCatInfoReq params);
 
-    MaterialInfoObtainByCatCodeAndNameResponse getMaterialInfoWithCatCodeAndCatName (MaterialInfoObtainByCatCodeAndNameRequest params);
+    MatInfoObtainByCatCodeAndNameResp getMaterialInfoWithCatCodeAndCatName (MatInfoObtainByCatCodeAndNameReq params);
 
-    MaterialBaseObtainBySpuAndMatCodeResponse getMaterialBasePropsBySpuCodeAndMaterialCodes (MaterialBaseObtainBySpuAndMatCodeRequest params);
+    MatBaseObtainBySpuAndMatCodeResp getMaterialBasePropsBySpuCodeAndMaterialCodes (MatBaseObtainBySpuAndMatCodeReq params);
 
-    List<MaterialBasePropModel> getMaterialBaseByCatIdAndType (BasePropObtainByCatIdAndTypeRequest params);
+    List<MaterialBasePropModel> getMaterialBaseByCatIdAndType (BasePropObtainByCatIdAndTypeReq params);
 }

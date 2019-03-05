@@ -6,14 +6,12 @@ import org.material.managementfacade.model.processmodel.MaterialCategoryTree;
 import org.material.managementfacade.model.requestmodel.MaterialCategoryObtainByIdRequest;
 import org.material.managementfacade.model.tablemodel.MaterialCategoryModel;
 import org.material.managementservice.service.category.impl.CategoryObtainServiceImpl;
-import org.material.managementservice.service.impl.MaterialInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author cplayer on 2019-02-25.

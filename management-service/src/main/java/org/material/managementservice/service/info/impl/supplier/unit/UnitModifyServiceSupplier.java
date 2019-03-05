@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author cplayer on 2019-03-01 22:21.
@@ -20,12 +22,11 @@ import java.util.*;
  */
 @Component
 public class UnitModifyServiceSupplier {
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
     @Autowired
     private GeneralMapper generalMapper;
     @Autowired
     private InfoModifyMapper infoModifyMapper;
-
-    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
     private MaterialUnitModel setParam (String spuCode, int defaultUnitId, double conversionFactor, int sort, int unitId) {
         MaterialUnitModel result = new MaterialUnitModel();
@@ -40,17 +41,13 @@ public class UnitModifyServiceSupplier {
     /**
      * 更新物料计量单位信息中更新部分的函数
      *
+     * @param updateList    待更新的物料计量单位信息列表
+     * @param spuCode       spu编码
+     * @param defaultUnitId 默认计量单位id
+     * @return MaterialInfoErrCode.successUpdateModifyUnit 成功更新
+     * MaterialInfoErrCode.failedUpdateModifyUnit 更新失败
      * @author cplayer
      * @date 2019-03-01 23:08
-     * @param updateList 待更新的物料计量单位信息列表
-     *
-     * @param spuCode spu编码
-     *
-     * @param defaultUnitId 默认计量单位id
-     *
-     * @return MaterialInfoErrCode.successUpdateModifyUnit 成功更新
-     *         MaterialInfoErrCode.failedUpdateModifyUnit 更新失败
-     *
      */
     public int updateUnitWithUnitList (List<MaterialUnitModifyRequestElement> updateList,
                                        String spuCode,
@@ -72,17 +69,13 @@ public class UnitModifyServiceSupplier {
     /**
      * 更新物料计量单位信息中新增部分的函数
      *
+     * @param insertList    待新增的物料计量单位信息列表
+     * @param spuCode       spu编码
+     * @param defaultUnitId 默认计量单位id
+     * @return MaterialInfoErrCode.successUpdateInsertUnit 新增成功
+     * MaterialInfoErrCode.failedUpdateInsertUnit 新增失败
      * @author cplayer
      * @date 2019-03-01 23:09
-     * @param insertList 待新增的物料计量单位信息列表
-     *
-     * @param spuCode spu编码
-     *
-     * @param defaultUnitId 默认计量单位id
-     *
-     * @return MaterialInfoErrCode.successUpdateInsertUnit 新增成功
-     *         MaterialInfoErrCode.failedUpdateInsertUnit 新增失败
-     *
      */
     public int insertUnitWithUnitList (List<MaterialUnitModifyRequestElement> insertList,
                                        String spuCode,
@@ -104,13 +97,11 @@ public class UnitModifyServiceSupplier {
     /**
      * 更新物料计量单位信息中删除部分的函数
      *
+     * @param deleteList 待删除的物料计量单位信息列表
+     * @return MaterialInfoErrCode.successUpdateDeleteUnit 删除成功
+     * MaterialInfoErrCode.failedUpdateDeleteUnit 删除成功
      * @author cplayer
      * @date 2019-03-01 23:10
-     * @param deleteList 待删除的物料计量单位信息列表
-     *
-     * @return MaterialInfoErrCode.successUpdateDeleteUnit 删除成功
-     *         MaterialInfoErrCode.failedUpdateDeleteUnit 删除成功
-     *
      */
     public int deleteUnitWithUnitList (List<MaterialUnitModel> deleteList) {
         int deleteCount = 0;
@@ -129,13 +120,11 @@ public class UnitModifyServiceSupplier {
     /**
      * 更新物料计量单位信息的函数
      *
+     * @param params 更新物料信息请求的参数
+     * @return MaterialInfoErrCode.successUpdateUnit 更新成功
+     * MaterialInfoErrCode.failedUpdateUnit 更新失败
      * @author cplayer
      * @date 2019-03-01 22:25
-     * @param params 更新物料信息请求的参数
-     *
-     * @return MaterialInfoErrCode.successUpdateUnit 更新成功
-     *         MaterialInfoErrCode.failedUpdateUnit 更新失败
-     *
      */
     public int updateMaterialInfoForUnitData (MaterialInfoModifyRequest params) {
         // 关联计量单位id统一设置成默认计量单位id
@@ -156,7 +145,7 @@ public class UnitModifyServiceSupplier {
                 if (materialUnit.getUnitId() == existedRecord.getUnitId()) {
                     // 存在不同，需要更新
                     if (materialUnit.getConversionFactor() != existedRecord.getConversionFactor() ||
-                        materialUnit.getSort() !=  existedRecord.getSort()) {
+                            materialUnit.getSort() != existedRecord.getSort()) {
                         updateList.add(materialUnit);
                     }
                     // 存储完对应的信息之后，移除对应的记录

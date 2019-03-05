@@ -2,13 +2,12 @@ package org.material.managementservice.mapper;
 
 
 import org.apache.ibatis.annotations.*;
-import org.material.managementservice.mapper.provider.MaterialInfoProvider;
 import org.material.managementfacade.model.tablemodel.*;
+import org.material.managementservice.mapper.provider.MaterialInfoProvider;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Component(value = "materialInfoMapper")

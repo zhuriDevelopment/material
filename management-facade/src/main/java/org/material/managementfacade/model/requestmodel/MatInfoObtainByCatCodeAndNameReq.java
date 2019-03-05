@@ -8,7 +8,7 @@ import java.util.List;
  * 根据物料编码和物料名称获取所有物料信息请求的封装类
  */
 
-public class MaterialInfoObtainByCatCodeAndNameRequest {
+public class MatInfoObtainByCatCodeAndNameReq {
     private String code;
     private String name;
     private List<Integer> typeArr;

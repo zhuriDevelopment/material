@@ -1,6 +1,6 @@
 package org.material.managementservice.service.info.impl.supplier.baseprop;
 
-import org.material.managementfacade.model.requestmodel.MaterialBaseObtainBySpuAndMatCodeRequest;
+import org.material.managementfacade.model.requestmodel.MatBaseObtainBySpuAndMatCodeReq;
 import org.material.managementfacade.model.responsemodel.MaterialBaseObtainBySpuAndMatCodeElement;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropModel;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropValModel;
@@ -21,12 +21,11 @@ import java.util.*;
  */
 @Component
 public class BasePropObtainServiceSupplier {
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
     @Autowired
     private GeneralMapper generalMapper;
     @Autowired
     private InfoObtainMapper infoObtainMapper;
-
-    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
     /**
      * 根据物料分类id和物料类别获取对应的物料基本属性
@@ -77,7 +76,7 @@ public class BasePropObtainServiceSupplier {
      * @date 2019-03-03 02:40
      */
     public MaterialBaseObtainBySpuAndMatCodeElement getMateialBaseBySpuCodeAndSpecificMatCode (
-            MaterialBaseObtainBySpuAndMatCodeRequest params,
+            MatBaseObtainBySpuAndMatCodeReq params,
             String materialCode,
             Map<Integer, MaterialBasePropModel> commonBaseProps
     ) {

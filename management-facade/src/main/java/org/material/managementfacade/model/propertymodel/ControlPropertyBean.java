@@ -9,19 +9,19 @@ public class ControlPropertyBean {
         this.propertyValue = propertyValue;
     }
 
-    public String getPropertyName() {
+    public String getPropertyName () {
         return propertyName;
     }
 
-    public void setPropertyName(String propertyName) {
+    public void setPropertyName (String propertyName) {
         this.propertyName = propertyName;
     }
 
-    public Object getPropertyValue() {
+    public Object getPropertyValue () {
         return propertyValue;
     }
 
-    public void setPropertyValue(Object propertyValue) {
+    public void setPropertyValue (Object propertyValue) {
         this.propertyValue = propertyValue;
     }
 }

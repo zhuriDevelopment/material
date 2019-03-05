@@ -6,16 +6,14 @@ import org.material.managementfacade.model.requestmodel.MaterialBaseModifyBySpuA
 import org.material.managementfacade.model.requestmodel.MaterialInfoModifyByCatCodeAndNameRequest;
 import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
 import org.material.managementfacade.model.responsemodel.MaterialInfoModifyByCatCodeAndNameResponse;
-import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.general.MaterialGeneral;
+import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.service.info.impl.InfoModifyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author cplayer on 2019-02-25.

@@ -44,51 +44,51 @@ public class MaterialUnitModel {
         return Objects.hash(id, spuCode, unitId, relatedId, conversionFactor, sort);
     }
 
-    public int getId() {
+    public int getId () {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId (int id) {
         this.id = id;
     }
 
-    public String getSpuCode() {
+    public String getSpuCode () {
         return spuCode;
     }
 
-    public void setSpuCode(String spuCode) {
+    public void setSpuCode (String spuCode) {
         this.spuCode = spuCode;
     }
 
-    public int getUnitId() {
+    public int getUnitId () {
         return unitId;
     }
 
-    public void setUnitId(int unitId) {
+    public void setUnitId (int unitId) {
         this.unitId = unitId;
     }
 
-    public int getRelatedId() {
+    public int getRelatedId () {
         return relatedId;
     }
 
-    public void setRelatedId(int relatedId) {
+    public void setRelatedId (int relatedId) {
         this.relatedId = relatedId;
     }
 
-    public double getConversionFactor() {
+    public double getConversionFactor () {
         return conversionFactor;
     }
 
-    public void setConversionFactor(double conversionFactor) {
+    public void setConversionFactor (double conversionFactor) {
         this.conversionFactor = conversionFactor;
     }
 
-    public int getSort() {
+    public int getSort () {
         return sort;
     }
 
-    public void setSort(int sort) {
+    public void setSort (int sort) {
         this.sort = sort;
     }
 }

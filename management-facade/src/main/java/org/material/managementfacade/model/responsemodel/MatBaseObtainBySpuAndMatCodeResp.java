@@ -8,7 +8,7 @@ import java.util.List;
  * 根据spu编码和物料编码获取物料基本属性回复封装类
  */
 
-public class MaterialBaseObtainBySpuAndMatCodeResponse {
+public class MatBaseObtainBySpuAndMatCodeResp {
     private int errCode;
     private List<MaterialBaseObtainBySpuAndMatCodeElement> baseInfos;
 

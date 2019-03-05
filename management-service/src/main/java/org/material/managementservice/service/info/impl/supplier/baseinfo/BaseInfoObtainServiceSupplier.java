@@ -29,16 +29,14 @@ public class BaseInfoObtainServiceSupplier {
 
     /**
      * 获取所有的基本信息的详细信息
-     *
+     * <p>
      * 包括物料基本信息、物料分类信息、计量单位信息
      * materialBase、materialCategory、unit
      *
+     * @param baseModels 待获取的基本信息列表
+     * @return org.material.managementfacade.model.responsemodel.BaseInfoRespParams
      * @author cplayer
      * @date 2019-02-25 16:33
-     * @param baseModels 待获取的基本信息列表
-     *
-     * @return org.material.managementfacade.model.responsemodel.BaseInfoRespParams
-     *
      */
     public BaseInfoResp getBaseInfoAllParams (List<MaterialBaseModel> baseModels) {
         BaseInfoResp result = new BaseInfoResp();

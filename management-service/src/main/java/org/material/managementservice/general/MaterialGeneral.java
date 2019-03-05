@@ -2,8 +2,6 @@ package org.material.managementservice.general;
 
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -25,14 +23,11 @@ public class MaterialGeneral {
     /**
      * 泛型工具函数，判断一个数组内是否有需要的对象
      *
+     * @param eleList 待检查的元素数组
+     * @param key     需要判断是否存在的对象
+     * @return boolean
      * @author cplayer
      * @date 2019-03-02 21:09
-     * @param eleList 待检查的元素数组
-     *
-     * @param key 需要判断是否存在的对象
-     *
-     * @return boolean
-     *
      */
     public static <T> boolean checkList (T[] eleList, T key) {
         for (T ele : eleList) {
@@ -46,12 +41,10 @@ public class MaterialGeneral {
     /**
      * 通过反射来判断是否对象中含有空属性
      *
+     * @param object 对应的对象
+     * @return boolean
      * @author cplayer
      * @date 2019-02-28 16:30
-     * @param object 对应的对象
-     *
-     * @return boolean
-     *
      */
     public static boolean isContainsEmpty (@NotNull Object object) {
         boolean result = false;
@@ -76,12 +69,10 @@ public class MaterialGeneral {
      * 通过反射来判断是否类中的所有属性均为空
      * 不支持泛型
      *
-     * @author cplayer
-     * @date 2019-02-25 03:12     
      * @param object 对应的对象
-     *
      * @return boolean
-     *
+     * @author cplayer
+     * @date 2019-02-25 03:12
      */
     public static boolean isAllEmpty (@NotNull Object object) {
         boolean result = true;
@@ -106,14 +97,11 @@ public class MaterialGeneral {
     /**
      * 泛型工具类，返回泛型列表中第一个元素，若列表为空，则返回一个空元素
      *
+     * @param targetList 对应的列表
+     * @param cls        List中对应类的class对象
+     * @return 对应的对象
      * @author cplayer
      * @date 2019-02-25 16:31
-     * @param targetList 对应的列表
-     *
-     * @param cls List中对应类的class对象
-     *
-     * @return 对应的对象
-     *
      */
     public static <T> T getInitElementOrFirstElement (List<T> targetList, Class<T> cls) {
         try {
@@ -132,12 +120,10 @@ public class MaterialGeneral {
      * 判断传入的所有对象是否含有无效对象的函数
      * Object以null作为无效，int以-1作为无效
      *
+     * @param params 参数数组
+     * @return true代表含有，false代表不含
      * @author cplayer
      * @date 2019-03-05 19:43
-     * @param params 参数数组
-     *
-     * @return true代表含有，false代表不含
-     *
      */
     public static boolean isAllEmptyParams (Object... params) {
         boolean result = true;

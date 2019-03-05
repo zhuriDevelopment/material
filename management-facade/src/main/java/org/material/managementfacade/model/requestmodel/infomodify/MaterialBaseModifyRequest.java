@@ -3,7 +3,7 @@ package org.material.managementfacade.model.requestmodel.infomodify;
 /**
  * @author cplayer on 2019-02-27 04:20.
  * @version 1.0
- *
+ * <p>
  * updateMaterialInfo中物料基本信息更新的封装类
  * 包含以下几种属性：
  * spu编码

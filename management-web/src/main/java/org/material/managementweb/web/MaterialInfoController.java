@@ -3,19 +3,19 @@ package org.material.managementweb.web;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.material.managementservice.service.impl.MaterialInfoServiceImpl;
-import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/materialmanagementtest")
 @Api(value = "物料信息接口", description = "物料信息接口")
 @CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
-            methods = {RequestMethod.GET, RequestMethod.POST},
+             methods = {RequestMethod.GET, RequestMethod.POST},
              origins = "*")
 public class MaterialInfoController {
     @Autowired
@@ -54,11 +54,6 @@ public class MaterialInfoController {
             return result;
         }
     }
-
-
-
-
-
 
 
     @PostMapping(value = "/updateMaterialCategory")
@@ -196,9 +191,9 @@ public class MaterialInfoController {
 
     @PostMapping(value = "/getMaterialBaseByCatIdAndType")
     @ApiOperation(value = "根据CatId和Type获取规格", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Object> getMaterialBaseByCatIdAndType(@RequestBody Map<String, Object> params){
-        int catId = (int)params.get("catId");
-        int propertyType = (int)params.get("propertyType");
+    public List<Object> getMaterialBaseByCatIdAndType (@RequestBody Map<String, Object> params) {
+        int catId = (int) params.get("catId");
+        int propertyType = (int) params.get("propertyType");
         return materialInfoService.getMaterialBaseByCatIdAndType(catId, propertyType);
     }
 }

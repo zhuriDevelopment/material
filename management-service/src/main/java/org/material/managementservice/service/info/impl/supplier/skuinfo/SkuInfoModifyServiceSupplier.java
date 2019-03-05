@@ -3,8 +3,8 @@ package org.material.managementservice.service.info.impl.supplier.skuinfo;
 import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
 import org.material.managementfacade.model.requestmodel.infomodify.MaterialSkuModifyRequestElement;
 import org.material.managementfacade.model.tablemodel.MaterialSkuModel;
-import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.general.MaterialGeneral;
+import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.mapper.info.InfoModifyMapper;
 import org.material.managementservice.mapper.info.InfoObtainMapper;
 import org.slf4j.Logger;
@@ -24,12 +24,11 @@ import java.util.stream.Collectors;
 
 @Component
 public class SkuInfoModifyServiceSupplier {
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
     @Autowired
     private InfoObtainMapper infoObtainMapper;
     @Autowired
     private InfoModifyMapper infoModifyMapper;
-
-    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
     /**
      * 检查对应的sku数据是否合法的函数
@@ -61,12 +60,10 @@ public class SkuInfoModifyServiceSupplier {
     /**
      * 将MaterialSkuModifyRequestElement转换成MaterialSkuModel对象的函数
      *
+     * @param skuElement 待转换的MaterialSkuModifyRequestElement对象
+     * @return org.material.managementfacade.model.tablemodel.MaterialSkuModel
      * @author cplayer
      * @date 2019-02-28 17:19
-     * @param skuElement 待转换的MaterialSkuModifyRequestElement对象
-     *
-     * @return org.material.managementfacade.model.tablemodel.MaterialSkuModel
-     *
      */
     public MaterialSkuModel convertToSkuModel (MaterialSkuModifyRequestElement skuElement) {
         MaterialSkuModel result = new MaterialSkuModel();
@@ -84,14 +81,11 @@ public class SkuInfoModifyServiceSupplier {
     /**
      * 删除集合中的所有对应的materialSku信息的函数
      *
+     * @param deleteSet 待删除的materialSku表记录集合
+     * @param spuCode   对应的spu编码
+     * @return 操作成功的行数
      * @author cplayer
      * @date 2019-02-28 17:20
-     * @param deleteSet 待删除的materialSku表记录集合
-     *
-     * @param spuCode 对应的spu编码
-     *
-     * @return 操作成功的行数
-     *
      */
     public int deleteAllSkuInfosInSet (Set<MaterialSkuModifyRequestElement> deleteSet, String spuCode) {
         int countResult = 0;
@@ -120,14 +114,11 @@ public class SkuInfoModifyServiceSupplier {
     /**
      * 添加集合中的所有对应的materialSku信息的函数
      *
+     * @param insertSet 待添加的materialSku表记录集合
+     * @param spuCode   对应的spu编码
+     * @return 操作成功的行数
      * @author cplayer
      * @date 2019-02-28 17:20
-     * @param insertSet 待添加的materialSku表记录集合
-     *
-     * @param spuCode 对应的spu编码
-     *
-     * @return 操作成功的行数
-     *
      */
     public int insertAllSkuInfosInSet (Set<MaterialSkuModifyRequestElement> insertSet, String spuCode) {
         int countResult = 0;
@@ -157,13 +148,11 @@ public class SkuInfoModifyServiceSupplier {
     /**
      * 更新sku信息的函数
      *
+     * @param params 更新物料信息请求的参数
+     * @return MaterialInfoErrCode.successUpdateSku 成功更新
+     * MaterialInfoErrCode.failedUpdateSku 更新失败
      * @author cplayer
      * @date 2019-02-28 17:21
-     * @param params 更新物料信息请求的参数
-     *
-     * @return MaterialInfoErrCode.successUpdateSku 成功更新
-     *         MaterialInfoErrCode.failedUpdateSku 更新失败
-     *
      */
     public int updateMaterialInfoForSkuData (MaterialInfoModifyRequest params) {
         // 先获取当前数据库中已经有的sku信息，并存到集合中

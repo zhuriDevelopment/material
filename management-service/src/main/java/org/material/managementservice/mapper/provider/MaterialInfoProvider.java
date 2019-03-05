@@ -1,8 +1,8 @@
 package org.material.managementservice.mapper.provider;
 
-import java.util.Map;
-
 import org.apache.ibatis.jdbc.SQL;
+
+import java.util.Map;
 
 // 本类所有的方法均要求做到对全部参数可用
 // 根据所提供的Map动态生成对应的sql语言
@@ -294,7 +294,7 @@ public class MaterialInfoProvider {
     // ---------------------------------------- 更新物料基本信息部分 ----------------------------------------
     public String updateBaseInfoWithBaseInfoParams (String spuCode, String name, String value) {
         String[] stringList = {"spuCode", "mnemonic", "spuName", "description", "designCode", "designVersion",
-                                "source", "usage", "note"};
+                "source", "usage", "note"};
         return new SQL() {
             {
                 UPDATE("materialBase");

@@ -6,7 +6,7 @@ package org.material.managementfacade.model.requestmodel;
  * 根据物料分类id和属性类型获取物料基本属性请求封装类
  */
 
-public class BasePropObtainByCatIdAndTypeRequest {
+public class BasePropObtainByCatIdAndTypeReq {
     private int catId;
     private int propertyType;
 

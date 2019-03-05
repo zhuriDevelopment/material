@@ -18,27 +18,27 @@ public class MaterialCategoryModel {
         this.parentId = -1;
     }
 
-    public int getId() {
+    public int getId () {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId (int id) {
         this.id = id;
     }
 
-    public String getCode() {
+    public String getCode () {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode (String code) {
         this.code = code;
     }
 
-    public String getName() {
+    public String getName () {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName (String name) {
         this.name = name;
     }
 
@@ -50,11 +50,11 @@ public class MaterialCategoryModel {
         this.type = type;
     }
 
-    public int getParentId() {
+    public int getParentId () {
         return parentId;
     }
 
-    public void setParentId(int parentId) {
+    public void setParentId (int parentId) {
         this.parentId = parentId;
     }
 }

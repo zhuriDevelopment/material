@@ -28,59 +28,59 @@ public class MaterialSkuModel {
         this.description = null;
     }
 
-    public int getId() {
+    public int getId () {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId (int id) {
         this.id = id;
     }
 
-    public String getSpuCode() {
+    public String getSpuCode () {
         return spuCode;
     }
 
-    public void setSpuCode(String spuCode) {
+    public void setSpuCode (String spuCode) {
         this.spuCode = spuCode;
     }
 
-    public String getSkuCode() {
+    public String getSkuCode () {
         return skuCode;
     }
 
-    public void setSkuCode(String skuCode) {
+    public void setSkuCode (String skuCode) {
         this.skuCode = skuCode;
     }
 
-    public int getUnitId() {
+    public int getUnitId () {
         return unitId;
     }
 
-    public void setUnitId(int unitId) {
+    public void setUnitId (int unitId) {
         this.unitId = unitId;
     }
 
-    public int getPurchasePrice() {
+    public int getPurchasePrice () {
         return purchasePrice;
     }
 
-    public void setPurchasePrice(int purchasePrice) {
+    public void setPurchasePrice (int purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
 
-    public int getSellingPrice() {
+    public int getSellingPrice () {
         return sellingPrice;
     }
 
-    public void setSellingPrice(int sellingPrice) {
+    public void setSellingPrice (int sellingPrice) {
         this.sellingPrice = sellingPrice;
     }
 
-    public String getDescription() {
+    public String getDescription () {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription (String description) {
         this.description = description;
     }
 

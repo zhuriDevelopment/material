@@ -2,7 +2,6 @@ package org.material.managementfacade.model.responsemodel;
 
 import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialCategoryModel;
-import org.material.managementfacade.model.tablemodel.MaterialKeyPropModel;
 import org.material.managementfacade.model.tablemodel.UnitModel;
 
 import java.util.List;
@@ -10,13 +9,13 @@ import java.util.List;
 /**
  * @author cplayer on 2019-02-25.
  * @version 1.0
- *
+ * <p>
  * 用于回复基础信息请求的回复类
- *
+ * <p>
  * 包含三个列表：
- *  第一个列表代表对应的基础信息，即materialBase表；
- *  第二个列表代表对应的分类信息，即materialCategory表；
- *  第三个列表代表对应的单位信息，即unit表；
+ * 第一个列表代表对应的基础信息，即materialBase表；
+ * 第二个列表代表对应的分类信息，即materialCategory表；
+ * 第三个列表代表对应的单位信息，即unit表；
  */
 
 public class BaseInfoRespParams {

@@ -16,35 +16,35 @@ public class MaterialCtrlPropValModel {
         this.value = null;
     }
 
-    public int getId() {
+    public int getId () {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId (int id) {
         this.id = id;
     }
 
-    public int getVersionId() {
+    public int getVersionId () {
         return versionId;
     }
 
-    public void setVersionId(int versionId) {
+    public void setVersionId (int versionId) {
         this.versionId = versionId;
     }
 
-    public int getMaterialCtrlPropId() {
+    public int getMaterialCtrlPropId () {
         return materialCtrlPropId;
     }
 
-    public void setMaterialCtrlPropId(int materialCtrlPropId) {
+    public void setMaterialCtrlPropId (int materialCtrlPropId) {
         this.materialCtrlPropId = materialCtrlPropId;
     }
 
-    public String getValue() {
+    public String getValue () {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue (String value) {
         this.value = value;
     }
 }

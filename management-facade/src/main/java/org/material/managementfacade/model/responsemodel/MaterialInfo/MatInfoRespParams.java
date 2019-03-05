@@ -1,7 +1,10 @@
 package org.material.managementfacade.model.responsemodel.MaterialInfo;
 
 import org.material.managementfacade.model.propertymodel.ControlPropertyBean;
-import org.material.managementfacade.model.tablemodel.*;
+import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
+import org.material.managementfacade.model.tablemodel.MaterialFilesModel;
+import org.material.managementfacade.model.tablemodel.MaterialModel;
+import org.material.managementfacade.model.tablemodel.MaterialSkuModel;
 
 import java.util.List;
 

@@ -22,59 +22,59 @@ public class MaterialBasePropModel {
         this.sort = -1;
     }
 
-    public int getId() {
+    public int getId () {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId (int id) {
         this.id = id;
     }
 
-    public int getMaterialCatId() {
+    public int getMaterialCatId () {
         return materialCatId;
     }
 
-    public void setMaterialCatId(int materialCatId) {
+    public void setMaterialCatId (int materialCatId) {
         this.materialCatId = materialCatId;
     }
 
-    public int getType() {
+    public int getType () {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType (int type) {
         this.type = type;
     }
 
-    public String getLabel() {
+    public String getLabel () {
         return label;
     }
 
-    public void setLabel(String label) {
+    public void setLabel (String label) {
         this.label = label;
     }
 
-    public String getName() {
+    public String getName () {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName (String name) {
         this.name = name;
     }
 
-    public String getValueRange() {
+    public String getValueRange () {
         return valueRange;
     }
 
-    public void setValueRange(String valueRange) {
+    public void setValueRange (String valueRange) {
         this.valueRange = valueRange;
     }
 
-    public int getSort() {
+    public int getSort () {
         return sort;
     }
 
-    public void setSort(int sort) {
+    public void setSort (int sort) {
         this.sort = sort;
     }
 }

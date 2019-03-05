@@ -1,7 +1,5 @@
 package org.material.managementfacade.model.requestmodel.infomodify;
 
-import java.util.List;
-
 /**
  * @author cplayer on 2019-02-27 21:04
  * @version 1.0

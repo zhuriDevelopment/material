@@ -11,7 +11,7 @@ import java.util.List;
  * 根据物料编码和物料名称获取所有物料信息的回复类
  */
 
-public class MaterialInfoObtainByCatCodeAndNameResponse {
+public class MatInfoObtainByCatCodeAndNameResp {
     private int resultCode;
     private List<MaterialBasePropModel> basePropList;
     private List<ControlPropertyBean> purchaseAndStoreInfos;

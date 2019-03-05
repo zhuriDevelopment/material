@@ -1,10 +1,10 @@
 package org.material.managementfacade.service;
 
-import java.util.*;
-
 import org.material.managementfacade.model.processmodel.MaterialCategoryTree;
-
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 public interface MaterialInfoService {
@@ -37,5 +37,5 @@ public interface MaterialInfoService {
 
     int updateMaterialBasePropsBySpuCodeAndMaterialCodes (String spuCode, int propertyType, List<Object> updateValue);
 
-    List<Object> getMaterialBaseByCatIdAndType(int catId, int propertyType);
+    List<Object> getMaterialBaseByCatIdAndType (int catId, int propertyType);
 }

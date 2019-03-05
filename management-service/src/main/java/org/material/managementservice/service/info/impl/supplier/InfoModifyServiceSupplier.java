@@ -34,12 +34,10 @@ public class InfoModifyServiceSupplier {
     /**
      * 物料信息更新的中间函数，其中进行调用实际功能代码的操作
      *
+     * @param params 更新物料信息请求的参数
+     * @return BaseInfoModifyServiceSupplier中updateMaterialInfoForBaseData方法的返回值
      * @author cplayer
      * @date 2019-02-28 16:12
-     * @param params 更新物料信息请求的参数
-     *
-     * @return BaseInfoModifyServiceSupplier中updateMaterialInfoForBaseData方法的返回值
-     *
      */
     public int updateMaterialInfoForBaseData (MaterialInfoModifyRequest params) {
         return baseInfoModifyServiceSupplier.updateMaterialInfoForBaseData(params);
@@ -49,12 +47,10 @@ public class InfoModifyServiceSupplier {
     /**
      * 物料定义更新的对应函数
      *
+     * @param params 更新物料信息请求的参数
+     * @return materialInfoModifyServiceSupplier中updateMaterialInfoForMaterialDataByMaterial方法的返回值
      * @author cplayer
      * @date 2019-02-28 16:16
-     * @param params 更新物料信息请求的参数
-     *
-     * @return materialInfoModifyServiceSupplier中updateMaterialInfoForMaterialDataByMaterial方法的返回值
-     *
      */
     public int updateMaterialInfoForMaterialDataByMaterial (MaterialInfoModifyRequest params) {
         return materialInfoModifyServiceSupplier.updateMaterialInfoForMaterialDataByMaterial(params);
@@ -63,12 +59,10 @@ public class InfoModifyServiceSupplier {
     /**
      * 物料规格属性更新的对应函数
      *
+     * @param params 更新物料信息请求的参数
+     * @return formatPropModifyServiceSupplier中updateMaterialInfoForMaterialDataByFormat方法的返回值
      * @author cplayer
      * @date 2019-02-28 16:19
-     * @param params 更新物料信息请求的参数
-     *
-     * @return formatPropModifyServiceSupplier中updateMaterialInfoForMaterialDataByFormat方法的返回值
-     *
      */
     public int updateMaterialInfoForMaterialDataByFormat (MaterialInfoModifyRequest params) {
         return formatPropModifyServiceSupplier.updateMaterialInfoForMaterialDataByFormat(params);
@@ -77,12 +71,10 @@ public class InfoModifyServiceSupplier {
     /**
      * 更新物料sku信息的对应函数
      *
+     * @param params 更新物料信息请求的参数
+     * @return skuInfoModifyServiceSupplier中updateMaterialInfoForSkuData方法的返回值
      * @author cplayer
      * @date 2019-02-28 16:22
-     * @param params 更新物料信息请求的参数
-     *
-     * @return skuInfoModifyServiceSupplier中updateMaterialInfoForSkuData方法的返回值
-     *
      */
     public int updateMaterialInfoForSkuData (MaterialInfoModifyRequest params) {
         return skuInfoModifyServiceSupplier.updateMaterialInfoForSkuData(params);
@@ -91,12 +83,10 @@ public class InfoModifyServiceSupplier {
     /**
      * 更新物料控制属性信息的对应函数
      *
+     * @param params 更新物料信息请求的参数
+     * @return controlPropModifyServiceSupplier中updateMaterialInfoForCtrData方法的返回值
      * @author cplayer
      * @date 2019-02-28 17:28
-     * @param params 更新物料信息请求的参数
-     *
-     * @return controlPropModifyServiceSupplier中updateMaterialInfoForCtrData方法的返回值
-     *
      */
     public int updateMaterialInfoForCtrData (MaterialInfoModifyRequest params) {
         return controlPropModifyServiceSupplier.updateMaterialInfoForCtrData(params);
@@ -105,12 +95,10 @@ public class InfoModifyServiceSupplier {
     /**
      * 更新物料计量单位信息的对应函数
      *
+     * @param params 更新物料信息请求的参数
+     * @return unitModifyServiceSupplier中updateMaterialInfoForUnitData方法的返回值
      * @author cplayer
      * @date 2019-03-01 22:20
-     * @param params 更新物料信息请求的参数
-     *
-     * @return unitModifyServiceSupplier中updateMaterialInfoForUnitData方法的返回值
-     *
      */
     public int updateMaterialInfoForUnitData (MaterialInfoModifyRequest params) {
         return unitModifyServiceSupplier.updateMaterialInfoForUnitData(params);

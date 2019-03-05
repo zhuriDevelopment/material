@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.Map;
 
 /**
  * @author cplayer on 2019-02-25.
@@ -57,8 +56,8 @@ public class CategoryModifyController {
     public int deleteMaterialCategory (@RequestBody @NotNull CategoryDeleteRequest request) {
         //必须获取全部属性值
         if (!MaterialGeneral.isContainsEmpty(request)
-            && request.getId() != -1
-            && request.getParentId() != -1) {
+                && request.getId() != -1
+                && request.getParentId() != -1) {
             // 数据合法，允许继续
             return categoryModifyService.deleteMaterialCategory(request);
         } else {

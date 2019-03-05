@@ -12,8 +12,8 @@ import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialCtrlPropModel;
 import org.material.managementfacade.model.tablemodel.MaterialCtrlPropValModel;
 import org.material.managementfacade.model.tablemodel.MaterialCtrlPropValVerModel;
-import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.general.MaterialGeneral;
+import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoModifyMapper;
 import org.material.managementservice.mapper.info.InfoObtainMapper;
@@ -23,7 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author cplayer on 2019-02-28 17:27
@@ -32,6 +34,7 @@ import java.util.*;
  */
 @Component
 public class ControlPropModifyServiceSupplier {
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
     @Autowired
     private InfoObtainMapper infoObtainMapper;
     @Autowired
@@ -48,21 +51,17 @@ public class ControlPropModifyServiceSupplier {
     private QualityList qualityList;
     @Autowired
     private FinanceList financeList;
-    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
     /**
      * 根据给定的控制属性值列表以及版本id，更新对应的控制属性值
      *
-     * @author cplayer
-     * @date 2019-03-01 05:34     
-     * @param params 更新物料信息请求的参数
-     *
+     * @param params    更新物料信息请求的参数
      * @param versionId 版本id
-     *
      * @return MaterialInfoErrCode.failedUpdateAllControlPropInMaterial 更新物料控制属性全部失败
-     *         MaterialInfoErrCode.failedUpdateSomeControlPropInMaterial 更新物料控制属性部分失败
-     *         MaterialInfoErrCode.successUpdateAllControlPropInMaterial 更新物料控制属性成功
-     *
+     * MaterialInfoErrCode.failedUpdateSomeControlPropInMaterial 更新物料控制属性部分失败
+     * MaterialInfoErrCode.successUpdateAllControlPropInMaterial 更新物料控制属性成功
+     * @author cplayer
+     * @date 2019-03-01 05:34
      */
     private int updateCtrPropsByCtrPropList (MaterialInfoModifyRequest params, int versionId) {
         List<MaterialControlPropModifyRequestElement> ctrPropList = params.getCtrPropDatas().getCtrPropList();
@@ -115,13 +114,11 @@ public class ControlPropModifyServiceSupplier {
     /**
      * 更新物料控制属性对应的功能函数
      *
+     * @param params 更新物料信息请求的参数
+     * @return MaterialInfoErrCode.successUpdateControlPropInMaterial 更新成功
+     * MaterialInfoErrCode.failedUpdateControlPropInMaterial 更新失败
      * @author cplayer
      * @date 2019-02-28 17:30
-     * @param params 更新物料信息请求的参数
-     *
-     * @return MaterialInfoErrCode.successUpdateControlPropInMaterial 更新成功
-     *         MaterialInfoErrCode.failedUpdateControlPropInMaterial 更新失败
-     *
      */
     public int updateMaterialInfoForCtrData (MaterialInfoModifyRequest params) {
         // 在后续设计出来之前，组织编码统一设置成-1
@@ -130,8 +127,8 @@ public class ControlPropModifyServiceSupplier {
         // 故根据版本号、spu编码、物料分类id以及组织编码可以唯一确定一条控制属性版本
         // 获取物料基本信息记录，以获取物料分类id
         MaterialBaseModel baseInfo = MaterialGeneral.getInitElementOrFirstElement(
-                        infoObtainMapper.getBaseInfoWithSpuCode(params.getSpuCode()),
-                        MaterialBaseModel.class);
+                infoObtainMapper.getBaseInfoWithSpuCode(params.getSpuCode()),
+                MaterialBaseModel.class);
         if (baseInfo.getMaterialCatId() == -1) {
             // 说明不存在对应的记录
             return MaterialInfoErrCode.failedUpdateControlProp;
@@ -147,7 +144,7 @@ public class ControlPropModifyServiceSupplier {
         if (propValVerList.size() > 1) {
             // 日志中报错，但是不停下操作
             logger.error(String.format("在查询MaterialCtrlPropValVer表的过程中，对于spuCode = %s，组织编码 = %s，" +
-                    "物料分类id = %d的情形存在复数条记录。",
+                            "物料分类id = %d的情形存在复数条记录。",
                     spuCode,
                     organizationCode,
                     baseInfo.getMaterialCatId()));
@@ -173,7 +170,7 @@ public class ControlPropModifyServiceSupplier {
         }
         int updateResult = updateCtrPropsByCtrPropList(params, versionId);
         if (updateResult == MaterialInfoErrCode.failedUpdateSomeControlProp ||
-            updateResult == MaterialInfoErrCode.failedUpdateAllControlProp) {
+                updateResult == MaterialInfoErrCode.failedUpdateAllControlProp) {
             updateResult = MaterialInfoErrCode.failedUpdateControlProp;
         } else {
             updateResult = MaterialInfoErrCode.successUpdateControlProp;
@@ -185,22 +182,16 @@ public class ControlPropModifyServiceSupplier {
     /**
      * 根据控制属性类别、组织编码，物料分类id，属性名和属性值更新对应控制属性的函数
      *
+     * @param type             控制属性类别
+     * @param organizationCode 组织编码
+     * @param catId            物料分类id
+     * @param name             属性名
+     * @param value            属性值
+     * @return MaterialInfoErrCode.notFoundControlPropertyType 提交上来的物料控制属性分类未找到
+     * MaterialInfoErrCode.notFoundControlPropertyName 提交上来的物料控制属性名称未找到
+     * 任意正值 更新成功
      * @author cplayer
      * @date 2019-03-02 20:57
-     * @param type 控制属性类别
-     *
-     * @param organizationCode 组织编码
-     *
-     * @param catId 物料分类id
-     *
-     * @param name 属性名
-     *
-     * @param value 属性值
-     *
-     * @return MaterialInfoErrCode.notFoundControlPropertyType 提交上来的物料控制属性分类未找到
-     *         MaterialInfoErrCode.notFoundControlPropertyName 提交上来的物料控制属性名称未找到
-     *         任意正值 更新成功
-     *
      */
     public int updateControlPropertyByCatIdAndTypeAndDatas (int type, String organizationCode, int catId, String name, String value) {
         MaterialCtrlPropValVerModel varParam = new MaterialCtrlPropValVerModel();
@@ -252,15 +243,12 @@ public class ControlPropModifyServiceSupplier {
     /**
      * 根据物料分类id待更新属性值更新物料控制属性的功能函数
      *
+     * @param updateDatas 待更新的属性值
+     * @param catId       物料分类id
+     * @return MaterialInfoErrCode.failedUpdateControlPropertyByCatIdAndTypeAndValue 更新失败
+     * MaterialInfoErrCode.successUpdateControlPropertyByCatIdAndTypeAndValue 更新成功
      * @author cplayer
      * @date 2019-03-02 20:34
-     * @param updateDatas 待更新的属性值
-     *
-     * @param catId 物料分类id
-     *
-     * @return MaterialInfoErrCode.failedUpdateControlPropertyByCatIdAndTypeAndValue 更新失败
-     *         MaterialInfoErrCode.successUpdateControlPropertyByCatIdAndTypeAndValue 更新成功
-     *
      */
     public int updateControlPropertyByCatIdAndTypeAndValue (
             List<InfoModifyByCatCodeAndNameControlPropRequest> updateDatas,

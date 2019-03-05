@@ -3,11 +3,14 @@ package org.material.managementweb.info;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.material.managementfacade.model.requestmodel.*;
-import org.material.managementfacade.model.responsemodel.*;
+import org.material.managementfacade.model.responsemodel.BaseInfoResp;
+import org.material.managementfacade.model.responsemodel.MatBaseObtainBySpuAndMatCodeResp;
+import org.material.managementfacade.model.responsemodel.MatInfoObtainByCatCodeAndNameResp;
+import org.material.managementfacade.model.responsemodel.MatInfoObtainByCatInfoResp;
 import org.material.managementfacade.model.responsemodel.MaterialInfo.MatInfoResp;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropModel;
-import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.general.MaterialGeneral;
+import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.service.info.impl.InfoObtainServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -67,27 +70,32 @@ public class InfoObtainController {
 
     @GetMapping(value = "/getAllMaterialBaseByCategoryInfos")
     @ApiOperation(value = "根据物料分类信息获取所有物料基本信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public MaterialInfoObtainByCategoryInfoResponse getAllMaterialBaseByCategoryInfos (@RequestBody MaterialInfoObtainByCategoryInfoRequest params) {
+    public MatInfoObtainByCatInfoResp getAllMaterialBaseByCategoryInfos
+            (@RequestBody MatInfoObtainByCatInfoReq params) {
         int id = params.getId();
         if (id != -1) {
             return infoObtainService.getAllMaterialBaseByCategoryInfos(params);
         } else {
             // 返回空对象
-            return new MaterialInfoObtainByCategoryInfoResponse();
+            MatInfoObtainByCatInfoResp result = new MatInfoObtainByCatInfoResp();
+            result.setErrCode(MaterialInfoErrCode.invalidParams);
+            return result;
         }
     }
 
     @GetMapping(value = "/getMaterialInfoWithCatCodeAndCatName")
     @ApiOperation(value = "根据物料分类编码和物料分类名称获取所有物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public MaterialInfoObtainByCatCodeAndNameResponse getMaterialInfoWithCatCodeAndCatName (@RequestBody @NotNull MaterialInfoObtainByCatCodeAndNameRequest params) {
+    public MatInfoObtainByCatCodeAndNameResp getMaterialInfoWithCatCodeAndCatName
+            (@RequestBody @NotNull MatInfoObtainByCatCodeAndNameReq params) {
         return infoObtainService.getMaterialInfoWithCatCodeAndCatName(params);
     }
 
     @GetMapping(value = "/getMaterialBasePropsBySpuCodeAndMaterialCodes")
     @ApiOperation(value = "根据spu编码和物料编码获取物料基本属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public MaterialBaseObtainBySpuAndMatCodeResponse getMaterialBasePropsBySpuCodeAndMaterialCodes (@RequestBody @NotNull MaterialBaseObtainBySpuAndMatCodeRequest params) {
+    public MatBaseObtainBySpuAndMatCodeResp getMaterialBasePropsBySpuCodeAndMaterialCodes
+            (@RequestBody @NotNull MatBaseObtainBySpuAndMatCodeReq params) {
         if (MaterialGeneral.isContainsEmpty(params)) {
-            MaterialBaseObtainBySpuAndMatCodeResponse response = new MaterialBaseObtainBySpuAndMatCodeResponse();
+            MatBaseObtainBySpuAndMatCodeResp response = new MatBaseObtainBySpuAndMatCodeResp();
             response.setErrCode(MaterialInfoErrCode.invalidParamWhenObtainBaseBySpuAndMatCode);
             return response;
         } else {
@@ -97,7 +105,8 @@ public class InfoObtainController {
 
     @GetMapping(value = "/getMaterialBaseByCatIdAndType")
     @ApiOperation(value = "根据物料分类id和属性类型获取物料基本属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<MaterialBasePropModel> getMaterialBaseByCatIdAndType(@RequestBody @NotNull BasePropObtainByCatIdAndTypeRequest params) {
+    public List<MaterialBasePropModel> getMaterialBaseByCatIdAndType
+            (@RequestBody @NotNull BasePropObtainByCatIdAndTypeReq params) {
         return infoObtainService.getMaterialBaseByCatIdAndType(params);
     }
 

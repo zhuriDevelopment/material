@@ -46,16 +46,12 @@ public class ControlPropObtainServiceSupplier {
     /**
      * 根据属性名、组织编码以及spuCode查找对应的物料控制属性
      *
+     * @param propName       控制属性名
+     * @param organizationId 组织id
+     * @param spuCode        spu编码
+     * @return org.material.managementfacade.model.propertymodel.ControlPropertyBean
      * @author cplayer
      * @date 2019-02-26 22:15
-     * @param propName 控制属性名
-     *
-     * @param organizationId 组织id
-     *
-     * @param spuCode spu编码
-     *
-     * @return org.material.managementfacade.model.propertymodel.ControlPropertyBean
-     *
      */
     private ControlPropertyBean getControlPropByName (String propName, int organizationId, String spuCode) {
         // 获取物料分类id，不存在就返回空
@@ -103,16 +99,12 @@ public class ControlPropObtainServiceSupplier {
     /**
      * 根据属性名列表、组织编码以及spuCode返回所有对应的物料控制属性
      *
+     * @param propNameList   控制属性名列表
+     * @param organizationId 组织id
+     * @param spuCode        spu编码
+     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      * @author cplayer
      * @date 2019-02-26 22:39
-     * @param propNameList 控制属性名列表
-     *
-     * @param organizationId 组织id
-     *
-     * @param spuCode spu编码
-     *
-     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
-     *
      */
     private List<ControlPropertyBean> getControlPropList (String[] propNameList, int organizationId, String spuCode) {
         List<ControlPropertyBean> result = new ArrayList<>();
@@ -131,18 +123,13 @@ public class ControlPropObtainServiceSupplier {
     /**
      * 根据属性索引、属性名列表、组织id以及spu编码获取所有对应的物料控制属性
      *
+     * @param index          控制属性名索引，即第index个控制属性，顺序由yml文件中的顺序决定
+     * @param propNameList   控制属性名数组
+     * @param organizationId 组织id
+     * @param spuCode        spu编码
+     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      * @author cplayer
      * @date 2019-02-26 22:49
-     * @param index 控制属性名索引，即第index个控制属性，顺序由yml文件中的顺序决定
-     *
-     * @param propNameList 控制属性名数组
-     *
-     * @param organizationId 组织id
-     *
-     * @param spuCode spu编码
-     *
-     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
-     *
      */
     private List<ControlPropertyBean> getControlPropListWithIndex (int index, String[] propNameList, int organizationId, String spuCode) {
         if (index < -1) {
@@ -163,14 +150,11 @@ public class ControlPropObtainServiceSupplier {
     /**
      * 根据属性名索引、组织id以及spu编码获取所有对应的物料采购和库存属性
      *
+     * @param index  采购和库存属性名索引，即第index个采购和库存属性，顺序由yml文件中的顺序决定
+     * @param params 物料信息参数
+     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      * @author cplayer
      * @date 2019-02-26 22:51
-     * @param index 采购和库存属性名索引，即第index个采购和库存属性，顺序由yml文件中的顺序决定
-     *
-     * @param params 物料信息参数
-     *
-     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
-     *
      */
     public List<ControlPropertyBean> getPurchaseAndStoreProperties (int index, MatInfoReq params) {
         return getControlPropListWithIndex(index,
@@ -182,14 +166,11 @@ public class ControlPropObtainServiceSupplier {
     /**
      * 根据属性名索引、组织id以及spu编码获取所有对应的物料计划类属性
      *
+     * @param index  计划类属性名索引，即第index个计划类属性，顺序由yml文件中的顺序决定
+     * @param params 物料信息参数
+     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      * @author cplayer
      * @date 2019-02-26 22:51
-     * @param index 计划类属性名索引，即第index个计划类属性，顺序由yml文件中的顺序决定
-     *
-     * @param params 物料信息参数
-     *
-     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
-     *
      */
     public List<ControlPropertyBean> getPlanProperties (int index, MatInfoReq params) {
         return getControlPropListWithIndex(index,
@@ -201,14 +182,11 @@ public class ControlPropObtainServiceSupplier {
     /**
      * 根据属性名索引、组织id以及spu编码获取所有对应的物料销售类属性
      *
+     * @param index  销售类属性名索引，即第index个销售类属性，顺序由yml文件中的顺序决定
+     * @param params 物料信息参数
+     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      * @author cplayer
      * @date 2019-02-26 22:51
-     * @param index 销售类属性名索引，即第index个销售类属性，顺序由yml文件中的顺序决定
-     *
-     * @param params 物料信息参数
-     *
-     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
-     *
      */
     public List<ControlPropertyBean> getSalesProperties (int index, MatInfoReq params) {
         return getControlPropListWithIndex(index,
@@ -220,14 +198,11 @@ public class ControlPropObtainServiceSupplier {
     /**
      * 根据属性名索引、组织id以及spu编码获取所有对应的物料质量属性
      *
+     * @param index  质量属性名索引，即第index个质量属性，顺序由yml文件中的顺序决定
+     * @param params 物料信息参数
+     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      * @author cplayer
      * @date 2019-02-26 22:51
-     * @param index 质量属性名索引，即第index个质量属性，顺序由yml文件中的顺序决定
-     *
-     * @param params 物料信息参数
-     *
-     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
-     *
      */
     public List<ControlPropertyBean> getQualityProperties (int index, MatInfoReq params) {
         return getControlPropListWithIndex(index,
@@ -239,14 +214,11 @@ public class ControlPropObtainServiceSupplier {
     /**
      * 根据属性名索引、组织id以及spu编码获取所有对应的物料财务属性
      *
+     * @param index  财务属性名索引，即第index个财务属性，顺序由yml文件中的顺序决定
+     * @param params 物料信息参数
+     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      * @author cplayer
      * @date 2019-02-26 22:51
-     * @param index 财务属性名索引，即第index个财务属性，顺序由yml文件中的顺序决定
-     *
-     * @param params 物料信息参数
-     *
-     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
-     *
      */
     public List<ControlPropertyBean> getFinanceProperties (int index, MatInfoReq params) {
         return getControlPropListWithIndex(index,
@@ -258,16 +230,12 @@ public class ControlPropObtainServiceSupplier {
     /**
      * 根据属性索引，组织编码，物料分类id获取所有的对应的物料采购和库存属性
      *
-     * @author cplayer
-     * @date 2019-03-02 06:52     
-     * @param index 采购和库存属性名索引，即第index个采购和库存属性，顺序由yml文件中的顺序决定
-     *
+     * @param index          采购和库存属性名索引，即第index个采购和库存属性，顺序由yml文件中的顺序决定
      * @param organizationId 组织编码
-     *
-     * @param catId 物料分类id
-     *
+     * @param catId          物料分类id
      * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
-     *
+     * @author cplayer
+     * @date 2019-03-02 06:52
      */
     public List<ControlPropertyBean> getPurchaseAndStorePropertiesWithCatId (int index, int organizationId, int catId) {
         return getControlPropListWithIndexAndCatId(index, purchaseAndStoreList.getPurchaseAndStoreList(), organizationId, catId);
@@ -276,16 +244,12 @@ public class ControlPropObtainServiceSupplier {
     /**
      * 根据属性索引，组织编码，物料分类id获取所有的对应的物料计划类属性
      *
+     * @param index          计划类属性名索引，即第index个计划类属性，顺序由yml文件中的顺序决定
+     * @param organizationId 组织编码
+     * @param catId          物料分类id
+     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      * @author cplayer
      * @date 2019-03-02 06:52
-     * @param index 计划类属性名索引，即第index个计划类属性，顺序由yml文件中的顺序决定
-     *
-     * @param organizationId 组织编码
-     *
-     * @param catId 物料分类id
-     *
-     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
-     *
      */
     public List<ControlPropertyBean> getPlanPropertiesWithCatId (int index, int organizationId, int catId) {
         return getControlPropListWithIndexAndCatId(index, planList.getPlanList(), organizationId, catId);
@@ -294,16 +258,12 @@ public class ControlPropObtainServiceSupplier {
     /**
      * 根据属性索引，组织编码，物料分类id获取所有的对应的物料销售类属性
      *
+     * @param index          销售类属性名索引，即第index个销售类属性，顺序由yml文件中的顺序决定
+     * @param organizationId 组织编码
+     * @param catId          物料分类id
+     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      * @author cplayer
      * @date 2019-03-02 06:52
-     * @param index 销售类属性名索引，即第index个销售类属性，顺序由yml文件中的顺序决定
-     *
-     * @param organizationId 组织编码
-     *
-     * @param catId 物料分类id
-     *
-     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
-     *
      */
     public List<ControlPropertyBean> getSalesPropertiesWithCatId (int index, int organizationId, int catId) {
         return getControlPropListWithIndexAndCatId(index, salesList.getSalesList(), organizationId, catId);
@@ -312,16 +272,12 @@ public class ControlPropObtainServiceSupplier {
     /**
      * 根据属性索引，组织编码，物料分类id获取所有的对应的物料质量类属性
      *
+     * @param index          质量类属性名索引，即第index个质量类属性，顺序由yml文件中的顺序决定
+     * @param organizationId 组织编码
+     * @param catId          物料分类id
+     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      * @author cplayer
      * @date 2019-03-02 06:52
-     * @param index 质量类属性名索引，即第index个质量类属性，顺序由yml文件中的顺序决定
-     *
-     * @param organizationId 组织编码
-     *
-     * @param catId 物料分类id
-     *
-     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
-     *
      */
     public List<ControlPropertyBean> getQualityPropertiesWithCatId (int index, int organizationId, int catId) {
         return getControlPropListWithIndexAndCatId(index, qualityList.getQualityList(), organizationId, catId);
@@ -330,34 +286,26 @@ public class ControlPropObtainServiceSupplier {
     /**
      * 根据属性索引，组织编码，物料分类id获取所有的对应的物料财务类属性
      *
+     * @param index          财务类属性名索引，即第index个财务类属性，顺序由yml文件中的顺序决定
+     * @param organizationId 组织编码
+     * @param catId          物料分类id
+     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      * @author cplayer
      * @date 2019-03-02 06:52
-     * @param index 财务类属性名索引，即第index个财务类属性，顺序由yml文件中的顺序决定
-     *
-     * @param organizationId 组织编码
-     *
-     * @param catId 物料分类id
-     *
-     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
-     *
      */
     public List<ControlPropertyBean> getFinancePropertiesWithCatId (int index, int organizationId, int catId) {
         return getControlPropListWithIndexAndCatId(index, financeList.getFinanceList(), organizationId, catId);
     }
-    
+
     /**
      * 根据属性名称，组织编码以及物料分类id获取物料分类下的控制属性
      *
+     * @param propName         属性名称
+     * @param organizationCode 组织编码
+     * @param catId            物料分类id
+     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      * @author cplayer
      * @date 2019-03-02 06:45
-     * @param propName 属性名称
-     *
-     * @param organizationCode 组织编码
-     *
-     * @param catId 物料分类id
-     *
-     * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
-     *
      */
     private List<ControlPropertyBean> getControlPropByCatIdAndName (String propName, int organizationCode, int catId) {
         // 先查询基于某个物料分类下通用的控制属性
@@ -395,18 +343,13 @@ public class ControlPropObtainServiceSupplier {
     /**
      * 根据物料控制属性索引、物料控制属性名列表、组织编码以及物料分类id获取对应的控制属性
      *
-     * @author cplayer
-     * @date 2019-03-02 07:01     
-     * @param index 属性名索引
-     *
-     * @param propNameList 属性名列表
-     *
+     * @param index            属性名索引
+     * @param propNameList     属性名列表
      * @param organizationCode 组织编码
-     *
-     * @param catId 物料分类id
-     *
+     * @param catId            物料分类id
      * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
-     *
+     * @author cplayer
+     * @date 2019-03-02 07:01
      */
     private List<ControlPropertyBean> getControlPropListWithIndexAndCatId (int index, String[] propNameList, int organizationCode, int catId) {
         // 索引不能非法

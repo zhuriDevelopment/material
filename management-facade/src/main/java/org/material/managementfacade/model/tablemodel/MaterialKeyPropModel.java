@@ -28,16 +28,16 @@ public class MaterialKeyPropModel {
         return id;
     }
 
+    public void setId (int id) {
+        this.id = id;
+    }
+
     public String getSpuCode () {
         return spuCode;
     }
 
     public void setSpuCode (String spuCode) {
         this.spuCode = spuCode;
-    }
-
-    public void setId (int id) {
-        this.id = id;
     }
 
     public String getValue () {

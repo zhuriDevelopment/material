@@ -26,59 +26,59 @@ public class MaterialModel {
 //        this.sellingPrice = -1;
     }
 
-    public int getId() {
+    public int getId () {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId (int id) {
         this.id = id;
     }
 
-    public String getSpuCode() {
+    public String getSpuCode () {
         return spuCode;
     }
 
-    public void setSpuCode(String spuCode) {
+    public void setSpuCode (String spuCode) {
         this.spuCode = spuCode;
     }
 
-    public String getMaterialCode() {
+    public String getMaterialCode () {
         return materialCode;
     }
 
-    public void setMaterialCode(String materialCode) {
+    public void setMaterialCode (String materialCode) {
         this.materialCode = materialCode;
     }
 
-    public String getMaterialName() {
+    public String getMaterialName () {
         return materialName;
     }
 
-    public void setMaterialName(String materialName) {
+    public void setMaterialName (String materialName) {
         this.materialName = materialName;
     }
 
-    public String getOldMaterialCode() {
+    public String getOldMaterialCode () {
         return oldMaterialCode;
     }
 
-    public void setOldMaterialCode(String oldMaterialCode) {
+    public void setOldMaterialCode (String oldMaterialCode) {
         this.oldMaterialCode = oldMaterialCode;
     }
 
-    public String getBarCode() {
+    public String getBarCode () {
         return barCode;
     }
 
-    public void setBarCode(String barCode) {
+    public void setBarCode (String barCode) {
         this.barCode = barCode;
     }
 
-    public int getMaterialBaseId() {
+    public int getMaterialBaseId () {
         return materialBaseId;
     }
 
-    public void setMaterialBaseId(int materialBaseId) {
+    public void setMaterialBaseId (int materialBaseId) {
         this.materialBaseId = materialBaseId;
     }
 

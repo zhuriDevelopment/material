@@ -1,26 +1,25 @@
 package org.material.managementservice.service.impl;
 
-import org.material.managementservice.mapper.MaterialInfoMapper;
+import org.material.managementfacade.model.processmodel.MaterialCategoryTree;
 import org.material.managementfacade.model.propertymodel.ControlPropertyBean;
 import org.material.managementfacade.model.tablemodel.*;
 import org.material.managementfacade.service.MaterialInfoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.material.managementfacade.model.processmodel.MaterialCategoryTree;
+import org.material.managementservice.mapper.MaterialInfoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
 public class MaterialInfoServiceImpl implements MaterialInfoService {
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
     @Autowired
     private MaterialInfoMapper materialInfoMapper;
     @Autowired
     private MaterialInfoServiceImplSupplier materialInfoServiceImplSupplier;
-
-    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
 
     @Override
     public List<Object> getAllBaseInfo () {
@@ -775,7 +774,7 @@ public class MaterialInfoServiceImpl implements MaterialInfoService {
     }
 
     @Override
-    public List<Object> getMaterialBaseByCatIdAndType(int catId, int propertyType) {
+    public List<Object> getMaterialBaseByCatIdAndType (int catId, int propertyType) {
         return materialInfoServiceImplSupplier.getMaterialBaseByCatIdAndType(catId, propertyType);
     }
 }

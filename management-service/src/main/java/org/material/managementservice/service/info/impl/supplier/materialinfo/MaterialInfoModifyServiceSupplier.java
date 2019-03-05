@@ -4,8 +4,8 @@ import org.material.managementfacade.model.requestmodel.MaterialInfoModifyReques
 import org.material.managementfacade.model.requestmodel.infomodify.MaterialModifyRequestForMaterial;
 import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialModel;
-import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.general.MaterialGeneral;
+import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoModifyMapper;
 import org.material.managementservice.mapper.info.InfoObtainMapper;
@@ -24,6 +24,7 @@ import java.util.List;
 
 @Component
 public class MaterialInfoModifyServiceSupplier {
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
     @Autowired
     private InfoModifyMapper infoModifyMapper;
     @Autowired
@@ -31,18 +32,14 @@ public class MaterialInfoModifyServiceSupplier {
     @Autowired
     private InfoObtainMapper infoObtainMapper;
 
-    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
-
     /**
      * 更新物料定义页面中物料定义部分的函数
      *
+     * @param params 更新物料信息请求的参数
+     * @return MaterialInfoErrCode.successUpdateMaterialInMaterial 代表成功
+     * MaterialInfoErrCode.failedUpdateMaterialInMaterial 代表失败
      * @author cplayer
      * @date 2019-02-27 21:08
-     * @param params 更新物料信息请求的参数
-     *
-     * @return MaterialInfoErrCode.successUpdateMaterialInMaterial 代表成功
-     *         MaterialInfoErrCode.failedUpdateMaterialInMaterial 代表失败
-     *
      */
     public int updateMaterialInfoForMaterialDataByMaterial (MaterialInfoModifyRequest params) {
         // 先根据spuCode获得物料基本信息ID

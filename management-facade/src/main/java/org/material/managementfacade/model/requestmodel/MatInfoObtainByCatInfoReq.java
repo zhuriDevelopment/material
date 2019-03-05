@@ -6,12 +6,8 @@ package org.material.managementfacade.model.requestmodel;
  * 根据物料分类信息获取所有物料基本信息请求的封装类
  */
 
-public class MaterialInfoObtainByCategoryInfoRequest {
-    private int id;
-
-    MaterialInfoObtainByCategoryInfoRequest () {
-        this.id = -1;
-    }
+public class MatInfoObtainByCatInfoReq {
+    private int id = -1;
 
     public int getId () {
         return id;

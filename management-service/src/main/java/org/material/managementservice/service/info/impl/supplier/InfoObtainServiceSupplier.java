@@ -1,8 +1,5 @@
 package org.material.managementservice.service.info.impl.supplier;
 
-import org.material.managementservice.mapper.general.GeneralMapper;
-import org.material.managementservice.mapper.info.InfoObtainMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
@@ -22,12 +19,10 @@ public class InfoObtainServiceSupplier {
     /**
      * 将传进来的各类list中的spuCode提取出来并取交集的工具函数
      *
+     * @param lists 待处理的List（或者多个List）
+     * @return java.util.HashSet<java.lang.String>
      * @author cplayer
      * @date 2019-02-25 20:18
-     * @param lists 待处理的List（或者多个List）
-     *
-     * @return java.util.HashSet<java.lang.String>
-     *
      */
     public <T extends List> HashSet<String> addAllListSpuCode (T... lists) {
         HashSet<String> spuCodes = new HashSet<>();

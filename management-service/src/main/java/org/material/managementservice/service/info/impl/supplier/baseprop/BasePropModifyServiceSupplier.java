@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author cplayer on 2019-03-02 18:13
@@ -20,25 +19,21 @@ import java.util.Map;
  */
 @Component
 public class BasePropModifyServiceSupplier {
+    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
     @Autowired
     private GeneralMapper generalMapper;
     @Autowired
     private InfoModifyMapper infoModifyMapper;
 
-    private final static Logger logger = LoggerFactory.getLogger("zhuriLogger");
-
     /**
      * 根据物料分类编码、物料名称以及待更新的数据更新物料基本属性的实现函数
      *
+     * @param catId     物料分类id
+     * @param baseProps 待更新的物料基本属性
+     * @return MaterialInfoErrCode.successUpdateMaterialBasePropWithCatIdAndName 更新成功
+     * MaterialInfoErrCode.failedUpdateMaterialBasePropWithCatIdAndName 更新失败
      * @author cplayer
      * @date 2019-03-02 18:18
-     * @param catId 物料分类id
-     *
-     * @param baseProps 待更新的物料基本属性
-     *
-     * @return MaterialInfoErrCode.successUpdateMaterialBasePropWithCatIdAndName 更新成功
-     *         MaterialInfoErrCode.failedUpdateMaterialBasePropWithCatIdAndName 更新失败
-     *
      */
     public int updateMaterialBasePropByCatId (int catId, List<InfoModifyByCatCodeAndNameBasePropElement> baseProps) {
         MaterialBasePropModel param = new MaterialBasePropModel();
@@ -60,7 +55,7 @@ public class BasePropModifyServiceSupplier {
         // 再添加所有新的数据
         for (InfoModifyByCatCodeAndNameBasePropElement element : baseProps) {
             // 每一个元素都是一条数据库记录
-            param =  new MaterialBasePropModel();
+            param = new MaterialBasePropModel();
             param.setMaterialCatId(catId);
             param.setType(element.getType());
             param.setLabel(element.getLabel());
