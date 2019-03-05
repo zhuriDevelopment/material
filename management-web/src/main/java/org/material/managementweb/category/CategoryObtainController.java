@@ -1,5 +1,6 @@
 package org.material.managementweb.category;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.material.managementfacade.model.processmodel.MaterialCategoryTree;
 import org.material.managementfacade.model.requestmodel.MaterialCategoryObtainByIdRequest;
@@ -8,9 +9,7 @@ import org.material.managementservice.service.category.impl.CategoryObtainServic
 import org.material.managementservice.service.impl.MaterialInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,12 @@ import java.util.Map;
  * @author cplayer on 2019-02-25.
  * @version 1.0
  */
-
+@RestController
+@RequestMapping("/materialmanagement")
+@Api(value = "物料分类信息获取接口", description = "物料分类信息获取接口")
+@CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+             methods = {RequestMethod.GET},
+             origins = "*")
 public class CategoryObtainController {
     @Autowired
     private CategoryObtainServiceImpl categoryObtainService;

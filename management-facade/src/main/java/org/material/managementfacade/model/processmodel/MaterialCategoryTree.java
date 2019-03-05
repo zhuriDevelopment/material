@@ -9,24 +9,24 @@ public class MaterialCategoryTree {
     private String label;
     private int parentId;
     private int level;
-    private String code;
+    private String value;
     private List<MaterialCategoryTree> children;
 
-    public MaterialCategoryTree (int id, String label, int parentId, int level, String code) {
+    public MaterialCategoryTree (int id, String label, int parentId, int level, String value) {
         this.id = id;
         this.label = label;
         this.parentId = parentId;
         this.level = level;
         this.children = new ArrayList<>();
-        this.code = code;
+        this.value = value;
     }
 
-    public String getCode () {
-        return code;
+    public String getValue () {
+        return value;
     }
 
-    public void setCode (String code) {
-        this.code = code;
+    public void setValue (String value) {
+        this.value = value;
     }
 
     public int getId () {

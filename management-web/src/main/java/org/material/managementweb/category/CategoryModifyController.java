@@ -1,5 +1,6 @@
 package org.material.managementweb.category;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.material.managementfacade.model.requestmodel.CategoryAddRequest;
 import org.material.managementfacade.model.requestmodel.CategoryDeleteRequest;
@@ -10,8 +11,7 @@ import org.material.managementservice.service.category.impl.CategoryModifyServic
 import org.material.managementservice.service.impl.MaterialInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.Map;
@@ -20,27 +20,18 @@ import java.util.Map;
  * @author cplayer on 2019-02-25.
  * @version 1.0
  */
-
+@RestController
+@RequestMapping("/materialmanagement")
+@Api(value = "物料分类信息修改接口", description = "物料分类信息修改接口")
+@CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+             methods = {RequestMethod.POST},
+             origins = "*")
 public class CategoryModifyController {
     @Autowired
     private MaterialInfoServiceImpl materialInfoService;
     @Autowired
     private CategoryModifyServiceImpl categoryModifyService;
 
-//    @PostMapping(value = "/addMaterialCategory")
-//    @ApiOperation(value = "增加物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//    //返回1为成功添加数据，返回0为失败
-//    public int addMaterialCategory (@RequestBody Map<String, Object> params) {
-//        //要求code,name,parentId信息全部获取
-//        if (params.containsKey("code") && params.containsKey("name") && params.containsKey("parentId")) {
-//            String code = (String) params.get("code");
-//            String name = (String) params.get("name");
-//            int parentId = (int) params.get("parentId");
-//            return materialInfoService.addMaterialCategory(code, name, parentId);
-//        } else {
-//            return 0;
-//        }
-//    }
     @PostMapping(value = "/addMaterialCategory")
     @ApiOperation(value = "增加物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int addMaterialCategory (@RequestBody @NotNull CategoryAddRequest request) {
@@ -51,20 +42,6 @@ public class CategoryModifyController {
         }
     }
 
-//    @PostMapping(value = "/updateMaterialCategory")
-//    @ApiOperation(value = "根据物料oldName及parentId更新newName", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-//    //返回1为成功更新数据，返回0为失败
-//    public int updateMaterialCategory (@RequestBody Map<String, Object> params) {
-//        //确保三个属性值全部获取
-//        if (params.containsKey("newName") && params.containsKey("oldName") && params.containsKey("parentId")) {
-//            String newName = (String) params.get("newName");
-//            String oldName = (String) params.get("oldName");
-//            int parentId = (int) params.get("parentId");
-//            return materialInfoService.updateMaterialCategory(newName, oldName, parentId);
-//        } else {
-//            return 0;
-//        }
-//    }
     @PostMapping(value = "/updateMaterialCategory")
     @ApiOperation(value = "根据物料分类oldName及parentId更新newName", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public int updateMaterialCategory (@RequestBody @NotNull CategoryModifyNameRequest request) {
