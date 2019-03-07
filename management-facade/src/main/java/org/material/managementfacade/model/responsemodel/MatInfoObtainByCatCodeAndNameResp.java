@@ -17,7 +17,7 @@ public class MatInfoObtainByCatCodeAndNameResp {
     private List<ControlPropertyBean> purchaseAndStoreInfos;
     private List<ControlPropertyBean> planInfos;
     private List<ControlPropertyBean> salesInfos;
-    private List<ControlPropertyBean> qualifyInfos;
+    private List<ControlPropertyBean> qualityInfos;
     private List<ControlPropertyBean> financeInfos;
 
     public int getResultCode () {
@@ -60,12 +60,12 @@ public class MatInfoObtainByCatCodeAndNameResp {
         this.salesInfos = salesInfos;
     }
 
-    public List<ControlPropertyBean> getQualifyInfos () {
-        return qualifyInfos;
+    public List<ControlPropertyBean> getQualityInfos () {
+        return qualityInfos;
     }
 
-    public void setQualifyInfos (List<ControlPropertyBean> qualifyInfos) {
-        this.qualifyInfos = qualifyInfos;
+    public void setQualityInfos (List<ControlPropertyBean> qualityInfos) {
+        this.qualityInfos = qualityInfos;
     }
 
     public List<ControlPropertyBean> getFinanceInfos () {

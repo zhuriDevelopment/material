@@ -303,7 +303,7 @@ public class InfoObtainServiceImpl implements InfoObtainService {
                         break;
                     case 8:
                         // 处理质量类属性
-                        result.setQualifyInfos(controlPropObtainServiceSupplier.getQualityPropertiesWithCatId(-1, organizationId, catId));
+                        result.setQualityInfos(controlPropObtainServiceSupplier.getQualityPropertiesWithCatId(-1, organizationId, catId));
                         break;
                     case 9:
                         // 处理财务类属性
@@ -322,6 +322,7 @@ public class InfoObtainServiceImpl implements InfoObtainService {
                         break;
                 }
             }
+            result.setResultCode(MaterialInfoErrCode.successObtainAllMatInfoWithCatCodeAndName);
             return result;
         } else {
             logger.error(String.format("根据物料分类id和物料名称获取所有物料信息时，分类编码 = %s的记录不存在。", catCode));
