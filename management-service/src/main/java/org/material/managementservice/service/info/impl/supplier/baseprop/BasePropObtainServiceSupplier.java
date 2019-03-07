@@ -18,6 +18,11 @@ import java.util.*;
  * @author cplayer on 2019-03-02 06:25.
  * @version 1.0
  * 获取基本信息的工具类，存放了对应的实现函数
+ * 基本属性包含以下四种：
+ * 1、关键属性，category = 1
+ * 2、非关键属性，category = 2
+ * 3、批号属性，category = 3
+ * 4、规格属性，category = 4
  */
 @Component
 public class BasePropObtainServiceSupplier {

@@ -212,25 +212,25 @@
         select * from materialBaseProp
         <where>
             <if test="id &gt;= 0">
-                id = #{id}
+                and id = #{id}
             </if>
             <if test="materialCatId &gt;= 0">
-                materialCatId = #{materialCatId}
+                and materialCatId = #{materialCatId}
             </if>
             <if test="type &gt;= 0">
-                type = #{type}
+                and type = #{type}
             </if>
             <if test="label != null">
-                label = #{label}
+                and label = #{label}
             </if>
             <if test="name != null">
-                name = #{name}
+                and name = #{name}
             </if>
             <if test="valueRange != null">
-                valueRange = #{valueRange}
+                and valueRange = #{valueRange}
             </if>
             <if test="sort &gt;= 0">
-                sort = #{sort}
+                and sort = #{sort}
             </if>
         </where>
     </select>
@@ -287,16 +287,16 @@
         select * from materialCtrlPropVal
         <where>
             <if test="id &gt;= 0">
-                id = #{id}
+                and id = #{id}
             </if>
             <if test="versionId &gt;= 0">
-                versionId = #{versionId}
+                and versionId = #{versionId}
             </if>
             <if test="materialCtrlPropId &gt;= 0">
-                materialCtrlPropId = #{materialCtrlPropId}
+                and materialCtrlPropId = #{materialCtrlPropId}
             </if>
             <if test="value != null">
-                value = #{value}
+                and value = #{value}
             </if>
         </where>
     </select>
@@ -308,25 +308,25 @@
         select * from materialCtrlPropValVer
         <where>
             <if test="id &gt;= 0">
-                id = #{id}
+                and id = #{id}
             </if>
             <if test="materialCatId &gt;= 0">
-                materialCatId = #{materialCatId}
+                and materialCatId = #{materialCatId}
             </if>
             <if test="version != null">
-                version = #{version}
+                and version = #{version}
             </if>
             <if test="organizationCode != null">
-                organizationCode = #{organizationCode}
+                and organizationCode = #{organizationCode}
             </if>
             <if test="spuCode != null">
-                spuCode = #{spuCode}
+                and spuCode = #{spuCode}
             </if>
             <if test="startDate != null">
-                startDate = #{startDate}
+                and startDate = #{startDate}
             </if>
             <if test="endDate != null">
-                endDate = #{endDate}
+                and endDate = #{endDate}
             </if>
         </where>
     </select>

@@ -198,10 +198,10 @@ INSERT INTO `materialCategory` VALUES (1,'1000','A类',0,0), \
 UNLOCK TABLES;
 
 LOCK TABLES `materialBaseProp` WRITE;
-INSERT INTO `materialBaseProp` VALUES (1,7,4,'规格1','规格1','{\"category\":3,\"upper\":"10",\"lower\":"0"}',1), \
-                    (2,7,4,'规格2','规格2','{\"category\":3,\"upper\":"10",\"lower\":"0"}',2), \
-										(3,8,4,'规格1','规格1','{\"category\":3,\"upper\":"10",\"lower\":"0"}',1), \
-										(4,9,4,'规格1','规格1','{\"category\":3,\"upper\":"10",\"lower\":"0"}',1);
+INSERT INTO `materialBaseProp` VALUES (1,7,4,'规格1','规格1','{\"type\":1,\"content\":{\"max\":4,\"min\":3}}',1), \
+                    (2,7,4,'规格2','规格2','{\"type\":1,\"content\":{\"max\":4,\"min\":3}}',2), \
+										(3,8,4,'规格1','规格1','{\"type\":1,\"content\":{\"max\":4,\"min\":3}}',1), \
+										(4,9,4,'规格1','规格1','{\"type\":1,\"content\":{\"max\":4,\"min\":3}}',1);
 UNLOCK TABLES;
 
 LOCK TABLES `materialBasePropVal` WRITE;

@@ -21,9 +21,9 @@ server:
 mybatis:
   mapper-locations: classpath*:org/material/managementservice/mapper/**/*Mapper.xml
 
-logging:
-  level:
-    org.material.managementservice.mapper.*: trace
+#logging:
+#  level:
+#    org.material.managementservice.mapper.*: trace
 
 #eureka:
 #  client:
@@ -48,7 +48,7 @@ logging:
 #   database: 数据库，对应逻辑在代码中处理
 
 zhuri-ctrproperties:
-  purchasePropertiesList:
+  purchaseAndStoreList:
   - 物料制购类型
   - ABC分类
   - 循环盘点编码
@@ -61,7 +61,7 @@ zhuri-ctrproperties:
   - 默认采购单位
   - 默认库存单位
   - 默认库位
-  planPropertiesList:
+  planList:
   - 是否独立需求
   - 订货提前期（天）
   - 补货政策

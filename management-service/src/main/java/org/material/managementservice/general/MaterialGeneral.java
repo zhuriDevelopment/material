@@ -20,6 +20,9 @@ public class MaterialGeneral {
     // 通用物料编码
     public static String generalMaterialCode = "-1";
 
+    // 不允许的id
+    public static int invalidId = -1;
+
     /**
      * 泛型工具函数，判断一个数组内是否有需要的对象
      *

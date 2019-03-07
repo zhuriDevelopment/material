@@ -43,7 +43,7 @@ public class InfoObtainController {
 
     @GetMapping(value = "/getBaseInfo")
     @ApiOperation(value = "根据给定参数查询基础信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public BaseInfoResp getBaseInfo (@RequestBody BaseInfoReq params) {
+    public BaseInfoResp getBaseInfo (@RequestParam BaseInfoReq params) {
         // 参数必须非空！
         if (MaterialGeneral.isAllEmpty(params)) {
             // 否则传回空类错误码
@@ -86,7 +86,11 @@ public class InfoObtainController {
     @GetMapping(value = "/getMaterialInfoWithCatCodeAndCatName")
     @ApiOperation(value = "根据物料分类编码和物料分类名称获取所有物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public MatInfoObtainByCatCodeAndNameResp getMaterialInfoWithCatCodeAndCatName
-            (@RequestBody @NotNull MatInfoObtainByCatCodeAndNameReq params) {
+            (@RequestParam("code") @NotNull String code,
+             @RequestParam("name") @NotNull String name,
+             @RequestParam("typeArr") @NotNull List<Integer> typeArr) {
+        // 简化参数，封装成一个类
+        MatInfoObtainByCatCodeAndNameReq params = new MatInfoObtainByCatCodeAndNameReq(code, name, typeArr);
         return infoObtainService.getMaterialInfoWithCatCodeAndCatName(params);
     }
 

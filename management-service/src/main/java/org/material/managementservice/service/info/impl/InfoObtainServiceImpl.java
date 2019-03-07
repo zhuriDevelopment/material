@@ -282,10 +282,10 @@ public class InfoObtainServiceImpl implements InfoObtainService {
                 generalMapper.getMaterialCategoryWithMaterialCategoryParams(param),
                 MaterialCategoryModel.class);
         MatInfoObtainByCatCodeAndNameResp result = new MatInfoObtainByCatCodeAndNameResp();
-        if (searchResult.getId() != -1) {
+        if (searchResult.getId() != MaterialGeneral.invalidId) {
             // 说明找到了，继续处理
             int catId = searchResult.getId();
-            logger.info("物料分类编码为" + catCode + "的记录对应的物料分类id为：" + catId);
+            logger.info(String.format("物料分类编码为%s的记录对应的物料分类id为：%d。", catCode, catId));
             for (Integer type : typeArr) {
                 // 若是全部基础信息
                 switch (type) {
@@ -313,6 +313,9 @@ public class InfoObtainServiceImpl implements InfoObtainService {
                         List<MaterialBasePropModel> basePropList = basePropObtainServiceSupplier.getAllMaterialBasePropByCatId(catId);
                         if (basePropList.size() == 0) {
                             logger.info("待寻找的物料基本属性不存在！");
+                            result.setBasePropList(new ArrayList<>());
+                        } else {
+                            result.setBasePropList(basePropList);
                         }
                         break;
                     default:

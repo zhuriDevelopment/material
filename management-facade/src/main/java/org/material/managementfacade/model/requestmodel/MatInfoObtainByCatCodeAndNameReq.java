@@ -13,6 +13,18 @@ public class MatInfoObtainByCatCodeAndNameReq {
     private String name;
     private List<Integer> typeArr;
 
+    public MatInfoObtainByCatCodeAndNameReq (String code, String name, List<Integer> typeArr) {
+        this.code = code;
+        this.name = name;
+        this.typeArr = typeArr;
+    }
+
+    public MatInfoObtainByCatCodeAndNameReq () {
+        this.code = null;
+        this.name = null;
+        this.typeArr = null;
+    }
+
     public String getCode () {
         return code;
     }

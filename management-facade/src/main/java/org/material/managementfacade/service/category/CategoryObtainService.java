@@ -1,7 +1,6 @@
 package org.material.managementfacade.service.category;
 
 import org.material.managementfacade.model.processmodel.MaterialCategoryTree;
-import org.material.managementfacade.model.requestmodel.MaterialCategoryObtainByIdRequest;
 import org.material.managementfacade.model.tablemodel.MaterialCategoryModel;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,7 @@ import java.util.List;
 @Service
 public interface CategoryObtainService {
 
-    MaterialCategoryTree getMaterialCategory ();
+    List<MaterialCategoryTree> getMaterialCategory ();
 
-    List<MaterialCategoryModel> getMaterialCategoryInfosWithId (MaterialCategoryObtainByIdRequest params);
+    List<MaterialCategoryModel> getMaterialCategoryInfosWithId (int id);
 }
