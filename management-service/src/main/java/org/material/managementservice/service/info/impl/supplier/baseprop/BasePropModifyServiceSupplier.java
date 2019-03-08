@@ -38,6 +38,7 @@ public class BasePropModifyServiceSupplier {
     public int updateMaterialBasePropByCatId (int catId, List<InfoModifyByCatCodeAndNameBasePropEle> baseProps) {
         MaterialBasePropModel param = new MaterialBasePropModel();
         param.setMaterialCatId(catId);
+        int result = MaterialInfoErrCode.successUpdateMaterialBasePropWithCatIdAndName;
         List<MaterialBasePropModel> materialBasePropTmp = generalMapper.getMaterialBasePropWithMaterialBasePropParams(param);
         // 由于可能物料基础属性可能全部变更，故需要先删除所有已存在的记录，然后全部重新插入
         // 删除的时候要注意要同时从materialBaseProp表和materialBasePropVal表中一起删除，以防在materialBasePropVal表中出现无效数据
@@ -63,8 +64,11 @@ public class BasePropModifyServiceSupplier {
             param.setValueRange(element.getValueRange());
             param.setSort(element.getSort());
             int insertResult = infoModifyMapper.insertMaterialBasePropWithMaterialBasePropParams(param);
+            if (insertResult <= 0) {
+                result = MaterialInfoErrCode.failedUpdateMaterialBasePropWithCatIdAndName;
+            }
             logger.info(String.format("在materialBaseProp中添加记录，添加的id为：%d，返回值为：%d。", param.getId(), insertResult));
         }
-        return MaterialInfoErrCode.failedUpdateMaterialBasePropWithCatIdAndName;
+        return result;
     }
 }

@@ -43,7 +43,7 @@ public class InfoModifyController {
     @ApiOperation(value = "根据物料分类id和物料名称更新物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public InfoModifyByCatCodeAndNameResp updateMaterialInfoWithCatCodeAndCatName
             (@RequestBody @NotNull InfoModifyByCatCodeAndNameReq params) {
-        if (MaterialGeneral.isContainsEmpty(params)) {
+        if (MaterialGeneral.isAllEmpty(params)) {
             InfoModifyByCatCodeAndNameResp result = new InfoModifyByCatCodeAndNameResp();
             result.setErrCode(MaterialInfoErrCode.errorParamInUpdatingInfoWithCatIdAndName);
             return result;

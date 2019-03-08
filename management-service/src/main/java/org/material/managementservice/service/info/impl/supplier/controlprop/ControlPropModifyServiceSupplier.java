@@ -257,7 +257,7 @@ public class ControlPropModifyServiceSupplier {
         for (InfoModifyByCatCodeAndNameCtrPropReq element : updateDatas) {
             int propertyType = element.getPropertyType();
             String organizationCode = element.getOrganizationCode();
-            // 若没有提供组织id，则将组织id设为1，代表通用的组织编码
+            // 若没有提供组织编码，则将组织编码设为通用的组织编码
             if (organizationCode == null) {
                 organizationCode = MaterialGeneral.generalOrganizationCode;
             }
@@ -266,6 +266,7 @@ public class ControlPropModifyServiceSupplier {
                 String value = dataEle.getValue();
                 int updateEleRes = updateControlPropertyByCatIdAndTypeAndDatas(propertyType, organizationCode, catId, name, value);
                 if (updateEleRes <= 0) {
+                    logger.info(String.format("更新类别为%d的控制属性为%s，值为%s时出错，返回值为%d。", propertyType, name, value, updateEleRes));
                     hasFailed = true;
                 }
             }

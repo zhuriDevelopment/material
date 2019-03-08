@@ -15,6 +15,8 @@ public class MaterialInfoErrCode {
     public static Integer successOperation = 1;
     // 子操作成功
     public static Integer successSubOperation = 2;
+    // 此操作未处理
+    public static Integer unsubmitedOperation = -404;
 
     // 物料基本信息获取成功
     public static Integer successObtainMaterialBase = successOperation;
@@ -95,14 +97,14 @@ public class MaterialInfoErrCode {
     // 根据物料分类id和物料名称更新物料信息，没有对应的物料分类信息
     public static Integer notFoundCategoryInUpdatingInfoWithCatIdAndName = -1;
     // 根据物料分类id和物料名称更新物料信息，更新基本属性成功
-    public static Integer successUpdateMaterialBasePropWithCatIdAndName = 0;
+    public static Integer successUpdateMaterialBasePropWithCatIdAndName = successOperation;
     // 根据物料分类id和物料名称更新物料信息，更新基本属性失败
     public static Integer failedUpdateMaterialBasePropWithCatIdAndName = 0;
 
     // 根据物料分类id、属性类别以及待更新属性值更新物料控制属性成功
     public static Integer successUpdateControlPropertyByCatIdAndTypeAndValue = successOperation;
     // 根据物料分类id、属性类别以及待更新属性值更新物料控制属性失败
-    public static Integer failedUpdateControlPropertyByCatIdAndTypeAndValue = successOperation;
+    public static Integer failedUpdateControlPropertyByCatIdAndTypeAndValue = 0;
     // 提交上来的物料控制属性分类未找到
     public static Integer notFoundControlPropertyType = -1;
     // 提交上来的物料控制属性名称未找到

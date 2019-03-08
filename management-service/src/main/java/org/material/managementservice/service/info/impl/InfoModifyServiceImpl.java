@@ -140,8 +140,8 @@ public class InfoModifyServiceImpl implements InfoModifyService {
         // 检查物料分类信息是否需要更新
         List<MaterialCategoryModel> materialCatTmp = categoryObtainMapper.getMaterialCategoryById(catId);
         MaterialCategoryModel existedCatInfo = MaterialGeneral.getInitElementOrFirstElement(materialCatTmp, MaterialCategoryModel.class);
-        if (existedCatInfo.getName() != params.getCatName() ||
-            existedCatInfo.getCode() != params.getCatCode() ||
+        if (!existedCatInfo.getName().equals(params.getCatName()) ||
+            !existedCatInfo.getCode().equals(params.getCatCode()) ||
             existedCatInfo.getType() != params.getType()) {
             MaterialCategoryModel cateParam = new MaterialCategoryModel();
             cateParam.setId(catId);
@@ -150,6 +150,9 @@ public class InfoModifyServiceImpl implements InfoModifyService {
             cateParam.setType(params.getType());
             int updateResult = categoryModifyMapper.updateMaterialCategoryByParams(cateParam);
             logger.info(String.format("更新物料分类id = %d的信息的返回值为%d。", catId, updateResult));
+            result.setErrCode(MaterialInfoErrCode.successOperation);
+        } else {
+            result.setErrCode(MaterialInfoErrCode.unsubmitedOperation);
         }
         // 成功获取了物料分类id
         if (catId != -1) {
@@ -158,11 +161,15 @@ public class InfoModifyServiceImpl implements InfoModifyService {
             if (params.getBaseProps() != null) {
                 int basePropResult = basePropModifyServiceSupplier.updateMaterialBasePropByCatId(catId, params.getBaseProps());
                 result.setErrCodeInBaseProp(basePropResult);
+            } else {
+                result.setErrCodeInBaseProp(MaterialInfoErrCode.unsubmitedOperation);
             }
             // 更新物料控制属性
             if (params.getCtrProps() != null) {
                 int ctrPropResult = controlPropModifyServiceSupplier.updateControlPropertyByCatIdAndTypeAndValue(params.getCtrProps(), catId);
                 result.setErrCodeInCtrProp(ctrPropResult);
+            } else {
+                result.setErrCodeInCtrProp(MaterialInfoErrCode.unsubmitedOperation);
             }
         } else {
             // 返回不存在对应物料分类信息的错误码

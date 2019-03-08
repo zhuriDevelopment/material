@@ -144,7 +144,7 @@
     <!--根据id从物料基本属性版本值表中删除对应记录-->
     <delete id="deleteAllMaterialBasePropValWithMaterialBasePropId"
             parameterType="int">
-        delete from materialBasePropVal where id = #{id}
+        delete from materialBasePropVal where materialBasePropId = #{id}
     </delete>
 
     <!--根据id从物料基本属性表中删除对应记录-->
