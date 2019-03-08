@@ -1,7 +1,7 @@
 package org.material.managementservice.service.info.impl;
 
 import org.material.managementfacade.model.requestmodel.*;
-import org.material.managementfacade.model.responsemodel.MaterialInfoModifyByCatCodeAndNameResponse;
+import org.material.managementfacade.model.responsemodel.InfoModifyByCatCodeAndNameResp;
 import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropModel;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropValModel;
@@ -9,6 +9,8 @@ import org.material.managementfacade.model.tablemodel.MaterialCategoryModel;
 import org.material.managementfacade.service.info.InfoModifyService;
 import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.general.MaterialInfoErrCode;
+import org.material.managementservice.mapper.category.CategoryModifyMapper;
+import org.material.managementservice.mapper.category.CategoryObtainMapper;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoModifyMapper;
 import org.material.managementservice.mapper.info.InfoObtainMapper;
@@ -38,6 +40,10 @@ public class InfoModifyServiceImpl implements InfoModifyService {
     private InfoModifyMapper infoModifyMapper;
     @Autowired
     private InfoObtainMapper infoObtainMapper;
+    @Autowired
+    private CategoryObtainMapper categoryObtainMapper;
+    @Autowired
+    private CategoryModifyMapper categoryModifyMapper;
     @Autowired
     private BasePropModifyServiceSupplier basePropModifyServiceSupplier;
     @Autowired
@@ -121,19 +127,30 @@ public class InfoModifyServiceImpl implements InfoModifyService {
      * 根据物料分类编码、物料名称以及待更新的数据更新物料信息的实现函数
      *
      * @param params 更新物料信息请求的参数
-     * @return org.material.managementfacade.model.responsemodel.MaterialInfoModifyByCatCodeAndNameResponse
+     * @return org.material.managementfacade.model.responsemodel.InfoModifyByCatCodeAndNameResp
      * @author cplayer
      * @date 2019-03-02 18:03
      */
     @Override
-    public MaterialInfoModifyByCatCodeAndNameResponse updateMaterialInfoWithCatCodeAndCatName
-    (MaterialInfoModifyByCatCodeAndNameRequest params) {
-        MaterialInfoModifyByCatCodeAndNameResponse result = new MaterialInfoModifyByCatCodeAndNameResponse();
+    public InfoModifyByCatCodeAndNameResp updateMaterialInfoWithCatCodeAndCatName
+    (InfoModifyByCatCodeAndNameReq params) {
+        InfoModifyByCatCodeAndNameResp result = new InfoModifyByCatCodeAndNameResp();
         // 获取物料分类id
-        MaterialCategoryModel cateParam = new MaterialCategoryModel();
-        cateParam.setCode(params.getCatCode());
-        List<MaterialCategoryModel> materialBaseTmp = generalMapper.getMaterialCategoryWithMaterialCategoryParams(cateParam);
-        int catId = MaterialGeneral.getInitElementOrFirstElement(materialBaseTmp, MaterialCategoryModel.class).getId();
+        int catId = params.getId();
+        // 检查物料分类信息是否需要更新
+        List<MaterialCategoryModel> materialCatTmp = categoryObtainMapper.getMaterialCategoryById(catId);
+        MaterialCategoryModel existedCatInfo = MaterialGeneral.getInitElementOrFirstElement(materialCatTmp, MaterialCategoryModel.class);
+        if (existedCatInfo.getName() != params.getCatName() ||
+            existedCatInfo.getCode() != params.getCatCode() ||
+            existedCatInfo.getType() != params.getType()) {
+            MaterialCategoryModel cateParam = new MaterialCategoryModel();
+            cateParam.setId(catId);
+            cateParam.setCode(params.getCatCode());
+            cateParam.setName(params.getCatName());
+            cateParam.setType(params.getType());
+            int updateResult = categoryModifyMapper.updateMaterialCategoryByParams(cateParam);
+            logger.info(String.format("更新物料分类id = %d的信息的返回值为%d。", catId, updateResult));
+        }
         // 成功获取了物料分类id
         if (catId != -1) {
             logger.info("物料分类编码为" + params.getCatCode() + "的记录对应的物料分类id为：" + catId);

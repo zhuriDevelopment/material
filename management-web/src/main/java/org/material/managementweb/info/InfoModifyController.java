@@ -3,9 +3,9 @@ package org.material.managementweb.info;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.material.managementfacade.model.requestmodel.MaterialBaseModifyBySpuAndMatCodeRequest;
-import org.material.managementfacade.model.requestmodel.MaterialInfoModifyByCatCodeAndNameRequest;
+import org.material.managementfacade.model.requestmodel.InfoModifyByCatCodeAndNameReq;
 import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
-import org.material.managementfacade.model.responsemodel.MaterialInfoModifyByCatCodeAndNameResponse;
+import org.material.managementfacade.model.responsemodel.InfoModifyByCatCodeAndNameResp;
 import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.service.info.impl.InfoModifyServiceImpl;
@@ -41,10 +41,10 @@ public class InfoModifyController {
 
     @PutMapping(value = "/updateMaterialInfoWithCatCodeAndCatName")
     @ApiOperation(value = "根据物料分类id和物料名称更新物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public MaterialInfoModifyByCatCodeAndNameResponse updateMaterialInfoWithCatCodeAndCatName
-            (@RequestBody @NotNull MaterialInfoModifyByCatCodeAndNameRequest params) {
+    public InfoModifyByCatCodeAndNameResp updateMaterialInfoWithCatCodeAndCatName
+            (@RequestBody @NotNull InfoModifyByCatCodeAndNameReq params) {
         if (MaterialGeneral.isContainsEmpty(params)) {
-            MaterialInfoModifyByCatCodeAndNameResponse result = new MaterialInfoModifyByCatCodeAndNameResponse();
+            InfoModifyByCatCodeAndNameResp result = new InfoModifyByCatCodeAndNameResp();
             result.setErrCode(MaterialInfoErrCode.errorParamInUpdatingInfoWithCatIdAndName);
             return result;
         } else {

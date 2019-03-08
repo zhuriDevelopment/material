@@ -6,7 +6,7 @@ package org.material.managementfacade.model.requestmodel.infomodify;
  * 物料控制属性请求更新的单个元素类
  */
 
-public class MaterialControlPropModifyRequestElement {
+public class MatCtrPropModifyReqEle {
     private String name;
     private String value;
 

@@ -24,7 +24,6 @@ public interface InfoObtainMapper {
 
     List<MaterialModel> getMaterialWithSpuCode (String spuCode);
 
-
     List<MaterialSkuModel> getMaterialSkuWithSpuCode (String spuCode);
 
     List<MaterialUnitModel> getMaterialUnitWithSpuCode (String spuCode);

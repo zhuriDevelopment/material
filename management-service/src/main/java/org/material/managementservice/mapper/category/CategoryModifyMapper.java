@@ -29,4 +29,6 @@ public interface CategoryModifyMapper {
     List<MaterialCategoryModel> getMatarialCategoryByParentId (int parentId);
 
     int deleteMaterialCategoryByNameAndParentId (String name, int parentId);
+
+    int updateMaterialCategoryByParams (MaterialCategoryModel params);
 }

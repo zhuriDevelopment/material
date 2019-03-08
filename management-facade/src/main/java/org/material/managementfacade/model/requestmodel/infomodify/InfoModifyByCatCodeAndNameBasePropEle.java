@@ -6,7 +6,7 @@ package org.material.managementfacade.model.requestmodel.infomodify;
  * 根据物料分类id和物料名称更新物料信息请求的基本属性部分的封装类
  */
 
-public class InfoModifyByCatCodeAndNameBasePropElement {
+public class InfoModifyByCatCodeAndNameBasePropEle {
     private int type;
     private String label;
     private String valueRange;

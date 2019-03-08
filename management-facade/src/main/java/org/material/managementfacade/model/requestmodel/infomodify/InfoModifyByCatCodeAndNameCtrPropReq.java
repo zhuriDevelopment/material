@@ -8,12 +8,12 @@ import java.util.List;
  * 根据物料分类编码、物料名称更新物料控制属性的请求封装类
  */
 
-public class InfoModifyByCatCodeAndNameControlPropRequest {
+public class InfoModifyByCatCodeAndNameCtrPropReq {
     private String organizationCode;
     private int propertyType;
-    private List<MaterialControlPropModifyRequestElement> ctrPropList;
+    private List<MatCtrPropModifyReqEle> ctrPropList;
 
-    public InfoModifyByCatCodeAndNameControlPropRequest () {
+    public InfoModifyByCatCodeAndNameCtrPropReq () {
         this.organizationCode = null;
         this.propertyType = -1;
         this.ctrPropList = null;
@@ -35,11 +35,11 @@ public class InfoModifyByCatCodeAndNameControlPropRequest {
         this.propertyType = propertyType;
     }
 
-    public List<MaterialControlPropModifyRequestElement> getCtrPropList () {
+    public List<MatCtrPropModifyReqEle> getCtrPropList () {
         return ctrPropList;
     }
 
-    public void setCtrPropList (List<MaterialControlPropModifyRequestElement> ctrPropList) {
+    public void setCtrPropList (List<MatCtrPropModifyReqEle> ctrPropList) {
         this.ctrPropList = ctrPropList;
     }
 }

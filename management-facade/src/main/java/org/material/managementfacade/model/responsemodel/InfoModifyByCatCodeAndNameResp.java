@@ -6,7 +6,7 @@ package org.material.managementfacade.model.responsemodel;
  * 根据物料分类id和物料名称更新物料信息的回复类
  */
 
-public class MaterialInfoModifyByCatCodeAndNameResponse {
+public class InfoModifyByCatCodeAndNameResp {
     private int errCode;
     private int errCodeInBaseProp;
     private int errCodeInCtrProp;

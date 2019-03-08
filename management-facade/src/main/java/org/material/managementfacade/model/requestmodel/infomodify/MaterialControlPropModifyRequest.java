@@ -9,13 +9,13 @@ import java.util.List;
  */
 
 public class MaterialControlPropModifyRequest {
-    List<MaterialControlPropModifyRequestElement> ctrPropList;
+    List<MatCtrPropModifyReqEle> ctrPropList;
 
-    public List<MaterialControlPropModifyRequestElement> getCtrPropList () {
+    public List<MatCtrPropModifyReqEle> getCtrPropList () {
         return ctrPropList;
     }
 
-    public void setCtrPropList (List<MaterialControlPropModifyRequestElement> ctrPropList) {
+    public void setCtrPropList (List<MatCtrPropModifyReqEle> ctrPropList) {
         this.ctrPropList = ctrPropList;
     }
 }

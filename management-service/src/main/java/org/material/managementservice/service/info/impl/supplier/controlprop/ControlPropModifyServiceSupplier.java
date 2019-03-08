@@ -6,8 +6,8 @@ import org.material.managementfacade.model.propertymodel.purchaseandstore.Purcha
 import org.material.managementfacade.model.propertymodel.quality.QualityList;
 import org.material.managementfacade.model.propertymodel.sales.SalesList;
 import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
-import org.material.managementfacade.model.requestmodel.infomodify.InfoModifyByCatCodeAndNameControlPropRequest;
-import org.material.managementfacade.model.requestmodel.infomodify.MaterialControlPropModifyRequestElement;
+import org.material.managementfacade.model.requestmodel.infomodify.InfoModifyByCatCodeAndNameCtrPropReq;
+import org.material.managementfacade.model.requestmodel.infomodify.MatCtrPropModifyReqEle;
 import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialCtrlPropModel;
 import org.material.managementfacade.model.tablemodel.MaterialCtrlPropValModel;
@@ -64,7 +64,7 @@ public class ControlPropModifyServiceSupplier {
      * @date 2019-03-01 05:34
      */
     private int updateCtrPropsByCtrPropList (MaterialInfoModifyRequest params, int versionId) {
-        List<MaterialControlPropModifyRequestElement> ctrPropList = params.getCtrPropDatas().getCtrPropList();
+        List<MatCtrPropModifyReqEle> ctrPropList = params.getCtrPropDatas().getCtrPropList();
         int updateSingleResult = 0;
         // 获取所有可能的物料控制属性值表记录
         List<MaterialCtrlPropValModel> ctrPropValList = infoModifyMapper.getCtrlPropValWithVersionId(versionId);
@@ -85,7 +85,7 @@ public class ControlPropModifyServiceSupplier {
                 logger.error(String.format("查询物料控制属性值过程中，不存在id = %d的记录。"));
             }
         }
-        for (MaterialControlPropModifyRequestElement element : ctrPropList) {
+        for (MatCtrPropModifyReqEle element : ctrPropList) {
             String name = element.getName();
             String value = element.getValue();
             MaterialCtrlPropValModel param = new MaterialCtrlPropValModel();
@@ -251,17 +251,17 @@ public class ControlPropModifyServiceSupplier {
      * @date 2019-03-02 20:34
      */
     public int updateControlPropertyByCatIdAndTypeAndValue (
-            List<InfoModifyByCatCodeAndNameControlPropRequest> updateDatas,
+            List<InfoModifyByCatCodeAndNameCtrPropReq> updateDatas,
             int catId) {
         boolean hasFailed = false;
-        for (InfoModifyByCatCodeAndNameControlPropRequest element : updateDatas) {
+        for (InfoModifyByCatCodeAndNameCtrPropReq element : updateDatas) {
             int propertyType = element.getPropertyType();
             String organizationCode = element.getOrganizationCode();
             // 若没有提供组织id，则将组织id设为1，代表通用的组织编码
             if (organizationCode == null) {
                 organizationCode = MaterialGeneral.generalOrganizationCode;
             }
-            for (MaterialControlPropModifyRequestElement dataEle : element.getCtrPropList()) {
+            for (MatCtrPropModifyReqEle dataEle : element.getCtrPropList()) {
                 String name = dataEle.getName();
                 String value = dataEle.getValue();
                 int updateEleRes = updateControlPropertyByCatIdAndTypeAndDatas(propertyType, organizationCode, catId, name, value);

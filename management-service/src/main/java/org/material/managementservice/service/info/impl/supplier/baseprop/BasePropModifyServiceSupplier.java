@@ -1,6 +1,6 @@
 package org.material.managementservice.service.info.impl.supplier.baseprop;
 
-import org.material.managementfacade.model.requestmodel.infomodify.InfoModifyByCatCodeAndNameBasePropElement;
+import org.material.managementfacade.model.requestmodel.infomodify.InfoModifyByCatCodeAndNameBasePropEle;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropModel;
 import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.mapper.general.GeneralMapper;
@@ -35,7 +35,7 @@ public class BasePropModifyServiceSupplier {
      * @author cplayer
      * @date 2019-03-02 18:18
      */
-    public int updateMaterialBasePropByCatId (int catId, List<InfoModifyByCatCodeAndNameBasePropElement> baseProps) {
+    public int updateMaterialBasePropByCatId (int catId, List<InfoModifyByCatCodeAndNameBasePropEle> baseProps) {
         MaterialBasePropModel param = new MaterialBasePropModel();
         param.setMaterialCatId(catId);
         List<MaterialBasePropModel> materialBasePropTmp = generalMapper.getMaterialBasePropWithMaterialBasePropParams(param);
@@ -53,7 +53,7 @@ public class BasePropModifyServiceSupplier {
             logger.info("原数据库没有materialCatId = " + catId + "的记录，无需删除！");
         }
         // 再添加所有新的数据
-        for (InfoModifyByCatCodeAndNameBasePropElement element : baseProps) {
+        for (InfoModifyByCatCodeAndNameBasePropEle element : baseProps) {
             // 每一个元素都是一条数据库记录
             param = new MaterialBasePropModel();
             param.setMaterialCatId(catId);
