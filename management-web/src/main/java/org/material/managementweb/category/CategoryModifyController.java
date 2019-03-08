@@ -2,8 +2,8 @@ package org.material.managementweb.category;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.material.managementfacade.model.requestmodel.CategoryAddRequest;
-import org.material.managementfacade.model.requestmodel.CategoryDeleteRequest;
+import org.material.managementfacade.model.requestmodel.CatAddReq;
+import org.material.managementfacade.model.requestmodel.CatDeleteReq;
 import org.material.managementfacade.model.requestmodel.CategoryModifyNameRequest;
 import org.material.managementservice.general.MaterialCategoryErrCode;
 import org.material.managementservice.general.MaterialGeneral;
@@ -33,7 +33,7 @@ public class CategoryModifyController {
 
     @PostMapping(value = "/addMaterialCategory")
     @ApiOperation(value = "增加物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public int addMaterialCategory (@RequestBody @NotNull CategoryAddRequest request) {
+    public int addMaterialCategory (@RequestBody @NotNull CatAddReq request) {
         if (!MaterialGeneral.isContainsEmpty(request) && request.getParentId() != -1) {
             return categoryModifyService.addMaterialCategory(request);
         } else {
@@ -53,7 +53,7 @@ public class CategoryModifyController {
 
     @PostMapping(value = "/deleteMaterialCategory")
     @ApiOperation(value = "删除物料分类编码信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public int deleteMaterialCategory (@RequestBody @NotNull CategoryDeleteRequest request) {
+    public int deleteMaterialCategory (@RequestBody @NotNull CatDeleteReq request) {
         //必须获取全部属性值
         if (!MaterialGeneral.isContainsEmpty(request)
                 && request.getId() != -1

@@ -26,19 +26,19 @@ public class BasePropModifyServiceSupplier {
     private InfoModifyMapper infoModifyMapper;
 
     /**
-     * 根据物料分类编码、物料名称以及待更新的数据更新物料基本属性的实现函数
+     * 根据物料分类编码删除所有已存在的物料基本属性的函数
      *
-     * @param catId     物料分类id
-     * @param baseProps 待更新的物料基本属性
-     * @return MaterialInfoErrCode.successUpdateMaterialBasePropWithCatIdAndName 更新成功
-     * MaterialInfoErrCode.failedUpdateMaterialBasePropWithCatIdAndName 更新失败
      * @author cplayer
-     * @date 2019-03-02 18:18
+     * @date 2019-03-09 04:54     
+     * @param catId 物料分类编码
+     *
+     * @return MaterialInfoErrCode.successDeleteAllBasePropByCatId 成功
+     *         MaterialInfoErrCode.failedDeleteAllBasePropByCatId 失败
+     *
      */
-    public int updateMaterialBasePropByCatId (int catId, List<InfoModifyByCatCodeAndNameBasePropEle> baseProps) {
+    public int deleteAllMaterialBasePropByCatId (int catId) {
         MaterialBasePropModel param = new MaterialBasePropModel();
         param.setMaterialCatId(catId);
-        int result = MaterialInfoErrCode.successUpdateMaterialBasePropWithCatIdAndName;
         List<MaterialBasePropModel> materialBasePropTmp = generalMapper.getMaterialBasePropWithMaterialBasePropParams(param);
         // 由于可能物料基础属性可能全部变更，故需要先删除所有已存在的记录，然后全部重新插入
         // 删除的时候要注意要同时从materialBaseProp表和materialBasePropVal表中一起删除，以防在materialBasePropVal表中出现无效数据
@@ -53,6 +53,23 @@ public class BasePropModifyServiceSupplier {
         } else {
             logger.info("原数据库没有materialCatId = " + catId + "的记录，无需删除！");
         }
+        return MaterialInfoErrCode.successDeleteAllBasePropByCatId;
+    }
+
+    /**
+     * 根据物料分类编码、物料名称以及待更新的数据更新物料基本属性的实现函数
+     *
+     * @param catId     物料分类id
+     * @param baseProps 待更新的物料基本属性
+     * @return MaterialInfoErrCode.successUpdateMaterialBasePropWithCatIdAndName 更新成功
+     * MaterialInfoErrCode.failedUpdateMaterialBasePropWithCatIdAndName 更新失败
+     * @author cplayer
+     * @date 2019-03-02 18:18
+     */
+    public int updateMaterialBasePropByCatId (int catId, List<InfoModifyByCatCodeAndNameBasePropEle> baseProps) {
+        int result = MaterialInfoErrCode.successUpdateMaterialBasePropWithCatIdAndName;
+        deleteAllMaterialBasePropByCatId(catId);
+        MaterialBasePropModel param;
         // 再添加所有新的数据
         for (InfoModifyByCatCodeAndNameBasePropEle element : baseProps) {
             // 每一个元素都是一条数据库记录

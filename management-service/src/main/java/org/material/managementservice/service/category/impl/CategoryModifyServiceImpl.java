@@ -1,13 +1,15 @@
 package org.material.managementservice.service.category.impl;
 
-import org.material.managementfacade.model.requestmodel.CategoryAddRequest;
-import org.material.managementfacade.model.requestmodel.CategoryDeleteRequest;
+import org.material.managementfacade.model.requestmodel.CatAddReq;
+import org.material.managementfacade.model.requestmodel.CatDeleteReq;
 import org.material.managementfacade.model.requestmodel.CategoryModifyNameRequest;
 import org.material.managementfacade.model.tablemodel.MaterialCategoryModel;
 import org.material.managementfacade.service.category.CategoryModifyService;
 import org.material.managementservice.general.MaterialCategoryErrCode;
 import org.material.managementservice.mapper.category.CategoryModifyMapper;
 import org.material.managementservice.mapper.general.GeneralMapper;
+import org.material.managementservice.service.info.impl.supplier.baseprop.BasePropModifyServiceSupplier;
+import org.material.managementservice.service.info.impl.supplier.controlprop.ControlPropModifyServiceSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,10 @@ public class CategoryModifyServiceImpl implements CategoryModifyService {
     private CategoryModifyMapper categoryModifyMapper;
     @Autowired
     private GeneralMapper generalMapper;
+    @Autowired
+    private ControlPropModifyServiceSupplier controlPropModifyServiceSupplier;
+    @Autowired
+    private BasePropModifyServiceSupplier basePropModifyServiceSupplier;
 
     /**
      * 添加物料分类信息的功能函数（单次）
@@ -39,7 +45,7 @@ public class CategoryModifyServiceImpl implements CategoryModifyService {
      * @date 2019-03-02 04:37
      */
     @Override
-    public int addMaterialCategory (CategoryAddRequest request) {
+    public int addMaterialCategory (CatAddReq request) {
         // 先检查是否存在当前编码、id、名称
         int count = categoryModifyMapper.countMaterialCategoryByCode(request.getCode());
         if (count > 0) {
@@ -113,7 +119,7 @@ public class CategoryModifyServiceImpl implements CategoryModifyService {
      * @date 2019-03-02 05:17
      */
     @Override
-    public int deleteMaterialCategory (CategoryDeleteRequest request) {
+    public int deleteMaterialCategory (CatDeleteReq request) {
         // 传入值必须唯一确定一条记录
         MaterialCategoryModel param = new MaterialCategoryModel();
         param.setId(request.getId());
@@ -154,10 +160,14 @@ public class CategoryModifyServiceImpl implements CategoryModifyService {
             if (deleteResult == 0) {
                 logger.error(String.format("物料分类信息数据库删除出错，对应的数据不存在，数据为：" +
                                 "父分类id = %d，名称 = %s。",
-                        param.getName(),
-                        param.getParentId()));
+                        param.getParentId(),
+                        param.getName()));
                 failed++;
             }
+            deleteResult = controlPropModifyServiceSupplier.deleteAllControlPropertyByCatId(param.getId());
+            logger.info(String.format("删除对应的控制属性值的返回值为%d。", deleteResult));
+            deleteResult = basePropModifyServiceSupplier.deleteAllMaterialBasePropByCatId(param.getId());
+            logger.info(String.format("删除对应基本属性的返回值为%d。", deleteResult));
         }
         if (failed > 0) {
             logger.error(String.format("物料分类信息数据库删除出错，出错次数为%d，总删除次数为%d。",

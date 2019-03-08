@@ -243,10 +243,14 @@ public class ControlPropModifyServiceSupplier {
     /**
      * 根据物料分类id待更新属性值更新物料控制属性的功能函数
      *
-     * @param updateDatas 待更新的属性值
-     * @param catId       物料分类id
+     * @param updateDatas
+     *         待更新的属性值
+     * @param catId
+     *         物料分类id
+     *
      * @return MaterialInfoErrCode.failedUpdateControlPropertyByCatIdAndTypeAndValue 更新失败
      * MaterialInfoErrCode.successUpdateControlPropertyByCatIdAndTypeAndValue 更新成功
+     *
      * @author cplayer
      * @date 2019-03-02 20:34
      */
@@ -276,5 +280,27 @@ public class ControlPropModifyServiceSupplier {
         } else {
             return MaterialInfoErrCode.successUpdateControlPropertyByCatIdAndTypeAndValue;
         }
+    }
+
+    /**
+     * 根据物料分类id删除所有物料控制属性的值
+     *
+     * @author cplayer
+     * @date 2019-03-09 05:02
+     * @param catId 物料分类id
+     *
+     * @return MaterialInfoErrCode.successDeleteAllCtrPropsByCatId 删除成功
+     *         MaterialInfoErrCode.failedDeleteAllCtrPropsByCatId 删除失败
+     *
+     */
+    public int deleteAllControlPropertyByCatId (int catId) {
+        // 先获取版本号，然后再根据版本号逐个删除
+        List<MaterialCtrlPropValVerModel> valVerList = infoObtainMapper.getMaterialCtrlPropValVerByCatId(catId);
+        for (MaterialCtrlPropValVerModel element : valVerList) {
+            int versionId = element.getId();
+            int deleteResult = infoModifyMapper.deleteAllMaterialCtrlPropValByVersionId(versionId);
+            logger.info(String.format("删除版本id = %d的记录的返回结果为：%d。", versionId, deleteResult));
+        }
+        return MaterialInfoErrCode.successDeleteAllBasePropByCatId;
     }
 }

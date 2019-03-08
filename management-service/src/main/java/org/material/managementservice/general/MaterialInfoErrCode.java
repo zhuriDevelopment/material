@@ -87,6 +87,15 @@ public class MaterialInfoErrCode {
     // 更新物料计量单位中删除部分失败
     public static Integer failedUpdateDeleteUnit = 0;
 
+    // 根据物料分类id删除所有物料控制信息成功
+    public static Integer successDeleteAllCtrPropsByCatId = successOperation;
+    // 根据物料分类id删除所有物料控制信息失败
+    public static Integer failedDeleteAllCtrPropsByCatId = -1;
+    // 根据物料分类id删除所有物料基本属性成功
+    public static Integer successDeleteAllBasePropByCatId = successOperation;
+    // 根据物料分类id删除所有物料基本属性失败
+    public static Integer failedDeleteAllBasePropByCatId = -1;
+
     // 根据物料分类id和物料名称获取所有物料信息成功
     public static Integer successObtainAllMatInfoWithCatCodeAndName = successOperation;
     // 根据物料分类id和物料名称获取所有物料信息时，不存在对应的物料分类id

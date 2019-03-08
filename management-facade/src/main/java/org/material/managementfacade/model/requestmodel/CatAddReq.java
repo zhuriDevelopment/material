@@ -6,13 +6,13 @@ package org.material.managementfacade.model.requestmodel;
  * 增加物料分类信息请求的封装类
  */
 
-public class CategoryAddRequest {
+public class CatAddReq {
     private String code;
     private String name;
     private int parentId;
     private int type;
 
-    CategoryAddRequest () {
+    CatAddReq () {
         this.code = null;
         this.name = null;
         this.parentId = -1;

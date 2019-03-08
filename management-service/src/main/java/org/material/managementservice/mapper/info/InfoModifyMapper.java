@@ -48,4 +48,6 @@ public interface InfoModifyMapper {
     int insertMaterialBasePropWithMaterialBasePropParams (MaterialBasePropModel param);
 
     int updateCtrlPropWithCtrlPropParams (int versionId, int materialCtrlPropId, String value);
+
+    int deleteAllMaterialCtrlPropValByVersionId (int versionId);
 }

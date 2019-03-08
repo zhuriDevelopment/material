@@ -55,6 +55,7 @@ public class MaterialGeneral {
             Class clazz = object.getClass();
             Field[] fields = clazz.getDeclaredFields();
             for (Field field : fields) {
+                field.setAccessible(true);
                 String name = field.getName();
                 if (field.get(object) == null) {
                     result = true;

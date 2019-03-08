@@ -131,19 +131,19 @@
         select * from materialCategory
         <where>
           <if test="id &gt;= 0">
-              id = #{id}
+              and id = #{id}
           </if>
           <if test="code != null">
-              code = #{code}
+              and code = #{code}
           </if>
           <if test="name != null">
-              name = #{name}
+              and name = #{name}
           </if>
           <if test="type &gt;= 0">
-              type = #{type}
+              and type = #{type}
           </if>
           <if test="parentId &gt;= 0">
-              parentId = #{parentId}
+              and parentId = #{parentId}
           </if>
         </where>
     </select>

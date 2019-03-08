@@ -218,4 +218,10 @@
     <update id="updateCtrlPropWithCtrlPropParams">
         update materialCtrlPropVal set value = #{value} where versionId = #{versionId} and materialCtrlPropId = #{materialCtrlPropId}
     </update>
+
+    <!--根据版本号id向物料控制属性值表里删除数据-->
+    <delete id="deleteAllMaterialCtrlPropValByVersionId">
+        delete from materialCtrlPropVal where versionId = #{versionId}
+    </delete>
 </mapper>
+

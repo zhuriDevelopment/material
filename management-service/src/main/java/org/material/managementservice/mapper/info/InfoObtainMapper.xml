@@ -71,4 +71,11 @@
         select * from materialBasePropVal
         where spuCode = #{spuCode} and materialCode = #{materialCode} and materialBasePropId = #{materialBasePropId}
     </select>
+
+    <select id="getMaterialCtrlPropValVerByCatId"
+            resultType="org.material.managementfacade.model.tablemodel.MaterialCtrlPropValVerModel">
+        select * from materialCtrlPropValVer
+        where materialCatId = #{materialCatId}
+    </select>
+
 </mapper>

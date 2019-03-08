@@ -36,4 +36,5 @@ public interface InfoObtainMapper {
 
     List<MaterialBasePropValModel> getMaterialBasePropValWithSpuAndCatCodeAndPropId (String spuCode, String materialCode, int materialBasePropId);
 
+    List<MaterialCtrlPropValVerModel> getMaterialCtrlPropValVerByCatId (int materialCatId);
 }

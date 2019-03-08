@@ -48,7 +48,7 @@
     </select>
 
     <delete id="deleteMaterialCategoryByNameAndParentId">
-        delete * from materialCategory where name = #{name} and parentId = #{parentId}
+        delete from materialCategory where name = #{name} and parentId = #{parentId}
     </delete>
 
     <update id="updateMaterialCategoryByParams"

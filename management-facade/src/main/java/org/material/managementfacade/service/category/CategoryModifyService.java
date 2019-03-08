@@ -1,7 +1,7 @@
 package org.material.managementfacade.service.category;
 
-import org.material.managementfacade.model.requestmodel.CategoryAddRequest;
-import org.material.managementfacade.model.requestmodel.CategoryDeleteRequest;
+import org.material.managementfacade.model.requestmodel.CatAddReq;
+import org.material.managementfacade.model.requestmodel.CatDeleteReq;
 import org.material.managementfacade.model.requestmodel.CategoryModifyNameRequest;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface CategoryModifyService {
-    int addMaterialCategory (CategoryAddRequest request);
+    int addMaterialCategory (CatAddReq request);
 
     int updateMaterialCategoryName (CategoryModifyNameRequest request);
 
-    int deleteMaterialCategory (CategoryDeleteRequest request);
+    int deleteMaterialCategory (CatDeleteReq request);
 }

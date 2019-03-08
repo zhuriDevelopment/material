@@ -6,7 +6,7 @@ package org.material.managementfacade.model.requestmodel;
  * 物料分类信息删除请求的封装类
  */
 
-public class CategoryDeleteRequest {
+public class CatDeleteReq {
     private int id;
     private String code;
     private String name;
