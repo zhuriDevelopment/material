@@ -3,10 +3,7 @@ package org.material.managementweb.info;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.material.managementfacade.model.requestmodel.*;
-import org.material.managementfacade.model.responsemodel.BaseInfoResp;
-import org.material.managementfacade.model.responsemodel.MatBaseObtainBySpuAndMatCodeResp;
-import org.material.managementfacade.model.responsemodel.MatInfoObtainByCatCodeAndNameResp;
-import org.material.managementfacade.model.responsemodel.MatInfoObtainByCatInfoResp;
+import org.material.managementfacade.model.responsemodel.*;
 import org.material.managementfacade.model.responsemodel.MaterialInfo.MatInfoResp;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropModel;
 import org.material.managementservice.general.MaterialGeneral;
@@ -57,7 +54,11 @@ public class InfoObtainController {
 
     @GetMapping(value = "/getMaterialInfo")
     @ApiOperation(value = "根据给定参数查询物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public MatInfoResp getMaterialInfo (@RequestBody MatInfoReq params) {
+    public MatInfoResp getMaterialInfo
+            (@RequestParam("spuCode") String spuCode,
+             @RequestParam("typeArr") List<Integer> typeArr,
+             Integer organizationId) {
+        MatInfoReq params = new MatInfoReq(spuCode, typeArr, organizationId);
         if (MaterialGeneral.isAllEmpty(params)) {
             MatInfoResp response = new MatInfoResp();
             response.setErrCode(MaterialInfoErrCode.errCodeClassIsEmpty);
@@ -112,6 +113,12 @@ public class InfoObtainController {
     public List<MaterialBasePropModel> getMaterialBaseByCatIdAndType
             (@RequestBody @NotNull BasePropObtainByCatIdAndTypeReq params) {
         return infoObtainService.getMaterialBaseByCatIdAndType(params);
+    }
+
+    @GetMapping(value = "/getAllUnitInfos")
+    @ApiOperation(value = "获取所有计量单位属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<AllUnitInfosObtainResp> getAllUnitInfos () {
+        return infoObtainService.getAllUnitInfos();
     }
 
 }

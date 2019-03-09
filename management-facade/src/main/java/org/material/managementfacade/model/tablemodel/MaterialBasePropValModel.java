@@ -10,6 +10,14 @@ public class MaterialBasePropValModel {
     private int materialBasePropId;
     private String value;
 
+    public MaterialBasePropValModel () {
+        this.id = -1;
+        this.spuCode = null;
+        this.materialCode = null;
+        this.materialBasePropId = -1;
+        this.value = null;
+    }
+
     public int getId () {
         return id;
     }

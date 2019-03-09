@@ -10,7 +10,7 @@ import java.util.List;
  * getMaterialInfo接口中关于单位回复的封装类
  */
 
-public class MaterialInfoUnitResponse {
+public class MatInfoUnitResp {
     private UnitModel defaultUnit;
     private List<UnitModel> unitList;
 

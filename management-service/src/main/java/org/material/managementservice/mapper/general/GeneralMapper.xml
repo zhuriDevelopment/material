@@ -73,8 +73,8 @@
             <if test="materialName != null">
                 and materialName = #{materialName}
             </if>
-            <if test="oldMaterialCode != null">
-                and oldMaterialCode = #{oldMaterialCode}
+            <if test="oldMaterialName != null">
+                and oldMaterialName = #{oldMaterialName}
             </if>
             <if test="barCode != null">
                 and barCode = #{barCode}
@@ -242,19 +242,19 @@
         select * from materialBasePropVal
         <where>
             <if test="id &gt;= 0">
-                id = #{id}
+                and id = #{id}
             </if>
             <if test="spuCode != null">
-                spuCode = #{spuCode}
+                and spuCode = #{spuCode}
             </if>
             <if test="materialCode != null">
-                materialCode = #{materialCode}
+                and materialCode = #{materialCode}
             </if>
             <if test="materialBasePropId &gt;= 0">
-                materialBasePropId = #{materialBasePropId}
+                and materialBasePropId = #{materialBasePropId}
             </if>
             <if test="value != null">
-                value = #{value}
+                and value = #{value}
             </if>
         </where>
     </select>
@@ -505,8 +505,8 @@
             <if test="materialName != null">
                 materialName,
             </if>
-            <if test="oldMaterialCode != null">
-                oldMaterialCode,
+            <if test="oldMaterialName != null">
+                oldMaterialName,
             </if>
             <if test="barCode != null">
                 barCode,
@@ -531,8 +531,8 @@
             <if test="materialName != null">
                 #{materialName},
             </if>
-            <if test="oldMaterialCode != null">
-                #{oldMaterialCode},
+            <if test="oldMaterialName != null">
+                #{oldMaterialName},
             </if>
             <if test="barCode != null">
                 #{barCode},

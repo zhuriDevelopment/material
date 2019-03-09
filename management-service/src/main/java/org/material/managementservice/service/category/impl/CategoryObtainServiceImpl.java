@@ -1,6 +1,7 @@
 package org.material.managementservice.service.category.impl;
 
 import org.material.managementfacade.model.processmodel.MaterialCategoryTree;
+import org.material.managementfacade.model.responsemodel.AllCatInfosObtainResp;
 import org.material.managementfacade.model.tablemodel.MaterialCategoryModel;
 import org.material.managementfacade.service.category.CategoryObtainService;
 import org.material.managementservice.mapper.category.CategoryObtainMapper;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author cplayer on 2019-02-25.
@@ -65,5 +67,21 @@ public class CategoryObtainServiceImpl implements CategoryObtainService {
     @Override
     public List<MaterialCategoryModel> getMaterialCategoryInfosWithId (int id) {
         return categoryObtainMapper.getMaterialCategoryById(id);
+    }
+
+    /**
+     * 获取所有物料分类信息列表的函数
+     *
+     * @author cplayer
+     * @date 2019-03-10 01:12
+     *
+     * @return java.util.List<org.material.managementfacade.model.responsemodel.AllCatInfosObtainResp>
+     *
+     */
+    @Override
+    public List<AllCatInfosObtainResp> getAllMaterialCategoryInfos () {
+        return categoryObtainMapper.getAllMaterialCategory().stream()
+                .map(AllCatInfosObtainResp::new)
+                .collect(Collectors.toList());
     }
 }

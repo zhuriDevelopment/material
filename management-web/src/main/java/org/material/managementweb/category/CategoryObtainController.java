@@ -3,6 +3,7 @@ package org.material.managementweb.category;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.material.managementfacade.model.processmodel.MaterialCategoryTree;
+import org.material.managementfacade.model.responsemodel.AllCatInfosObtainResp;
 import org.material.managementfacade.model.tablemodel.MaterialCategoryModel;
 import org.material.managementservice.service.category.impl.CategoryObtainServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,11 @@ public class CategoryObtainController {
         } else {
             return new ArrayList<>();
         }
+    }
+
+    @GetMapping(value = "/getAllMaterialCategoryInfos")
+    @ApiOperation(value = "获取所有物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<AllCatInfosObtainResp> getAllMaterialCategoryInfos () {
+        return categoryObtainService.getAllMaterialCategoryInfos();
     }
 }

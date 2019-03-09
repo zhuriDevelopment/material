@@ -199,7 +199,7 @@ public class InfoObtainServiceImpl implements InfoObtainService {
                     break;
                 case 8:
                     // 处理质量类属性
-                    result.setQualifyInfos(controlPropObtainServiceSupplier.getQualityProperties(-1, params));
+                    result.setQualityInfos(controlPropObtainServiceSupplier.getQualityProperties(-1, params));
                     break;
                 case 9:
                     // 处理财务类属性
@@ -391,5 +391,21 @@ public class InfoObtainServiceImpl implements InfoObtainService {
         param.setMaterialCatId(params.getCatId());
         param.setType(params.getPropertyType());
         return generalMapper.getMaterialBasePropWithMaterialBasePropParams(param);
+    }
+
+    /**
+     * 获取所有计量单位信息的函数
+     *
+     * @author cplayer
+     * @date 2019-03-10 01:32
+     *
+     * @return java.util.List<org.material.managementfacade.model.responsemodel.AllUnitInfosObtainResp>
+     *
+     */
+    @Override
+    public List<AllUnitInfosObtainResp> getAllUnitInfos () {
+        return infoObtainMapper.getAllUnitInfos().stream()
+                .map(AllUnitInfosObtainResp::new)
+                .collect(Collectors.toList());
     }
 }

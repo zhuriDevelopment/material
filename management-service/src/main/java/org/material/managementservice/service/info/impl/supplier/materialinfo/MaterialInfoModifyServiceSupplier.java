@@ -59,12 +59,12 @@ public class MaterialInfoModifyServiceSupplier {
             MaterialModel param = new MaterialModel();
             param.setMaterialCode(element.getMaterialCode());
             param.setMaterialName(element.getMaterialName());
-            param.setOldMaterialCode(element.getOldMaterialCode());
+            param.setOldMaterialName(element.getOldMaterialCode());
             param.setBarCode(element.getBarCode());
             param.setSpuCode(params.getSpuCode());
             param.setMaterialBaseId(baseInfo.getId());
-            result = generalMapper.insertMaterialWithMaterialParams(param);
-            logger.info("正在插入第" + result + "条记录！");
+            generalMapper.insertMaterialWithMaterialParams(param);
+            logger.info("正在插入第" + (result++) + "条记录！");
         }
         // 到此认为插入成功，返回正确结果
         return MaterialInfoErrCode.successUpdateMaterialInMaterial;

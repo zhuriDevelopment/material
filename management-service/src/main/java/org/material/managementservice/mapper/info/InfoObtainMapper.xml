@@ -78,4 +78,9 @@
         where materialCatId = #{materialCatId}
     </select>
 
+    <!--获得所有计量单位信息-->
+    <select id="getAllUnitInfos"
+            resultType="org.material.managementfacade.model.tablemodel.UnitModel">
+        select * from unit
+    </select>
 </mapper>

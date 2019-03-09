@@ -8,7 +8,7 @@ public class MaterialModel {
     private String spuCode;
     private String materialCode;
     private String materialName;
-    private String oldMaterialCode;
+    private String oldMaterialName;
     private String barCode;
     private int materialBaseId;
 //    private int purchasePrice;
@@ -19,7 +19,7 @@ public class MaterialModel {
         this.spuCode = null;
         this.materialCode = null;
         this.materialName = null;
-        this.oldMaterialCode = null;
+        this.oldMaterialName = null;
         this.barCode = null;
         this.materialBaseId = -1;
 //        this.purchasePrice = -1;
@@ -58,12 +58,12 @@ public class MaterialModel {
         this.materialName = materialName;
     }
 
-    public String getOldMaterialCode () {
-        return oldMaterialCode;
+    public String getOldMaterialName () {
+        return oldMaterialName;
     }
 
-    public void setOldMaterialCode (String oldMaterialCode) {
-        this.oldMaterialCode = oldMaterialCode;
+    public void setOldMaterialName (String oldMaterialName) {
+        this.oldMaterialName = oldMaterialName;
     }
 
     public String getBarCode () {

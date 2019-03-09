@@ -15,17 +15,29 @@ import java.util.List;
  */
 
 public class MatInfoRespParams {
+    // 物料基本信息
     private List<MaterialBaseModel> baseInfos;
+    // 物料信息
     private List<MaterialModel> materialInfos;
+    // SKU信息
     private List<MaterialSkuModel> skuInfos;
+    // 附件管理（保留接口）
     private List<MaterialFilesModel> baseInfoForFiles;
-    private MaterialInfoUnitResponse units;
-    private MaterialInfoBasePropResponse basePropInfos;
-    private MaterialInfoBasePropResponseClass standardInfos;
+    // 计量单位
+    private MatInfoUnitResp units;
+    // 全部基础信息
+    private MatInfoBasePropResp basePropInfos;
+    // 规格信息
+    private MatInfoBasePropRespClass standardInfos;
+    // 采购和库存属性
     private List<ControlPropertyBean> purchaseAndStoreInfos;
+    // 计划类属性
     private List<ControlPropertyBean> planInfos;
+    // 销售类属性
     private List<ControlPropertyBean> salesInfos;
-    private List<ControlPropertyBean> qualifyInfos;
+    // 质量类属性
+    private List<ControlPropertyBean> qualityInfos;
+    // 财务类属性
     private List<ControlPropertyBean> financeInfos;
 
     public List<MaterialBaseModel> getBaseInfos () {
@@ -60,27 +72,27 @@ public class MatInfoRespParams {
         this.baseInfoForFiles = baseInfoForFiles;
     }
 
-    public MaterialInfoUnitResponse getUnits () {
+    public MatInfoUnitResp getUnits () {
         return units;
     }
 
-    public void setUnits (MaterialInfoUnitResponse units) {
+    public void setUnits (MatInfoUnitResp units) {
         this.units = units;
     }
 
-    public MaterialInfoBasePropResponse getBasePropInfos () {
+    public MatInfoBasePropResp getBasePropInfos () {
         return basePropInfos;
     }
 
-    public void setBasePropInfos (MaterialInfoBasePropResponse basePropInfos) {
+    public void setBasePropInfos (MatInfoBasePropResp basePropInfos) {
         this.basePropInfos = basePropInfos;
     }
 
-    public MaterialInfoBasePropResponseClass getStandardInfos () {
+    public MatInfoBasePropRespClass getStandardInfos () {
         return standardInfos;
     }
 
-    public void setStandardInfos (MaterialInfoBasePropResponseClass standardInfos) {
+    public void setStandardInfos (MatInfoBasePropRespClass standardInfos) {
         this.standardInfos = standardInfos;
     }
 
@@ -108,12 +120,12 @@ public class MatInfoRespParams {
         this.salesInfos = salesInfos;
     }
 
-    public List<ControlPropertyBean> getQualifyInfos () {
-        return qualifyInfos;
+    public List<ControlPropertyBean> getQualityInfos () {
+        return qualityInfos;
     }
 
-    public void setQualifyInfos (List<ControlPropertyBean> qualifyInfos) {
-        this.qualifyInfos = qualifyInfos;
+    public void setQualityInfos (List<ControlPropertyBean> qualityInfos) {
+        this.qualityInfos = qualityInfos;
     }
 
     public List<ControlPropertyBean> getFinanceInfos () {

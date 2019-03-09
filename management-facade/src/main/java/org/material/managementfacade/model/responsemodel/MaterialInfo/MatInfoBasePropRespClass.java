@@ -11,7 +11,7 @@ import java.util.List;
  * getMaterialInfo中关键属性回复的封装类
  */
 
-public class MaterialInfoBasePropResponseClass {
+public class MatInfoBasePropRespClass {
     private List<MaterialBasePropValModel> valList;
     private List<MaterialBasePropModel> propList;
 
