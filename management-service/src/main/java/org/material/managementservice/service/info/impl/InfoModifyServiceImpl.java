@@ -67,7 +67,7 @@ public class InfoModifyServiceImpl implements InfoModifyService {
      * @date 2019-02-27 04:37
      */
     @Override
-    public int updateMaterialInfo (MaterialInfoModifyRequest params) {
+    public int updateMaterialInfo (InfoModifyReq params) {
         int result = 0;
         String spuCode = params.getSpuCode();
         if (spuCode == null) {

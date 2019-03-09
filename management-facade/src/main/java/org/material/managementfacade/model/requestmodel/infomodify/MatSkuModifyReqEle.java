@@ -8,7 +8,7 @@ import java.util.Objects;
  * 物料更新过程中sku定义更新元素的封装类
  */
 
-public class MaterialSkuModifyRequestElement {
+public class MatSkuModifyReqEle {
     private String skuCode;
     private String skuName;
     private String materialCode;
@@ -18,7 +18,7 @@ public class MaterialSkuModifyRequestElement {
     private int sellingPrice;
     private String description;
 
-    public MaterialSkuModifyRequestElement () {
+    public MatSkuModifyReqEle () {
         this.skuCode = null;
         this.skuName = null;
         this.materialCode = null;
@@ -33,7 +33,7 @@ public class MaterialSkuModifyRequestElement {
     public boolean equals (Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MaterialSkuModifyRequestElement that = (MaterialSkuModifyRequestElement) o;
+        MatSkuModifyReqEle that = (MatSkuModifyReqEle) o;
         return unitId == that.unitId &&
                 purchasePrice == that.purchasePrice &&
                 sellingPrice == that.sellingPrice &&

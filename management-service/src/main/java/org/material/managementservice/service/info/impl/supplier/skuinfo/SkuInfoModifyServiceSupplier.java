@@ -1,7 +1,7 @@
 package org.material.managementservice.service.info.impl.supplier.skuinfo;
 
-import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
-import org.material.managementfacade.model.requestmodel.infomodify.MaterialSkuModifyRequestElement;
+import org.material.managementfacade.model.requestmodel.InfoModifyReq;
+import org.material.managementfacade.model.requestmodel.infomodify.MatSkuModifyReqEle;
 import org.material.managementfacade.model.tablemodel.MaterialSkuModel;
 import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.general.MaterialInfoErrCode;
@@ -38,7 +38,7 @@ public class SkuInfoModifyServiceSupplier {
      * @author cplayer
      * @date 2019-02-28 16:27
      */
-    public boolean isSkuDataValid (MaterialSkuModifyRequestElement skuData) {
+    public boolean isSkuDataValid (MatSkuModifyReqEle skuData) {
         // 有空属性，返回否
         if (MaterialGeneral.isContainsEmpty(skuData)) {
             return false;
@@ -65,7 +65,7 @@ public class SkuInfoModifyServiceSupplier {
      * @author cplayer
      * @date 2019-02-28 17:19
      */
-    public MaterialSkuModel convertToSkuModel (MaterialSkuModifyRequestElement skuElement) {
+    public MaterialSkuModel convertToSkuModel (MatSkuModifyReqEle skuElement) {
         MaterialSkuModel result = new MaterialSkuModel();
         result.setSkuCode(skuElement.getSkuCode());
         result.setSkuName(skuElement.getSkuName());
@@ -87,9 +87,9 @@ public class SkuInfoModifyServiceSupplier {
      * @author cplayer
      * @date 2019-02-28 17:20
      */
-    public int deleteAllSkuInfosInSet (Set<MaterialSkuModifyRequestElement> deleteSet, String spuCode) {
+    public int deleteAllSkuInfosInSet (Set<MatSkuModifyReqEle> deleteSet, String spuCode) {
         int countResult = 0;
-        for (MaterialSkuModifyRequestElement skuData : deleteSet) {
+        for (MatSkuModifyReqEle skuData : deleteSet) {
             if (isSkuDataValid(skuData)) {
                 logger.info("skuData合法，删除中。。");
                 MaterialSkuModel param = convertToSkuModel(skuData);
@@ -120,9 +120,9 @@ public class SkuInfoModifyServiceSupplier {
      * @author cplayer
      * @date 2019-02-28 17:20
      */
-    public int insertAllSkuInfosInSet (Set<MaterialSkuModifyRequestElement> insertSet, String spuCode) {
+    public int insertAllSkuInfosInSet (Set<MatSkuModifyReqEle> insertSet, String spuCode) {
         int countResult = 0;
-        for (MaterialSkuModifyRequestElement skuData : insertSet) {
+        for (MatSkuModifyReqEle skuData : insertSet) {
             // 检查上传的skudata是否合法
             if (isSkuDataValid(skuData)) {
                 logger.info("skuData合法，更新中。。");
@@ -154,12 +154,12 @@ public class SkuInfoModifyServiceSupplier {
      * @author cplayer
      * @date 2019-02-28 17:21
      */
-    public int updateMaterialInfoForSkuData (MaterialInfoModifyRequest params) {
+    public int updateMaterialInfoForSkuData (InfoModifyReq params) {
         // 先获取当前数据库中已经有的sku信息，并存到集合中
-        Set<MaterialSkuModifyRequestElement> skuExistsSet = infoObtainMapper.getMaterialSkuWithSpuCode(params.getSpuCode())
+        Set<MatSkuModifyReqEle> skuExistsSet = infoObtainMapper.getMaterialSkuWithSpuCode(params.getSpuCode())
                 .stream()
                 .map(ele -> {
-                    MaterialSkuModifyRequestElement result = new MaterialSkuModifyRequestElement();
+                    MatSkuModifyReqEle result = new MatSkuModifyReqEle();
                     result.setSkuCode(ele.getSkuCode());
                     result.setBarCode(ele.getBarCode());
                     result.setDescription(ele.getDescription());
@@ -172,9 +172,9 @@ public class SkuInfoModifyServiceSupplier {
                 })
                 .collect(Collectors.toSet());
         // 获取目前需要更新的sku信息，若已经在数据库中存在了，则去除
-        Set<MaterialSkuModifyRequestElement> skuSet = new HashSet<>(params.getSkuDatas().getSkuList());
+        Set<MatSkuModifyReqEle> skuSet = new HashSet<>(params.getSkuDatas().getSkuList());
         // 获取需要删除的sku信息
-        Set<MaterialSkuModifyRequestElement> skuDeleteSet = new HashSet<>(skuExistsSet);
+        Set<MatSkuModifyReqEle> skuDeleteSet = new HashSet<>(skuExistsSet);
         skuDeleteSet.removeAll(skuSet);
         skuSet.remove(skuExistsSet);
         // 删除不需要了的信息

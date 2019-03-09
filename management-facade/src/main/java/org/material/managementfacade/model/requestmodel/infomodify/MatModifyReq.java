@@ -8,14 +8,14 @@ import java.util.List;
  * updateMaterialInfo接口请求中物料定义更新的封装类
  */
 
-public class MaterialModifyRequest {
-    private List<MaterialModifyRequestForMaterial> materialList;
+public class MatModifyReq {
+    private List<MatModifyReqForMat> materialList;
 
-    public List<MaterialModifyRequestForMaterial> getMaterialList () {
+    public List<MatModifyReqForMat> getMaterialList () {
         return materialList;
     }
 
-    public void setMaterialList (List<MaterialModifyRequestForMaterial> materialList) {
+    public void setMaterialList (List<MatModifyReqForMat> materialList) {
         this.materialList = materialList;
     }
 }

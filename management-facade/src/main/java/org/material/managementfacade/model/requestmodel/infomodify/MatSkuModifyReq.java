@@ -8,14 +8,14 @@ import java.util.List;
  * 物料更新过程中sku定义更新的封装类
  */
 
-public class MaterialSkuModifyRequest {
-    private List<MaterialSkuModifyRequestElement> skuList;
+public class MatSkuModifyReq {
+    private List<MatSkuModifyReqEle> skuList;
 
-    public List<MaterialSkuModifyRequestElement> getSkuList () {
+    public List<MatSkuModifyReqEle> getSkuList () {
         return skuList;
     }
 
-    public void setSkuList (List<MaterialSkuModifyRequestElement> skuList) {
+    public void setSkuList (List<MatSkuModifyReqEle> skuList) {
         this.skuList = skuList;
     }
 }

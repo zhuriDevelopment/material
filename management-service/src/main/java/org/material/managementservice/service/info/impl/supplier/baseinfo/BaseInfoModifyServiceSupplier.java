@@ -1,7 +1,7 @@
 package org.material.managementservice.service.info.impl.supplier.baseinfo;
 
-import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
-import org.material.managementfacade.model.requestmodel.infomodify.MaterialBaseModifyRequest;
+import org.material.managementfacade.model.requestmodel.InfoModifyReq;
+import org.material.managementfacade.model.requestmodel.infomodify.BaseModifyReq;
 import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.mapper.general.GeneralMapper;
@@ -36,8 +36,8 @@ public class BaseInfoModifyServiceSupplier {
      * @author cplayer
      * @date 2019-02-27 04:35
      */
-    public int updateMaterialInfoForBaseData (MaterialInfoModifyRequest params) {
-        MaterialBaseModifyRequest updateBaseDatas = params.getBaseDatas();
+    public int updateMaterialInfoForBaseData (InfoModifyReq params) {
+        BaseModifyReq updateBaseDatas = params.getBaseDatas();
         // 先检查spuCode是否为空
         if (updateBaseDatas.getSpuCode() == null) {
             logger.error("更新物料基本信息过程中，spuCode为空！禁止的操作！");
@@ -61,6 +61,7 @@ public class BaseInfoModifyServiceSupplier {
         param.setDesignVersion(updateBaseDatas.getDesignVersion());
         param.setMnemonic(updateBaseDatas.getMnemonic());
         param.setNote(updateBaseDatas.getNote());
+        param.setDescription(updateBaseDatas.getDescription());
         if (recordNum == 0) {
             // 若没有spuCode记录，则新增
             // 此时设置创建时间为当前服务器时间

@@ -1,7 +1,7 @@
 package org.material.managementservice.service.info.impl.supplier.baseprop;
 
-import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
-import org.material.managementfacade.model.requestmodel.infomodify.MaterialModifyRequestForFormatProp;
+import org.material.managementfacade.model.requestmodel.InfoModifyReq;
+import org.material.managementfacade.model.requestmodel.infomodify.MatModifyReqForFormatProp;
 import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropModel;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropValModel;
@@ -41,8 +41,8 @@ public class FormatPropModifyServiceSupplier {
      * @author cplayer
      * @date 2019-02-28 15:53
      */
-    public int updateMaterialInfoForMaterialDataBySingleFormat (MaterialInfoModifyRequest params,
-                                                                MaterialModifyRequestForFormatProp data,
+    public int updateMaterialInfoForMaterialDataBySingleFormat (InfoModifyReq params,
+                                                                MatModifyReqForFormatProp data,
                                                                 List<MaterialBasePropModel> propList) {
         // 若物料编码、值为空，则直接跳过
         if (data.getMaterialCode() == null || data.getValue() == null || data.getName() == null) {
@@ -94,7 +94,7 @@ public class FormatPropModifyServiceSupplier {
      * @author cplayer
      * @date 2019-02-27 21:15
      */
-    public int updateMaterialInfoForMaterialDataByFormat (MaterialInfoModifyRequest params) {
+    public int updateMaterialInfoForMaterialDataByFormat (InfoModifyReq params) {
         // 先删除所有规格属性值，规格属性类别对应的是4
         int propertyType = 4;
         // 根据spu编码获取物料分类id
@@ -115,11 +115,11 @@ public class FormatPropModifyServiceSupplier {
         paramProp.setType(propertyType);
         List<MaterialBasePropModel> propList = generalMapper.getMaterialBasePropWithMaterialBasePropParams(paramProp);
         // 获取所有待更新的规格信息对象列表
-        List<MaterialModifyRequestForFormatProp> formatList = params.getFormatDatas().getFormatList();
+        List<MatModifyReqForFormatProp> formatList = params.getFormatDatas().getFormatList();
         // 总的更新结果状态
         int sumModifyResult = MaterialInfoErrCode.successUpdateFormatInMaterial;
         // 遍历待更新的规格对象信息
-        for (MaterialModifyRequestForFormatProp formatData : formatList) {
+        for (MatModifyReqForFormatProp formatData : formatList) {
             // 逐个调用更新函数更新
             int modifyResult = updateMaterialInfoForMaterialDataBySingleFormat(params, formatData, propList);
             if (modifyResult == MaterialInfoErrCode.failedUpdateSingleFormatInMaterial ||

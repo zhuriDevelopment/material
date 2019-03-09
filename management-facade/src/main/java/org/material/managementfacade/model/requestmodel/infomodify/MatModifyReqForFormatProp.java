@@ -6,7 +6,7 @@ package org.material.managementfacade.model.requestmodel.infomodify;
  * updateMaterialInfo接口请求中物料定义更新中规格属性的封装类
  */
 
-public class MaterialModifyRequestForFormatProp {
+public class MatModifyReqForFormatProp {
     private String name;
     private String value;
     private String materialCode;

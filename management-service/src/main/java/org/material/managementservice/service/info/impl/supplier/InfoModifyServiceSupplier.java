@@ -1,6 +1,6 @@
 package org.material.managementservice.service.info.impl.supplier;
 
-import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
+import org.material.managementfacade.model.requestmodel.InfoModifyReq;
 import org.material.managementservice.service.info.impl.supplier.baseinfo.BaseInfoModifyServiceSupplier;
 import org.material.managementservice.service.info.impl.supplier.baseprop.FormatPropModifyServiceSupplier;
 import org.material.managementservice.service.info.impl.supplier.controlprop.ControlPropModifyServiceSupplier;
@@ -39,7 +39,7 @@ public class InfoModifyServiceSupplier {
      * @author cplayer
      * @date 2019-02-28 16:12
      */
-    public int updateMaterialInfoForBaseData (MaterialInfoModifyRequest params) {
+    public int updateMaterialInfoForBaseData (InfoModifyReq params) {
         return baseInfoModifyServiceSupplier.updateMaterialInfoForBaseData(params);
     }
 
@@ -52,7 +52,7 @@ public class InfoModifyServiceSupplier {
      * @author cplayer
      * @date 2019-02-28 16:16
      */
-    public int updateMaterialInfoForMaterialDataByMaterial (MaterialInfoModifyRequest params) {
+    public int updateMaterialInfoForMaterialDataByMaterial (InfoModifyReq params) {
         return materialInfoModifyServiceSupplier.updateMaterialInfoForMaterialDataByMaterial(params);
     }
 
@@ -64,7 +64,7 @@ public class InfoModifyServiceSupplier {
      * @author cplayer
      * @date 2019-02-28 16:19
      */
-    public int updateMaterialInfoForMaterialDataByFormat (MaterialInfoModifyRequest params) {
+    public int updateMaterialInfoForMaterialDataByFormat (InfoModifyReq params) {
         return formatPropModifyServiceSupplier.updateMaterialInfoForMaterialDataByFormat(params);
     }
 
@@ -76,7 +76,7 @@ public class InfoModifyServiceSupplier {
      * @author cplayer
      * @date 2019-02-28 16:22
      */
-    public int updateMaterialInfoForSkuData (MaterialInfoModifyRequest params) {
+    public int updateMaterialInfoForSkuData (InfoModifyReq params) {
         return skuInfoModifyServiceSupplier.updateMaterialInfoForSkuData(params);
     }
 
@@ -88,7 +88,7 @@ public class InfoModifyServiceSupplier {
      * @author cplayer
      * @date 2019-02-28 17:28
      */
-    public int updateMaterialInfoForCtrData (MaterialInfoModifyRequest params) {
+    public int updateMaterialInfoForCtrData (InfoModifyReq params) {
         return controlPropModifyServiceSupplier.updateMaterialInfoForCtrData(params);
     }
 
@@ -100,7 +100,7 @@ public class InfoModifyServiceSupplier {
      * @author cplayer
      * @date 2019-03-01 22:20
      */
-    public int updateMaterialInfoForUnitData (MaterialInfoModifyRequest params) {
+    public int updateMaterialInfoForUnitData (InfoModifyReq params) {
         return unitModifyServiceSupplier.updateMaterialInfoForUnitData(params);
     }
 }

@@ -1,7 +1,7 @@
 package org.material.managementservice.service.info.impl.supplier.unit;
 
-import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
-import org.material.managementfacade.model.requestmodel.infomodify.MaterialUnitModifyRequestElement;
+import org.material.managementfacade.model.requestmodel.InfoModifyReq;
+import org.material.managementfacade.model.requestmodel.infomodify.MatUnitModifyReqEle;
 import org.material.managementfacade.model.tablemodel.MaterialUnitModel;
 import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.mapper.general.GeneralMapper;
@@ -49,11 +49,11 @@ public class UnitModifyServiceSupplier {
      * @author cplayer
      * @date 2019-03-01 23:08
      */
-    public int updateUnitWithUnitList (List<MaterialUnitModifyRequestElement> updateList,
+    public int updateUnitWithUnitList (List<MatUnitModifyReqEle> updateList,
                                        String spuCode,
                                        int defaultUnitId) {
         int updateCount = 0;
-        for (MaterialUnitModifyRequestElement element : updateList) {
+        for (MatUnitModifyReqEle element : updateList) {
             MaterialUnitModel param = setParam(spuCode, defaultUnitId, element.getConversionFactor(), element.getSort(), element.getUnitId());
             if (infoModifyMapper.updateUnitByParams(param) > 0) {
                 updateCount++;
@@ -77,11 +77,11 @@ public class UnitModifyServiceSupplier {
      * @author cplayer
      * @date 2019-03-01 23:09
      */
-    public int insertUnitWithUnitList (List<MaterialUnitModifyRequestElement> insertList,
+    public int insertUnitWithUnitList (List<MatUnitModifyReqEle> insertList,
                                        String spuCode,
                                        int defaultUnitId) {
         int insertCount = 0;
-        for (MaterialUnitModifyRequestElement element : insertList) {
+        for (MatUnitModifyReqEle element : insertList) {
             MaterialUnitModel param = setParam(spuCode, defaultUnitId, element.getConversionFactor(), element.getSort(), element.getUnitId());
             if (infoModifyMapper.insertUnitByParams(param) > 0) {
                 insertCount++;
@@ -126,7 +126,7 @@ public class UnitModifyServiceSupplier {
      * @author cplayer
      * @date 2019-03-01 22:25
      */
-    public int updateMaterialInfoForUnitData (MaterialInfoModifyRequest params) {
+    public int updateMaterialInfoForUnitData (InfoModifyReq params) {
         // 关联计量单位id统一设置成默认计量单位id
         // 先根据spu编码筛选出所有已有的计量单位记录
         MaterialUnitModel materialUnitParam = new MaterialUnitModel();
@@ -135,10 +135,10 @@ public class UnitModifyServiceSupplier {
                 new LinkedList<>(generalMapper.getMaterialUnitWithMaterialUnitParams(materialUnitParam));
         // 逐个遍历集合中的元素并查找是否有计量单位id相同的元素
         // 若计量单位id相同，则更新转换系数和排序号，更新后移除
-        List<MaterialUnitModifyRequestElement> insertList = new ArrayList<>();
-        List<MaterialUnitModifyRequestElement> updateList = new ArrayList<>();
+        List<MatUnitModifyReqEle> insertList = new ArrayList<>();
+        List<MatUnitModifyReqEle> updateList = new ArrayList<>();
         // 遍历提交上来的计量单位信息
-        for (MaterialUnitModifyRequestElement materialUnit : params.getUnitDatas().getUnitList()) {
+        for (MatUnitModifyReqEle materialUnit : params.getUnitDatas().getUnitList()) {
             boolean find = false;
             // 遍历目前数据库中已经有的记录去查找对应的记录
             for (MaterialUnitModel existedRecord : existedList) {

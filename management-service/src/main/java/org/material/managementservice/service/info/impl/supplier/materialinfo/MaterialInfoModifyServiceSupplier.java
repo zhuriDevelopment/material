@@ -1,7 +1,7 @@
 package org.material.managementservice.service.info.impl.supplier.materialinfo;
 
-import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
-import org.material.managementfacade.model.requestmodel.infomodify.MaterialModifyRequestForMaterial;
+import org.material.managementfacade.model.requestmodel.InfoModifyReq;
+import org.material.managementfacade.model.requestmodel.infomodify.MatModifyReqForMat;
 import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementfacade.model.tablemodel.MaterialModel;
 import org.material.managementservice.general.MaterialGeneral;
@@ -41,7 +41,7 @@ public class MaterialInfoModifyServiceSupplier {
      * @author cplayer
      * @date 2019-02-27 21:08
      */
-    public int updateMaterialInfoForMaterialDataByMaterial (MaterialInfoModifyRequest params) {
+    public int updateMaterialInfoForMaterialDataByMaterial (InfoModifyReq params) {
         // 先根据spuCode获得物料基本信息ID
         List<MaterialBaseModel> baseList = infoObtainMapper.getBaseInfoWithSpuCode(params.getSpuCode());
         // 进而取得对应的物料基本信息对象，也就获得了id
@@ -55,7 +55,7 @@ public class MaterialInfoModifyServiceSupplier {
         logger.info("删除了" + result + "条material表记录。");
         // 再完全重新插入
         result = 0;
-        for (MaterialModifyRequestForMaterial element : params.getMaterialDatas().getMaterialList()) {
+        for (MatModifyReqForMat element : params.getMaterialDatas().getMaterialList()) {
             MaterialModel param = new MaterialModel();
             param.setMaterialCode(element.getMaterialCode());
             param.setMaterialName(element.getMaterialName());

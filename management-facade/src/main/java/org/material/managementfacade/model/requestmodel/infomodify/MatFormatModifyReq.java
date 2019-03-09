@@ -8,14 +8,14 @@ import java.util.List;
  * updateMaterialInfo接口请求中物料规格更新的封装类
  */
 
-public class MaterialFormatModifyRequest {
-    private List<MaterialModifyRequestForFormatProp> formatList;
+public class MatFormatModifyReq {
+    private List<MatModifyReqForFormatProp> formatList;
 
-    public List<MaterialModifyRequestForFormatProp> getFormatList () {
+    public List<MatModifyReqForFormatProp> getFormatList () {
         return formatList;
     }
 
-    public void setFormatList (List<MaterialModifyRequestForFormatProp> formatList) {
+    public void setFormatList (List<MatModifyReqForFormatProp> formatList) {
         this.formatList = formatList;
     }
 }

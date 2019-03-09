@@ -480,9 +480,6 @@
             <if test="materialCatId &gt;= 0">
                 materialCatId = #{materialCatId},
             </if>
-            <if test="keyPropId &gt;= 0">
-                keyPropId = #{keyPropId},
-            </if>
             <if test="createDate != null">
                 createDate = #{createDate},
             </if>

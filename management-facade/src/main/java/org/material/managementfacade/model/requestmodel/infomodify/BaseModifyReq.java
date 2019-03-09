@@ -19,7 +19,7 @@ package org.material.managementfacade.model.requestmodel.infomodify;
  * 其他属性一律不允许放在物料基本信息的更新接口中！
  */
 
-public class MaterialBaseModifyRequest {
+public class BaseModifyReq {
     private String spuCode;
     private String spuName;
     private int type;
@@ -29,6 +29,7 @@ public class MaterialBaseModifyRequest {
     private String designCode;
     private String designVersion;
     private String mnemonic;
+    private String description;
     private String note;
 
     public String getSpuCode () {
@@ -101,6 +102,14 @@ public class MaterialBaseModifyRequest {
 
     public void setMnemonic (String mnemonic) {
         this.mnemonic = mnemonic;
+    }
+
+    public String getDescription () {
+        return description;
+    }
+
+    public void setDescription (String description) {
+        this.description = description;
     }
 
     public String getNote () {

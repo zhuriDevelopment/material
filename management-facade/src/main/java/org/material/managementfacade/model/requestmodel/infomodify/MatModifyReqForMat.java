@@ -6,7 +6,7 @@ package org.material.managementfacade.model.requestmodel.infomodify;
  * updateMaterialInfo接口请求中物料定义更新中物料定义部分的封装类
  */
 
-public class MaterialModifyRequestForMaterial {
+public class MatModifyReqForMat {
     private String materialCode;
     private String materialName;
     private String oldMaterialCode;

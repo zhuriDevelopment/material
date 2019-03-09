@@ -6,7 +6,7 @@ package org.material.managementfacade.model.requestmodel.infomodify;
  * updateMaterialInfo中计量单位修改请求的数组元素的封装类
  */
 
-public class MaterialUnitModifyRequestElement {
+public class MatUnitModifyReqEle {
     private int sort;
     private int unitId;
     private double conversionFactor;

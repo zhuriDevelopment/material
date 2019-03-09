@@ -5,7 +5,7 @@ import org.material.managementfacade.model.propertymodel.plan.PlanList;
 import org.material.managementfacade.model.propertymodel.purchaseandstore.PurchaseAndStoreList;
 import org.material.managementfacade.model.propertymodel.quality.QualityList;
 import org.material.managementfacade.model.propertymodel.sales.SalesList;
-import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
+import org.material.managementfacade.model.requestmodel.InfoModifyReq;
 import org.material.managementfacade.model.requestmodel.infomodify.InfoModifyByCatCodeAndNameCtrPropReq;
 import org.material.managementfacade.model.requestmodel.infomodify.MatCtrPropModifyReqEle;
 import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
@@ -63,7 +63,7 @@ public class ControlPropModifyServiceSupplier {
      * @author cplayer
      * @date 2019-03-01 05:34
      */
-    private int updateCtrPropsByCtrPropList (MaterialInfoModifyRequest params, int versionId) {
+    private int updateCtrPropsByCtrPropList (InfoModifyReq params, int versionId) {
         List<MatCtrPropModifyReqEle> ctrPropList = params.getCtrPropDatas().getCtrPropList();
         int updateSingleResult = 0;
         // 获取所有可能的物料控制属性值表记录
@@ -120,7 +120,7 @@ public class ControlPropModifyServiceSupplier {
      * @author cplayer
      * @date 2019-02-28 17:30
      */
-    public int updateMaterialInfoForCtrData (MaterialInfoModifyRequest params) {
+    public int updateMaterialInfoForCtrData (InfoModifyReq params) {
         // 在后续设计出来之前，组织编码统一设置成-1
         String organizationCode = "-1";
         String spuCode = params.getSpuCode();

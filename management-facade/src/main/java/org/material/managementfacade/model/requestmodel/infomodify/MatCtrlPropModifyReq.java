@@ -8,7 +8,7 @@ import java.util.List;
  * 更新物料信息中物料控制属性请求的封装类
  */
 
-public class MaterialControlPropModifyRequest {
+public class MatCtrlPropModifyReq {
     List<MatCtrPropModifyReqEle> ctrPropList;
 
     public List<MatCtrPropModifyReqEle> getCtrPropList () {

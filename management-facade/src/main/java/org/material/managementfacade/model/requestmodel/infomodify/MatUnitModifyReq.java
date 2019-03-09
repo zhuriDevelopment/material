@@ -8,9 +8,9 @@ import java.util.List;
  * updateMaterialInfo中计量单位修改请求的封装类
  */
 
-public class MaterialUnitModifyRequest {
+public class MatUnitModifyReq {
     private int defaultUnitId;
-    private List<MaterialUnitModifyRequestElement> unitList;
+    private List<MatUnitModifyReqEle> unitList;
 
     public int getDefaultUnitId () {
         return defaultUnitId;
@@ -20,11 +20,11 @@ public class MaterialUnitModifyRequest {
         this.defaultUnitId = defaultUnitId;
     }
 
-    public List<MaterialUnitModifyRequestElement> getUnitList () {
+    public List<MatUnitModifyReqEle> getUnitList () {
         return unitList;
     }
 
-    public void setUnitList (List<MaterialUnitModifyRequestElement> unitList) {
+    public void setUnitList (List<MatUnitModifyReqEle> unitList) {
         this.unitList = unitList;
     }
 }

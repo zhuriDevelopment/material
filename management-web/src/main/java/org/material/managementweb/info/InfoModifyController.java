@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.material.managementfacade.model.requestmodel.MaterialBaseModifyBySpuAndMatCodeRequest;
 import org.material.managementfacade.model.requestmodel.InfoModifyByCatCodeAndNameReq;
-import org.material.managementfacade.model.requestmodel.MaterialInfoModifyRequest;
+import org.material.managementfacade.model.requestmodel.InfoModifyReq;
 import org.material.managementfacade.model.responsemodel.InfoModifyByCatCodeAndNameResp;
 import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.general.MaterialInfoErrCode;
@@ -32,7 +32,7 @@ public class InfoModifyController {
 
     @PutMapping(value = "/updateMaterialInfo")
     @ApiOperation(value = "根据给定参数更新物料信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public int updateMaterialInfo (@RequestBody MaterialInfoModifyRequest params) {
+    public int updateMaterialInfo (@RequestBody InfoModifyReq params) {
         if (MaterialGeneral.isAllEmpty(params)) {
             return MaterialInfoErrCode.errCodeClassIsEmpty;
         }
