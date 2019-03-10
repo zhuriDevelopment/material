@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,13 +41,14 @@ public class InfoObtainController {
 
     @GetMapping(value = "/getBaseInfo")
     @ApiOperation(value = "根据给定参数查询基础信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public BaseInfoResp getBaseInfo (@RequestParam BaseInfoReq params) {
-        // 参数必须非空！
+    public BaseInfoResp getBaseInfo
+            (int materialCatId, String materialName, String skuCode, Date startDate, Date endDate,
+             String spuCode, String designCode, String designVersion, String source) {
+        BaseInfoReq params = new BaseInfoReq(materialCatId, materialName, skuCode, startDate, endDate,
+                spuCode, designCode, designVersion, source);
         if (MaterialGeneral.isAllEmpty(params)) {
-            // 否则传回空类错误码
-            BaseInfoResp result = new BaseInfoResp();
-            result.setErrCode(MaterialInfoErrCode.errCodeClassIsEmpty);
-            return result;
+            // 按获取所有物料基本信息处理
+            return infoObtainService.getAllBaseInfo();
         }
         // 若非空，返回正常结果
         return infoObtainService.getBaseInfoByParams(params);
