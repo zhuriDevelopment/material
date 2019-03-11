@@ -454,7 +454,7 @@
                 spuName = #{spuName},
             </if>
             <if test="description != null">
-                description = #{description},
+                `description` = #{description},
             </if>
             <if test="type &gt;= 0">
                 type = #{type},
@@ -469,10 +469,10 @@
                 defaultUnitId = #{defaultUnitId},
             </if>
             <if test="source != null">
-                source = #{source},
+                `source` = #{source},
             </if>
             <if test="usage != null">
-                usage = #{usage},
+                `usage` = #{usage},
             </if>
             <if test="note != null">
                 note = #{note},

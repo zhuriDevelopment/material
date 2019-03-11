@@ -153,9 +153,8 @@ public class CategoryModifyServiceImpl implements CategoryModifyService {
         while (!queue.isEmpty()) {
             times++;
             param = queue.pollFirst();
-            queue.addAll(categoryModifyMapper.getMatarialCategoryByParentId(param.getParentId()));
-            int deleteResult = categoryModifyMapper.deleteMaterialCategoryByNameAndParentId(param.getName(),
-                    param.getParentId());
+            queue.addAll(categoryModifyMapper.getMatarialCategoryByParentId(param.getId()));
+            int deleteResult = categoryModifyMapper.deleteMaterialCategoryById(param.getId());
             // 若出错，继续删除
             if (deleteResult == 0) {
                 logger.error(String.format("物料分类信息数据库删除出错，对应的数据不存在，数据为：" +

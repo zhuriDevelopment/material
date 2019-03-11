@@ -4,7 +4,7 @@
     <select id="countBaseBySpuCode"
             parameterType="java.lang.String"
             resultType="int">
-        SELECT COUNT (spuCode) FROM materialBase where spuCode = #{spuCode}
+        SELECT COUNT(spuCode) FROM materialBase where spuCode = #{spuCode}
     </select>
 
     <delete id="deleteAllMaterialBySpuCode"
