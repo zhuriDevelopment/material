@@ -230,18 +230,18 @@ public class InfoObtainServiceImpl implements InfoObtainService {
     /**
      * 根据物料分类信息获取所有物料基本信息的函数
      *
-     * @param params 传上来的id
+     * @param id 传上来的id
      * @return org.material.managementfacade.model.responsemodel.MatInfoObtainByCatInfoResp
      * @author cplayer
      * @date 2019-03-02 05:50
      */
     @Override
-    public MatInfoObtainByCatInfoResp getAllMaterialBaseByCategoryInfos (MatInfoObtainByCatInfoReq params) {
+    public MatInfoObtainByCatInfoResp getAllMaterialBaseByCategoryInfos (Integer id) {
         MatInfoObtainByCatInfoResp response = new MatInfoObtainByCatInfoResp();
         MaterialBaseModel paramBase = new MaterialBaseModel();
         MaterialCategoryModel paramCate = new MaterialCategoryModel();
-        paramBase.setMaterialCatId(params.getId());
-        paramCate.setId(params.getId());
+        paramBase.setMaterialCatId(id);
+        paramCate.setId(id);
         List<MaterialBaseModel> materialBaseResult = generalMapper.getMaterialBaseWithMaterialBaseParams(paramBase);
         List<MaterialCategoryModel> catResult = generalMapper.getMaterialCategoryWithMaterialCategoryParams(paramCate);
         MatInfoObtainByCatInfoRespParams result = new MatInfoObtainByCatInfoRespParams();

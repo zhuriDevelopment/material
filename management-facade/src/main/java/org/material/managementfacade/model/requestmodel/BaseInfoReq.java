@@ -10,7 +10,7 @@ import java.util.Date;
  */
 
 public class BaseInfoReq {
-    private int materialCatId;
+    private Integer materialCatId;
     private String materialName;
     private String skuCode;
     private Date startDate;
@@ -32,7 +32,7 @@ public class BaseInfoReq {
         this.source = null;
     }
 
-    public BaseInfoReq (int materialCatId, String materialName, String skuCode, Date startDate, Date endDate, String spuCode, String designCode, String designVersion, String source) {
+    public BaseInfoReq (Integer materialCatId, String materialName, String skuCode, Date startDate, Date endDate, String spuCode, String designCode, String designVersion, String source) {
         this.materialCatId = materialCatId;
         this.materialName = materialName;
         this.skuCode = skuCode;
@@ -44,11 +44,11 @@ public class BaseInfoReq {
         this.source = source;
     }
 
-    public int getMaterialCatId () {
+    public Integer getMaterialCatId () {
         return materialCatId;
     }
 
-    public void setMaterialCatId (int materialCatId) {
+    public void setMaterialCatId (Integer materialCatId) {
         this.materialCatId = materialCatId;
     }
 

@@ -7,22 +7,32 @@ package org.material.managementfacade.model.requestmodel;
  */
 
 public class BasePropObtainByCatIdAndTypeReq {
-    private int catId;
-    private int propertyType;
+    private Integer catId;
+    private Integer propertyType;
 
-    public int getCatId () {
+    public BasePropObtainByCatIdAndTypeReq (Integer catId, Integer propertyType) {
+        this.catId = catId;
+        this.propertyType = propertyType;
+    }
+
+    public BasePropObtainByCatIdAndTypeReq () {
+        this.catId = -1;
+        this.propertyType = -1;
+    }
+
+    public Integer getCatId () {
         return catId;
     }
 
-    public void setCatId (int catId) {
+    public void setCatId (Integer catId) {
         this.catId = catId;
     }
 
-    public int getPropertyType () {
+    public Integer getPropertyType () {
         return propertyType;
     }
 
-    public void setPropertyType (int propertyType) {
+    public void setPropertyType (Integer propertyType) {
         this.propertyType = propertyType;
     }
 }

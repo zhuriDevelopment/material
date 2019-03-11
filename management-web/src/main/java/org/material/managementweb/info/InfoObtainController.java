@@ -42,7 +42,7 @@ public class InfoObtainController {
     @GetMapping(value = "/getBaseInfo")
     @ApiOperation(value = "根据给定参数查询基础信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public BaseInfoResp getBaseInfo
-            (int materialCatId, String materialName, String skuCode, Date startDate, Date endDate,
+            (Integer materialCatId, String materialName, String skuCode, Date startDate, Date endDate,
              String spuCode, String designCode, String designVersion, String source) {
         BaseInfoReq params = new BaseInfoReq(materialCatId, materialName, skuCode, startDate, endDate,
                 spuCode, designCode, designVersion, source);
@@ -74,10 +74,9 @@ public class InfoObtainController {
     @GetMapping(value = "/getAllMaterialBaseByCategoryInfos")
     @ApiOperation(value = "根据物料分类信息获取所有物料基本信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public MatInfoObtainByCatInfoResp getAllMaterialBaseByCategoryInfos
-            (@RequestBody MatInfoObtainByCatInfoReq params) {
-        int id = params.getId();
+            (@RequestParam("id") Integer id) {
         if (id != -1) {
-            return infoObtainService.getAllMaterialBaseByCategoryInfos(params);
+            return infoObtainService.getAllMaterialBaseByCategoryInfos(id);
         } else {
             // 返回空对象
             MatInfoObtainByCatInfoResp result = new MatInfoObtainByCatInfoResp();
@@ -100,7 +99,9 @@ public class InfoObtainController {
     @GetMapping(value = "/getMaterialBasePropsBySpuCodeAndMaterialCodes")
     @ApiOperation(value = "根据spu编码和物料编码获取物料基本属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public MatBaseObtainBySpuAndMatCodeResp getMaterialBasePropsBySpuCodeAndMaterialCodes
-            (@RequestBody @NotNull MatBaseObtainBySpuAndMatCodeReq params) {
+            (String spuCode, List<String> materialCodes, Integer propertyType) {
+        MatBaseObtainBySpuAndMatCodeReq params = new MatBaseObtainBySpuAndMatCodeReq(
+                spuCode, materialCodes, propertyType);
         if (MaterialGeneral.isContainsEmpty(params)) {
             MatBaseObtainBySpuAndMatCodeResp response = new MatBaseObtainBySpuAndMatCodeResp();
             response.setErrCode(MaterialInfoErrCode.invalidParamWhenObtainBaseBySpuAndMatCode);
@@ -113,7 +114,9 @@ public class InfoObtainController {
     @GetMapping(value = "/getMaterialBaseByCatIdAndType")
     @ApiOperation(value = "根据物料分类id和属性类型获取物料基本属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<MaterialBasePropModel> getMaterialBaseByCatIdAndType
-            (@RequestBody @NotNull BasePropObtainByCatIdAndTypeReq params) {
+            (@RequestParam("catId") Integer catId,
+             @RequestParam("propertyType") Integer propertyType) {
+        BasePropObtainByCatIdAndTypeReq params = new BasePropObtainByCatIdAndTypeReq(catId, propertyType);
         return infoObtainService.getMaterialBaseByCatIdAndType(params);
     }
 

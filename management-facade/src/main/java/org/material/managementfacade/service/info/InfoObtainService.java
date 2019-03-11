@@ -23,7 +23,7 @@ public interface InfoObtainService {
 
     MatInfoResp getMaterialInfoByParams (MatInfoReq params);
 
-    MatInfoObtainByCatInfoResp getAllMaterialBaseByCategoryInfos (MatInfoObtainByCatInfoReq params);
+    MatInfoObtainByCatInfoResp getAllMaterialBaseByCategoryInfos (Integer id);
 
     MatInfoObtainByCatCodeAndNameResp getMaterialInfoWithCatCodeAndCatName (MatInfoObtainByCatCodeAndNameReq params);
 

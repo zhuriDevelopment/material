@@ -11,7 +11,19 @@ import java.util.List;
 public class MatBaseObtainBySpuAndMatCodeReq {
     private String spuCode;
     private List<String> materialCodes;
-    private int propertyType;
+    private Integer propertyType;
+
+    public MatBaseObtainBySpuAndMatCodeReq () {
+        this.spuCode = null;
+        this.materialCodes = null;
+        this.propertyType = null;
+    }
+
+    public MatBaseObtainBySpuAndMatCodeReq (String spuCode, List<String> materialCodes, Integer propertyType) {
+        this.spuCode = spuCode;
+        this.materialCodes = materialCodes;
+        this.propertyType = propertyType;
+    }
 
     public String getSpuCode () {
         return spuCode;
@@ -29,11 +41,11 @@ public class MatBaseObtainBySpuAndMatCodeReq {
         this.materialCodes = materialCodes;
     }
 
-    public int getPropertyType () {
+    public Integer getPropertyType () {
         return propertyType;
     }
 
-    public void setPropertyType (int propertyType) {
+    public void setPropertyType (Integer propertyType) {
         this.propertyType = propertyType;
     }
 }
