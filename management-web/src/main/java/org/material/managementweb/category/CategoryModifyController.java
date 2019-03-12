@@ -8,7 +8,6 @@ import org.material.managementfacade.model.requestmodel.CatModifyNameReq;
 import org.material.managementservice.general.MaterialCategoryErrCode;
 import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.service.category.impl.CategoryModifyServiceImpl;
-import org.material.managementservice.service.impl.MaterialInfoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
