@@ -189,11 +189,11 @@ public class InfoModifyServiceImpl implements InfoModifyService {
      */
     @Override
     public int updateMaterialBasePropsBySpuCodeAndMaterialCodes
-    (MaterialBaseModifyBySpuAndMatCodeRequest params) {
+    (BaseModifyBySpuAndMatCodeReq params) {
         int resultCode = MaterialInfoErrCode.successUpdateMaterialBaseWithSpuAndCatCode;
-        for (MaterialBaseModifyBySpuAndMatCodeUpdateProps element : params.getUpdateValues()) {
+        for (BaseModifyBySpuAndMatCodeUpdateProps element : params.getUpdateValues()) {
             String materialCode = element.getMaterialCode();
-            for (MaterialBaseModifyBySpuAndMatCodeUpdatePropsDatas keyValue : element.getValueList()) {
+            for (BaseModifyBySpuAndMatCodeUpdatePropsDatas keyValue : element.getValueList()) {
                 String name = keyValue.getName();
                 String value = keyValue.getValue();
                 // spuCode, materialCode, name, value四个要素齐了

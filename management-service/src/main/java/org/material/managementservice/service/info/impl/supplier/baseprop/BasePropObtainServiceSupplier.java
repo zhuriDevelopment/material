@@ -1,7 +1,7 @@
 package org.material.managementservice.service.info.impl.supplier.baseprop;
 
-import org.material.managementfacade.model.requestmodel.MatBaseObtainBySpuAndMatCodeReq;
-import org.material.managementfacade.model.responsemodel.MaterialBaseObtainBySpuAndMatCodeElement;
+import org.material.managementfacade.model.requestmodel.BaseObtainBySpuAndMatCodeReq;
+import org.material.managementfacade.model.responsemodel.BaseObtainBySpuAndMatCodeEle;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropModel;
 import org.material.managementfacade.model.tablemodel.MaterialBasePropValModel;
 import org.material.managementservice.general.MaterialGeneral;
@@ -76,16 +76,16 @@ public class BasePropObtainServiceSupplier {
      * @param params          请求对应的参数
      * @param materialCode    物料编码
      * @param commonBaseProps 所有通用的物料基本属性映射
-     * @return org.material.managementfacade.model.responsemodel.MaterialBaseObtainBySpuAndMatCodeElement
+     * @return org.material.managementfacade.model.responsemodel.BaseObtainBySpuAndMatCodeEle
      * @author cplayer
      * @date 2019-03-03 02:40
      */
-    public MaterialBaseObtainBySpuAndMatCodeElement getMateialBaseBySpuCodeAndSpecificMatCode (
-            MatBaseObtainBySpuAndMatCodeReq params,
+    public BaseObtainBySpuAndMatCodeEle getMateialBaseBySpuCodeAndSpecificMatCode (
+            BaseObtainBySpuAndMatCodeReq params,
             String materialCode,
             Map<Integer, MaterialBasePropModel> commonBaseProps
     ) {
-        MaterialBaseObtainBySpuAndMatCodeElement singleClass = new MaterialBaseObtainBySpuAndMatCodeElement();
+        BaseObtainBySpuAndMatCodeEle singleClass = new BaseObtainBySpuAndMatCodeEle();
         // 存放物料基本属性以及其值
         List<MaterialBasePropModel> singleResultBaseProp = new ArrayList<>();
         List<String> singleResultValue = new ArrayList<>();

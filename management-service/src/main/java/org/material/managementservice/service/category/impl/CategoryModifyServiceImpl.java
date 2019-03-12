@@ -2,7 +2,7 @@ package org.material.managementservice.service.category.impl;
 
 import org.material.managementfacade.model.requestmodel.CatAddReq;
 import org.material.managementfacade.model.requestmodel.CatDeleteReq;
-import org.material.managementfacade.model.requestmodel.CategoryModifyNameRequest;
+import org.material.managementfacade.model.requestmodel.CatModifyNameReq;
 import org.material.managementfacade.model.tablemodel.MaterialCategoryModel;
 import org.material.managementfacade.service.category.CategoryModifyService;
 import org.material.managementservice.general.MaterialCategoryErrCode;
@@ -83,7 +83,7 @@ public class CategoryModifyServiceImpl implements CategoryModifyService {
      * @date 2019-03-02 05:00
      */
     @Override
-    public int updateMaterialCategoryName (CategoryModifyNameRequest request) {
+    public int updateMaterialCategoryName (CatModifyNameReq request) {
         MaterialCategoryModel param = new MaterialCategoryModel();
         // 确认原物料名称存在
         param.setName(request.getOldName());

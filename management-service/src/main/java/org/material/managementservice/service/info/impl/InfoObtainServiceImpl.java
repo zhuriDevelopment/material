@@ -335,13 +335,13 @@ public class InfoObtainServiceImpl implements InfoObtainService {
      * 根据spu编码和物料编码获取物料基本属性的实现函数
      *
      * @param params 请求对应的参数
-     * @return org.material.managementfacade.model.responsemodel.MatBaseObtainBySpuAndMatCodeResp
+     * @return org.material.managementfacade.model.responsemodel.BaseObtainBySpuAndMatCodeResp
      * @author cplayer
      * @date 2019-03-03 01:46
      */
     @Override
-    public MatBaseObtainBySpuAndMatCodeResp getMaterialBasePropsBySpuCodeAndMaterialCodes (MatBaseObtainBySpuAndMatCodeReq params) {
-        MatBaseObtainBySpuAndMatCodeResp response = new MatBaseObtainBySpuAndMatCodeResp();
+    public BaseObtainBySpuAndMatCodeResp getMaterialBasePropsBySpuCodeAndMaterialCodes (BaseObtainBySpuAndMatCodeReq params) {
+        BaseObtainBySpuAndMatCodeResp response = new BaseObtainBySpuAndMatCodeResp();
         // 先找所有通用的属性，记录下所有对应属性的id
         List<MaterialBasePropValModel> materialCommonBasePropResult = infoObtainMapper.getMaterialBasePropValWithSpuCodeAndMatCode(params.getSpuCode(), MaterialGeneral.generalMaterialCode);
         Map<Integer, MaterialBasePropModel> commonBaseProps = new HashMap<>(16);
@@ -365,7 +365,7 @@ public class InfoObtainServiceImpl implements InfoObtainService {
         // 接下来处理每个物料编码的信息
         for (String materialCode : params.getMaterialCodes()) {
             // 获取单个物料编码的所有基本属性
-            MaterialBaseObtainBySpuAndMatCodeElement singleClass =
+            BaseObtainBySpuAndMatCodeEle singleClass =
                     basePropObtainServiceSupplier.getMateialBaseBySpuCodeAndSpecificMatCode(
                             params,
                             materialCode,

@@ -8,18 +8,18 @@ import java.util.List;
  * 根据spu编码和物料编码获取物料基本属性请求封装类
  */
 
-public class MatBaseObtainBySpuAndMatCodeReq {
+public class BaseObtainBySpuAndMatCodeReq {
     private String spuCode;
     private List<String> materialCodes;
     private Integer propertyType;
 
-    public MatBaseObtainBySpuAndMatCodeReq () {
+    public BaseObtainBySpuAndMatCodeReq () {
         this.spuCode = null;
         this.materialCodes = null;
         this.propertyType = null;
     }
 
-    public MatBaseObtainBySpuAndMatCodeReq (String spuCode, List<String> materialCodes, Integer propertyType) {
+    public BaseObtainBySpuAndMatCodeReq (String spuCode, List<String> materialCodes, Integer propertyType) {
         this.spuCode = spuCode;
         this.materialCodes = materialCodes;
         this.propertyType = propertyType;

@@ -27,7 +27,7 @@ public interface InfoObtainService {
 
     MatInfoObtainByCatCodeAndNameResp getMaterialInfoWithCatCodeAndCatName (MatInfoObtainByCatCodeAndNameReq params);
 
-    MatBaseObtainBySpuAndMatCodeResp getMaterialBasePropsBySpuCodeAndMaterialCodes (MatBaseObtainBySpuAndMatCodeReq params);
+    BaseObtainBySpuAndMatCodeResp getMaterialBasePropsBySpuCodeAndMaterialCodes (BaseObtainBySpuAndMatCodeReq params);
 
     List<MaterialBasePropModel> getMaterialBaseByCatIdAndType (BasePropObtainByCatIdAndTypeReq params);
 

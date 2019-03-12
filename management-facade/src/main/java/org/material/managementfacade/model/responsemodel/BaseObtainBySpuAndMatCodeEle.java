@@ -10,7 +10,7 @@ import java.util.List;
  * 根据物料编码和spu编码获取物料基本属性回复的返回值数组元素
  */
 
-public class MaterialBaseObtainBySpuAndMatCodeElement {
+public class BaseObtainBySpuAndMatCodeEle {
     private List<MaterialBasePropModel> baseProp;
     private List<String> values;
     private String materialCode;

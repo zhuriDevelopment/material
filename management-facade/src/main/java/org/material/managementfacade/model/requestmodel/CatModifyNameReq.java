@@ -6,7 +6,7 @@ package org.material.managementfacade.model.requestmodel;
  * 更新物料分类名称请求的封装类
  */
 
-public class CategoryModifyNameRequest {
+public class CatModifyNameReq {
     private String newName;
     private String oldName;
     private int parentId;

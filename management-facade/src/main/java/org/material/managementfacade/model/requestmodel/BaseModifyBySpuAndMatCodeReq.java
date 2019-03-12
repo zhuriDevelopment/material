@@ -8,10 +8,10 @@ import java.util.List;
  * 根据spu编码和物料编码更新物料基本属性请求封装类
  */
 
-public class MaterialBaseModifyBySpuAndMatCodeRequest {
+public class BaseModifyBySpuAndMatCodeReq {
     private String spuCode;
     private int propertyType;
-    private List<MaterialBaseModifyBySpuAndMatCodeUpdateProps> updateValues;
+    private List<BaseModifyBySpuAndMatCodeUpdateProps> updateValues;
 
     public String getSpuCode () {
         return spuCode;
@@ -29,11 +29,11 @@ public class MaterialBaseModifyBySpuAndMatCodeRequest {
         this.propertyType = propertyType;
     }
 
-    public List<MaterialBaseModifyBySpuAndMatCodeUpdateProps> getUpdateValues () {
+    public List<BaseModifyBySpuAndMatCodeUpdateProps> getUpdateValues () {
         return updateValues;
     }
 
-    public void setUpdateValues (List<MaterialBaseModifyBySpuAndMatCodeUpdateProps> updateValues) {
+    public void setUpdateValues (List<BaseModifyBySpuAndMatCodeUpdateProps> updateValues) {
         this.updateValues = updateValues;
     }
 }

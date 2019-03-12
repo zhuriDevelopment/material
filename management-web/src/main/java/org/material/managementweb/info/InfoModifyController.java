@@ -2,7 +2,7 @@ package org.material.managementweb.info;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.material.managementfacade.model.requestmodel.MaterialBaseModifyBySpuAndMatCodeRequest;
+import org.material.managementfacade.model.requestmodel.BaseModifyBySpuAndMatCodeReq;
 import org.material.managementfacade.model.requestmodel.InfoModifyByCatCodeAndNameReq;
 import org.material.managementfacade.model.requestmodel.InfoModifyReq;
 import org.material.managementfacade.model.responsemodel.InfoModifyByCatCodeAndNameResp;
@@ -54,7 +54,7 @@ public class InfoModifyController {
 
     @PutMapping(value = "/updateMaterialBasePropsBySpuCodeAndMaterialCodes")
     @ApiOperation(value = "根据spu编码和物料编码更新物料基本属性", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public int updateMaterialBasePropsBySpuCodeAndMaterialCodes (@RequestBody @NotNull MaterialBaseModifyBySpuAndMatCodeRequest params) {
+    public int updateMaterialBasePropsBySpuCodeAndMaterialCodes (@RequestBody @NotNull BaseModifyBySpuAndMatCodeReq params) {
         if (!MaterialGeneral.isContainsEmpty(params)) {
             return MaterialInfoErrCode.failedUpdateMaterialBaseWithSpuAndCatCode;
         } else {

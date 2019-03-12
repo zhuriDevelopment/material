@@ -5,7 +5,7 @@ package org.material.managementfacade.model.requestmodel;
  * @version 1.0
  * 根据spu编码和物料编码更新物料基本属性请求中属性名和属性值的封装类
  */
-public class MaterialBaseModifyBySpuAndMatCodeUpdatePropsDatas {
+public class BaseModifyBySpuAndMatCodeUpdatePropsDatas {
     private String name;
     private String value;
 

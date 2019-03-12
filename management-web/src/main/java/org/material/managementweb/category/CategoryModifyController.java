@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.material.managementfacade.model.requestmodel.CatAddReq;
 import org.material.managementfacade.model.requestmodel.CatDeleteReq;
-import org.material.managementfacade.model.requestmodel.CategoryModifyNameRequest;
+import org.material.managementfacade.model.requestmodel.CatModifyNameReq;
 import org.material.managementservice.general.MaterialCategoryErrCode;
 import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.service.category.impl.CategoryModifyServiceImpl;
@@ -43,7 +43,7 @@ public class CategoryModifyController {
 
     @PostMapping(value = "/updateMaterialCategory")
     @ApiOperation(value = "根据物料分类oldName及parentId更新newName", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public int updateMaterialCategory (@RequestBody @NotNull CategoryModifyNameRequest request) {
+    public int updateMaterialCategory (@RequestBody @NotNull CatModifyNameReq request) {
         if (!MaterialGeneral.isContainsEmpty(request) && request.getParentId() != -1) {
             return categoryModifyService.updateMaterialCategoryName(request);
         } else {

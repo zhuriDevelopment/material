@@ -8,9 +8,9 @@ import java.util.List;
  * 根据spu编码和物料编码获取物料基本属性回复封装类
  */
 
-public class MatBaseObtainBySpuAndMatCodeResp {
+public class BaseObtainBySpuAndMatCodeResp {
     private int errCode;
-    private List<MaterialBaseObtainBySpuAndMatCodeElement> baseInfos;
+    private List<BaseObtainBySpuAndMatCodeEle> baseInfos;
 
     public int getErrCode () {
         return errCode;
@@ -20,11 +20,11 @@ public class MatBaseObtainBySpuAndMatCodeResp {
         this.errCode = errCode;
     }
 
-    public List<MaterialBaseObtainBySpuAndMatCodeElement> getBaseInfos () {
+    public List<BaseObtainBySpuAndMatCodeEle> getBaseInfos () {
         return baseInfos;
     }
 
-    public void setBaseInfos (List<MaterialBaseObtainBySpuAndMatCodeElement> baseInfos) {
+    public void setBaseInfos (List<BaseObtainBySpuAndMatCodeEle> baseInfos) {
         this.baseInfos = baseInfos;
     }
 }

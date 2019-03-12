@@ -7,9 +7,9 @@ import java.util.List;
  * @version 1.0
  * 根据spu编码和物料编码更新物料基本属性请求中待更新属性对象的封装类
  */
-public class MaterialBaseModifyBySpuAndMatCodeUpdateProps {
+public class BaseModifyBySpuAndMatCodeUpdateProps {
     private String materialCode;
-    private List<MaterialBaseModifyBySpuAndMatCodeUpdatePropsDatas> valueList;
+    private List<BaseModifyBySpuAndMatCodeUpdatePropsDatas> valueList;
 
     public String getMaterialCode () {
         return materialCode;
@@ -19,11 +19,11 @@ public class MaterialBaseModifyBySpuAndMatCodeUpdateProps {
         this.materialCode = materialCode;
     }
 
-    public List<MaterialBaseModifyBySpuAndMatCodeUpdatePropsDatas> getValueList () {
+    public List<BaseModifyBySpuAndMatCodeUpdatePropsDatas> getValueList () {
         return valueList;
     }
 
-    public void setValueList (List<MaterialBaseModifyBySpuAndMatCodeUpdatePropsDatas> valueList) {
+    public void setValueList (List<BaseModifyBySpuAndMatCodeUpdatePropsDatas> valueList) {
         this.valueList = valueList;
     }
 }
