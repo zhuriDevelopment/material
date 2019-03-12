@@ -26,8 +26,6 @@ import javax.validation.constraints.NotNull;
              origins = "*")
 public class CategoryModifyController {
     @Autowired
-    private MaterialInfoServiceImpl materialInfoService;
-    @Autowired
     private CategoryModifyServiceImpl categoryModifyService;
 
     @PostMapping(value = "/addMaterialCategory")
