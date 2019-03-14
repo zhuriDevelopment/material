@@ -214,6 +214,21 @@
         values (<include refid="MaterialBasePropValue"/>)
     </insert>
 
+    <!--向物料控制属性值表中检索需求数据的条数-->
+    <select id="countCtrlPropWithCtrlPropParams"
+            resultType="java.lang.Integer">
+        select count(*) from materialCtrlPropVal
+        where materialCtrlPropId = #{materialCtrlPropId} and versionId = #{versionId}
+    </select>
+
+    <!--向物料控制属性值表中添加数据-->
+    <insert id="insertCtrlPropWithCtrlPropParams"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into materialCtrlPropVal(versionid, materialctrlpropid, value)
+        values (#{versionId}, #{materialCtrlPropId}, #{value})
+    </insert>
+
     <!--向物料控制属性值表中插入数据-->
     <update id="updateCtrlPropWithCtrlPropParams">
         update materialCtrlPropVal set value = #{value} where versionId = #{versionId} and materialCtrlPropId = #{materialCtrlPropId}
@@ -223,5 +238,11 @@
     <delete id="deleteAllMaterialCtrlPropValByVersionId">
         delete from materialCtrlPropVal where versionId = #{versionId}
     </delete>
+
+    <select id="countControlPropertyByCatIdAndTypeAndDatas"
+            resultType="java.lang.Integer">
+        select COUNT(*) from materialCtrlPropValVer
+        where materialCatId = #{catId} and spuCode = #{spuCode} and organizationCode = #{organizationCode}
+    </select>
 </mapper>
 

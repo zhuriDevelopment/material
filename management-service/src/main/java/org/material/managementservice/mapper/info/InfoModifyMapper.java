@@ -47,7 +47,13 @@ public interface InfoModifyMapper {
 
     int insertMaterialBasePropWithMaterialBasePropParams (MaterialBasePropModel param);
 
+    int countCtrlPropWithCtrlPropParams (int materialCtrlPropId, int versionId);
+
+    int insertCtrlPropWithCtrlPropParams (int versionId, int materialCtrlPropId, String value);
+
     int updateCtrlPropWithCtrlPropParams (int versionId, int materialCtrlPropId, String value);
 
     int deleteAllMaterialCtrlPropValByVersionId (int versionId);
+
+    int countControlPropertyByCatIdAndTypeAndDatas (int catId, String spuCode, String organizationCode);
 }

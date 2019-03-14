@@ -178,35 +178,17 @@ public class ControlPropModifyServiceSupplier {
         return updateResult;
     }
 
-
     /**
-     * 根据控制属性类别、组织编码，物料分类id，属性名和属性值更新对应控制属性的函数
+     * 根据物料控制属性分类获取对应的所有的物料属性名
      *
-     * @param type             控制属性类别
-     * @param organizationCode 组织编码
-     * @param catId            物料分类id
-     * @param name             属性名
-     * @param value            属性值
-     * @return MaterialInfoErrCode.notFoundControlPropertyType 提交上来的物料控制属性分类未找到
-     * MaterialInfoErrCode.notFoundControlPropertyName 提交上来的物料控制属性名称未找到
-     * 任意正值 更新成功
      * @author cplayer
-     * @date 2019-03-02 20:57
+     * @date 2019-03-14 22:09
+     * @param type 物料属性分类
+     *
+     * @return 物料属性名列表
+     *
      */
-    public int updateControlPropertyByCatIdAndTypeAndDatas (int type, String organizationCode, int catId, String name, String value) {
-        MaterialCtrlPropValVerModel varParam = new MaterialCtrlPropValVerModel();
-        varParam.setMaterialCatId(catId);
-        varParam.setSpuCode(MaterialGeneral.generalSpuCode);
-        varParam.setOrganizationCode(organizationCode);
-        List<MaterialCtrlPropValVerModel> ctrlVerResult = generalMapper.getCtrlPropValVerWithCtrlPropValVerParams(varParam);
-        // 需要确保结果只有一个版本id，若有多个，取第一个版本id
-        int versionId = MaterialGeneral.getInitElementOrFirstElement(ctrlVerResult, MaterialCtrlPropValVerModel.class).getId();
-        // 查找控制属性名对应的id
-        MaterialCtrlPropModel propParam = new MaterialCtrlPropModel();
-        propParam.setName(name);
-        List<MaterialCtrlPropModel> ctrlPropResult = generalMapper.getCtrlPropWithCtrlPropParams(propParam);
-        // 同样取第一个控制属性id
-        int ctrlPropId = MaterialGeneral.getInitElementOrFirstElement(ctrlPropResult, MaterialCtrlPropModel.class).getId();
+    public String[] getNameListForCtrProp (int type) {
         String[] nameList;
         switch (type) {
             case 5:
@@ -230,11 +212,74 @@ public class ControlPropModifyServiceSupplier {
                 nameList = financeList.getFinanceList();
                 break;
             default:
-                return MaterialInfoErrCode.notFoundControlPropertyType;
+                nameList = new String[0];
+                break;
+        }
+        return nameList;
+    }
+
+    /**
+     * 根据控制属性类别、组织编码，物料分类id，属性名和属性值更新对应控制属性的函数
+     *
+     * @param type             控制属性类别
+     * @param organizationCode 组织编码
+     * @param catId            物料分类id
+     * @param name             属性名
+     * @param value            属性值
+     * @param flag  是否需要添加新的版本号
+     * @return MaterialInfoErrCode.notFoundControlPropertyType 提交上来的物料控制属性分类未找到
+     * MaterialInfoErrCode.notFoundControlPropertyName 提交上来的物料控制属性名称未找到
+     * 任意正值 更新成功
+     * @author cplayer
+     * @date 2019-03-02 20:57
+     */
+    public int updateControlPropertyByCatIdAndTypeAndDatas (int type, String organizationCode, int catId, String name, String value, boolean flag) {
+        int versionId;
+        if (flag) {
+            // 默认版本号
+            String version = "ver-" + "0100-T-" + Integer.valueOf(catId).toString();
+            // 填写参数
+            MaterialCtrlPropValVerModel param = new MaterialCtrlPropValVerModel();
+            param.setOrganizationCode(organizationCode);
+            param.setMaterialCatId(catId);
+            param.setSpuCode(MaterialGeneral.generalSpuCode);
+            param.setVersion(version);
+            param.setStartDate(new Timestamp(System.currentTimeMillis()));
+            param.setEndDate(new Timestamp(System.currentTimeMillis() + 315360000000L));
+            int insertResult = infoModifyMapper.insertCtrlPropValVerByParams(param);
+            versionId = param.getId();
+            if (insertResult <= 0) {
+                logger.error(String.format("插入版本号 = %s，物料分类id = %d，组织编码为 = %d的控制信息时出现插入错误，返回值为%d。", version, catId, organizationCode, insertResult));
+                return insertResult;
+            }
+        } else {
+            MaterialCtrlPropValVerModel varParam = new MaterialCtrlPropValVerModel();
+            varParam.setMaterialCatId(catId);
+            varParam.setSpuCode(MaterialGeneral.generalSpuCode);
+            varParam.setOrganizationCode(organizationCode);
+            List<MaterialCtrlPropValVerModel> ctrlVerResult = generalMapper.getCtrlPropValVerWithCtrlPropValVerParams(varParam);
+            // 需要确保结果只有一个版本id，若有多个，取第一个版本id
+            versionId = MaterialGeneral.getInitElementOrFirstElement(ctrlVerResult, MaterialCtrlPropValVerModel.class).getId();
+        }
+        // 查找控制属性名对应的id
+        MaterialCtrlPropModel propParam = new MaterialCtrlPropModel();
+        propParam.setName(name);
+        List<MaterialCtrlPropModel> ctrlPropResult = generalMapper.getCtrlPropWithCtrlPropParams(propParam);
+        // 同样取第一个控制属性id
+        int ctrlPropId = MaterialGeneral.getInitElementOrFirstElement(ctrlPropResult, MaterialCtrlPropModel.class).getId();
+        String[] nameList = getNameListForCtrProp(type);
+        if (nameList.length == 0) {
+            return MaterialInfoErrCode.notFoundControlPropertyType;
         }
         // 若含有对应的属性名
         if (MaterialGeneral.checkList(nameList, name)) {
-            return infoModifyMapper.updateCtrlPropWithCtrlPropParams(versionId, ctrlPropId, value);
+            int countRes = infoModifyMapper.countCtrlPropWithCtrlPropParams(ctrlPropId, versionId);
+            if (countRes > 0) {
+                return infoModifyMapper.updateCtrlPropWithCtrlPropParams(versionId, ctrlPropId, value);
+            } else {
+                return infoModifyMapper.insertCtrlPropWithCtrlPropParams(versionId, ctrlPropId, value);
+            }
+
         } else {
             return MaterialInfoErrCode.notFoundControlPropertyName;
         }
@@ -265,10 +310,14 @@ public class ControlPropModifyServiceSupplier {
             if (organizationCode == null) {
                 organizationCode = MaterialGeneral.generalOrganizationCode;
             }
+            int countRes = infoModifyMapper.countControlPropertyByCatIdAndTypeAndDatas(catId, MaterialGeneral.generalSpuCode, organizationCode);
+            logger.info(String.format("统计类别编码为%d，spu编码为%s，组织编码为%s的记录结果为：%d。", catId, MaterialGeneral.generalSpuCode, organizationCode, countRes));
             for (MatCtrPropModifyReqEle dataEle : element.getCtrPropList()) {
                 String name = dataEle.getName();
                 String value = dataEle.getValue();
-                int updateEleRes = updateControlPropertyByCatIdAndTypeAndDatas(propertyType, organizationCode, catId, name, value);
+                // 更新
+                int updateEleRes = updateControlPropertyByCatIdAndTypeAndDatas(propertyType, organizationCode, catId, name, value, countRes <= 0);
+                countRes++;
                 if (updateEleRes <= 0) {
                     logger.info(String.format("更新类别为%d的控制属性为%s，值为%s时出错，返回值为%d。", propertyType, name, value, updateEleRes));
                     hasFailed = true;

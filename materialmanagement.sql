@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `materialBase` (
 	`designCode` VARCHAR(10),
 	`designVersion` VARCHAR(10),
 	`defaultUnitId` INT UNSIGNED NOT NULL,
-	`source` VARCHAR(20),
+# 	`source` VARCHAR(20),
 	`usage` VARCHAR(20),
 	`note` VARCHAR(50),
 	`createDate` DATETIME,
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `materialCtrlPropVal` (
 
 CREATE TABLE IF NOT EXISTS `materialCtrlPropValVer` (
 	`id` INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	`version` VARCHAR(10) NOT NULL,
+	`version` VARCHAR(20) NOT NULL,
 	`organizationCode` VARCHAR(20) NOT NULL,
 	`materialCatId` INT UNSIGNED NOT NULL,
 	`spuCode` VARCHAR(20) NOT NULL,
@@ -145,11 +145,11 @@ CREATE TABLE IF NOT EXISTS `materialCtrlPropValVer` (
 -- INSERT INTO materialCategory VALUES (null, '12', '剪刀', 2);
 
 LOCK TABLES `materialBase` WRITE;
-INSERT INTO `materialBase` VALUES (1,'110101','111','自动化机器','自动化生产线使用',1,'','',1,'采购','流水线生产','','2015-12-08 00:00:00',7), \
-									(2,'110102','112','人工操作机器','需雇佣工人',2,'','',1,'采购','流水线生产','','2015-12-08 00:00:00',7), \
-									(3,'210101','211','棉布','纺织用品',1,'001','v1.0',2,'工厂加工','服装原料','','2015-12-08 00:00:00',8), \
-									(4,'210102','212','丝绸','纺织用品',3,'010','v2.0',2,'工厂加工','服装原料','','2015-12-08 00:00:00',8), \
-									(5,'310101','311','台式电脑','管理人员使用',4,'','',3,'采购','办公','','2015-12-08 00:00:00',9);
+INSERT INTO `materialBase` VALUES (1,'110101','111','自动化机器','自动化生产线使用',1,'','',1,'流水线生产','','2015-12-08 00:00:00',7), \
+									(2,'110102','112','人工操作机器','需雇佣工人',2,'','',1,'流水线生产','','2015-12-08 00:00:00',7), \
+									(3,'210101','211','棉布','纺织用品',1,'001','v1.0',2,'服装原料','','2015-12-08 00:00:00',8), \
+									(4,'210102','212','丝绸','纺织用品',3,'010','v2.0',2,'服装原料','','2015-12-08 00:00:00',8), \
+									(5,'310101','311','台式电脑','管理人员使用',4,'','',3,'办公','','2015-12-08 00:00:00',9);
 UNLOCK TABLES;
 
 LOCK TABLES `material` WRITE;
