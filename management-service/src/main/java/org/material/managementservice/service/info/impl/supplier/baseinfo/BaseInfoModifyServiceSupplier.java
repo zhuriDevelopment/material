@@ -30,9 +30,12 @@ public class BaseInfoModifyServiceSupplier {
      * 若成功更新返回MaterialErrCode.successUpdateMaterialBase
      * 不成功返回MaterialErrCode.failedUpdateMaterialBase
      *
-     * @param params 更新物料信息请求的参数
+     * @param params
+     *         更新物料信息请求的参数
+     *
      * @return MaterialInfoErrCode.successUpdateMaterialBase 代表成功
      * MaterialInfoErrCode.failedUpdateMaterialBase 代表失败
+     *
      * @author cplayer
      * @date 2019-02-27 04:35
      */

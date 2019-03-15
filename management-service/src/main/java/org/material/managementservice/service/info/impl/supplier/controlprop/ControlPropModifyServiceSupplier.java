@@ -55,11 +55,15 @@ public class ControlPropModifyServiceSupplier {
     /**
      * 根据给定的控制属性值列表以及版本id，更新对应的控制属性值
      *
-     * @param params    更新物料信息请求的参数
-     * @param versionId 版本id
+     * @param params
+     *         更新物料信息请求的参数
+     * @param versionId
+     *         版本id
+     *
      * @return MaterialInfoErrCode.failedUpdateAllControlPropInMaterial 更新物料控制属性全部失败
      * MaterialInfoErrCode.failedUpdateSomeControlPropInMaterial 更新物料控制属性部分失败
      * MaterialInfoErrCode.successUpdateAllControlPropInMaterial 更新物料控制属性成功
+     *
      * @author cplayer
      * @date 2019-03-01 05:34
      */
@@ -114,9 +118,12 @@ public class ControlPropModifyServiceSupplier {
     /**
      * 更新物料控制属性对应的功能函数
      *
-     * @param params 更新物料信息请求的参数
+     * @param params
+     *         更新物料信息请求的参数
+     *
      * @return MaterialInfoErrCode.successUpdateControlPropInMaterial 更新成功
      * MaterialInfoErrCode.failedUpdateControlPropInMaterial 更新失败
+     *
      * @author cplayer
      * @date 2019-02-28 17:30
      */
@@ -181,12 +188,13 @@ public class ControlPropModifyServiceSupplier {
     /**
      * 根据物料控制属性分类获取对应的所有的物料属性名
      *
-     * @author cplayer
-     * @date 2019-03-14 22:09
-     * @param type 物料属性分类
+     * @param type
+     *         物料属性分类
      *
      * @return 物料属性名列表
      *
+     * @author cplayer
+     * @date 2019-03-14 22:09
      */
     public String[] getNameListForCtrProp (int type) {
         String[] nameList;
@@ -221,15 +229,23 @@ public class ControlPropModifyServiceSupplier {
     /**
      * 根据控制属性类别、组织编码，物料分类id，属性名和属性值更新对应控制属性的函数
      *
-     * @param type             控制属性类别
-     * @param organizationCode 组织编码
-     * @param catId            物料分类id
-     * @param name             属性名
-     * @param value            属性值
-     * @param flag  是否需要添加新的版本号
+     * @param type
+     *         控制属性类别
+     * @param organizationCode
+     *         组织编码
+     * @param catId
+     *         物料分类id
+     * @param name
+     *         属性名
+     * @param value
+     *         属性值
+     * @param flag
+     *         是否需要添加新的版本号
+     *
      * @return MaterialInfoErrCode.notFoundControlPropertyType 提交上来的物料控制属性分类未找到
      * MaterialInfoErrCode.notFoundControlPropertyName 提交上来的物料控制属性名称未找到
      * 任意正值 更新成功
+     *
      * @author cplayer
      * @date 2019-03-02 20:57
      */
@@ -334,13 +350,14 @@ public class ControlPropModifyServiceSupplier {
     /**
      * 根据物料分类id删除所有物料控制属性的值
      *
-     * @author cplayer
-     * @date 2019-03-09 05:02
-     * @param catId 物料分类id
+     * @param catId
+     *         物料分类id
      *
      * @return MaterialInfoErrCode.successDeleteAllCtrPropsByCatId 删除成功
-     *         MaterialInfoErrCode.failedDeleteAllCtrPropsByCatId 删除失败
+     * MaterialInfoErrCode.failedDeleteAllCtrPropsByCatId 删除失败
      *
+     * @author cplayer
+     * @date 2019-03-09 05:02
      */
     public int deleteAllControlPropertyByCatId (int catId) {
         // 先获取版本号，然后再根据版本号逐个删除

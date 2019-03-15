@@ -35,9 +35,13 @@ public class BasePropObtainServiceSupplier {
     /**
      * 根据物料分类id和物料类别获取对应的物料基本属性
      *
-     * @param catId        物料分类id
-     * @param propertyType 物料类别
+     * @param catId
+     *         物料分类id
+     * @param propertyType
+     *         物料类别
+     *
      * @return java.util.List<org.material.managementfacade.model.tablemodel.MaterialBasePropModel>
+     *
      * @author cplayer
      * @date 2019-03-02 06:28
      */
@@ -51,8 +55,11 @@ public class BasePropObtainServiceSupplier {
     /**
      * 根据物料分类id获取对应的物料基本属性
      *
-     * @param catId 物料分类id
+     * @param catId
+     *         物料分类id
+     *
      * @return java.util.List<org.material.managementfacade.model.tablemodel.MaterialBasePropModel>
+     *
      * @author cplayer
      * @date 2019-03-02 06:32
      */
@@ -73,10 +80,15 @@ public class BasePropObtainServiceSupplier {
     /**
      * 根据给定物料编码以及spu编码查询所有存在的物料基本属性
      *
-     * @param params          请求对应的参数
-     * @param materialCode    物料编码
-     * @param commonBaseProps 所有通用的物料基本属性映射
+     * @param params
+     *         请求对应的参数
+     * @param materialCode
+     *         物料编码
+     * @param commonBaseProps
+     *         所有通用的物料基本属性映射
+     *
      * @return org.material.managementfacade.model.responsemodel.BaseObtainBySpuAndMatCodeEle
+     *
      * @author cplayer
      * @date 2019-03-03 02:40
      */

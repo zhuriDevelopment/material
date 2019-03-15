@@ -38,9 +38,12 @@ public class CategoryModifyServiceImpl implements CategoryModifyService {
     /**
      * 添加物料分类信息的功能函数（单次）
      *
-     * @param request 请求被添加的物料分类信息
+     * @param request
+     *         请求被添加的物料分类信息
+     *
      * @return MaterialCategoryErrCode.successAddCategory 添加成功
      * MaterialCategoryErrCode.failedAddCategory 添加失败
+     *
      * @author cplayer
      * @date 2019-03-02 04:37
      */
@@ -76,9 +79,12 @@ public class CategoryModifyServiceImpl implements CategoryModifyService {
     /**
      * 修改物料分类信息的函数（单次）
      *
-     * @param request 请求被修改的物料分类信息
+     * @param request
+     *         请求被修改的物料分类信息
+     *
      * @return MaterialCategoryErrCode.successModifyCategory 修改成功
      * MaterialCategoryErrCode.failedModifyCategory 修改失败
+     *
      * @author cplayer
      * @date 2019-03-02 05:00
      */
@@ -112,9 +118,12 @@ public class CategoryModifyServiceImpl implements CategoryModifyService {
     /**
      * 删除物料分类信息的函数
      *
-     * @param request 请求被删除的物料分类信息
+     * @param request
+     *         请求被删除的物料分类信息
+     *
      * @return MaterialCategoryErrCode.successDeleteCategory 删除成功
      * MaterialCategoryErrCode.failedDeleteCategory 删除失败
+     *
      * @author cplayer
      * @date 2019-03-02 05:17
      */

@@ -33,8 +33,11 @@ public class SkuInfoModifyServiceSupplier {
     /**
      * 检查对应的sku数据是否合法的函数
      *
-     * @param skuData 需要检查的sku数据
+     * @param skuData
+     *         需要检查的sku数据
+     *
      * @return true为合法，false为不合法
+     *
      * @author cplayer
      * @date 2019-02-28 16:27
      */
@@ -60,8 +63,11 @@ public class SkuInfoModifyServiceSupplier {
     /**
      * 将MaterialSkuModifyRequestElement转换成MaterialSkuModel对象的函数
      *
-     * @param skuElement 待转换的MaterialSkuModifyRequestElement对象
+     * @param skuElement
+     *         待转换的MaterialSkuModifyRequestElement对象
+     *
      * @return org.material.managementfacade.model.tablemodel.MaterialSkuModel
+     *
      * @author cplayer
      * @date 2019-02-28 17:19
      */
@@ -81,9 +87,13 @@ public class SkuInfoModifyServiceSupplier {
     /**
      * 删除集合中的所有对应的materialSku信息的函数
      *
-     * @param deleteSet 待删除的materialSku表记录集合
-     * @param spuCode   对应的spu编码
+     * @param deleteSet
+     *         待删除的materialSku表记录集合
+     * @param spuCode
+     *         对应的spu编码
+     *
      * @return 操作成功的行数
+     *
      * @author cplayer
      * @date 2019-02-28 17:20
      */
@@ -114,9 +124,13 @@ public class SkuInfoModifyServiceSupplier {
     /**
      * 添加集合中的所有对应的materialSku信息的函数
      *
-     * @param insertSet 待添加的materialSku表记录集合
-     * @param spuCode   对应的spu编码
+     * @param insertSet
+     *         待添加的materialSku表记录集合
+     * @param spuCode
+     *         对应的spu编码
+     *
      * @return 操作成功的行数
+     *
      * @author cplayer
      * @date 2019-02-28 17:20
      */
@@ -148,9 +162,12 @@ public class SkuInfoModifyServiceSupplier {
     /**
      * 更新sku信息的函数
      *
-     * @param params 更新物料信息请求的参数
+     * @param params
+     *         更新物料信息请求的参数
+     *
      * @return MaterialInfoErrCode.successUpdateSku 成功更新
      * MaterialInfoErrCode.failedUpdateSku 更新失败
+     *
      * @author cplayer
      * @date 2019-02-28 17:21
      */

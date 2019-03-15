@@ -15,15 +15,16 @@ import javax.servlet.http.HttpServletRequest;
 public class WebErrorController implements ErrorController {
     /**
      * 配置404的默认返回页面为vue的主页面
-     *
+     * <p>
      * 若需要有对应的404页面在vue的主路由中处理。
      *
-     * @author cplayer
-     * @date 2019-03-11 16:34
-     * @param request http请求
+     * @param request
+     *         http请求
      *
      * @return 对应的页面
      *
+     * @author cplayer
+     * @date 2019-03-11 16:34
      */
     @RequestMapping("/error")
     public String handleError (HttpServletRequest request) {
@@ -31,7 +32,7 @@ public class WebErrorController implements ErrorController {
     }
 
     @Override
-    public String getErrorPath() {
+    public String getErrorPath () {
         return "/error";
     }
 }

@@ -52,6 +52,7 @@ public class InfoObtainServiceImpl implements InfoObtainService {
      * 获取所有物料基本信息
      *
      * @return BaseInfoResponse类，包含所有物料基本信息
+     *
      * @author cplayer
      * @date 2019-02-25 02:32
      */
@@ -69,18 +70,21 @@ public class InfoObtainServiceImpl implements InfoObtainService {
      * material表：物料名称
      * materialSku表：sku编码
      *
-     * @param params 所给的基本信息参数
-     *               包含：
-     *               物料分类（以id的形式传过来）
-     *               物料名称
-     *               sku编码
-     *               起始时间
-     *               终止时间
-     *               spu编码
-     *               设计图号
-     *               设计版本
-     *               来源
+     * @param params
+     *         所给的基本信息参数
+     *         包含：
+     *         物料分类（以id的形式传过来）
+     *         物料名称
+     *         sku编码
+     *         起始时间
+     *         终止时间
+     *         spu编码
+     *         设计图号
+     *         设计版本
+     *         来源
+     *
      * @return org.material.managementfacade.model.responsemodel.BaseInfoResp
+     *
      * @author cplayer
      * @date 2019-02-25 03:25
      */
@@ -156,8 +160,11 @@ public class InfoObtainServiceImpl implements InfoObtainService {
      * 全部基础信息：11
      * 规格信息：12
      *
-     * @param params 物料信息参数，详细定义见类
+     * @param params
+     *         物料信息参数，详细定义见类
+     *
      * @return org.material.managementfacade.model.responsemodel.MaterialInfo.MatInfoResp
+     *
      * @author cplayer
      * @date 2019-02-25 20:47
      */
@@ -230,8 +237,11 @@ public class InfoObtainServiceImpl implements InfoObtainService {
     /**
      * 根据物料分类信息获取所有物料基本信息的函数
      *
-     * @param id 传上来的id
+     * @param id
+     *         传上来的id
+     *
      * @return org.material.managementfacade.model.responsemodel.MatInfoObtainByCatInfoResp
+     *
      * @author cplayer
      * @date 2019-03-02 05:50
      */
@@ -264,8 +274,11 @@ public class InfoObtainServiceImpl implements InfoObtainService {
      * 全部基础信息：11
      * （10空出来是为了和getMaterialInfoByParams接口的数据保持一致）
      *
-     * @param params 请求对应的参数，包括物料分类编码、名称以及需要获取的信息数组
+     * @param params
+     *         请求对应的参数，包括物料分类编码、名称以及需要获取的信息数组
+     *
      * @return org.material.managementfacade.model.responsemodel.MatInfoObtainByCatCodeAndNameResp
+     *
      * @author cplayer
      * @date 2019-03-02 06:13
      */
@@ -334,8 +347,11 @@ public class InfoObtainServiceImpl implements InfoObtainService {
     /**
      * 根据spu编码和物料编码获取物料基本属性的实现函数
      *
-     * @param params 请求对应的参数
+     * @param params
+     *         请求对应的参数
+     *
      * @return org.material.managementfacade.model.responsemodel.BaseObtainBySpuAndMatCodeResp
+     *
      * @author cplayer
      * @date 2019-03-03 01:46
      */
@@ -380,8 +396,11 @@ public class InfoObtainServiceImpl implements InfoObtainService {
     /**
      * 根据物料分类id和属性类型获取物料基本属性的实现函数
      *
-     * @param params 请求对应的参数
+     * @param params
+     *         请求对应的参数
+     *
      * @return java.util.List<org.material.managementfacade.model.tablemodel.MaterialBasePropModel>
+     *
      * @author cplayer
      * @date 2019-03-03 05:53
      */
@@ -396,11 +415,10 @@ public class InfoObtainServiceImpl implements InfoObtainService {
     /**
      * 获取所有计量单位信息的函数
      *
-     * @author cplayer
-     * @date 2019-03-10 01:32
-     *
      * @return java.util.List<org.material.managementfacade.model.responsemodel.AllUnitInfosObtainResp>
      *
+     * @author cplayer
+     * @date 2019-03-10 01:32
      */
     @Override
     public List<AllUnitInfosObtainResp> getAllUnitInfos () {

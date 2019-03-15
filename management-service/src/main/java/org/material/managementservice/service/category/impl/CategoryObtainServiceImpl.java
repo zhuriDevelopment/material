@@ -25,10 +25,11 @@ public class CategoryObtainServiceImpl implements CategoryObtainService {
 
     /**
      * 获取物料分类信息树的函数
-     *
+     * <p>
      * 注意需要返回数组以满足element tree控件的要求
      *
      * @return java.util.List<org.material.managementfacade.model.processmodel.MaterialCategoryTree>
+     *
      * @author cplayer
      * @date 2019-03-02 06:03
      */
@@ -59,8 +60,11 @@ public class CategoryObtainServiceImpl implements CategoryObtainService {
     /**
      * 根据物料分类id获取所有物料分类信息的实现函数
      *
-     * @param id 物料分类id
+     * @param id
+     *         物料分类id
+     *
      * @return java.util.List<org.material.managementfacade.model.tablemodel.MaterialCategoryModel>
+     *
      * @author cplayer
      * @date 2019-03-02 06:01
      */
@@ -72,11 +76,10 @@ public class CategoryObtainServiceImpl implements CategoryObtainService {
     /**
      * 获取所有物料分类信息列表的函数
      *
-     * @author cplayer
-     * @date 2019-03-10 01:12
-     *
      * @return java.util.List<org.material.managementfacade.model.responsemodel.AllCatInfosObtainResp>
      *
+     * @author cplayer
+     * @date 2019-03-10 01:12
      */
     @Override
     public List<AllCatInfosObtainResp> getAllMaterialCategoryInfos () {

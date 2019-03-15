@@ -28,13 +28,14 @@ public class BasePropModifyServiceSupplier {
     /**
      * 根据物料分类编码删除所有已存在的物料基本属性的函数
      *
-     * @author cplayer
-     * @date 2019-03-09 04:54     
-     * @param catId 物料分类编码
+     * @param catId
+     *         物料分类编码
      *
      * @return MaterialInfoErrCode.successDeleteAllBasePropByCatId 成功
-     *         MaterialInfoErrCode.failedDeleteAllBasePropByCatId 失败
+     * MaterialInfoErrCode.failedDeleteAllBasePropByCatId 失败
      *
+     * @author cplayer
+     * @date 2019-03-09 04:54
      */
     public int deleteAllMaterialBasePropByCatId (int catId) {
         MaterialBasePropModel param = new MaterialBasePropModel();
@@ -59,10 +60,14 @@ public class BasePropModifyServiceSupplier {
     /**
      * 根据物料分类编码、物料名称以及待更新的数据更新物料基本属性的实现函数
      *
-     * @param catId     物料分类id
-     * @param baseProps 待更新的物料基本属性
+     * @param catId
+     *         物料分类id
+     * @param baseProps
+     *         待更新的物料基本属性
+     *
      * @return MaterialInfoErrCode.successUpdateMaterialBasePropWithCatIdAndName 更新成功
      * MaterialInfoErrCode.failedUpdateMaterialBasePropWithCatIdAndName 更新失败
+     *
      * @author cplayer
      * @date 2019-03-02 18:18
      */

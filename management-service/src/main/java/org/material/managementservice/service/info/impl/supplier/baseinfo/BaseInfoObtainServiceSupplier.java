@@ -33,8 +33,11 @@ public class BaseInfoObtainServiceSupplier {
      * 包括物料基本信息、物料分类信息、计量单位信息
      * materialBase、materialCategory、unit
      *
-     * @param baseModels 待获取的基本信息列表
+     * @param baseModels
+     *         待获取的基本信息列表
+     *
      * @return org.material.managementfacade.model.responsemodel.BaseInfoRespParams
+     *
      * @author cplayer
      * @date 2019-02-25 16:33
      */

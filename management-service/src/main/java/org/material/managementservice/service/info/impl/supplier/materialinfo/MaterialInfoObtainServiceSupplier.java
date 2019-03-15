@@ -37,8 +37,11 @@ public class MaterialInfoObtainServiceSupplier {
     /**
      * 根据参数中的spuCode获取物料基本信息的函数
      *
-     * @param params 从getMaterialInfo接口传入的参数
+     * @param params
+     *         从getMaterialInfo接口传入的参数
+     *
      * @return java.util.List<org.material.managementfacade.model.tablemodel.MaterialBaseModel>
+     *
      * @author cplayer
      * @date 2019-02-25 21:26
      */
@@ -49,8 +52,11 @@ public class MaterialInfoObtainServiceSupplier {
     /**
      * 根据参数中的spuCode获取物料信息的函数
      *
-     * @param params 从getMaterialInfo接口传入的参数
+     * @param params
+     *         从getMaterialInfo接口传入的参数
+     *
      * @return java.util.List<org.material.managementfacade.model.tablemodel.MaterialModel>
+     *
      * @author cplayer
      * @date 2019-02-25 21:27
      */
@@ -61,8 +67,11 @@ public class MaterialInfoObtainServiceSupplier {
     /**
      * 根据参数中的spuCode获取sku信息的函数
      *
-     * @param params 从getMaterialInfo接口传入的参数
+     * @param params
+     *         从getMaterialInfo接口传入的参数
+     *
      * @return java.util.List<org.material.managementfacade.model.tablemodel.MaterialSkuModel>
+     *
      * @author cplayer
      * @date 2019-02-25 21:30
      */
@@ -73,8 +82,11 @@ public class MaterialInfoObtainServiceSupplier {
     /**
      * 根据参数中的spuCode获取附件信息的函数
      *
-     * @param params 从getMaterialInfo接口传入的参数
+     * @param params
+     *         从getMaterialInfo接口传入的参数
+     *
      * @return java.util.List<org.material.managementfacade.model.tablemodel.MaterialFilesModel>
+     *
      * @author cplayer
      * @date 2019-02-25 21:32
      */
@@ -86,8 +98,11 @@ public class MaterialInfoObtainServiceSupplier {
     /**
      * 根据参数中的spuCode获取所有计量单位信息的函数
      *
-     * @param params 从getMaterialInfo接口传入的参数
+     * @param params
+     *         从getMaterialInfo接口传入的参数
+     *
      * @return org.material.managementfacade.model.responsemodel.MaterialInfo.MatInfoUnitResp
+     *
      * @author cplayer
      * @date 2019-02-25 21:38
      */
@@ -136,9 +151,13 @@ public class MaterialInfoObtainServiceSupplier {
     /**
      * 根据参数中的spuCode以及物料基本属性类型获取对应物料基本属性的函数
      *
-     * @param params 从getMaterialInfo接口传入的参数
-     * @param type   物料基本信息类型
+     * @param params
+     *         从getMaterialInfo接口传入的参数
+     * @param type
+     *         物料基本信息类型
+     *
      * @return org.material.managementfacade.model.responsemodel.MaterialInfo.MaterialInfoStandardResponse
+     *
      * @author cplayer
      * @date 2019-02-26 20:37
      */
@@ -185,8 +204,11 @@ public class MaterialInfoObtainServiceSupplier {
      * 3、批号属性，category = 3
      * 4、规格属性，category = 4
      *
-     * @param params 从getMaterialInfo接口传入的参数
+     * @param params
+     *         从getMaterialInfo接口传入的参数
+     *
      * @return org.material.managementfacade.model.responsemodel.MaterialInfo.MatInfoBasePropResp
+     *
      * @author cplayer
      * @date 2019-02-26 16:37
      */

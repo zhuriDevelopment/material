@@ -61,8 +61,11 @@ public class InfoModifyServiceImpl implements InfoModifyService {
      * 计量单位
      * 规格信息
      *
-     * @param params 更新物料信息请求的参数
+     * @param params
+     *         更新物料信息请求的参数
+     *
      * @return 成功了的操作个数
+     *
      * @author cplayer
      * @date 2019-02-27 04:37
      */
@@ -126,8 +129,11 @@ public class InfoModifyServiceImpl implements InfoModifyService {
     /**
      * 根据物料分类编码、物料名称以及待更新的数据更新物料信息的实现函数
      *
-     * @param params 更新物料信息请求的参数
+     * @param params
+     *         更新物料信息请求的参数
+     *
      * @return org.material.managementfacade.model.responsemodel.InfoModifyByCatCodeAndNameResp
+     *
      * @author cplayer
      * @date 2019-03-02 18:03
      */
@@ -141,8 +147,8 @@ public class InfoModifyServiceImpl implements InfoModifyService {
         List<MaterialCategoryModel> materialCatTmp = categoryObtainMapper.getMaterialCategoryById(catId);
         MaterialCategoryModel existedCatInfo = MaterialGeneral.getInitElementOrFirstElement(materialCatTmp, MaterialCategoryModel.class);
         if (!existedCatInfo.getName().equals(params.getCatName()) ||
-            !existedCatInfo.getCode().equals(params.getCatCode()) ||
-            existedCatInfo.getType() != params.getType()) {
+                !existedCatInfo.getCode().equals(params.getCatCode()) ||
+                existedCatInfo.getType() != params.getType()) {
             MaterialCategoryModel cateParam = new MaterialCategoryModel();
             cateParam.setId(catId);
             cateParam.setCode(params.getCatCode());
@@ -181,9 +187,12 @@ public class InfoModifyServiceImpl implements InfoModifyService {
     /**
      * 根据spu编码和物料编码更新物料基本属性的实现函数
      *
-     * @param params 更新物料信息请求的参数
+     * @param params
+     *         更新物料信息请求的参数
+     *
      * @return MaterialInfoErrCode.successUpdateMaterialBaseWithSpuAndCatCode 更新成功
      * MaterialInfoErrCode.failedUpdateMaterialBaseWithSpuAndCatCode 更新失败
+     *
      * @author cplayer
      * @date 2019-03-03 05:10
      */

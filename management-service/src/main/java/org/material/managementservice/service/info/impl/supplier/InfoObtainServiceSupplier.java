@@ -19,8 +19,11 @@ public class InfoObtainServiceSupplier {
     /**
      * 将传进来的各类list中的spuCode提取出来并取交集的工具函数
      *
-     * @param lists 待处理的List（或者多个List）
+     * @param lists
+     *         待处理的List（或者多个List）
+     *
      * @return java.util.HashSet<java.lang.String>
+     *
      * @author cplayer
      * @date 2019-02-25 20:18
      */

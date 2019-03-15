@@ -23,9 +23,6 @@ import javax.validation.constraints.NotNull;
 @RestController
 @RequestMapping("/materialmanagement")
 @Api(value = "物料信息修改接口", description = "物料信息修改接口")
-@CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
-             methods = {RequestMethod.PUT},
-             origins = "*")
 public class InfoModifyController {
     @Autowired
     private InfoModifyServiceImpl infoModifyService;

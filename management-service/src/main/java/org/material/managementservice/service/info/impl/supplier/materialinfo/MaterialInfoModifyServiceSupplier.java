@@ -35,9 +35,12 @@ public class MaterialInfoModifyServiceSupplier {
     /**
      * 更新物料定义页面中物料定义部分的函数
      *
-     * @param params 更新物料信息请求的参数
+     * @param params
+     *         更新物料信息请求的参数
+     *
      * @return MaterialInfoErrCode.successUpdateMaterialInMaterial 代表成功
      * MaterialInfoErrCode.failedUpdateMaterialInMaterial 代表失败
+     *
      * @author cplayer
      * @date 2019-02-27 21:08
      */

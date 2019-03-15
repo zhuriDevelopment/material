@@ -41,11 +41,16 @@ public class UnitModifyServiceSupplier {
     /**
      * 更新物料计量单位信息中更新部分的函数
      *
-     * @param updateList    待更新的物料计量单位信息列表
-     * @param spuCode       spu编码
-     * @param defaultUnitId 默认计量单位id
+     * @param updateList
+     *         待更新的物料计量单位信息列表
+     * @param spuCode
+     *         spu编码
+     * @param defaultUnitId
+     *         默认计量单位id
+     *
      * @return MaterialInfoErrCode.successUpdateModifyUnit 成功更新
      * MaterialInfoErrCode.failedUpdateModifyUnit 更新失败
+     *
      * @author cplayer
      * @date 2019-03-01 23:08
      */
@@ -69,11 +74,16 @@ public class UnitModifyServiceSupplier {
     /**
      * 更新物料计量单位信息中新增部分的函数
      *
-     * @param insertList    待新增的物料计量单位信息列表
-     * @param spuCode       spu编码
-     * @param defaultUnitId 默认计量单位id
+     * @param insertList
+     *         待新增的物料计量单位信息列表
+     * @param spuCode
+     *         spu编码
+     * @param defaultUnitId
+     *         默认计量单位id
+     *
      * @return MaterialInfoErrCode.successUpdateInsertUnit 新增成功
      * MaterialInfoErrCode.failedUpdateInsertUnit 新增失败
+     *
      * @author cplayer
      * @date 2019-03-01 23:09
      */
@@ -97,9 +107,12 @@ public class UnitModifyServiceSupplier {
     /**
      * 更新物料计量单位信息中删除部分的函数
      *
-     * @param deleteList 待删除的物料计量单位信息列表
+     * @param deleteList
+     *         待删除的物料计量单位信息列表
+     *
      * @return MaterialInfoErrCode.successUpdateDeleteUnit 删除成功
      * MaterialInfoErrCode.failedUpdateDeleteUnit 删除成功
+     *
      * @author cplayer
      * @date 2019-03-01 23:10
      */
@@ -120,9 +133,12 @@ public class UnitModifyServiceSupplier {
     /**
      * 更新物料计量单位信息的函数
      *
-     * @param params 更新物料信息请求的参数
+     * @param params
+     *         更新物料信息请求的参数
+     *
      * @return MaterialInfoErrCode.successUpdateUnit 更新成功
      * MaterialInfoErrCode.failedUpdateUnit 更新失败
+     *
      * @author cplayer
      * @date 2019-03-01 22:25
      */
