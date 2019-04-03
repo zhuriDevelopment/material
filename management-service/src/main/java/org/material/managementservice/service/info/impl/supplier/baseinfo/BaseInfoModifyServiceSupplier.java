@@ -6,6 +6,7 @@ import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
 import org.material.managementservice.general.MaterialInfoErrCode;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoModifyMapper;
+import org.material.managementservice.service.info.impl.supplier.controlprop.ControlPropModifyServiceSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class BaseInfoModifyServiceSupplier {
     private InfoModifyMapper infoModifyMapper;
     @Autowired
     private GeneralMapper generalMapper;
+    @Autowired
+    private ControlPropModifyServiceSupplier controlPropModifyServiceSupplier;
 
     /**
      * 更新物料基本信息的函数
@@ -52,6 +55,10 @@ public class BaseInfoModifyServiceSupplier {
             logger.error("更新物料基本信息过程中，spuCode为指定代码的记录有多条！不正确的库内数据！");
             return MaterialInfoErrCode.failedUpdateMaterialBase;
         }
+        // 检查物料控制属性值中对应的物料分类id对应的信息
+        int refreshResult = controlPropModifyServiceSupplier.refreshCtrlPropAndValBySpuCodeAndMaterialCatId
+                (updateBaseDatas.getMaterialCatId(),updateBaseDatas.getSpuCode());
+        logger.info(String.format("更新物料基本信息过程中，刷新控制属性值的结果为%d。", refreshResult));
         // 转换成MaterialBaseModel
         MaterialBaseModel param = new MaterialBaseModel();
         param.setSpuCode(updateBaseDatas.getSpuCode());

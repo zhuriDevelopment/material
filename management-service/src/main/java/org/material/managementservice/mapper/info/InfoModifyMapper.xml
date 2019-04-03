@@ -140,6 +140,11 @@
         update materialCtrlPropVal set value = #{value} where versionId = #{versionId} and materialCtrlPropId = #{materialCtrlPropId}
     </update>
 
+    <!--刷新物料控制属性表中的物料分类id-->
+    <update id="updateCtrlPropValVerCatIdById">
+        update materialCtrlPropValVer set materialCatId = #{materialCatId} where id = #{id}
+    </update>
+
     <!--根据参数更新物料计量单位表中的数据-->
     <update id="updateUnitByParams"
             parameterType="org.material.managementfacade.model.tablemodel.MaterialUnitModel">

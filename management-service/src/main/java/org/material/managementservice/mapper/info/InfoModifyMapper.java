@@ -42,6 +42,8 @@ public interface InfoModifyMapper {
 
     int updateCtrlPropValByParams (MaterialCtrlPropValModel param);
 
+    int updateCtrlPropValVerCatIdById (int id, int materialCatId);
+
     int updateUnitByParams (MaterialUnitModel param);
 
     int insertUnitByParams (MaterialUnitModel param);

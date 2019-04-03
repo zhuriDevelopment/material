@@ -54,6 +54,47 @@ public class ControlPropModifyServiceSupplier {
     private FinanceList financeList;
 
     /**
+     * 根据物料分类id和spu编码刷新物料控制属性或者物料控制属性值的函数
+     *
+     * @author cplayer
+     * @date 2019-04-03 22:42
+     * @param materialCatId 物料分类id
+     * @param spuCode spu编码
+     *
+     * @return update所影响的行数
+     *
+     */
+    public int refreshCtrlPropAndValBySpuCodeAndMaterialCatId (int materialCatId, String spuCode) {
+        MaterialCtrlPropValVerModel searchParam = new MaterialCtrlPropValVerModel();
+        searchParam.setOrganizationCode(MaterialGeneral.generalOrganizationCode);
+        searchParam.setSpuCode(spuCode);
+        List<MaterialCtrlPropValVerModel> searchRes = generalMapper.getCtrlPropValVerWithCtrlPropValVerParams(searchParam);
+        MaterialCtrlPropValVerModel res = MaterialGeneral.getInitElementOrFirstElement(searchRes,
+                MaterialCtrlPropValVerModel.class);
+        if (res.getId() != -1) {
+            if (materialCatId != res.getMaterialCatId()) {
+                // 需要更新
+               int versionId = res.getId();
+               int refreshVerRes = infoModifyMapper.updateCtrlPropValVerCatIdById(versionId, materialCatId);
+               logger.info(String.format("刷新物料控制属性值版本返回值为%d。", refreshVerRes));
+               return refreshVerRes;
+            } else {
+                // 无需更新
+                logger.debug(String.format("刷新物料控制属性值版本时，物料分类id = %d，spu编码 = %s的情况时出现了无需更新情况。",
+                        materialCatId,
+                        spuCode));
+                return 0;
+            }
+        } else {
+            // 无需更新
+            logger.debug(String.format("刷新物料控制属性值版本时，物料分类id = %d，spu编码 = %s的情况时出现了未找到情况。",
+                    materialCatId,
+                    spuCode));
+            return 0;
+        }
+    }
+
+    /**
      * 根据待添加的物料控制属性值列表、版本ID以及参数添加对应的控制属性值
      *
      * @author cplayer
