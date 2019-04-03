@@ -7,10 +7,8 @@ import org.material.managementfacade.model.propertymodel.purchaseandstore.Purcha
 import org.material.managementfacade.model.propertymodel.quality.QualityList;
 import org.material.managementfacade.model.propertymodel.sales.SalesList;
 import org.material.managementfacade.model.requestmodel.MatInfoReq;
-import org.material.managementfacade.model.tablemodel.MaterialBaseModel;
-import org.material.managementfacade.model.tablemodel.MaterialCtrlPropModel;
-import org.material.managementfacade.model.tablemodel.MaterialCtrlPropValModel;
-import org.material.managementfacade.model.tablemodel.MaterialCtrlPropValVerModel;
+import org.material.managementfacade.model.tablemodel.*;
+import org.material.managementservice.general.MaterialCategoryErrCode;
 import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoObtainMapper;
@@ -42,6 +40,28 @@ public class ControlPropObtainServiceSupplier {
     private GeneralMapper generalMapper;
     @Autowired
     private InfoObtainMapper infoObtainMapper;
+    
+    /**
+     * 根据物料分类id、spu编码和组织编码查找对应的版本id的函数
+     *
+     * @author cplayer
+     * @date 2019-04-03 14:42
+     * @param spuCode spu编码
+     * @param organizationCode 组织编码
+     * @param materialCatId 物料分类id
+     *
+     * @return versionId 对应的版本id
+     *
+     */
+    public int getVersionIdByParams (String spuCode, String organizationCode, int materialCatId) {
+        MaterialCtrlPropValVerModel param = new MaterialCtrlPropValVerModel();
+        param.setSpuCode(spuCode);
+        param.setOrganizationCode(organizationCode);
+        param.setMaterialCatId(materialCatId);
+        List<MaterialCtrlPropValVerModel> searchRes = generalMapper.getCtrlPropValVerWithCtrlPropValVerParams(param);
+        MaterialCtrlPropValVerModel res = MaterialGeneral.getInitElementOrFirstElement(searchRes, MaterialCtrlPropValVerModel.class);
+        return res.getId();
+    }
 
     /**
      * 根据属性名、组织编码以及spuCode查找对应的物料控制属性
@@ -268,18 +288,16 @@ public class ControlPropObtainServiceSupplier {
      *
      * @param index
      *         采购和库存属性名索引，即第index个采购和库存属性，顺序由yml文件中的顺序决定
-     * @param organizationId
-     *         组织编码
-     * @param catId
-     *         物料分类id
+     * @param versionId
+     *         版本id
      *
      * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      *
      * @author cplayer
      * @date 2019-03-02 06:52
      */
-    public List<ControlPropertyBean> getPurchaseAndStorePropertiesWithCatId (int index, int organizationId, int catId) {
-        return getControlPropListWithIndexAndCatId(index, purchaseAndStoreList.getPurchaseAndStoreList(), organizationId, catId);
+    public List<ControlPropertyBean> getPurchaseAndStorePropertiesWithCatId (int index, int versionId) {
+        return getControlPropListWithIndexAndCatId(index, purchaseAndStoreList.getPurchaseAndStoreList(), versionId);
     }
 
     /**
@@ -289,16 +307,14 @@ public class ControlPropObtainServiceSupplier {
      *         计划类属性名索引，即第index个计划类属性，顺序由yml文件中的顺序决定
      * @param organizationId
      *         组织编码
-     * @param catId
-     *         物料分类id
      *
      * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      *
      * @author cplayer
      * @date 2019-03-02 06:52
      */
-    public List<ControlPropertyBean> getPlanPropertiesWithCatId (int index, int organizationId, int catId) {
-        return getControlPropListWithIndexAndCatId(index, planList.getPlanList(), organizationId, catId);
+    public List<ControlPropertyBean> getPlanPropertiesWithCatId (int index, int organizationId) {
+        return getControlPropListWithIndexAndCatId(index, planList.getPlanList(), organizationId);
     }
 
     /**
@@ -308,16 +324,14 @@ public class ControlPropObtainServiceSupplier {
      *         销售类属性名索引，即第index个销售类属性，顺序由yml文件中的顺序决定
      * @param organizationId
      *         组织编码
-     * @param catId
-     *         物料分类id
      *
      * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      *
      * @author cplayer
      * @date 2019-03-02 06:52
      */
-    public List<ControlPropertyBean> getSalesPropertiesWithCatId (int index, int organizationId, int catId) {
-        return getControlPropListWithIndexAndCatId(index, salesList.getSalesList(), organizationId, catId);
+    public List<ControlPropertyBean> getSalesPropertiesWithCatId (int index, int organizationId) {
+        return getControlPropListWithIndexAndCatId(index, salesList.getSalesList(), organizationId);
     }
 
     /**
@@ -327,16 +341,14 @@ public class ControlPropObtainServiceSupplier {
      *         质量类属性名索引，即第index个质量类属性，顺序由yml文件中的顺序决定
      * @param organizationId
      *         组织编码
-     * @param catId
-     *         物料分类id
      *
      * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      *
      * @author cplayer
      * @date 2019-03-02 06:52
      */
-    public List<ControlPropertyBean> getQualityPropertiesWithCatId (int index, int organizationId, int catId) {
-        return getControlPropListWithIndexAndCatId(index, qualityList.getQualityList(), organizationId, catId);
+    public List<ControlPropertyBean> getQualityPropertiesWithCatId (int index, int organizationId) {
+        return getControlPropListWithIndexAndCatId(index, qualityList.getQualityList(), organizationId);
     }
 
     /**
@@ -346,16 +358,14 @@ public class ControlPropObtainServiceSupplier {
      *         财务类属性名索引，即第index个财务类属性，顺序由yml文件中的顺序决定
      * @param organizationId
      *         组织编码
-     * @param catId
-     *         物料分类id
      *
      * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      *
      * @author cplayer
      * @date 2019-03-02 06:52
      */
-    public List<ControlPropertyBean> getFinancePropertiesWithCatId (int index, int organizationId, int catId) {
-        return getControlPropListWithIndexAndCatId(index, financeList.getFinanceList(), organizationId, catId);
+    public List<ControlPropertyBean> getFinancePropertiesWithCatId (int index, int organizationId) {
+        return getControlPropListWithIndexAndCatId(index, financeList.getFinanceList(), organizationId);
     }
 
     /**
@@ -363,25 +373,15 @@ public class ControlPropObtainServiceSupplier {
      *
      * @param propName
      *         属性名称
-     * @param organizationCode
-     *         组织编码
-     * @param catId
-     *         物料分类id
+     * @param versionId
+     *         版本id
      *
      * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      *
      * @author cplayer
      * @date 2019-03-02 06:45
      */
-    private List<ControlPropertyBean> getControlPropByCatIdAndName (String propName, int organizationCode, int catId) {
-        // 先查询基于某个物料分类下通用的控制属性
-        MaterialCtrlPropValVerModel paramCtrPropValVer = new MaterialCtrlPropValVerModel();
-        paramCtrPropValVer.setMaterialCatId(catId);
-        paramCtrPropValVer.setSpuCode(MaterialGeneral.generalSpuCode);
-        paramCtrPropValVer.setOrganizationCode(Integer.valueOf(organizationCode).toString());
-        List<MaterialCtrlPropValVerModel> ctrlVerResult = generalMapper.getCtrlPropValVerWithCtrlPropValVerParams(paramCtrPropValVer);
-        // 需要确保结果只有一个，若有多个，取第一个
-        int versionId = MaterialGeneral.getInitElementOrFirstElement(ctrlVerResult, MaterialCtrlPropValVerModel.class).getId();
+    private List<ControlPropertyBean> getControlPropByVersionIdAndName (String propName, int versionId) {
         // 查找控制属性名对应的id
         MaterialCtrlPropModel paramCtrProp = new MaterialCtrlPropModel();
         paramCtrProp.setName(propName);
@@ -413,24 +413,22 @@ public class ControlPropObtainServiceSupplier {
      *         属性名索引
      * @param propNameList
      *         属性名列表
-     * @param organizationCode
-     *         组织编码
-     * @param catId
-     *         物料分类id
+     * @param versionId
+     *         版本id
      *
      * @return java.util.List<org.material.managementfacade.model.propertymodel.ControlPropertyBean>
      *
      * @author cplayer
      * @date 2019-03-02 07:01
      */
-    private List<ControlPropertyBean> getControlPropListWithIndexAndCatId (int index, String[] propNameList, int organizationCode, int catId) {
+    private List<ControlPropertyBean> getControlPropListWithIndexAndCatId (int index, String[] propNameList, int versionId) {
         // 索引不能非法
         if (index < -1) {
             return null;
         } else if (index == -1) {
             List<ControlPropertyBean> result = new ArrayList<>();
             for (String property : propNameList) {
-                List<ControlPropertyBean> tmpResult = getControlPropByCatIdAndName(property, organizationCode, catId);
+                List<ControlPropertyBean> tmpResult = getControlPropByVersionIdAndName(property, versionId);
                 if (tmpResult != null && !tmpResult.isEmpty()) {
                     result.addAll(tmpResult);
                 } else {
@@ -441,7 +439,7 @@ public class ControlPropObtainServiceSupplier {
             }
             return result;
         } else {
-            return getControlPropByCatIdAndName(propNameList[index], organizationCode, catId);
+            return getControlPropByVersionIdAndName(propNameList[index], versionId);
         }
     }
 }

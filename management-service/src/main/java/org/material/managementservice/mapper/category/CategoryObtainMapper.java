@@ -14,6 +14,8 @@ import java.util.List;
 @Mapper
 @Component(value = "categoryObtainMapper")
 public interface CategoryObtainMapper {
+    List<MaterialCategoryModel> getMaterialCategoryByNameAndCode (String catName, String catCode);
+
     List<MaterialCategoryModel> getMaterialCategoryById (int id);
 
     List<MaterialCategoryModel> getAllMaterialCategory ();

@@ -4,6 +4,7 @@ import org.material.managementfacade.model.processmodel.MaterialCategoryTree;
 import org.material.managementfacade.model.responsemodel.AllCatInfosObtainResp;
 import org.material.managementfacade.model.tablemodel.MaterialCategoryModel;
 import org.material.managementfacade.service.category.CategoryObtainService;
+import org.material.managementservice.general.MaterialGeneral;
 import org.material.managementservice.mapper.category.CategoryObtainMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,23 @@ import java.util.stream.Collectors;
 public class CategoryObtainServiceImpl implements CategoryObtainService {
     @Autowired
     private CategoryObtainMapper categoryObtainMapper;
+
+    /**
+     * 根据物料分类编码和物料分类名称获取物料分类id的函数
+     *
+     * @author cplayer
+     * @date 2019-04-03 14:59
+     * @param catCode 物料分类编码
+     * @param catName 物料分类名称
+     *
+     * @return catId 物料分类id
+     *
+     */
+    public int getCatIdByCatCodeAndName (String catCode, String catName) {
+        List<MaterialCategoryModel> searchRes = categoryObtainMapper.getMaterialCategoryByNameAndCode(catName, catCode);
+        MaterialCategoryModel res = MaterialGeneral.getInitElementOrFirstElement(searchRes, MaterialCategoryModel.class);
+        return res.getId();
+    }
 
     /**
      * 获取物料分类信息树的函数

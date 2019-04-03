@@ -1,5 +1,7 @@
 package org.material.managementservice.service.info.impl;
 
+import com.sun.tools.corba.se.idl.MethodGen;
+import javafx.scene.paint.Material;
 import org.material.managementfacade.model.requestmodel.*;
 import org.material.managementfacade.model.responsemodel.*;
 import org.material.managementfacade.model.responsemodel.MaterialInfo.MatInfoResp;
@@ -288,7 +290,6 @@ public class InfoObtainServiceImpl implements InfoObtainService {
         String catCode = params.getCode();
         String catName = params.getName();
         List<Integer> typeArr = params.getTypeArr();
-        int organizationId = 1;
         // 先查找对应的物料分类id
         MaterialCategoryModel param = new MaterialCategoryModel();
         param.setCode(catCode);
@@ -296,32 +297,35 @@ public class InfoObtainServiceImpl implements InfoObtainService {
                 generalMapper.getMaterialCategoryWithMaterialCategoryParams(param),
                 MaterialCategoryModel.class);
         MatInfoObtainByCatCodeAndNameResp result = new MatInfoObtainByCatCodeAndNameResp();
-        if (searchResult.getId() != MaterialGeneral.invalidId) {
+        // 获取组织id
+        int versionId = controlPropObtainServiceSupplier.
+                getVersionIdByParams(MaterialGeneral.generalSpuCode, MaterialGeneral.generalOrganizationCode, searchResult.getId());
+        if (versionId != MaterialGeneral.invalidId) {
             // 说明找到了，继续处理
             int catId = searchResult.getId();
-            logger.info(String.format("物料分类编码为%s的记录对应的物料分类id为：%d。", catCode, catId));
+            logger.info(String.format("物料分类编码为%s的记录对应的物料分类id为：%d，版本id为：%d。", catCode, catId, versionId));
             for (Integer type : typeArr) {
                 // 若是全部基础信息
                 switch (type) {
                     case 5:
                         // 处理采购和库存属性
-                        result.setPurchaseAndStoreInfos(controlPropObtainServiceSupplier.getPurchaseAndStorePropertiesWithCatId(-1, organizationId, catId));
+                        result.setPurchaseAndStoreInfos(controlPropObtainServiceSupplier.getPurchaseAndStorePropertiesWithCatId(-1, versionId));
                         break;
                     case 6:
                         // 处理计划类属性
-                        result.setPlanInfos(controlPropObtainServiceSupplier.getPlanPropertiesWithCatId(-1, organizationId, catId));
+                        result.setPlanInfos(controlPropObtainServiceSupplier.getPlanPropertiesWithCatId(-1, versionId));
                         break;
                     case 7:
                         // 处理销售类属性
-                        result.setSalesInfos(controlPropObtainServiceSupplier.getSalesPropertiesWithCatId(-1, organizationId, catId));
+                        result.setSalesInfos(controlPropObtainServiceSupplier.getSalesPropertiesWithCatId(-1, versionId));
                         break;
                     case 8:
                         // 处理质量类属性
-                        result.setQualityInfos(controlPropObtainServiceSupplier.getQualityPropertiesWithCatId(-1, organizationId, catId));
+                        result.setQualityInfos(controlPropObtainServiceSupplier.getQualityPropertiesWithCatId(-1, versionId));
                         break;
                     case 9:
                         // 处理财务类属性
-                        result.setFinanceInfos(controlPropObtainServiceSupplier.getFinancePropertiesWithCatId(-1, organizationId, catId));
+                        result.setFinanceInfos(controlPropObtainServiceSupplier.getFinancePropertiesWithCatId(-1, versionId));
                         break;
                     case 11:
                         List<MaterialBasePropModel> basePropList = basePropObtainServiceSupplier.getAllMaterialBasePropByCatId(catId);

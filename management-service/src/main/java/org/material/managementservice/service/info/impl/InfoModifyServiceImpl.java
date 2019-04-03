@@ -14,6 +14,7 @@ import org.material.managementservice.mapper.category.CategoryObtainMapper;
 import org.material.managementservice.mapper.general.GeneralMapper;
 import org.material.managementservice.mapper.info.InfoModifyMapper;
 import org.material.managementservice.mapper.info.InfoObtainMapper;
+import org.material.managementservice.service.category.impl.CategoryObtainServiceImpl;
 import org.material.managementservice.service.info.impl.supplier.InfoModifyServiceSupplier;
 import org.material.managementservice.service.info.impl.supplier.baseprop.BasePropModifyServiceSupplier;
 import org.material.managementservice.service.info.impl.supplier.controlprop.ControlPropModifyServiceSupplier;
@@ -44,6 +45,8 @@ public class InfoModifyServiceImpl implements InfoModifyService {
     private CategoryObtainMapper categoryObtainMapper;
     @Autowired
     private CategoryModifyMapper categoryModifyMapper;
+    @Autowired
+    private CategoryObtainServiceImpl categoryObtainService;
     @Autowired
     private BasePropModifyServiceSupplier basePropModifyServiceSupplier;
     @Autowired
@@ -143,6 +146,11 @@ public class InfoModifyServiceImpl implements InfoModifyService {
         InfoModifyByCatCodeAndNameResp result = new InfoModifyByCatCodeAndNameResp();
         // 获取物料分类id
         int catId = params.getId();
+        int checkCatId = categoryObtainService.getCatIdByCatCodeAndName(params.getCatCode(), params.getCatName());
+        if (catId != checkCatId) {
+            catId = checkCatId;
+            logger.info(String.format("发生了添加物料分类信息，所添加的物料分类id = %d。", catId));
+        }
         // 检查物料分类信息是否需要更新
         List<MaterialCategoryModel> materialCatTmp = categoryObtainMapper.getMaterialCategoryById(catId);
         MaterialCategoryModel existedCatInfo = MaterialGeneral.getInitElementOrFirstElement(materialCatTmp, MaterialCategoryModel.class);
