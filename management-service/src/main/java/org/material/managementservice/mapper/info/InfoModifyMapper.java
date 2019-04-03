@@ -1,6 +1,7 @@
 package org.material.managementservice.mapper.info;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.material.managementfacade.model.tablemodel.*;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +30,7 @@ public interface InfoModifyMapper {
 
     int deleteMaterialSkuByParams (MaterialSkuModel param);
 
-    List<MaterialCtrlPropValVerModel> getCtrlPropValVerWithCtrlPropValVerParams (MaterialCtrlPropValVerModel param, Timestamp timestamp);
+    List<MaterialCtrlPropValVerModel> getCtrlPropValVerWithCtrlPropValVerParams (@Param("param") MaterialCtrlPropValVerModel param, @Param("timestamp") Timestamp timestamp);
 
     int insertCtrlPropValVerByParams (MaterialCtrlPropValVerModel param);
 

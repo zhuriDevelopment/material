@@ -88,17 +88,17 @@
             resultType="org.material.managementfacade.model.tablemodel.MaterialCtrlPropValVerModel">
         select * from materialCtrlPropValVer
         <where>
-            <if test="spuCode != null">
-                and where spuCode = #{spuCode}
+            <if test="param.spuCode != null">
+                and spuCode = #{param.spuCode}
             </if>
-            <if test="materialCatId &gt;= 0">
-                and where materialCatId = #{materialCatId}
+            <if test="param.materialCatId &gt;= 0">
+                and materialCatId = #{param.materialCatId}
             </if>
-            <if test="organizationCode != null">
-                and where organizationCode = #{organizationCode}
+            <if test="param.organizationCode != null">
+                and organizationCode = #{param.organizationCode}
             </if>
             <if test="timestamp != null">
-                and where startDate &lt;= #{timestamp} and endDate &gt;= #{timestamp}
+                and startDate &lt;= #{timestamp} and endDate &gt;= #{timestamp}
             </if>
         </where>
     </select>

@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/materialmanagement")
-@Api(value = "跨模块获取物料信息接口", description = "跨模块获取物料信息接口")
+@Api(value = "跨模块获取物料信息接口", tags = {"跨模块获取物料信息接口"})
 public class CrossModuleController {
     @Autowired
     private CrossModuleServiceImpl crossModuleServiceImpl;

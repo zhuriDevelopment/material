@@ -377,7 +377,7 @@ public class ControlPropObtainServiceSupplier {
         // 先查询基于某个物料分类下通用的控制属性
         MaterialCtrlPropValVerModel paramCtrPropValVer = new MaterialCtrlPropValVerModel();
         paramCtrPropValVer.setMaterialCatId(catId);
-        paramCtrPropValVer.setSpuCode("-1");
+        paramCtrPropValVer.setSpuCode(MaterialGeneral.generalSpuCode);
         paramCtrPropValVer.setOrganizationCode(Integer.valueOf(organizationCode).toString());
         List<MaterialCtrlPropValVerModel> ctrlVerResult = generalMapper.getCtrlPropValVerWithCtrlPropValVerParams(paramCtrPropValVer);
         // 需要确保结果只有一个，若有多个，取第一个

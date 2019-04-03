@@ -86,7 +86,7 @@ public class ControlPropModifyServiceSupplier {
                 // 找到的对应的记录才缓存
                 nameToPropVal.put(targetProp.getName(), targetProp.getId());
             } else {
-                logger.error(String.format("查询物料控制属性值过程中，不存在id = %d的记录。"));
+                logger.error(String.format("查询物料控制属性值过程中，不存在id = %d的记录。", ctrPropValEle.getMaterialCtrlPropId()));
             }
         }
         for (MatCtrPropModifyReqEle element : ctrPropList) {
@@ -103,7 +103,7 @@ public class ControlPropModifyServiceSupplier {
                 }
             } else {
                 // 不存在对应的物料控制属性，数据出错了！
-                logger.error(String.format("不存在提交上来的物料控制属性名，属性名 = %s！"), name);
+                logger.error(String.format("不存在提交上来的物料控制属性名，属性名 = %s！", name));
             }
         }
         if (updateSingleResult == 0) {
@@ -129,7 +129,7 @@ public class ControlPropModifyServiceSupplier {
      */
     public int updateMaterialInfoForCtrData (InfoModifyReq params) {
         // 在后续设计出来之前，组织编码统一设置成-1
-        String organizationCode = "-1";
+        String organizationCode = MaterialGeneral.generalOrganizationCode;
         String spuCode = params.getSpuCode();
         // 故根据版本号、spu编码、物料分类id以及组织编码可以唯一确定一条控制属性版本
         // 获取物料基本信息记录，以获取物料分类id

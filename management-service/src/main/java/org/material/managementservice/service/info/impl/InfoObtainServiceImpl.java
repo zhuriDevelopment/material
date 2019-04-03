@@ -136,9 +136,10 @@ public class InfoObtainServiceImpl implements InfoObtainService {
                         materialModelList,
                         materialSkuModelList);
         // 接着只需要在第一步所得到的列表里筛选出对应的MaterialBaseModel对象即可
-        List<MaterialBaseModel> finalResult = baseModel_first.stream()
-                .filter(ele -> spuCode_distinct.contains(ele.getSpuCode()))
-                .collect(Collectors.toList());
+        List<MaterialBaseModel> finalResult = new ArrayList<>();
+        for (String spuCode : spuCode_distinct) {
+            finalResult.addAll(infoObtainMapper.getBaseInfoWithSpuCode(spuCode));
+        }
         // 最后调用工具函数返回对应的值
         return baseInfoObtainServiceSupplier.getBaseInfoAllParams(finalResult);
     }

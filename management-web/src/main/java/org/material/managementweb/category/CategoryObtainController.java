@@ -19,7 +19,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/materialmanagement")
-@Api(value = "物料分类信息获取接口", description = "物料分类信息获取接口")
+@Api(value = "物料分类信息获取接口", tags = {"物料分类信息获取接口"})
+@CrossOrigin(allowCredentials = "true", allowedHeaders = "*",
+             methods = {RequestMethod.GET},
+             origins = "http://localhost:8081")
 public class CategoryObtainController {
     @Autowired
     private CategoryObtainServiceImpl categoryObtainService;
