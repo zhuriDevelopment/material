@@ -347,7 +347,7 @@
                 spuName,
             </if>
             <if test="description != null">
-                <![CDATA[description]]>,
+                `description`,
             </if>
             <if test="type &gt;= 0">
                 type,
@@ -362,19 +362,16 @@
                 defaultUnitId,
             </if>
             <if test="source != null">
-                <![CDATA[source]]>,
+                `source`,
             </if>
             <if test="usage != null">
-                <![CDATA[usage]]>,
+                `usage`,
             </if>
             <if test="note != null">
                 note,
             </if>
             <if test="materialCatId &gt;= 0">
                 materialCatId,
-            </if>
-            <if test="keyPropId &gt;= 0">
-                keyPropId,
             </if>
             <if test="createDate != null">
                 createDate,
@@ -397,7 +394,7 @@
                 #{spuName},
             </if>
             <if test="description != null">
-                #{<![CDATA[description]]>},
+                #{description},
             </if>
             <if test="type &gt;= 0">
                 #{type},
@@ -422,9 +419,6 @@
             </if>
             <if test="materialCatId &gt;= 0">
                 #{materialCatId},
-            </if>
-            <if test="keyPropId &gt;= 0">
-                #{keyPropId},
             </if>
             <if test="createDate != null">
                 #{createDate},

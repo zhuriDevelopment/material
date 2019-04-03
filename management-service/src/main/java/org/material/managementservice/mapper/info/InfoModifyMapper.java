@@ -26,11 +26,15 @@ public interface InfoModifyMapper {
 
     int updateMaterialBasePropValByParams (MaterialBasePropValModel param);
 
+    int updateDefaultUnitIdBySpuCode (String spuCode, int defaultUnitId);
+
     int insertMaterialSkuByParams (MaterialSkuModel param);
 
     int deleteMaterialSkuByParams (MaterialSkuModel param);
 
     List<MaterialCtrlPropValVerModel> getCtrlPropValVerWithCtrlPropValVerParams (@Param("param") MaterialCtrlPropValVerModel param, @Param("timestamp") Timestamp timestamp);
+
+    int insertCtrlPropValByParams (MaterialCtrlPropValModel param);
 
     int insertCtrlPropValVerByParams (MaterialCtrlPropValVerModel param);
 

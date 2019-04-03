@@ -15,6 +15,7 @@ import org.material.managementservice.mapper.info.InfoObtainMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,49 @@ public class ControlPropObtainServiceSupplier {
     private GeneralMapper generalMapper;
     @Autowired
     private InfoObtainMapper infoObtainMapper;
+    
+    /**
+     * 根据spu编码查找对应的版本id的函数
+     *
+     * @author cplayer
+     * @date 2019-04-03 21:26
+     * @param spuCode spu编码
+     * @param organizationCode 组织编码
+     *
+     * @return versionId 对应的版本id
+     *
+     */
+    public int findOrInsertCtrlPropValVerBySpuCodeAndOrgCode (String spuCode, String organizationCode) {
+        MaterialCtrlPropValVerModel param = new MaterialCtrlPropValVerModel();
+        param.setSpuCode(spuCode);
+        param.setOrganizationCode(organizationCode);
+        List<MaterialCtrlPropValVerModel> searchRes = generalMapper.getCtrlPropValVerWithCtrlPropValVerParams(param);
+        MaterialCtrlPropValVerModel res = MaterialGeneral.getInitElementOrFirstElement(searchRes,
+                MaterialCtrlPropValVerModel.class);
+        if (res.getId() == -1) {
+            // 插入
+            // 填写版本号，组织编码，物料分类id，spu编码，起始时间，终止时间
+            // 获取物料分类id，不存在就返回空
+            List<MaterialBaseModel> baseResult = infoObtainMapper.getBaseInfoWithSpuCode(spuCode);
+            if (baseResult == null || baseResult.size() == 0) {
+                return -1;
+            }
+            // 此时应该只有一个分类id
+            int materialCatId = MaterialGeneral.getInitElementOrFirstElement(baseResult, MaterialBaseModel.class)
+                    .getMaterialCatId();
+            // 默认版本号
+            String version = "ver-" + "0100-T-" + Integer.valueOf(materialCatId).toString();
+            // 填写参数
+            MaterialCtrlPropValVerModel paramInsert = new MaterialCtrlPropValVerModel();
+            paramInsert.setOrganizationCode(organizationCode);
+            paramInsert.setMaterialCatId(materialCatId);
+            paramInsert.setSpuCode(MaterialGeneral.generalSpuCode);
+            paramInsert.setVersion(version);
+            paramInsert.setStartDate(new Timestamp(System.currentTimeMillis()));
+            paramInsert.setEndDate(new Timestamp(System.currentTimeMillis() + 315360000000L));
+        }
+        return res.getId();
+    }
     
     /**
      * 根据物料分类id、spu编码和组织编码查找对应的版本id的函数

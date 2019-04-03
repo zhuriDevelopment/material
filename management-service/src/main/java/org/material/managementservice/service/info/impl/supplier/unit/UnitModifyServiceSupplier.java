@@ -143,6 +143,8 @@ public class UnitModifyServiceSupplier {
      * @date 2019-03-01 22:25
      */
     public int updateMaterialInfoForUnitData (InfoModifyReq params) {
+        // 更新默认计量单位id部分
+        infoModifyMapper.updateDefaultUnitIdBySpuCode(params.getSpuCode(), params.getUnitDatas().getDefaultUnitId());
         // 关联计量单位id统一设置成默认计量单位id
         // 先根据spu编码筛选出所有已有的计量单位记录
         MaterialUnitModel materialUnitParam = new MaterialUnitModel();

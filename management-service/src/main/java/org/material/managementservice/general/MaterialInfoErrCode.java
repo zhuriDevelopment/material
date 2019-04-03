@@ -132,4 +132,7 @@ public class MaterialInfoErrCode {
     public static Integer failedUpdateMaterialBaseWithSpuAndCatCode = 0;
     // 给定的spu编码不合法或者没有对应记录
     public static Integer invalidOrNotFoundSpuCode = -2;
+
+    // 根据spu编码删除物料信息失败
+    public static Integer failedDeleteMaterialInfoBySpuCode = -1;
 }

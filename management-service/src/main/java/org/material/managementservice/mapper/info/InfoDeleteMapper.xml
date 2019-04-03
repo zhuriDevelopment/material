@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.material.managementservice.mapper.info.InfoDeleteMapper">
+    <delete id="deleteMaterialBaseBySpuCode">
+        delete from materialBase where spuCode = #{spuCode}
+    </delete>
+
+    <delete id="deleteMaterialBySpuCode">
+        delete from material where spuCode = #{spuCode}
+    </delete>
+
+    <delete id="deleteMaterialSkuBySpuCode">
+        delete from materialSku where spuCode = #{spuCode}
+    </delete>
+
+    <delete id="deleteMaterialUnitBySpuCode">
+        delete from materialUnit where spuCode = #{spuCode}
+    </delete>
+
+    <delete id="deleteMaterialBasePropValBySpuCode">
+        delete from materialBasePropVal where spuCode = #{spuCode}
+    </delete>
+
+    <delete id="deleteMaterialCtrlPropValByVersionId">
+        delete from materialCtrlPropVal where versionId = #{versionId}
+    </delete>
+
+    <delete id="deleteMaterialCtrlPropValVerById">
+        delete from materialCtrlPropValVer where id = #{id}
+    </delete>
+</mapper>
+

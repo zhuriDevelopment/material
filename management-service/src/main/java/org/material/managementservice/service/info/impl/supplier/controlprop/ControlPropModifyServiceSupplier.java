@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +54,41 @@ public class ControlPropModifyServiceSupplier {
     private FinanceList financeList;
 
     /**
+     * 根据待添加的物料控制属性值列表、版本ID以及参数添加对应的控制属性值
+     *
+     * @author cplayer
+     * @date 2019-04-03 22:08
+     * @param propList 控制属性值列表
+     * @param versionId 版本id
+     *
+     * @return 成功添加的记录个数
+     *
+     */
+    private int insertCtrlPropValByCtrPropList (List<MatCtrPropModifyReqEle> propList, int versionId) {
+        int insertRes = 0;
+        for (MatCtrPropModifyReqEle element : propList) {
+            String name = element.getName();
+            String value = element.getValue();
+            // 先查找对应的物料控制属性
+            MaterialCtrlPropModel searchParam = new MaterialCtrlPropModel();
+            searchParam.setName(name);
+            List<MaterialCtrlPropModel> searchRes = generalMapper.getCtrlPropWithCtrlPropParams(searchParam);
+            MaterialCtrlPropModel res = MaterialGeneral.getInitElementOrFirstElement(searchRes, MaterialCtrlPropModel.class);
+            if (res.getId() != -1) {
+                MaterialCtrlPropValModel insertParam = new MaterialCtrlPropValModel();
+                insertParam.setMaterialCtrlPropId(res.getId());
+                insertParam.setVersionId(versionId);
+                insertParam.setValue(value);
+                infoModifyMapper.insertCtrlPropValByParams(insertParam);
+                if (insertParam.getId() > 0) insertRes++;
+            } else {
+                logger.error(String.format("获取物料控制属性为%s的属性时未找到！", name));
+            }
+        }
+        return insertRes;
+    }
+
+    /**
      * 根据给定的控制属性值列表以及版本id，更新对应的控制属性值
      *
      * @param params
@@ -73,7 +109,7 @@ public class ControlPropModifyServiceSupplier {
         // 获取所有可能的物料控制属性值表记录
         List<MaterialCtrlPropValModel> ctrPropValList = infoModifyMapper.getCtrlPropValWithVersionId(versionId);
         // 然后逐个查找对应的值，并存入HashMap
-        Map<String, Integer> nameToPropVal = new HashMap<String, Integer>(16);
+        Map<String, Integer> nameToPropVal = new HashMap<>(16);
         for (MaterialCtrlPropValModel ctrPropValEle : ctrPropValList) {
             MaterialCtrlPropModel param = new MaterialCtrlPropModel();
             param.setId(ctrPropValEle.getMaterialCtrlPropId());
@@ -89,6 +125,8 @@ public class ControlPropModifyServiceSupplier {
                 logger.error(String.format("查询物料控制属性值过程中，不存在id = %d的记录。", ctrPropValEle.getMaterialCtrlPropId()));
             }
         }
+        // 查找哪些是存在的，哪些是不存在的
+        List<MatCtrPropModifyReqEle> waitForAddCtrPropList = new ArrayList<>();
         for (MatCtrPropModifyReqEle element : ctrPropList) {
             String name = element.getName();
             String value = element.getValue();
@@ -102,13 +140,15 @@ public class ControlPropModifyServiceSupplier {
                     updateSingleResult++;
                 }
             } else {
-                // 不存在对应的物料控制属性，数据出错了！
-                logger.error(String.format("不存在提交上来的物料控制属性名，属性名 = %s！", name));
+                // 不存在对应的物料控制属性，待插入。
+                logger.error(String.format("不存在提交上来的物料控制属性名，属性名 = %s，故待添加！", name));
+                waitForAddCtrPropList.add(element);
             }
         }
-        if (updateSingleResult == 0) {
+        int insertSingleResult = insertCtrlPropValByCtrPropList(waitForAddCtrPropList, versionId);
+        if (updateSingleResult + insertSingleResult == 0) {
             return MaterialInfoErrCode.failedUpdateAllControlProp;
-        } else if (updateSingleResult < ctrPropList.size()) {
+        } else if (updateSingleResult + insertSingleResult < ctrPropList.size()) {
             return MaterialInfoErrCode.failedUpdateSomeControlProp;
         } else {
             return MaterialInfoErrCode.successUpdateAllControlProp;
@@ -128,7 +168,7 @@ public class ControlPropModifyServiceSupplier {
      * @date 2019-02-28 17:30
      */
     public int updateMaterialInfoForCtrData (InfoModifyReq params) {
-        // 在后续设计出来之前，组织编码统一设置成-1
+        // 在后续设计出来之前，组织编码统一设置成generalOrganizationCode
         String organizationCode = MaterialGeneral.generalOrganizationCode;
         String spuCode = params.getSpuCode();
         // 故根据版本号、spu编码、物料分类id以及组织编码可以唯一确定一条控制属性版本
@@ -161,7 +201,7 @@ public class ControlPropModifyServiceSupplier {
         if (propValVerData.getId() == -1) {
             // 说明不存在对应记录，进行插入操作
             // 默认版本号统一为"ver-001"，后续可修改
-            String version = "ver-001";
+            String version = "ver-" + "0100-T-" + Integer.valueOf(baseInfo.getMaterialCatId()).toString();
             paramPropValVer.setVersion(version);
             // 起始时间为当前，终止时间默认为10年后
             paramPropValVer.setStartDate(new Timestamp(System.currentTimeMillis()));

@@ -9,7 +9,7 @@
 
     <delete id="deleteAllMaterialBySpuCode"
             parameterType="java.lang.String">
-        delete * from material where spuCode = #{spuCode}
+        delete from material where spuCode = #{spuCode}
     </delete>
 
     <select id="countMaterialBasePropValByParams"
@@ -31,6 +31,12 @@
         update materialBasePropVal
         set value = #{value}
         where spuCode = #{spuCode} and materialCode = #{materialCode} and materialBasePropId = #{materialBasePropId}
+    </update>
+
+    <update id="updateDefaultUnitIdBySpuCode">
+        update materialBase
+        set defaultUnitId = #{defaultUnitId}
+        where spuCode = #{spuCode}
     </update>
 
     <insert id="insertMaterialSkuByParams"
@@ -102,6 +108,15 @@
             </if>
         </where>
     </select>
+
+    <!--插入物料控制属性值的表的函数-->
+    <insert id="insertCtrlPropValByParams"
+            parameterType="org.material.managementfacade.model.tablemodel.MaterialCtrlPropValModel"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into materialCtrlPropVal (versionId, materialCtrlPropId, value)
+        values (#{versionId}, #{materialCtrlPropId}, #{value})
+    </insert>
 
     <!--插入物料控制属性值版本的表的函数-->
     <insert id="insertCtrlPropValVerByParams"
