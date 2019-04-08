@@ -24,7 +24,6 @@ public class BaseModifyReq {
     private String spuName;
     private int type;
     private int materialCatId;
-    private String source;
     private String usage;
     private String designCode;
     private String designVersion;
@@ -62,14 +61,6 @@ public class BaseModifyReq {
 
     public void setMaterialCatId (int materialCatId) {
         this.materialCatId = materialCatId;
-    }
-
-    public String getSource () {
-        return source;
-    }
-
-    public void setSource (String source) {
-        this.source = source;
     }
 
     public String getUsage () {

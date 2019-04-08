@@ -65,7 +65,6 @@ public class BaseInfoModifyServiceSupplier {
         param.setSpuName(updateBaseDatas.getSpuName());
         param.setType(updateBaseDatas.getType());
         param.setMaterialCatId(updateBaseDatas.getMaterialCatId());
-        param.setSource(updateBaseDatas.getSource());
         param.setUsage(updateBaseDatas.getUsage());
         param.setDesignCode(updateBaseDatas.getDesignCode());
         param.setDesignVersion(updateBaseDatas.getDesignVersion());
