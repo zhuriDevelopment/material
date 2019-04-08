@@ -28,7 +28,7 @@ public class CategoryObtainController {
     private CategoryObtainServiceImpl categoryObtainService;
 
     @GetMapping(value = "/getMaterialCategory")
-    @ApiOperation(value = "获取当前物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "获取所有物料分类信息 —— 树", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<MaterialCategoryTree> getMaterialCategory () {
         return categoryObtainService.getMaterialCategory();
     }
@@ -44,7 +44,7 @@ public class CategoryObtainController {
     }
 
     @GetMapping(value = "/getAllMaterialCategoryInfos")
-    @ApiOperation(value = "获取所有物料分类信息", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "获取所有物料分类信息 —— 列表", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<AllCatInfosObtainResp> getAllMaterialCategoryInfos () {
         return categoryObtainService.getAllMaterialCategoryInfos();
     }

@@ -45,7 +45,7 @@ public class BasePropObtainServiceSupplier {
      * @author cplayer
      * @date 2019-03-02 06:28
      */
-    private List<MaterialBasePropModel> getMaterialBasePropByCatIdAndType (int catId, int propertyType) {
+    public List<MaterialBasePropModel> getMaterialBasePropByCatIdAndType (int catId, int propertyType) {
         MaterialBasePropModel param = new MaterialBasePropModel();
         param.setMaterialCatId(catId);
         param.setType(propertyType);
